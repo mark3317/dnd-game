@@ -33,7 +33,10 @@ class AdventureEngine(
         ))
     }
 
-    fun submit(state: AdventureState, playerId: String, turnId: TurnId, input: String): AdventureState {
+    fun submit(
+        state: AdventureState, playerId: String, turnId: TurnId, input: String,
+        decision: GameMasterDecision? = null,
+    ): AdventureState {
         val text = input.trim()
         if (state.ending != null) return rejected(state, "submit", playerId, "adventure_finished")
         if (state.pendingCheck != null) return rejected(state, "submit", playerId, "pending_check")
@@ -46,11 +49,11 @@ class AdventureEngine(
         val actor = state.activePlayer
         val next = state.append(EntryKind.PLAYER, text, actor = actor)
         val normalized = text.lowercase().trimEnd('.', '!', '?')
-        val action = DemoAction.entries.firstOrNull { it.text.lowercase() == normalized }
+        val action = if (decision != null) decision.action else DemoAction.entries.firstOrNull { it.text.lowercase() == normalized }
         val result = when (action) {
             DemoAction.LOOK -> next.append(
                 EntryKind.NARRATOR,
-                if (actor.location == Location.SHORE) {
+                decision?.narration ?: if (actor.location == Location.SHORE) {
                     "С берега видна отмель. Фонарём можно предупредить паром. " +
                         "Если подняться по лестнице, можно осмотреть механизм маяка. Осмотр не расходует запас проверок."
                 } else {
@@ -61,7 +64,7 @@ class AdventureEngine(
             ).advanceTurn()
             DemoAction.TALK -> next.append(
                 EntryKind.NARRATOR,
-                if (actor.location == Location.SHORE) {
+                decision?.narration ?: if (actor.location == Location.SHORE) {
                     "«Шестерня заела, но лампа исправна, — говорит хранитель. — " +
                         "Если не успеете починить, подайте три вспышки фонарём: капитан поймёт»."
                 } else {
@@ -85,8 +88,8 @@ class AdventureEngine(
             )
             null -> next.append(
                 EntryKind.NARRATOR,
-                "Пробный ведущий понимает действия из подсказок под историей. " +
-                    "Выберите подсказку или введите её текст. Ситуация и очередь не изменились.",
+                decision?.narration ?: ("Пробный ведущий понимает действия из подсказок под историей. " +
+                    "Выберите подсказку или введите её текст. Ситуация и очередь не изменились."),
                 actor = actor,
             )
         }

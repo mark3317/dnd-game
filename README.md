@@ -101,11 +101,85 @@ References:
 
 The shared UI opens a network lobby with an option to play locally. Both modes use the original short adventure **The extinguished lighthouse** (Russian interface). It includes three ready-made local players (Rin, Mira and Bran), a turn queue, a journal, action input, d20 checks, a shared countdown and alternative endings. The party and current turn are visible on every screen size. On wide screens the active character sheet is shown alongside the story; on narrow screens it opens in a dialog. Each hero has independent health, modifiers and location.
 
-The current narrator is a scripted demo, not an AI. Use the action suggestions or type their exact text; unsupported text is logged without inventing an outcome. Local progress lives in app memory; network progress lives on the running server. Starting over resets the episode after confirmation.
+The local narrator is a scripted demo. Network rooms optionally use Claude when the server is configured as described below; otherwise they use the same scripted demo. Local progress lives in app memory; network progress lives on the running server. Starting over resets the episode after confirmation.
 
 The provisional demo rules use d20 + an ability modifier against a difficulty (a tie succeeds), without automatic critical outcomes. Each resolved check spends one of three shared checks before the ferry arrives. A completed action advances to the next player; actions requiring dice advance only after the roll. Inspection and conversation advance the queue without spending checks. Cancelling before a roll, unsupported text and unavailable actions keep the current turn. The pass-turn button advances without spending checks. Finishing the adventure freezes the queue. Both a successful repair and a successful signal can save the ferry, including on the last turn. These are replaceable scenario rules, not the final game specification.
 
-Game rules live in game/src/commonMain/kotlin/ru/markn/dnd/adventure; UI and ViewModels remain in shared. The server owns state, player identity and dice. Clients send intent with turn/check IDs; stale and repeated commands are rejected. Character creation, combat, AI, voice, images and persistent saves are future work.
+Game rules live in game/src/commonMain/kotlin/ru/markn/dnd/adventure; UI and ViewModels remain in shared. The server owns state, player identity and dice. Clients send intent with turn/check IDs; stale and repeated commands are rejected. Character creation, combat, voice, images and persistent saves are future work.
+
+## Claude: первый сетевой ИИ-ведущий
+
+Провайдер для прототипа — Claude через [AI STAR](https://ai.starimg.ru/help), Anthropic Messages API
+`POST https://ai.starimg.ru/v1/messages`. Сервер использует клиент [Koog 1.3.0 от JetBrains](https://docs.koog.ai/prompts/llm-clients/).
+Адрес и модель настраиваются; по умолчанию выбрана `claude-sonnet-5-5`, опубликованная в списке моделей сервиса.
+Доступность модели для конкретного ключа и поддержка структурированных ответов требуют проверки реальным запросом.
+
+Для локальной пробы на Windows запустите из корня репозитория:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-claude-server.ps1
+```
+
+Лаунчер создаёт `server/claude.local.json` из `server/claude.local.example.json`, если файла ещё нет.
+Впишите свой ключ в `apiKey` локального файла, либо вставьте его в скрытый запрос терминала.
+Если `ANTHROPIC_API_KEY` уже задан в окружении терминала, он имеет приоритет, а локальный файл не читается.
+Локальный файл исключён из Git; пример с пустым ключом хранится в репозитории. Не присылайте содержимое
+заполненного файла в чат. Адрес и модель уже настроены на AI STAR и Sonnet 5.5.
+Скрипт находит JDK 21 через JAVA_HOME/PATH или стандартные каталоги JDK, собирает сервер при отсутствии
+дистрибутива и запускает его напрямую, передавая ключ только через окружение Java-процесса.
+Для пересборки используйте параметр `-Rebuild`. Остановка — Ctrl+C; постоянные переменные окружения не меняются.
+Игровые клиенты подключаются к `ws://localhost:8080`. Для текущего сетевого сценария нужны два клиента:
+один создаёт комнату, другой входит по её коду; «Играть локально» использует сценарного ведущего без Claude.
+
+Перед запуском задайте переменные **на компьютере с сервером**. Пример PowerShell с вводом ключа без его записи в историю команд:
+
+```powershell
+$env:ANTHROPIC_API_KEY = [System.Net.NetworkCredential]::new('', (Read-Host 'Claude API key' -AsSecureString)).Password
+$env:DND_CLAUDE_BASE_URL = 'https://ai.starimg.ru'
+$env:DND_CLAUDE_MODEL = 'claude-sonnet-5-5'
+.\gradlew.bat :server:run
+```
+
+На удалённом сервере задайте эти переменные в окружении службы, которая запускает серверный дистрибутив.
+Base URL — только HTTPS origin, без `/v1`, query, логина и пароля; путь `/v1/messages` добавляет клиент.
+Ключ передаётся сервису в заголовках `x-api-key` и `Authorization: Bearer`; перенаправления HTTP отключены.
+Не сохраняйте ключ в репозитории или настройках распространяемых клиентов. Без `ANTHROPIC_API_KEY` сеть работает со сценарным ведущим.
+После изменения конфигурации перезапустите сервер: текущие комнаты при этом теряются.
+Протокол теперь версии 2: сервер и клиенты необходимо обновить вместе.
+
+В первой версии Claude понимает произвольные формулировки **пяти семейств действий**: осмотр, разговор с хранителем,
+подъём, починка и сигнал. Модель ведёт диалог и описывает осмотр, а код проверяет местоположение,
+назначает проверки, бросает кубики, изменяет здоровье и завершает историю. У рискованных действий
+и результатов бросков пока используются проверенные сценарные описания. Новые предметы, места, бой
+и произвольное изменение мира не реализованы. Неподдерживаемое намерение вызывает уточнение с сохранением хода.
+
+Команда сразу подтверждается; участники видят «Ведущий думает…». Владелец действия может отменить запрос;
+ведущий комнаты — перезапустить эпизод или пропустить ход отключённого игрока. Запрос не привязан к сокету:
+после переподключения виден его текущий статус, повторной отправки в Claude нет. Ошибка, отмена и таймаут
+45 секунд сохраняют ход, ресурсы и журнал. Запоздалый ответ не применяется после отмены/перезапуска.
+Черновик действия в открытом экране сохраняется для повторной отправки после ошибки.
+
+Для контроля расхода: один запрос на отправленное действие, до 900 выходных токенов, не более четырёх
+параллельных запросов на экземпляр сервера, без автоматических повторов. При занятых слотах сервер
+отклоняет новое действие до вызова API; попытку можно повторить вручную. В контекст входят состояние и
+последние 16 записей журнала с ограничением длины. Долговременная память ещё не реализована.
+Квота посредника может учитывать коэффициенты моделей; событие `ai_usage` содержит входные/выходные
+токены по ответу API, а не остаток пакета AI STAR. Общий лимит расходов по ключу этот прототип не обеспечивает.
+Ключи, реплики, промпты и ответы не включаются в диагностику. Не включайте DEBUG/TRACE-логирование Koog,
+которое может содержать промпты. Ошибки провайдера показываются игрокам без исходных HTTP-тел.
+Событие `ai_request_failed` содержит `reason`, `request_id`, `elapsed_ms`, а при HTTP-ошибке — `http_status`
+и известный тип ошибки провайдера из разрешённого списка. Исходные сообщения исключений и HTTP-тела
+не сохраняются. Ошибки разбора различают отсутствие JSON, обязательных полей, неизвестное действие и
+неподходящую реплику. Usage сохраняется и для полученного, но отклонённого ответа.
+
+В реальной пробе AI STAR ответ был получен, но не прошёл проверку игрового JSON. Поэтому формат явно
+закреплён также в системной инструкции; корректный JSON в единственном Markdown-блоке допускается,
+но весь объект всё равно проходит проверку полей и ограничений. На один нативный параметр schema не полагаемся.
+
+Тесты используют подставного ведущего, MockEngine для реального клиента Koog и TCP с двумя KMP-клиентами;
+платные запросы и секреты для них не нужны. 13.11.2026 проверен реальный вызов AI STAR с действием осмотра:
+после уточнения формата получен валидный ответ, сервер применил действие и передал ход примерно за 5,2 секунды.
+Это проверка подключения и одного действия, а не оценка качества полного приключения.
 
 Run shared game-logic tests:
 

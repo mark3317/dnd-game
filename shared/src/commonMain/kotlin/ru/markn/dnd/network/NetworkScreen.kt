@@ -52,6 +52,16 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, onLocal: () ->
                 }
                 if (!connected) Text("Связь прервана. Подключитесь снова, чтобы продолжить.", color = MaterialTheme.colorScheme.error)
                 state.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                Text(if (room.gameMasterEnabled) "Ведущий: Claude · действия можно описывать своими словами" else "Ведущий: сценарный прототип")
+                room.gameMasterError?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                room.pendingNarration?.let { pending ->
+                    LinearProgressIndicator(Modifier.fillMaxWidth())
+                    Text("Ведущий думает…")
+                    if (pending.playerId == state.playerId) TextButton(
+                        enabled = available,
+                        onClick = { client.command(NetworkAction.CANCEL_NARRATION, turnId = pending.turnId, narrationId = pending.id) },
+                    ) { Text("Отменить запрос") }
+                }
                 val game = room.adventure
                 if (game != null && game.ending == null && host &&
                     room.members.none { it.player.id == game.activePlayer.id && it.online }) {
@@ -91,8 +101,9 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, onLocal: () ->
                         onEndTurn = { _, turn -> client.command(NetworkAction.PASS, turnId = turn) },
                         onRestart = { client.command(NetworkAction.RESTART, sessionId = game.sessionId) },
                         controllingPlayerId = state.playerId,
-                        commandsEnabled = available,
+                        commandsEnabled = available && room.pendingNarration == null,
                         restartEnabled = available && host,
+                        aiNarrator = room.gameMasterEnabled,
                     )
                 }
             }

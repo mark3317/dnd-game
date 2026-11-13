@@ -42,12 +42,14 @@ fun AdventureScreen(
     controllingPlayerId: String? = null,
     commandsEnabled: Boolean = true,
     restartEnabled: Boolean = true,
+    aiNarrator: Boolean = false,
 ) {
     val ending = state.ending
     val pendingCheck = state.pendingCheck
     var showRestart by remember { mutableStateOf(false) }
     var showRules by remember { mutableStateOf(false) }
     var showHero by remember { mutableStateOf(false) }
+    var actionDraft by remember(state.turnId) { mutableStateOf("") }
 
     Surface(color = MaterialTheme.colorScheme.background) {
         BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding().imePadding()) {
@@ -81,7 +83,8 @@ fun AdventureScreen(
                             )
                             Text("Предупредить паром об отмели — вернуть свет маяка или подать сигнал.")
                             Text(
-                                "Короткий пробный сюжет. Ведущий отвечает по сценарию.",
+                                if (aiNarrator) "Claude ведёт диалоги и понимает свободный текст в рамках пробного сюжета. Правила и броски выполняет сервер."
+                                else "Короткий пробный сюжет. Ведущий отвечает по сценарию.",
                                 color = AdventureMuted, style = MaterialTheme.typography.bodySmall,
                             )
                         }
@@ -107,6 +110,9 @@ fun AdventureScreen(
                                 state,
                                 onSubmit = { onSubmit(state.activePlayer.id, state.turnId, it) },
                                 onEndTurn = { onEndTurn(state.activePlayer.id, state.turnId) },
+                                aiNarrator = aiNarrator,
+                                draft = actionDraft,
+                                onDraftChange = { actionDraft = it },
                             )
                         }
                     }
@@ -148,7 +154,8 @@ fun AdventureScreen(
                     Text("Играйте по очереди: по сети каждый управляет своим героем, локально — на одном устройстве. Завершённое действие передаёт ход следующему участнику. Действие с кубиком завершается после броска; отмена до броска сохраняет ход. Кнопка «Передать ход» позволяет пропустить очередь.")
                     Text("У каждого героя свои характеристики, здоровье и позиция. Каждая проверка расходует одну из трёх общих попыток до прибытия парома. Осмотр, разговор и пропуск запас проверок не расходуют.")
                     Text("Сигнал фонарём или починка маяка завершают историю успехом. Неудача на лестнице отнимает 2 HP. Если попытки закончились, паром попадает на мель.")
-                    Text("Это предварительные правила одного эпизода. Ведущий пока понимает только действия из подсказок — их также можно написать вручную.")
+                    Text(if (aiNarrator) "Это предварительные правила одного эпизода. Опишите осмотр, разговор, подъём, починку или сигнал своими словами. Другие действия ведущий предложит уточнить."
+                        else "Это предварительные правила одного эпизода. Ведущий пока понимает только действия из подсказок — их также можно написать вручную.")
                 }
             },
             confirmButton = { TextButton(onClick = { showRules = false }) { Text("Понятно") } },
@@ -343,12 +350,14 @@ private fun JournalItem(entry: JournalEntry) {
 }
 
 @Composable
-private fun ActionComposer(state: AdventureState, onSubmit: (String) -> Unit, onEndTurn: () -> Unit) {
-    var draft by remember(state.turnId) { mutableStateOf("") }
+private fun ActionComposer(
+    state: AdventureState, onSubmit: (String) -> Unit, onEndTurn: () -> Unit,
+    aiNarrator: Boolean, draft: String, onDraftChange: (String) -> Unit,
+) {
     val keyboard = LocalSoftwareKeyboardController.current
     val valid = draft.isNotBlank() && draft.trim().length <= AdventureEngine.MAX_ACTION_LENGTH
     fun send() {
-        if (valid) { onSubmit(draft); draft = ""; keyboard?.hide() }
+        if (valid) { onSubmit(draft); if (!aiNarrator) onDraftChange(""); keyboard?.hide() }
     }
     Column(
         Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(12.dp),
@@ -359,7 +368,7 @@ private fun ActionComposer(state: AdventureState, onSubmit: (String) -> Unit, on
                 TextButton(onClick = { keyboard?.hide(); onEndTurn() }) { Text("Передать ход", fontSize = 12.sp) }
             }
             items(state.suggestions) { action ->
-                OutlinedButton(onClick = { draft = ""; keyboard?.hide(); onSubmit(action.text) }, contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)) {
+                OutlinedButton(onClick = { onDraftChange(if (aiNarrator) action.text else ""); keyboard?.hide(); onSubmit(action.text) }, contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)) {
                     Text(action.text, fontSize = 12.sp)
                 }
             }
@@ -367,7 +376,7 @@ private fun ActionComposer(state: AdventureState, onSubmit: (String) -> Unit, on
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
             OutlinedTextField(
                 value = draft,
-                onValueChange = { if (it.length <= AdventureEngine.MAX_ACTION_LENGTH) draft = it },
+                onValueChange = { if (it.length <= AdventureEngine.MAX_ACTION_LENGTH) onDraftChange(it) },
                 modifier = Modifier.weight(1f),
                 placeholder = { Text("Что делает ${state.activePlayer.hero.name}?") },
                 maxLines = 3,
@@ -380,7 +389,8 @@ private fun ActionComposer(state: AdventureState, onSubmit: (String) -> Unit, on
             }
         }
         Text(
-            "Пробный ведущий: выберите подсказку или напишите её текст.",
+            if (aiNarrator) "Опишите действие своими словами или выберите подсказку."
+            else "Пробный ведущий: выберите подсказку или напишите её текст.",
             color = AdventureMuted, style = MaterialTheme.typography.labelSmall,
         )
     }

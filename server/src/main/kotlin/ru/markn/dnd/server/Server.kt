@@ -15,7 +15,11 @@ import kotlin.time.Duration.Companion.seconds
 fun main() {
     val port = System.getenv("DND_SERVER_PORT")?.toIntOrNull() ?: 8080
     println("dnd-game: WebSocket /play, port=$port; rooms live in memory")
-    embeddedServer(CIO, host = "0.0.0.0", port = port) { gameServer() }.start(wait = true)
+    embeddedServer(CIO, host = "0.0.0.0", port = port) {
+        val narrator = ClaudeSettings.fromEnvironment()?.let { ClaudeGameMaster(it) }
+        monitor.subscribe(ApplicationStopped) { narrator?.close() }
+        gameServer(Rooms(gameMaster = narrator, aiScope = this))
+    }.start(wait = true)
 }
 
 fun Application.gameServer(rooms: Rooms = Rooms()) {

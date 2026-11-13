@@ -9,6 +9,10 @@ dependencies {
     implementation(libs.ktor.server.cio)
     implementation(libs.ktor.server.websockets)
     implementation(libs.ktor.serialization)
+    implementation(libs.koog.anthropic)
+    implementation(libs.koog.http.ktor)
+    implementation(libs.ktor.client.cio)
     testImplementation(kotlin("test"))
+    testImplementation(libs.ktor.client.mock)
 }
 application { mainClass.set("ru.markn.dnd.server.ServerKt") }
