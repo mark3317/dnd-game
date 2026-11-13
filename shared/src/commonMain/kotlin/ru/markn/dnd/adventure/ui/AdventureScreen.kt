@@ -39,7 +39,12 @@ fun AdventureScreen(
     onCancelCheck: (String, CheckId) -> Unit,
     onEndTurn: (String, TurnId) -> Unit,
     onRestart: () -> Unit,
+    controllingPlayerId: String? = null,
+    commandsEnabled: Boolean = true,
+    restartEnabled: Boolean = true,
 ) {
+    val ending = state.ending
+    val pendingCheck = state.pendingCheck
     var showRestart by remember { mutableStateOf(false) }
     var showRules by remember { mutableStateOf(false) }
     var showHero by remember { mutableStateOf(false) }
@@ -57,7 +62,7 @@ fun AdventureScreen(
                         Text("Погасший маяк", fontFamily = FontFamily.Serif, fontSize = if (wide) 28.sp else 22.sp)
                     }
                     TextButton(onClick = { showRules = true }) { Text("Правила") }
-                    TextButton(onClick = { showRestart = true }) { Text("Заново") }
+                    TextButton(onClick = { showRestart = true }, enabled = restartEnabled) { Text("Заново") }
                 }
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f))
                 Row(Modifier.weight(1f).fillMaxWidth()) {
@@ -76,7 +81,7 @@ fun AdventureScreen(
                             )
                             Text("Предупредить паром об отмели — вернуть свет маяка или подать сигнал.")
                             Text(
-                                "Короткий пробный сюжет. Ведущий отвечает по сценарию; прогресс хранится до перезапуска приложения.",
+                                "Короткий пробный сюжет. Ведущий отвечает по сценарию.",
                                 color = AdventureMuted, style = MaterialTheme.typography.bodySmall,
                             )
                         }
@@ -89,9 +94,12 @@ fun AdventureScreen(
                         SceneHeading(state, compact = !wide)
                         Journal(state, Modifier.weight(1f).fillMaxWidth())
                         when {
-                            state.ending != null -> EndingPanel(state.ending, onRestart)
-                            state.pendingCheck != null -> CheckPanel(
-                                state.pendingCheck, state.activePlayer.hero,
+                            ending != null && restartEnabled -> EndingPanel(ending, onRestart)
+                            ending != null -> Text(ending.description + "\nПерезапустить историю может ведущий комнаты.", Modifier.padding(20.dp))
+                            !commandsEnabled || (controllingPlayerId != null && controllingPlayerId != state.activePlayer.id) ->
+                                Text(if (!commandsEnabled) "Ожидаем соединение или ответ сервера…" else "Сейчас ходит " + state.activePlayer.name + ". Дождитесь своей очереди.", Modifier.fillMaxWidth().padding(20.dp))
+                            pendingCheck != null -> CheckPanel(
+                                pendingCheck, state.activePlayer.hero,
                                 onRoll = { onRoll(state.activePlayer.id, it) },
                                 onCancel = { onCancelCheck(state.activePlayer.id, it) },
                             )
@@ -137,7 +145,7 @@ fun AdventureScreen(
             text = {
                 Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text("Для рискованного действия: d20 + модификатор характеристики. Итог не ниже сложности — успех. Особых эффектов для 1 и 20 пока нет.")
-                    Text("Играйте по очереди на одном устройстве. Завершённое действие передаёт ход следующему участнику. Действие с кубиком завершается после броска; отмена до броска сохраняет ход. Кнопка «Передать ход» позволяет пропустить очередь.")
+                    Text("Играйте по очереди: по сети каждый управляет своим героем, локально — на одном устройстве. Завершённое действие передаёт ход следующему участнику. Действие с кубиком завершается после броска; отмена до броска сохраняет ход. Кнопка «Передать ход» позволяет пропустить очередь.")
                     Text("У каждого героя свои характеристики, здоровье и позиция. Каждая проверка расходует одну из трёх общих попыток до прибытия парома. Осмотр, разговор и пропуск запас проверок не расходуют.")
                     Text("Сигнал фонарём или починка маяка завершают историю успехом. Неудача на лестнице отнимает 2 HP. Если попытки закончились, паром попадает на мель.")
                     Text("Это предварительные правила одного эпизода. Ведущий пока понимает только действия из подсказок — их также можно написать вручную.")

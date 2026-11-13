@@ -36,3 +36,5 @@ include(":shared")
 include(":androidApp")
 include(":desktopApp")
 include(":webApp")
+
+include(":game", ":server")

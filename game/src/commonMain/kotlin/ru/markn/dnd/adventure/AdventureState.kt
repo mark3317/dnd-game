@@ -1,5 +1,6 @@
 package ru.markn.dnd.adventure
 
+@kotlinx.serialization.Serializable
 enum class Ability(val title: String, val abbreviation: String) {
     STRENGTH("Сила", "СИЛ"),
     DEXTERITY("Ловкость", "ЛОВ"),
@@ -9,6 +10,7 @@ enum class Ability(val title: String, val abbreviation: String) {
     CHARISMA("Харизма", "ХАР"),
 }
 
+@kotlinx.serialization.Serializable
 data class Hero(
     val name: String,
     val archetype: String,
@@ -20,11 +22,13 @@ data class Hero(
     fun modifier(ability: Ability): Int = modifiers[ability] ?: 0
 }
 
+@kotlinx.serialization.Serializable
 enum class Location(val title: String) {
     SHORE("У подножия маяка"),
     LANTERN_ROOM("Фонарная комната"),
 }
 
+@kotlinx.serialization.Serializable
 data class Player(
     val id: String,
     val name: String,
@@ -38,6 +42,7 @@ data class Player(
 }
 
 /** Fixed local order. A completed action or explicit pass advances one turn. */
+@kotlinx.serialization.Serializable
 data class TurnOrder(val playerIds: List<String>, val turnNumber: Long = 1) {
     init {
         require(playerIds.isNotEmpty()) { "Turn order must not be empty" }
@@ -52,14 +57,17 @@ data class TurnOrder(val playerIds: List<String>, val turnNumber: Long = 1) {
 }
 
 /** Rejects commands from a previous turn, including when the same player acts again. */
+@kotlinx.serialization.Serializable
 data class TurnId(val sessionId: Long, val number: Long)
 
+@kotlinx.serialization.Serializable
 enum class Ending(val title: String, val description: String) {
     LIGHTHOUSE_LIT("Свет над рекой", "Маяк снова горит. Паром обходит отмель и добирается до пристани."),
     SIGNAL_GIVEN("Огонь в тумане", "Сигнал замечен: паром останавливается перед отмелью. Люди спасены, хотя маяк ещё предстоит починить."),
     FERRY_LOST("Слишком поздно", "Из тумана доносится удар о мель. Спасательный отряд уже собирается на берегу. Предупредить паром вовремя не удалось."),
 }
 
+@kotlinx.serialization.Serializable
 enum class DemoAction(val text: String) {
     LOOK("Осмотреться"),
     TALK("Поговорить с хранителем"),
@@ -68,8 +76,10 @@ enum class DemoAction(val text: String) {
     SIGNAL("Подать сигнал"),
 }
 
+@kotlinx.serialization.Serializable
 data class CheckId(val sessionId: Long, val actionId: Long)
 
+@kotlinx.serialization.Serializable
 data class PendingCheck(
     val id: CheckId,
     val playerId: String,
@@ -80,6 +90,7 @@ data class PendingCheck(
     val description: String,
 )
 
+@kotlinx.serialization.Serializable
 data class RollResult(
     val checkId: CheckId,
     val playerId: String,
@@ -92,8 +103,10 @@ data class RollResult(
     val succeeded: Boolean get() = total >= difficulty
 }
 
+@kotlinx.serialization.Serializable
 enum class EntryKind { NARRATOR, PLAYER, CHECK, TURN }
 
+@kotlinx.serialization.Serializable
 data class JournalEntry(
     val id: Long,
     val kind: EntryKind,
@@ -103,6 +116,7 @@ data class JournalEntry(
     val actorName: String? = null,
 )
 
+@kotlinx.serialization.Serializable
 data class AdventureState(
     val sessionId: Long,
     val players: List<Player>,
