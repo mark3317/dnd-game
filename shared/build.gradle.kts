@@ -31,7 +31,15 @@ kotlin {
     wasmJs { browser() }
 
     sourceSets {
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
+        jvmMain.dependencies {
+            implementation(libs.kermit.io)
+        }
         commonMain.dependencies {
+            implementation(libs.kermit)
+            implementation(libs.kotlinx.serialization.json)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)

@@ -1,49 +1,22 @@
 package ru.markn.dnd
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import org.jetbrains.compose.resources.painterResource
-
-import ru.markn.dnd.generated.resources.Res
-import ru.markn.dnd.generated.resources.compose_multiplatform
+import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.markn.dnd.adventure.AdventureViewModel
+import ru.markn.dnd.adventure.ui.AdventureScreen
+import ru.markn.dnd.adventure.ui.AdventureTheme
 
 @Composable
-@Preview
 fun App() {
-    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Cddk me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
-        }
+    val adventure = viewModel { AdventureViewModel() }
+    AdventureTheme {
+        AdventureScreen(
+            state = adventure.state,
+            onSubmit = adventure::submit,
+            onRoll = adventure::roll,
+            onCancelCheck = adventure::cancelCheck,
+            onEndTurn = adventure::endTurn,
+            onRestart = adventure::restart,
+        )
     }
 }
