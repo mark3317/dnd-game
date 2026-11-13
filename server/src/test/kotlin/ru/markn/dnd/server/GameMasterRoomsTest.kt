@@ -39,7 +39,7 @@ class GameMasterRoomsTest {
             turnId = ack.room.adventure!!.turnId)).error)
         assertNull(withTimeout(1_000) { rooms.command(c.connection, ClientMessage.Command(2,
             NetworkAction.PASS, turnId = c.connection.updates.value.adventure!!.turnId)) }.error)
-        response.complete(GameMasterDecision(DemoAction.TALK, "Привод заклинило, но лампа исправна."))
+        response.complete(GameMasterDecision(Lighthouse.TALK, "Привод заклинило, но лампа исправна."))
         val done = finished(a)
         assertEquals(1, calls)
         assertEquals(2L, done.adventure!!.turnId.number)
@@ -58,7 +58,8 @@ class GameMasterRoomsTest {
                 release.await()
                 exited.complete(Unit)
             }
-            GameMasterDecision(DemoAction.TALK, "Лампа исправна.")
+            GameMasterDecision(null, "Помощь хранителя.", SceneActionPlan("Попросить хранителя помочь", null, null,
+                listOf(SceneEffect.Fact(Lighthouse.KEEPER_HELPING)), emptyList()))
         }, aiScope = this)
         val (a, b) = started(rooms)
         val ack = rooms.command(a.connection, submit(a))
@@ -109,7 +110,7 @@ class GameMasterRoomsTest {
         assertNull(after.error)
         assertNull(after.room.pendingNarration)
         assertEquals(2L, after.room.adventure!!.sessionId)
-        gate.complete(GameMasterDecision(DemoAction.TALK, "Запоздалый ответ."))
+        gate.complete(GameMasterDecision(Lighthouse.TALK, "Запоздалый ответ."))
         yield()
         assertEquals(1L, after.room.adventure!!.turnId.number)
         assertEquals(after.room.adventure, resumed.connection.updates.value.adventure)
@@ -130,5 +131,21 @@ class GameMasterRoomsTest {
         yield()
         assertNull(rooms.command(b.connection, submit(b, 3)).error)
         assertNotNull(finished(b).gameMasterError)
+    }
+
+    @Test fun invalidPlanIsPublishedAsSafeErrorAndNeverPartiallyAppliesOrSpendsTurn() = runBlocking<Unit> {
+        val rooms = Rooms(gameMaster = GameMaster { _, _ ->
+            GameMasterDecision(null, "private invalid reply", SceneActionPlan("private intent", null, Lighthouse.ROPE,
+                listOf(SceneEffect.Fact(Lighthouse.ROPE_SECURED), SceneEffect.Move(Lighthouse.LANTERN_ROOM)), emptyList()))
+        }, aiScope = this)
+        val (a, b) = started(rooms)
+        val before = a.connection.updates.value.adventure
+        rooms.command(a.connection, submit(a))
+        val rejected = finished(a)
+        assertEquals(before, rejected.adventure)
+        assertNotNull(rejected.gameMasterError)
+        assertFalse(rejected.gameMasterError!!.contains("private"))
+        assertEquals(rejected, b.connection.updates.value)
+        assertNull(rejected.pendingNarration)
     }
 }

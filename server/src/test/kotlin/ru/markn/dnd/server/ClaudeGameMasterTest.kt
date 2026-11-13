@@ -24,7 +24,7 @@ class ClaudeGameMasterTest {
 
     @Test fun nativeMessagesUseConfiguredEndpointAuthSchemaAndBoundedContext() = runBlocking<Unit> {
         val logs = mutableListOf<GameLogEvent>()
-        val expected = GameMasterDecision(DemoAction.TALK, "Привод заклинило.")
+        val expected = GameMasterDecision(Lighthouse.TALK, "Привод заклинило.")
         val engine = MockEngine { request ->
             assertEquals("https://ai.starimg.ru/v1/messages", request.url.toString())
             assertEquals(HttpMethod.Post, request.method)
@@ -33,7 +33,7 @@ class ClaudeGameMasterTest {
             assertEquals("2023-06-01", request.headers["anthropic-version"])
             val body = Json.parseToJsonElement((request.body as TextContent).text).jsonObject
             assertEquals(settings.model, body["model"]!!.jsonPrimitive.content)
-            assertEquals(900, body["max_tokens"]!!.jsonPrimitive.int)
+            assertEquals(1_600, body["max_tokens"]!!.jsonPrimitive.int)
             assertNotNull(body["output_config"]!!.jsonObject["format"])
             assertTrue(body["system"].toString().length > 1_000)
             assertTrue(body["messages"].toString().contains("player_intent"))
@@ -55,7 +55,7 @@ class ClaudeGameMasterTest {
         val cases = listOf(
             "not json" to "end_turn",
             """{"action":"WIN","narration":"Победа"}""" to "end_turn",
-            GameWireJson.encodeToString(GameMasterDecision(DemoAction.LOOK, "Лестница скользкая.")) to "max_tokens",
+            GameWireJson.encodeToString(GameMasterDecision(Lighthouse.LOOK, "Лестница скользкая.")) to "max_tokens",
             buildJsonObject { put("action", "LOOK"); put("narration", "я".repeat(2_001)) }.toString() to "end_turn",
         )
         for ((text, stop) in cases) {
@@ -124,7 +124,7 @@ class ClaudeGameMasterTest {
     }
 
     @Test fun markdownWrapperDoesNotBypassDecisionValidationOrLeakText() {
-        val decision = GameMasterDecision(DemoAction.LOOK, "На лестнице мокрые перила.")
+        val decision = GameMasterDecision(Lighthouse.LOOK, "На лестнице мокрые перила.")
         assertEquals(decision, ClaudeGameMaster.decodeDecision("```json\n${GameWireJson.encodeToString(decision)}\n```"))
         for ((text, reason) in listOf(
             "private reply and test-key" to "decision_not_json",
@@ -136,5 +136,44 @@ class ClaudeGameMasterTest {
             assertEquals(reason, failure.reason)
             assertFalse(failure.toString().contains("private"))
         }
+    }
+
+    @Test fun scenePlansDecodeStrictlyAndContextContainsCanonicalFactsAndInventory() {
+        val plan = SceneActionPlan("Подняться снаружи", ProposedCheck(Ability.STRENGTH, 10), Lighthouse.ROPE,
+            listOf(SceneEffect.Move(Lighthouse.LANTERN_ROOM)), listOf(SceneEffect.Damage(2)))
+        val decision = GameMasterDecision(null, "Попытка подъёма.", plan)
+        val encoded = GameWireJson.encodeToString(decision)
+        assertEquals(decision, ClaudeGameMaster.decodeDecision(encoded))
+        for (invalid in listOf(encoded.replace("\"move\"", "\"spawn\""),
+            encoded.replace("\"location\":", "\"hiddenField\":true,\"location\":"),
+            encoded.replace("\"difficulty\":10", "\"difficulty\":1.5"),
+            encoded.replace("\"ROPE\"", "\"MAGIC_WAND\""),
+            encoded.replace("\"action\":null", "\"action\":\"LOOK\""))) {
+            assertFailsWith<AiFailure> { ClaudeGameMaster.decodeDecision(invalid) }
+        }
+        val state = AdventureEngine().newGame().copy(scene = SceneState(setOf(Lighthouse.ROPE_SECURED)))
+        val context = Json.parseToJsonElement(ClaudeGameMaster.context(state, "снаружи")).jsonObject["state"]!!.jsonObject
+        assertEquals("ROPE_SECURED", context["scene"]!!.jsonObject["facts"]!!.jsonArray.single().jsonPrimitive.content)
+        assertTrue(context["players"].toString().contains("ROPE"))
+        assertTrue(sceneDecisionSchema().toString().contains("targetPlayerId"))
+    }
+
+    @Test fun archiveUsesOwnContextSchemaAndPlansThroughTheSameKoogClient() = runBlocking<Unit> {
+        val expected = GameMasterDecision(null, "Прочитать опись", SceneActionPlan("Найти номера грамот", null, null,
+            listOf(SceneEffect.Fact(FloodedArchive.INDEX_READ)), emptyList()))
+        val gm = ClaudeGameMaster(settings, GameLogger.None, HttpClient(MockEngine { request ->
+            val body = Json.parseToJsonElement((request.body as TextContent).text).jsonObject
+            assertTrue(body["messages"].toString().contains(FloodedArchive.HALL))
+            assertTrue(body["output_config"].toString().contains(FloodedArchive.INDEX_READ))
+            assertFalse(body.toString().contains(Lighthouse.LANTERN_ROOM))
+            assertFalse(body.toString().contains(Lighthouse.DRIVE_FREED))
+            respond(response(GameWireJson.encodeToString(expected)), HttpStatusCode.OK,
+                headersOf(HttpHeaders.ContentType, "application/json"))
+        }))
+        try {
+            assertEquals(expected, gm.respond(AdventureEngine().newGame(scenarioId = FloodedArchive.ID), "Читаю опись"))
+        } finally { gm.close() }
+        assertFailsWith<AiFailure> { ClaudeGameMaster.decodeDecision(GameWireJson.encodeToString(expected), Lighthouse.definition) }
+        assertFailsWith<AiFailure> { ClaudeGameMaster.decodeDecision("""{"action":"REPAIR","narration":"Чиню"}""", FloodedArchive.definition) }
     }
 }

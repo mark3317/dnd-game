@@ -29,6 +29,10 @@ class AdventureViewModel(
     }
 
     fun restart() {
-        state = engine.newGame(sessionId = state.sessionId + 1)
+        state = engine.newGame(sessionId = state.sessionId + 1, scenarioId = state.scenarioId)
+    }
+
+    fun selectScenario(id: String) {
+        state = engine.newGame(sessionId = state.sessionId + 1, scenarioId = id)
     }
 }

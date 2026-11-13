@@ -8,8 +8,8 @@ class GameMasterDecisionTest {
     @Test fun naturalLanguagePreservesOriginalTextAndServerCheck() {
         val state = engine.newGame()
         val next = engine.submit(state, state.activePlayer.id, state.turnId, "Осторожно лезу по мокрой лестнице",
-            GameMasterDecision(DemoAction.CLIMB, "Герой уже наверху и всех спас!"))
-        assertEquals(Location.SHORE, next.activePlayer.location)
+            GameMasterDecision(Lighthouse.CLIMB, "Герой уже наверху и всех спас!"))
+        assertEquals(Lighthouse.SHORE, next.activePlayer.location)
         assertEquals(state.turnId, next.turnId)
         assertEquals(3, next.checksRemaining)
         val check = assertNotNull(next.pendingCheck)
@@ -18,7 +18,7 @@ class GameMasterDecisionTest {
         assertTrue(next.journal.any { it.text == "Осторожно лезу по мокрой лестнице" })
         assertFalse(next.journal.any { it.text.contains("всех спас") })
         val rolled = engine.roll(next, next.activePlayer.id, check.id)
-        assertEquals(Location.LANTERN_ROOM, rolled.players.first().location)
+        assertEquals(Lighthouse.LANTERN_ROOM, rolled.players.first().location)
         assertEquals(2, rolled.checksRemaining)
         assertEquals(2L, rolled.turnId.number)
     }
@@ -26,7 +26,7 @@ class GameMasterDecisionTest {
     @Test fun modelCannotBypassLocationOrAdvanceClarification() {
         val state = engine.newGame()
         val repair = engine.submit(state, state.activePlayer.id, state.turnId, "Чиню маяк силой мысли",
-            GameMasterDecision(DemoAction.REPAIR, "Готово"))
+            GameMasterDecision(Lighthouse.REPAIR, "Готово"))
         assertNull(repair.pendingCheck)
         assertNull(repair.ending)
         assertEquals(state.turnId, repair.turnId)
@@ -39,7 +39,7 @@ class GameMasterDecisionTest {
 
     @Test fun dialogueAdvancesTurnWithoutSpendingChecksAndCannotActForAnotherPlayer() {
         val state = engine.newGame()
-        val answer = GameMasterDecision(DemoAction.TALK, "Хранитель просит подать три вспышки.")
+        val answer = GameMasterDecision(Lighthouse.TALK, "Хранитель просит подать три вспышки.")
         assertEquals(state, engine.submit(state, state.players[1].id, state.turnId, "Что делать?", answer))
         val next = engine.submit(state, state.activePlayer.id, state.turnId, "Что делать?", answer)
         assertEquals(2L, next.turnId.number)

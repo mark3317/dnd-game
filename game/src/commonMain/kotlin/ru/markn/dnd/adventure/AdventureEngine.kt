@@ -4,114 +4,83 @@ import kotlin.random.Random
 import ru.markn.dnd.adventure.diagnostics.GameLogEvent
 import ru.markn.dnd.adventure.diagnostics.GameLogger
 
-fun interface DiceRoller {
-    fun roll(sides: Int): Int
-}
+fun interface DiceRoller { fun roll(sides: Int): Int }
 
-/** Local scripted adventure. Commands carry their actor and turn, not network authorization. */
+/** Executes validated plans for any registered scenario; the server owns authorization and dice. */
 class AdventureEngine(
     private val dice: DiceRoller = DiceRoller { sides -> Random.nextInt(1, sides + 1) },
     private val logger: GameLogger = GameLogger.None,
 ) {
-    fun newGame(sessionId: Long = 1, players: List<Player> = demoPlayers()): AdventureState = AdventureState(
-        sessionId = sessionId,
-        players = players.toList(),
-        turnOrder = TurnOrder(players.map { it.id }),
-        journal = listOf(
-            JournalEntry(
-                id = 1,
-                kind = EntryKind.NARRATOR,
-                text = "Речной маяк погас. В тумане слышен гудок парома — он идёт прямо к отмели. " +
-                    "У двери ждёт встревоженный хранитель. Наверх ведёт мокрая лестница. " +
-                    "Можно попытаться вернуть свет или подать сигнал с берега. Действуйте по очереди.",
-            ),
-        ),
-    ).also { state ->
-        log("session_started", state, details = mapOf(
-            "players" to state.players.size.toString(),
-            "queue" to state.turnOrder.playerIds.joinToString(","),
-        ))
+    fun newGame(sessionId: Long = 1, players: List<Player>? = null, scenarioId: String = Lighthouse.ID): AdventureState {
+        val scenario = requireNotNull(Scenarios.find(scenarioId)) { "Unknown scenario" }
+        val party = (players ?: demoPlayers(scenarioId)).toList()
+        require(party.all { it.location in scenario.sites && it.hero.inventory.all { item -> item in scenario.items } })
+        return AdventureState(sessionId, party, TurnOrder(party.map { it.id }), scenario.checkBudget,
+            listOf(JournalEntry(1, EntryKind.NARRATOR, scenario.introduction)), scenarioId = scenarioId).also { state ->
+            log("session_started", state, details = mapOf("players" to party.size.toString(),
+                "queue" to state.turnOrder.playerIds.joinToString(","), "scenario" to scenarioId))
+        }
     }
 
-    fun submit(
-        state: AdventureState, playerId: String, turnId: TurnId, input: String,
-        decision: GameMasterDecision? = null,
-    ): AdventureState {
+    fun submit(state: AdventureState, playerId: String, turnId: TurnId, input: String,
+               decision: GameMasterDecision? = null): AdventureState {
         val text = input.trim()
         if (state.ending != null) return rejected(state, "submit", playerId, "adventure_finished")
         if (state.pendingCheck != null) return rejected(state, "submit", playerId, "pending_check")
         if (state.activePlayer.id != playerId) return rejected(state, "submit", playerId, "wrong_player")
-        if (state.turnId != turnId) return rejected(state, "submit", playerId, "stale_turn", mapOf(
-            "requested_session" to turnId.sessionId.toString(), "requested_turn" to turnId.number.toString(),
-        ))
+        if (state.turnId != turnId) return rejected(state, "submit", playerId, "stale_turn",
+            mapOf("requested_session" to turnId.sessionId.toString(), "requested_turn" to turnId.number.toString()))
         if (text.isEmpty()) return rejected(state, "submit", playerId, "blank_input")
         if (text.length > MAX_ACTION_LENGTH) return rejected(state, "submit", playerId, "input_too_long")
+        if (decision?.plan != null && decision.action != null) return rejected(state, "submit", playerId, "ambiguous_plan")
+        val action = if (decision != null) state.scenario.actions.firstOrNull { it.id == decision.action }
+            else state.scenario.actions.firstOrNull { it.text.lowercase() == text.lowercase().trimEnd('.', '!', '?') }
+        if (decision?.action != null && action == null) return rejected(state, "submit", playerId, "unknown_action")
+        val plan = decision?.plan ?: action?.planFor(state)
+        val invalid = plan?.let { SceneRules.validate(state, it) }
+        if (decision?.plan != null && invalid != null) return rejected(state, "submit", playerId, invalid)
         val actor = state.activePlayer
-        val next = state.append(EntryKind.PLAYER, text, actor = actor)
-        val normalized = text.lowercase().trimEnd('.', '!', '?')
-        val action = if (decision != null) decision.action else DemoAction.entries.firstOrNull { it.text.lowercase() == normalized }
-        val result = when (action) {
-            DemoAction.LOOK -> next.append(
-                EntryKind.NARRATOR,
-                decision?.narration ?: if (actor.location == Location.SHORE) {
-                    "С берега видна отмель. Фонарём можно предупредить паром. " +
-                        "Если подняться по лестнице, можно осмотреть механизм маяка. Осмотр не расходует запас проверок."
-                } else {
-                    "Линза цела, но привод заклинило. Инструментами можно освободить шестерню. " +
-                        "Через окно также можно подать сигнал фонарём. Осмотр не расходует запас проверок."
-                },
-                actor = actor,
-            ).advanceTurn()
-            DemoAction.TALK -> next.append(
-                EntryKind.NARRATOR,
-                decision?.narration ?: if (actor.location == Location.SHORE) {
-                    "«Шестерня заела, но лампа исправна, — говорит хранитель. — " +
-                        "Если не успеете починить, подайте три вспышки фонарём: капитан поймёт»."
-                } else {
-                    "Снизу доносится голос хранителя: «Освободите шестерню! Если не выйдет, подайте три вспышки фонарём»."
-                },
-                actor = actor,
-            ).advanceTurn()
-            DemoAction.CLIMB -> if (actor.location == Location.LANTERN_ROOM) {
-                next.append(EntryKind.NARRATOR, "Этот герой уже наверху. Можно починить механизм или подать сигнал.", actor = actor)
-            } else {
-                next.request(DemoAction.CLIMB, Ability.DEXTERITY, 10, "Удержаться на мокрой лестнице и подняться к фонарю.")
+        var next = state.append(EntryKind.PLAYER, text, actor = actor)
+        val available = action == null || action.locations.isEmpty() || state.location in action.locations
+        next = when {
+            !available || invalid != null -> next.append(EntryKind.NARRATOR,
+                "Действие недоступно: проверьте место, снаряжение и выполненные условия. Ход сохранён.", actor = actor)
+            plan != null -> {
+                if (plan.check != null) {
+                    val success = plan.onSuccess.joinToString(" ") { SceneRules.describe(state, it) }
+                    val failure = if (plan.onFailure.isEmpty()) "сцена не изменится." else plan.onFailure.joinToString(" ") { SceneRules.describe(state, it) }
+                    next.append(EntryKind.NARRATOR, "Предложена проверка: ${plan.description}. При успехе: $success При провале: $failure При любом исходе будет потрачена одна общая проверка.", actor = actor)
+                        .copy(pendingCheck = PendingCheck(CheckId(state.sessionId, next.journal.last().id),
+                            playerId, turnId, action?.id, plan.check.ability, plan.check.difficulty, plan.description, plan))
+                } else next.resolveEffects(plan.onSuccess).advanceTurn()
             }
-            DemoAction.REPAIR -> if (actor.location == Location.SHORE) {
-                next.append(EntryKind.NARRATOR, "Механизм наверху. Этому герою сначала нужно подняться к фонарю; другой путь — подать сигнал с берега.", actor = actor)
-            } else {
-                next.request(DemoAction.REPAIR, Ability.INTELLIGENCE, 12, "Освободить шестерню с помощью инструментов.")
+            action?.narrative != null -> {
+                val site = state.scenario.sites.getValue(state.location)
+                val narration = decision?.narration ?: when (action.narrative) {
+                    NarrativeKind.INSPECTION -> site.inspection
+                    NarrativeKind.CONVERSATION -> site.conversation
+                }
+                next.append(EntryKind.NARRATOR, narration, actor = actor).advanceTurn()
             }
-            DemoAction.SIGNAL -> next.request(
-                DemoAction.SIGNAL, Ability.WISDOM, 12,
-                "Выбрать момент между полосами тумана и подать парому сигнал.",
-            )
-            null -> next.append(
-                EntryKind.NARRATOR,
-                decision?.narration ?: ("Пробный ведущий понимает действия из подсказок под историей. " +
-                    "Выберите подсказку или введите её текст. Ситуация и очередь не изменились."),
-                actor = actor,
-            )
+            else -> next.append(EntryKind.NARRATOR, decision?.narration ?:
+                "Пробный ведущий понимает действия из подсказок. Выберите подсказку или введите её текст. Ход сохранён.", actor = actor)
         }
-        return recordTransition(state, result, "submit", playerId, mapOf(
-            "action" to (action?.name ?: "UNSUPPORTED"),
-            "input_length" to text.length.toString(),
-            "outcome" to when {
-                action == null -> "unsupported"
-                result.turnId == state.turnId && result.pendingCheck == null -> "unavailable"
+        return recordTransition(state, next, "submit", playerId, mapOf("action" to (action?.id ?: if (plan != null) "SCENE_PLAN" else "UNSUPPORTED"),
+            "input_length" to text.length.toString(), "outcome" to when {
+                plan == null && action == null -> "unsupported"
+                next.turnId == state.turnId && next.pendingCheck == null -> "unavailable"
                 else -> "accepted"
-            },
-        ))
+            }))
     }
 
     fun roll(state: AdventureState, playerId: String, checkId: CheckId): AdventureState {
         val reason = state.checkRejectionReason(playerId, checkId)
         if (reason != null) return rejected(state, "roll", playerId, reason, mapOf("requested_check" to checkId.actionId.toString()))
         val check = requireNotNull(state.pendingCheck)
+        val plan = requireNotNull(check.plan)
+        SceneRules.validate(state, plan)?.let { return rejected(state, "roll", playerId, it) }
         val actor = state.activePlayer
-        val die = try {
-            dice.roll(20)
-        } catch (failure: Exception) {
+        val die = try { dice.roll(20) } catch (failure: Exception) {
             log("dice_failed", state, playerId, mapOf("reason" to "dice_source_exception", "type" to (failure::class.simpleName ?: "Exception")))
             throw failure
         }
@@ -121,28 +90,10 @@ class AdventureEngine(
         val checks = (state.checksRemaining - 1).coerceAtLeast(0)
         var next = state.copy(pendingCheck = null, checksRemaining = checks)
             .append(EntryKind.CHECK, if (result.succeeded) "Проверка пройдена" else "Проверка не пройдена", result, actor)
-        next = when (check.action) {
-            DemoAction.CLIMB -> if (result.succeeded) {
-                next.updatePlayer(actor.copy(location = Location.LANTERN_ROOM)).append(
-                    EntryKind.NARRATOR, "Герой поднимается к линзе. Привод заклинило — инструменты помогут вернуть свет.", actor = actor,
-                )
-            } else {
-                next.updatePlayer(actor.copy(hero = actor.hero.copy(health = (actor.hero.health - 2).coerceAtLeast(0)))).append(
-                    EntryKind.NARRATOR, "Нога соскальзывает. Герой успевает ухватиться за перила, но получает ушиб: −2 здоровья. Часть времени потеряна.", actor = actor,
-                )
-            }
-            DemoAction.REPAIR -> if (result.succeeded) next.finish(Ending.LIGHTHOUSE_LIT) else {
-                next.append(EntryKind.NARRATOR, "Привод не поддаётся. На следующем ходу можно повторить попытку или подать сигнал фонарём.", actor = actor)
-            }
-            DemoAction.SIGNAL -> if (result.succeeded) next.finish(Ending.SIGNAL_GIVEN) else {
-                next.append(EntryKind.NARRATOR, "Туман поглощает вспышки. Ответа пока нет; группа может повторить сигнал или сменить подход.", actor = actor)
-            }
-            else -> error("This action does not use a check")
-        }
-        // Completing the objective on the last remaining check still wins.
-        if (next.ending == null && checks == 0) next = next.finish(Ending.FERRY_LOST)
-        val resultState = if (next.ending == null) next.advanceTurn() else next
-        return recordTransition(state, resultState, "roll", playerId)
+            .resolveEffects(if (result.succeeded) plan.onSuccess else plan.onFailure)
+        if (next.ending == null && checks == 0) next = next.finish(state.scenario.timeoutEnding)
+        if (next.ending == null) next = next.advanceTurn()
+        return recordTransition(state, next, "roll", playerId)
     }
 
     fun cancelCheck(state: AdventureState, playerId: String, checkId: CheckId): AdventureState {
@@ -199,7 +150,7 @@ class AdventureEngine(
         if (check != null && check.id != before.pendingCheck?.id) {
             log("check_requested", after, check.playerId, mapOf(
                 "check_id" to check.id.actionId.toString(),
-                "action" to check.action.name,
+                "action" to (check.action ?: "SCENE_PLAN"),
                 "ability" to check.ability.name,
                 "difficulty" to check.difficulty.toString(),
             ))
@@ -225,10 +176,16 @@ class AdventureEngine(
                 log("hero_changed", after, player.id, mapOf(
                     "health_before" to previous.hero.health.toString(),
                     "health_after" to player.hero.health.toString(),
-                    "location_before" to previous.location.name,
-                    "location_after" to player.location.name,
+                    "location_before" to previous.location,
+                    "location_after" to player.location,
                 ))
             }
+        }
+        if (before.scene != after.scene) log("scene_changed", after, playerId, mapOf(
+            "facts" to after.scene.facts.sorted().joinToString(","),
+        ))
+        if (before.players.map { it.hero.inventory } != after.players.map { it.hero.inventory }) {
+            log("inventory_changed", after, playerId)
         }
         if (after.turnId != before.turnId) {
             log("turn_changed", after, playerId, mapOf(
@@ -239,7 +196,7 @@ class AdventureEngine(
             ))
         }
         if (after.ending != null && before.ending == null) {
-            log("adventure_finished", after, playerId, mapOf("ending" to after.ending.name))
+            log("adventure_finished", after, playerId, mapOf("ending" to after.ending))
         }
         return after
     }
@@ -260,16 +217,16 @@ class AdventureEngine(
         }
     }
 
-    private fun AdventureState.request(
-        action: DemoAction, ability: Ability, difficulty: Int, description: String,
-    ): AdventureState = copy(
-        pendingCheck = PendingCheck(
-            CheckId(sessionId, journal.last().id), activePlayer.id, turnId, action, ability, difficulty, description,
-        ),
-    )
-
-    private fun AdventureState.updatePlayer(player: Player): AdventureState =
-        copy(players = players.map { if (it.id == player.id) player else it })
+    private fun AdventureState.resolveEffects(effects: List<SceneEffect>): AdventureState {
+        var next = this
+        if (effects.isEmpty()) next = next.append(EntryKind.NARRATOR, "Попытка не изменила сцену. Время на проверку потрачено.", actor = activePlayer)
+        for (effect in effects) {
+            val description = SceneRules.describe(next, effect)
+            next = SceneRules.apply(next, effect).append(EntryKind.NARRATOR, description, actor = activePlayer)
+        }
+        val ending = next.scene.facts.firstNotNullOfOrNull { next.scenario.facts[it]?.ending }
+        return if (ending != null) next.finish(ending) else next
+    }
 
     private fun AdventureState.advanceTurn(): AdventureState {
         val next = copy(turnOrder = turnOrder.next())
@@ -280,8 +237,8 @@ class AdventureEngine(
         )
     }
 
-    private fun AdventureState.finish(result: Ending): AdventureState =
-        copy(ending = result, pendingCheck = null).append(EntryKind.NARRATOR, result.description)
+    private fun AdventureState.finish(result: String): AdventureState =
+        copy(ending = result, pendingCheck = null).append(EntryKind.NARRATOR, scenario.endings.getValue(result).description)
 
     private fun AdventureState.append(
         kind: EntryKind, text: String, roll: RollResult? = null, actor: Player? = null,
@@ -294,14 +251,15 @@ class AdventureEngine(
     companion object {
         const val MAX_ACTION_LENGTH = 500
 
-        fun demoPlayers(): List<Player> {
+        fun demoPlayers(scenarioId: String = Lighthouse.ID): List<Player> {
+            val scenario = requireNotNull(Scenarios.find(scenarioId))
             val rin = Hero(
                 "Рин", "Следопыт", 12, 12,
                 mapOf(
                     Ability.STRENGTH to 1, Ability.DEXTERITY to 3, Ability.CONSTITUTION to 2,
                     Ability.INTELLIGENCE to 1, Ability.WISDOM to 2, Ability.CHARISMA to 0,
                 ),
-                listOf("Походный фонарь", "Верёвка", "Набор инструментов"),
+                scenario.startingItems,
             )
             val mira = rin.copy(
                 name = "Мира", archetype = "Учёная", health = 10, maxHealth = 10,
@@ -317,7 +275,8 @@ class AdventureEngine(
                     Ability.INTELLIGENCE to 0, Ability.WISDOM to 1, Ability.CHARISMA to 1,
                 ),
             )
-            return listOf(Player("player-1", "Игрок 1", rin), Player("player-2", "Игрок 2", mira), Player("player-3", "Игрок 3", bran))
+            return listOf(Player("player-1", "Игрок 1", rin, scenario.startLocation),
+                Player("player-2", "Игрок 2", mira, scenario.startLocation), Player("player-3", "Игрок 3", bran, scenario.startLocation))
         }
     }
 }

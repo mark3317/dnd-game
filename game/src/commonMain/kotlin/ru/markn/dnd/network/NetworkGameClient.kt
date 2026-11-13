@@ -123,7 +123,7 @@ class NetworkGameClient(private val scope: CoroutineScope) {
         if (room.revision >= (state.value.room?.revision ?: -1)) mutableState.value = state.value.copy(room = room)
     }
 
-    fun command(action: NetworkAction, turnId: TurnId? = null, checkId: CheckId? = null, text: String = "", sessionId: Long? = null, targetPlayerId: String? = null, narrationId: String? = null) {
+    fun command(action: NetworkAction, turnId: TurnId? = null, checkId: CheckId? = null, text: String = "", sessionId: Long? = null, targetPlayerId: String? = null, narrationId: String? = null, scenarioId: String? = null) {
         val session = socket ?: return
         if (state.value.status != ConnectionStatus.CONNECTED || state.value.busy) return
         val id = ++requestId
@@ -139,7 +139,7 @@ class NetworkGameClient(private val scope: CoroutineScope) {
         }
         scope.launch {
             try {
-                session.sendSerialized<ClientMessage>(ClientMessage.Command(id, action, turnId, checkId, text, sessionId, targetPlayerId, narrationId))
+                session.sendSerialized<ClientMessage>(ClientMessage.Command(id, action, turnId, checkId, text, sessionId, targetPlayerId, narrationId, scenarioId))
             } catch (e: CancellationException) {
                 throw e
             } catch (_: Exception) {

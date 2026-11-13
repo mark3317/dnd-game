@@ -55,15 +55,15 @@ class AdventureEngineTest {
     fun pendingCheckBlocksAdditionalActionsAndRollsOnlyOnce() {
         val dice = FixedDice(10)
         val engine = AdventureEngine(dice)
-        val pending = engine.submit(engine.solo(), DemoAction.SIGNAL.text)
+        val pending = engine.submit(engine.solo(), Lighthouse.SIGNAL.text)
         val id = pending.pendingCheck!!.id
-        assertSame(pending, engine.submit(pending, DemoAction.CLIMB.text))
+        assertSame(pending, engine.submit(pending, Lighthouse.CLIMB.text))
         assertEquals(0, dice.calls)
         val result = engine.roll(pending, id)
         assertEquals(1, dice.calls)
-        assertEquals(Ending.SIGNAL_GIVEN, result.ending)
+        assertEquals(Lighthouse.SIGNAL_GIVEN, result.ending)
         assertSame(result, engine.roll(result, id))
-        assertSame(result, engine.submit(result, DemoAction.LOOK.text))
+        assertSame(result, engine.submit(result, Lighthouse.LOOK.text))
         assertEquals(1, dice.calls)
     }
 
@@ -71,14 +71,14 @@ class AdventureEngineTest {
     fun cancellingBeforeRollKeepsTimeAndHealthAndInvalidatesRequest() {
         val dice = FixedDice(1)
         val engine = AdventureEngine(dice)
-        val pending = engine.submit(engine.solo(), DemoAction.CLIMB.text)
+        val pending = engine.submit(engine.solo(), Lighthouse.CLIMB.text)
         val id = pending.pendingCheck!!.id
         val cancelled = engine.cancelCheck(pending, id)
         assertTrue(cancelled.canAct)
         assertEquals(pending.checksRemaining, cancelled.checksRemaining)
         assertEquals(pending.activePlayer.hero, cancelled.activePlayer.hero)
         assertSame(cancelled, engine.roll(cancelled, id))
-        val another = engine.submit(cancelled, DemoAction.CLIMB.text)
+        val another = engine.submit(cancelled, Lighthouse.CLIMB.text)
         assertFalse(id == another.pendingCheck!!.id)
         assertSame(another, engine.roll(another, id))
         assertEquals(0, dice.calls)
@@ -87,13 +87,13 @@ class AdventureEngineTest {
     @Test
     fun repairRouteUsesModifiersAndMeetingDifficultySucceeds() {
         val engine = AdventureEngine(FixedDice(7, 11))
-        val climb = engine.submit(engine.solo(), DemoAction.CLIMB.text)
+        val climb = engine.submit(engine.solo(), Lighthouse.CLIMB.text)
         val upstairs = engine.roll(climb, climb.pendingCheck!!.id)
-        assertEquals(Location.LANTERN_ROOM, upstairs.location)
+        assertEquals(Lighthouse.LANTERN_ROOM, upstairs.location)
         assertEquals(2, upstairs.checksRemaining)
-        val repair = engine.submit(upstairs, DemoAction.REPAIR.text)
+        val repair = engine.submit(upstairs, Lighthouse.REPAIR.text)
         val ending = engine.roll(repair, repair.pendingCheck!!.id)
-        assertEquals(Ending.LIGHTHOUSE_LIT, ending.ending)
+        assertEquals(Lighthouse.LIGHTHOUSE_LIT, ending.ending)
         val rolls = ending.journal.mapNotNull { it.roll }
         assertEquals(listOf(10, 12), rolls.map { it.total })
         assertTrue(rolls.all { it.succeeded })
@@ -103,11 +103,11 @@ class AdventureEngineTest {
     @Test
     fun failedClimbCostsHealthAndTimeWithoutChangingLocation() {
         val engine = AdventureEngine(FixedDice(1))
-        val state = engine.submit(engine.solo(), DemoAction.CLIMB.text)
+        val state = engine.submit(engine.solo(), Lighthouse.CLIMB.text)
         val failed = engine.roll(state, state.pendingCheck!!.id)
         assertEquals(10, failed.activePlayer.hero.health)
         assertEquals(2, failed.checksRemaining)
-        assertEquals(Location.SHORE, failed.location)
+        assertEquals(Lighthouse.SHORE, failed.location)
         assertNull(failed.pendingCheck)
         assertNull(failed.ending)
     }
@@ -115,10 +115,10 @@ class AdventureEngineTest {
     @Test
     fun successfulSignalOnLastTurnWinsInsteadOfTimingOut() {
         val engine = AdventureEngine(FixedDice(10))
-        val state = engine.submit(engine.solo().copy(checksRemaining = 1), DemoAction.SIGNAL.text)
+        val state = engine.submit(engine.solo().copy(checksRemaining = 1), Lighthouse.SIGNAL.text)
         val ending = engine.roll(state, state.pendingCheck!!.id)
         assertEquals(0, ending.checksRemaining)
-        assertEquals(Ending.SIGNAL_GIVEN, ending.ending)
+        assertEquals(Lighthouse.SIGNAL_GIVEN, ending.ending)
     }
 
     @Test
@@ -127,21 +127,21 @@ class AdventureEngineTest {
         val engine = AdventureEngine(dice)
         var state = engine.solo()
         repeat(3) {
-            state = engine.submit(state, DemoAction.SIGNAL.text)
+            state = engine.submit(state, Lighthouse.SIGNAL.text)
             state = engine.roll(state, state.pendingCheck!!.id)
         }
-        assertEquals(Ending.FERRY_LOST, state.ending)
+        assertEquals(Lighthouse.FERRY_LOST, state.ending)
         assertEquals(0, state.checksRemaining)
         assertFalse(state.canAct)
         assertNull(state.pendingCheck)
-        assertSame(state, engine.submit(state, DemoAction.SIGNAL.text))
+        assertSame(state, engine.submit(state, Lighthouse.SIGNAL.text))
         assertEquals(3, dice.calls)
     }
 
     @Test
     fun prototypeHasNoAutomaticSuccessOnNaturalTwenty() {
         val engine = AdventureEngine(FixedDice(20))
-        val pending = engine.submit(engine.solo(), DemoAction.SIGNAL.text)
+        val pending = engine.submit(engine.solo(), Lighthouse.SIGNAL.text)
         val impossibleForThisRoll = pending.copy(pendingCheck = pending.pendingCheck!!.copy(difficulty = 25))
         val state = engine.roll(impossibleForThisRoll, impossibleForThisRoll.pendingCheck!!.id)
         assertFalse(state.journal.mapNotNull { it.roll }.single().succeeded)
@@ -152,8 +152,8 @@ class AdventureEngineTest {
     fun previousSessionRequestCannotResolveNewSessionCheck() {
         val dice = FixedDice(10)
         val engine = AdventureEngine(dice)
-        val old = engine.submit(engine.solo(1), DemoAction.SIGNAL.text)
-        val fresh = engine.submit(engine.solo(2), DemoAction.SIGNAL.text)
+        val old = engine.submit(engine.solo(1), Lighthouse.SIGNAL.text)
+        val fresh = engine.submit(engine.solo(2), Lighthouse.SIGNAL.text)
         assertSame(fresh, engine.roll(fresh, old.pendingCheck!!.id))
         assertEquals(0, dice.calls)
     }
@@ -161,7 +161,7 @@ class AdventureEngineTest {
     @Test
     fun invalidDiceSourceCannotProduceAnOutcome() {
         val engine = AdventureEngine(FixedDice(21))
-        val state = engine.submit(engine.solo(), DemoAction.SIGNAL.text)
+        val state = engine.submit(engine.solo(), Lighthouse.SIGNAL.text)
         assertFailsWith<IllegalArgumentException> { engine.roll(state, state.pendingCheck!!.id) }
         assertEquals(3, state.checksRemaining)
         assertNull(state.ending)

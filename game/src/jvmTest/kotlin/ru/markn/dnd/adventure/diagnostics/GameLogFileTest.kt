@@ -10,7 +10,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import ru.markn.dnd.adventure.AdventureEngine
-import ru.markn.dnd.adventure.DemoAction
+import ru.markn.dnd.adventure.Lighthouse
 import ru.markn.dnd.adventure.DiceRoller
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -27,7 +27,7 @@ class GameLogFileTest {
         )
         val engine = AdventureEngine(DiceRoller { 7 }, GameLogger { event -> kermit.i { event.toJsonLine() } })
         val initial = engine.newGame()
-        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, DemoAction.CLIMB.text)
+        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, Lighthouse.CLIMB.text)
         val checkId = requireNotNull(pending.pendingCheck).id
         val next = engine.roll(pending, pending.activePlayer.id, checkId)
         engine.roll(next, initial.activePlayer.id, checkId)

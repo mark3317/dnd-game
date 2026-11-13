@@ -1,6 +1,5 @@
 package ru.markn.dnd.adventure.ui
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -17,11 +16,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.font.FontFamily
@@ -61,7 +55,7 @@ fun AdventureScreen(
                 ) {
                     Column(Modifier.weight(1f)) {
                         Text("ИСТОРИИ У КОСТРА", color = AdventureGold, fontSize = 10.sp, letterSpacing = 2.sp)
-                        Text("Погасший маяк", fontFamily = FontFamily.Serif, fontSize = if (wide) 28.sp else 22.sp)
+                        Text(state.scenario.title, fontFamily = FontFamily.Serif, fontSize = if (wide) 28.sp else 22.sp)
                     }
                     TextButton(onClick = { showRules = true }) { Text("Правила") }
                     TextButton(onClick = { showRestart = true }, enabled = restartEnabled) { Text("Заново") }
@@ -74,14 +68,13 @@ fun AdventureScreen(
                                 .verticalScroll(rememberScrollState()).padding(20.dp),
                             verticalArrangement = Arrangement.spacedBy(20.dp),
                         ) {
-                            LighthouseArt(Modifier.fillMaxWidth().height(150.dp))
                             PartyPanel(state)
-                            HeroPanel(state.activePlayer.hero)
+                            HeroPanel(state.activePlayer.hero, state.scenario.items)
                             Text(
                                 "ЦЕЛЬ ПРИКЛЮЧЕНИЯ",
                                 color = AdventureGold, fontSize = 10.sp, letterSpacing = 1.5.sp,
                             )
-                            Text("Предупредить паром об отмели — вернуть свет маяка или подать сигнал.")
+                            Text(state.scenario.goal)
                             Text(
                                 if (aiNarrator) "Claude ведёт диалоги и понимает свободный текст в рамках пробного сюжета. Правила и броски выполняет сервер."
                                 else "Короткий пробный сюжет. Ведущий отвечает по сценарию.",
@@ -97,12 +90,12 @@ fun AdventureScreen(
                         SceneHeading(state, compact = !wide)
                         Journal(state, Modifier.weight(1f).fillMaxWidth())
                         when {
-                            ending != null && restartEnabled -> EndingPanel(ending, onRestart)
-                            ending != null -> Text(ending.description + "\nПерезапустить историю может ведущий комнаты.", Modifier.padding(20.dp))
+                            ending != null && restartEnabled -> EndingPanel(requireNotNull(state.outcome), onRestart)
+                            ending != null -> Text(requireNotNull(state.outcome).description + "\nПерезапустить историю может ведущий комнаты.", Modifier.padding(20.dp))
                             !commandsEnabled || (controllingPlayerId != null && controllingPlayerId != state.activePlayer.id) ->
                                 Text(if (!commandsEnabled) "Ожидаем соединение или ответ сервера…" else "Сейчас ходит " + state.activePlayer.name + ". Дождитесь своей очереди.", Modifier.fillMaxWidth().padding(20.dp))
                             pendingCheck != null -> CheckPanel(
-                                pendingCheck, state.activePlayer.hero,
+                                pendingCheck, state,
                                 onRoll = { onRoll(state.activePlayer.id, it) },
                                 onCancel = { onCancelCheck(state.activePlayer.id, it) },
                             )
@@ -127,7 +120,7 @@ fun AdventureScreen(
             title = { Text(state.activePlayer.name) },
             text = {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
-                    HeroPanel(state.activePlayer.hero)
+                    HeroPanel(state.activePlayer.hero, state.scenario.items)
                 }
             },
             confirmButton = { TextButton(onClick = { showHero = false }) { Text("Закрыть") } },
@@ -152,9 +145,9 @@ fun AdventureScreen(
                 Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text("Для рискованного действия: d20 + модификатор характеристики. Итог не ниже сложности — успех. Особых эффектов для 1 и 20 пока нет.")
                     Text("Играйте по очереди: по сети каждый управляет своим героем, локально — на одном устройстве. Завершённое действие передаёт ход следующему участнику. Действие с кубиком завершается после броска; отмена до броска сохраняет ход. Кнопка «Передать ход» позволяет пропустить очередь.")
-                    Text("У каждого героя свои характеристики, здоровье и позиция. Каждая проверка расходует одну из трёх общих попыток до прибытия парома. Осмотр, разговор и пропуск запас проверок не расходуют.")
-                    Text("Сигнал фонарём или починка маяка завершают историю успехом. Неудача на лестнице отнимает 2 HP. Если попытки закончились, паром попадает на мель.")
-                    Text(if (aiNarrator) "Это предварительные правила одного эпизода. Опишите осмотр, разговор, подъём, починку или сигнал своими словами. Другие действия ведущий предложит уточнить."
+                    Text("У каждого героя свои характеристики, здоровье и позиция. Начальный запас проверок: ${state.scenario.checkBudget}. Любой бросок расходует одну проверку, осмотр, разговор и безопасные действия — только передают ход.")
+                    Text(state.scenario.goal + " Условия действий зависят от места, снаряжения и предыдущих событий. Последняя успешная проверка ещё может завершить историю победой.")
+                    Text(if (aiNarrator) "Это предварительные правила коротких приключений. Опишите свой способ действия или передайте предмет герою рядом. Ведущий учитывает выбранный сюжет. Перед броском показаны последствия успеха и провала."
                         else "Это предварительные правила одного эпизода. Ведущий пока понимает только действия из подсказок — их также можно написать вручную.")
                 }
             },
@@ -204,7 +197,7 @@ private fun PartyMember(player: Player, state: AdventureState, compact: Boolean)
                 "${player.name} · ${player.hero.health}/${player.hero.maxHealth} HP",
                 color = AdventureMuted, style = MaterialTheme.typography.bodySmall,
             )
-            Text(player.location.title, color = AdventureMuted, style = MaterialTheme.typography.labelSmall)
+            Text(state.scenario.sites.getValue(player.location).title, color = AdventureMuted, style = MaterialTheme.typography.labelSmall)
         }
     }
 }
@@ -217,16 +210,16 @@ private fun SceneHeading(state: AdventureState, compact: Boolean) {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                if (state.ending == null) "ТУМАННЫЙ БЕРЕГ" else "ЭПИЛОГ",
+                if (state.ending == null) state.scenario.atmosphere.uppercase() else "ЭПИЛОГ",
                 color = AdventureGold, fontSize = 10.sp, letterSpacing = 1.5.sp, modifier = Modifier.weight(1f),
             )
             Text(
-                if (state.ending != null) "История завершена" else "Проверок до парома: ${state.checksRemaining}",
+                if (state.ending != null) "История завершена" else "${state.scenario.pressure}: ${state.checksRemaining}",
                 color = if (state.checksRemaining <= 1 && state.ending == null) MaterialTheme.colorScheme.error else AdventureMuted,
                 style = MaterialTheme.typography.labelMedium,
             )
         }
-        Text(state.ending?.title ?: state.location.title, fontFamily = FontFamily.Serif, fontSize = 22.sp)
+        Text(state.outcome?.title ?: state.scenario.sites.getValue(state.location).title, fontFamily = FontFamily.Serif, fontSize = 22.sp)
         if (state.ending == null) {
             Text(
                 "Ход: ${state.activePlayer.name} · ${state.activePlayer.hero.name} · Круг ${state.turnOrder.roundNumber}",
@@ -235,7 +228,7 @@ private fun SceneHeading(state: AdventureState, compact: Boolean) {
         }
         if (!compact) {
             Text(
-                "Вернуть свет или предупредить паром другим способом.",
+                state.scenario.goal,
                 color = AdventureMuted, style = MaterialTheme.typography.bodySmall,
             )
         }
@@ -243,7 +236,7 @@ private fun SceneHeading(state: AdventureState, compact: Boolean) {
 }
 
 @Composable
-private fun HeroPanel(hero: Hero) {
+private fun HeroPanel(hero: Hero, itemNames: Map<String, String>) {
     Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
         Column {
             Text("ВАШ ПЕРСОНАЖ", color = AdventureGold, fontSize = 10.sp, letterSpacing = 1.5.sp)
@@ -274,7 +267,7 @@ private fun HeroPanel(hero: Hero) {
             }
         }
         Text("СНАРЯЖЕНИЕ", color = AdventureMuted, fontSize = 10.sp, letterSpacing = 1.sp)
-        hero.inventory.forEach { Text("— $it", style = MaterialTheme.typography.bodySmall) }
+        hero.inventory.forEach { Text("— ${itemNames.getValue(it)}", style = MaterialTheme.typography.bodySmall) }
     }
 }
 
@@ -398,7 +391,7 @@ private fun ActionComposer(
 
 @Composable
 private fun CheckPanel(
-    check: PendingCheck, hero: Hero, onRoll: (CheckId) -> Unit, onCancel: (CheckId) -> Unit,
+    check: PendingCheck, state: AdventureState, onRoll: (CheckId) -> Unit, onCancel: (CheckId) -> Unit,
 ) {
     Column(
         Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(16.dp),
@@ -407,9 +400,18 @@ private fun CheckPanel(
         Text("НУЖНА ПРОВЕРКА", color = AdventureGold, fontSize = 10.sp, letterSpacing = 1.sp)
         Text(check.description)
         Text(
-            "${check.ability.title} · d20 ${signed(hero.modifier(check.ability))} · сложность ${check.difficulty}",
+            "${check.ability.title} · d20 ${signed(state.activePlayer.hero.modifier(check.ability))} · сложность ${check.difficulty}",
             color = AdventureMuted, style = MaterialTheme.typography.bodySmall,
         )
+        check.plan?.let { plan ->
+            Text("При успехе: " + plan.onSuccess.joinToString(" ") { SceneRules.describe(state, it) },
+                style = MaterialTheme.typography.bodySmall)
+            Text("При провале: " + if (plan.onFailure.isEmpty()) "сцена не изменится." else
+                plan.onFailure.joinToString(" ") { SceneRules.describe(state, it) },
+                style = MaterialTheme.typography.bodySmall)
+            Text("Бросок расходует одну общую проверку при любом исходе. До броска можно отменить попытку.",
+                color = AdventureMuted, style = MaterialTheme.typography.bodySmall)
+        }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
             Button(onClick = { onRoll(check.id) }) { Text("Бросить d20") }
             TextButton(onClick = { onCancel(check.id) }) { Text("Выбрать другое действие") }
@@ -418,14 +420,14 @@ private fun CheckPanel(
 }
 
 @Composable
-private fun EndingPanel(ending: Ending, onRestart: () -> Unit) {
+private fun EndingPanel(ending: Outcome, onRestart: () -> Unit) {
     Column(
         Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Text(
-            if (ending == Ending.FERRY_LOST) "Приключение окончено" else "Цель достигнута",
-            color = if (ending == Ending.FERRY_LOST) MaterialTheme.colorScheme.error else AdventureGreen,
+            if (!ending.success) "Приключение окончено" else "Цель достигнута",
+            color = if (!ending.success) MaterialTheme.colorScheme.error else AdventureGreen,
             fontWeight = FontWeight.SemiBold,
         )
         Text("Попробуйте другой путь или начните новую попытку.", color = AdventureMuted, style = MaterialTheme.typography.bodySmall)
@@ -433,50 +435,12 @@ private fun EndingPanel(ending: Ending, onRestart: () -> Unit) {
     }
 }
 
-@Composable
-private fun LighthouseArt(modifier: Modifier) {
-    Canvas(modifier.background(Color(0xFF1B303B), RoundedCornerShape(16.dp))) {
-        val w = size.width
-        val h = size.height
-        drawCircle(Color(0xFFBACAC6).copy(alpha = 0.25f), h * 0.17f, Offset(w * 0.25f, h * 0.29f))
-        val beam = Path().apply {
-            moveTo(w * 0.66f, h * 0.29f)
-            lineTo(w * 0.02f, h * 0.02f)
-            lineTo(w * 0.02f, h * 0.65f)
-            close()
-        }
-        drawPath(beam, Brush.horizontalGradient(listOf(Color.Transparent, AdventureGold.copy(alpha = 0.12f))))
-        drawRect(Color(0xFF0F212A), Offset(0f, h * 0.77f), Size(w, h * 0.23f))
-        val tower = Path().apply {
-            moveTo(w * 0.58f, h * 0.77f)
-            lineTo(w * 0.61f, h * 0.37f)
-            lineTo(w * 0.72f, h * 0.37f)
-            lineTo(w * 0.76f, h * 0.77f)
-            close()
-        }
-        drawPath(tower, Color(0xFF8D9B9E))
-        drawRect(AdventureGold.copy(alpha = 0.65f), Offset(w * 0.61f, h * 0.24f), Size(w * 0.11f, h * 0.12f))
-        drawLine(Color(0xFF0F212A), Offset(w * 0.585f, h * 0.23f), Offset(w * 0.745f, h * 0.23f), 5.dp.toPx())
-        drawLine(Color(0xFF0F212A), Offset(w * 0.58f, h * 0.38f), Offset(w * 0.75f, h * 0.38f), 5.dp.toPx())
-        repeat(3) { index ->
-            val y = h * (0.84f + index * 0.055f)
-            drawLine(Color(0xFF54717D).copy(alpha = 0.35f), Offset(w * 0.12f, y), Offset(w * 0.85f, y), 1.dp.toPx())
-        }
-    }
-}
-
 private fun signed(value: Int): String = if (value >= 0) "+$value" else "−${-value}"
+
 @Preview
 @Composable
 private fun AdventurePreview() {
     AdventureTheme {
-        AdventureScreen(
-            state = AdventureEngine().newGame(),
-            onSubmit = { _, _, _ -> },
-            onRoll = { _, _ -> },
-            onCancelCheck = { _, _ -> },
-            onEndTurn = { _, _ -> },
-            onRestart = {},
-        )
+        AdventureScreen(AdventureEngine().newGame(), { _, _, _ -> }, { _, _ -> }, { _, _ -> }, { _, _ -> }, {})
     }
 }

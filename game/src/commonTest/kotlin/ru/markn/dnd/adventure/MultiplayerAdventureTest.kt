@@ -13,7 +13,7 @@ class MultiplayerAdventureTest {
         override fun roll(sides: Int): Int = values[calls++]
     }
 
-    private fun AdventureEngine.act(state: AdventureState, action: DemoAction): AdventureState =
+    private fun AdventureEngine.act(state: AdventureState, action: ScenarioAction): AdventureState =
         submit(state, state.activePlayer.id, state.turnId, action.text)
 
     private fun AdventureEngine.pass(state: AdventureState): AdventureState =
@@ -31,7 +31,7 @@ class MultiplayerAdventureTest {
         assertEquals(order.first(), state.activePlayer.id)
         order.indices.forEach { index ->
             assertEquals(order[index], state.activePlayer.id)
-            state = engine.act(state, DemoAction.LOOK)
+            state = engine.act(state, Lighthouse.LOOK)
         }
         assertEquals(order.first(), state.activePlayer.id)
         assertEquals(2, state.turnOrder.roundNumber)
@@ -44,9 +44,9 @@ class MultiplayerAdventureTest {
         val engine = AdventureEngine()
         val state = engine.newGame()
         val other = state.players[1].id
-        assertSame(state, engine.submit(state, other, state.turnId, DemoAction.LOOK.text))
+        assertSame(state, engine.submit(state, other, state.turnId, Lighthouse.LOOK.text))
         assertSame(state, engine.endTurn(state, other, state.turnId))
-        assertSame(state, engine.submit(state, "unknown-player", state.turnId, DemoAction.LOOK.text))
+        assertSame(state, engine.submit(state, "unknown-player", state.turnId, Lighthouse.LOOK.text))
     }
 
     @Test
@@ -56,7 +56,7 @@ class MultiplayerAdventureTest {
         var state = initial
         repeat(state.players.size) { state = engine.pass(state) }
         assertEquals(initial.activePlayer.id, state.activePlayer.id)
-        assertSame(state, engine.submit(state, initial.activePlayer.id, initial.turnId, DemoAction.SIGNAL.text))
+        assertSame(state, engine.submit(state, initial.activePlayer.id, initial.turnId, Lighthouse.SIGNAL.text))
         assertSame(state, engine.endTurn(state, initial.activePlayer.id, initial.turnId))
     }
 
@@ -75,7 +75,7 @@ class MultiplayerAdventureTest {
     fun pendingCheckLocksTurnAndOnlyItsOwnerCanResolveOrCancel() {
         val dice = FixedDice(7)
         val engine = AdventureEngine(dice)
-        val state = engine.act(engine.newGame(), DemoAction.CLIMB)
+        val state = engine.act(engine.newGame(), Lighthouse.CLIMB)
         val request = state.pendingCheck!!
         val other = state.players[1].id
         assertEquals(state.activePlayer.id, request.playerId)
@@ -83,7 +83,7 @@ class MultiplayerAdventureTest {
         assertSame(state, engine.roll(state, other, request.id))
         assertSame(state, engine.cancelCheck(state, other, request.id))
         assertSame(state, engine.pass(state))
-        assertSame(state, engine.act(state, DemoAction.LOOK))
+        assertSame(state, engine.act(state, Lighthouse.LOOK))
         assertEquals(0, dice.calls)
         val cancelled = engine.cancelCheck(state, request.playerId, request.id)
         assertEquals(state.turnId, cancelled.turnId)
@@ -97,17 +97,17 @@ class MultiplayerAdventureTest {
     fun eachRollUsesItsOwnersModifiersHealthAndLocation() {
         val engine = AdventureEngine(FixedDice(7, 7))
         val initial = engine.newGame()
-        val rinUpstairs = engine.resolve(engine.act(initial, DemoAction.CLIMB))
+        val rinUpstairs = engine.resolve(engine.act(initial, Lighthouse.CLIMB))
         assertEquals(initial.players[1].id, rinUpstairs.activePlayer.id)
-        assertEquals(Location.LANTERN_ROOM, rinUpstairs.players[0].location)
-        assertEquals(Location.SHORE, rinUpstairs.activePlayer.location)
+        assertEquals(Lighthouse.LANTERN_ROOM, rinUpstairs.players[0].location)
+        assertEquals(Lighthouse.SHORE, rinUpstairs.activePlayer.location)
 
-        val miraFalls = engine.resolve(engine.act(rinUpstairs, DemoAction.CLIMB))
+        val miraFalls = engine.resolve(engine.act(rinUpstairs, Lighthouse.CLIMB))
         assertEquals(12, miraFalls.players[0].hero.health)
         assertEquals(8, miraFalls.players[1].hero.health)
         assertEquals(initial.players[2], miraFalls.players[2])
-        assertEquals(Location.SHORE, miraFalls.players[1].location)
-        assertEquals(Location.LANTERN_ROOM, miraFalls.players[0].location)
+        assertEquals(Lighthouse.SHORE, miraFalls.players[1].location)
+        assertEquals(Lighthouse.LANTERN_ROOM, miraFalls.players[0].location)
         assertEquals(initial.players[2].id, miraFalls.activePlayer.id)
         assertEquals(listOf(10, 8), miraFalls.journal.mapNotNull { it.roll?.total })
         assertEquals(initial.players.take(2).map { it.id }, miraFalls.journal.mapNotNull { it.roll?.playerId })
@@ -117,8 +117,8 @@ class MultiplayerAdventureTest {
     @Test
     fun anotherPlayerCannotRepairUsingTheFirstPlayersLocation() {
         val engine = AdventureEngine(FixedDice(7))
-        val state = engine.resolve(engine.act(engine.newGame(), DemoAction.CLIMB))
-        val blocked = engine.act(state, DemoAction.REPAIR)
+        val state = engine.resolve(engine.act(engine.newGame(), Lighthouse.CLIMB))
+        val blocked = engine.act(state, Lighthouse.REPAIR)
         assertNull(blocked.pendingCheck)
         assertNull(blocked.ending)
         assertEquals(state.turnId, blocked.turnId)
@@ -130,7 +130,7 @@ class MultiplayerAdventureTest {
     fun journalKeepsOriginalAuthorWhenActivePlayerChanges() {
         val engine = AdventureEngine()
         val initial = engine.newGame()
-        val state = engine.act(initial, DemoAction.TALK)
+        val state = engine.act(initial, Lighthouse.TALK)
         val action = state.journal.first { it.kind == EntryKind.PLAYER }
         assertEquals(initial.activePlayer.id, action.playerId)
         assertEquals("Рин", action.actorName)
@@ -157,13 +157,13 @@ class MultiplayerAdventureTest {
         val dice = FixedDice(10)
         val engine = AdventureEngine(dice)
         val initial = engine.pass(engine.newGame()).copy(checksRemaining = 1)
-        val pending = engine.act(initial, DemoAction.SIGNAL)
+        val pending = engine.act(initial, Lighthouse.SIGNAL)
         val ending = engine.resolve(pending)
-        assertEquals(Ending.SIGNAL_GIVEN, ending.ending)
+        assertEquals(Lighthouse.SIGNAL_GIVEN, ending.ending)
         assertEquals(initial.turnId, ending.turnId)
         assertEquals(0, ending.checksRemaining)
         assertSame(ending, engine.pass(ending))
-        assertSame(ending, engine.act(ending, DemoAction.LOOK))
+        assertSame(ending, engine.act(ending, Lighthouse.LOOK))
         assertSame(ending, engine.roll(ending, pending.activePlayer.id, pending.pendingCheck!!.id))
         assertEquals(1, dice.calls)
     }
@@ -172,8 +172,8 @@ class MultiplayerAdventureTest {
     fun sharedCountdownEndsTheGameForEveryone() {
         val engine = AdventureEngine(FixedDice(1, 1, 1))
         var state = engine.newGame()
-        repeat(3) { state = engine.resolve(engine.act(state, DemoAction.SIGNAL)) }
-        assertEquals(Ending.FERRY_LOST, state.ending)
+        repeat(3) { state = engine.resolve(engine.act(state, Lighthouse.SIGNAL)) }
+        assertEquals(Lighthouse.FERRY_LOST, state.ending)
         assertEquals(state.players[2].id, state.activePlayer.id)
         assertEquals(3, state.turnOrder.turnNumber)
         assertEquals(0, state.checksRemaining)
@@ -184,11 +184,11 @@ class MultiplayerAdventureTest {
     fun oldSessionCannotActOrRollInFreshGame() {
         val dice = FixedDice(10)
         val engine = AdventureEngine(dice)
-        val old = engine.act(engine.newGame(1), DemoAction.SIGNAL)
-        val fresh = engine.act(engine.newGame(2), DemoAction.SIGNAL)
+        val old = engine.act(engine.newGame(1), Lighthouse.SIGNAL)
+        val fresh = engine.act(engine.newGame(2), Lighthouse.SIGNAL)
         assertSame(fresh, engine.roll(fresh, old.activePlayer.id, old.pendingCheck!!.id))
         val freshStart = engine.newGame(2)
-        assertSame(freshStart, engine.submit(freshStart, old.activePlayer.id, old.turnId, DemoAction.LOOK.text))
+        assertSame(freshStart, engine.submit(freshStart, old.activePlayer.id, old.turnId, Lighthouse.LOOK.text))
         assertEquals(1, freshStart.turnOrder.turnNumber)
         assertEquals(1, freshStart.turnOrder.roundNumber)
         assertEquals(0, dice.calls)
@@ -198,10 +198,10 @@ class MultiplayerAdventureTest {
     fun onePlayerStillGetsANewTurnTokenAfterAnAction() {
         val engine = AdventureEngine()
         val initial = engine.newGame(players = AdventureEngine.demoPlayers().take(1))
-        val next = engine.act(initial, DemoAction.LOOK)
+        val next = engine.act(initial, Lighthouse.LOOK)
         assertEquals(initial.activePlayer.id, next.activePlayer.id)
         assertEquals(2, next.turnOrder.roundNumber)
-        assertSame(next, engine.submit(next, initial.activePlayer.id, initial.turnId, DemoAction.LOOK.text))
+        assertSame(next, engine.submit(next, initial.activePlayer.id, initial.turnId, Lighthouse.LOOK.text))
     }
 
     @Test

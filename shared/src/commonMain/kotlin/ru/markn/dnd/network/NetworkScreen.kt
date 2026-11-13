@@ -9,6 +9,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ru.markn.dnd.adventure.ui.AdventureScreen
+import ru.markn.dnd.adventure.ui.ScenarioPicker
 
 @Composable
 fun NetworkScreen(client: NetworkGameClient, state: NetworkState, onLocal: () -> Unit) {
@@ -76,6 +77,9 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, onLocal: () ->
                     verticalArrangement = Arrangement.spacedBy(14.dp)) {
                     Text("Ожидаем друзей", style = MaterialTheme.typography.headlineSmall)
                     Text("Код для приглашения: ${room.code}")
+                    ScenarioPicker(room.scenarioId, enabled = host && available) { id ->
+                        client.command(NetworkAction.SELECT_SCENARIO, scenarioId = id)
+                    }
                     room.members.forEach {
                         Text("${it.player.name} · ${it.player.hero.name} · ${if (it.online) "в сети" else "отключён"}${if (it.player.id == room.hostPlayerId) " · ведущий комнаты" else ""}")
                     }

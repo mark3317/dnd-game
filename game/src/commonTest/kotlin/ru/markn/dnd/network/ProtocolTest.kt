@@ -7,7 +7,7 @@ class ProtocolTest {
     @Test fun gameStateAndCommandsRoundTripWithCyrillicAndEscapedText() {
         val engine = AdventureEngine(DiceRoller { 10 })
         val game = engine.newGame()
-        val check = engine.submit(game, game.activePlayer.id, game.turnId, DemoAction.CLIMB.text)
+        val check = engine.submit(game, game.activePlayer.id, game.turnId, Lighthouse.CLIMB.text)
         val room = RoomView("ABC123", game.activePlayer.id, game.players.map { RoomMember(it, true) }, check, 2)
         val snapshot: ServerMessage = ServerMessage.Snapshot(room)
         assertEquals(snapshot, GameWireJson.decodeFromString<ServerMessage>(GameWireJson.encodeToString(snapshot)))

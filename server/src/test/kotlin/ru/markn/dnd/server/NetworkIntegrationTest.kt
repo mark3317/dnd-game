@@ -33,7 +33,7 @@ class NetworkIntegrationTest {
             b.command(NetworkAction.PASS, turnId = turn)
             val rejected = withTimeout(10_000) { b.state.first { !it.busy && it.error != null } }
             assertEquals(turn, rejected.room!!.adventure!!.turnId)
-            a.command(NetworkAction.SUBMIT, turnId = turn, text = DemoAction.CLIMB.text)
+            a.command(NetworkAction.SUBMIT, turnId = turn, text = Lighthouse.CLIMB.text)
             val checkA = withTimeout(10_000) { a.state.first { it.room?.adventure?.pendingCheck != null && !it.busy } }
             val check = checkA.room!!.adventure!!.pendingCheck!!
             a.command(NetworkAction.ROLL, checkId = check.id)

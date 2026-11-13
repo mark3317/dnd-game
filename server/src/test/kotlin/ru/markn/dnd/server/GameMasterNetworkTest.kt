@@ -35,9 +35,20 @@ class GameMasterNetworkTest {
             a.reconnect()
             val resumed = withTimeout(10_000) { a.state.first { it.status == ConnectionStatus.CONNECTED } }
             assertEquals(pending.room!!.pendingNarration, resumed.room!!.pendingNarration)
-            response.complete(GameMasterDecision(DemoAction.CLIMB, "Подняться по мокрой лестнице."))
+            val plan = SceneActionPlan("Подняться по внешней стене с верёвкой", ProposedCheck(Ability.STRENGTH, 10),
+                Lighthouse.ROPE, listOf(SceneEffect.Move(Lighthouse.LANTERN_ROOM)), listOf(SceneEffect.Damage(2)))
+            response.complete(GameMasterDecision(null, "Уже наверху!", plan))
             val check = withTimeout(10_000) { a.state.first { it.room?.adventure?.pendingCheck != null } }
                 .room!!.adventure!!.pendingCheck!!
+            assertEquals(plan, check.plan)
+            assertEquals(check, withTimeout(10_000) { b.state.first { it.room?.adventure?.pendingCheck != null } }
+                .room!!.adventure!!.pendingCheck)
+            b.command(NetworkAction.ROLL, checkId = check.id)
+            val refused = withTimeout(10_000) { b.state.first { !it.busy && it.error != null } }
+            assertEquals(check, refused.room!!.adventure!!.pendingCheck)
+            a.reconnect()
+            val ready = withTimeout(10_000) { a.state.first { it.status == ConnectionStatus.CONNECTED } }
+            assertEquals(check, ready.room!!.adventure!!.pendingCheck)
             a.command(NetworkAction.ROLL, checkId = check.id)
             val rolled = withTimeout(10_000) { a.state.first { it.room?.adventure?.turnId?.number == 2L && !it.busy } }
             val shared = withTimeout(10_000) { b.state.first { it.room?.adventure?.turnId?.number == 2L } }
@@ -45,6 +56,8 @@ class GameMasterNetworkTest {
             assertNull(rolled.room!!.pendingNarration)
             assertEquals(10, rolled.room!!.adventure!!.journal.mapNotNull { it.roll }.single().die)
             assertEquals(2, rolled.room!!.adventure!!.checksRemaining)
+            assertEquals(Lighthouse.LANTERN_ROOM, rolled.room!!.adventure!!.players.first().location)
+            assertFalse(rolled.room!!.adventure!!.journal.any { it.text == "Уже наверху!" })
         } finally {
             a.close(); b.close(); scope.cancel(); server.stop(100, 1_000)
         }

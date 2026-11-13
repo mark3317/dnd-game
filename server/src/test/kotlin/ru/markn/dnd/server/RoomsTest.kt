@@ -6,6 +6,32 @@ import ru.markn.dnd.adventure.*
 import ru.markn.dnd.network.*
 
 class RoomsTest {
+    @Test fun onlyHostSelectsKnownScenarioBeforeStartAndRestartPreservesIt() = runBlocking<Unit> {
+        val rooms = rooms()
+        val a = join(rooms, "A")
+        val b = join(rooms, "B", a.welcome.room.code)
+        val select = ClientMessage.Command(1, NetworkAction.SELECT_SCENARIO, scenarioId = FloodedArchive.ID)
+        assertNotNull(rooms.command(b.connection, select).error)
+        assertNotNull(rooms.command(a.connection, select.copy(scenarioId = "unknown")).error)
+        val selected = rooms.command(a.connection, select.copy(requestId = 2))
+        assertNull(selected.error)
+        assertEquals(FloodedArchive.ID, selected.room.scenarioId)
+        assertEquals(selected.room, b.connection.updates.value)
+        val started = rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.START)).room.adventure!!
+        assertEquals(FloodedArchive.ID, started.scenarioId)
+        assertEquals(4, started.checksRemaining)
+        assertTrue(started.players.all { it.location == FloodedArchive.HALL && Lighthouse.ROPE !in it.hero.inventory })
+        assertNotNull(rooms.command(a.connection, select.copy(requestId = 4, scenarioId = Lighthouse.ID)).error)
+        val read = rooms.command(a.connection, ClientMessage.Command(5, NetworkAction.SUBMIT,
+            turnId = started.turnId, text = "Прочитать опись")).room.adventure!!
+        assertTrue(FloodedArchive.INDEX_READ in read.scene.facts)
+        val restarted = rooms.command(a.connection, ClientMessage.Command(6, NetworkAction.RESTART, sessionId = started.sessionId)).room.adventure!!
+        assertEquals(FloodedArchive.ID, restarted.scenarioId)
+        assertTrue(restarted.scene.facts.isEmpty())
+        assertEquals(4, restarted.checksRemaining)
+        assertEquals(2L, restarted.sessionId)
+    }
+
     private fun rooms() = Rooms { AdventureEngine(DiceRoller { 10 }) }
     private suspend fun join(rooms: Rooms, name: String, code: String = "") = rooms.join(ClientMessage.Join(name, code))
 
@@ -37,7 +63,7 @@ class RoomsTest {
         rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START))
         val game = a.connection.updates.value.adventure!!
         val requested = rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.SUBMIT,
-            turnId = game.turnId, text = DemoAction.CLIMB.text)).room.adventure!!
+            turnId = game.turnId, text = Lighthouse.CLIMB.text)).room.adventure!!
         val check = requested.pendingCheck!!
         assertNotNull(rooms.command(b.connection, ClientMessage.Command(1, NetworkAction.ROLL, checkId = check.id)).error)
         val command = ClientMessage.Command(3, NetworkAction.ROLL, checkId = check.id)
@@ -47,7 +73,7 @@ class RoomsTest {
         assertEquals(1, rolls)
         val result = a.connection.updates.value.adventure!!
         assertEquals(2, result.checksRemaining)
-        assertEquals(Location.LANTERN_ROOM, result.players.first().location)
+        assertEquals(Lighthouse.LANTERN_ROOM, result.players.first().location)
         assertEquals(b.welcome.playerId, result.activePlayer.id)
     }
 
@@ -59,7 +85,7 @@ class RoomsTest {
         rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START))
         val turn = a.connection.updates.value.adventure!!.turnId
         val check = rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.SUBMIT,
-            turnId = turn, text = DemoAction.CLIMB.text)).room.adventure!!.pendingCheck!!
+            turnId = turn, text = Lighthouse.CLIMB.text)).room.adventure!!.pendingCheck!!
         val results = (3L..12L).map { id -> async(Dispatchers.Default) {
             rooms.command(a.connection, ClientMessage.Command(id, NetworkAction.ROLL, checkId = check.id))
         } }.awaitAll()
@@ -95,7 +121,7 @@ class RoomsTest {
         rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START))
         val turn = a.connection.updates.value.adventure!!.turnId
         assertNotNull(rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.SKIP_DISCONNECTED, turnId = turn)).error)
-        rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.SUBMIT, turnId = turn, text = DemoAction.CLIMB.text))
+        rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.SUBMIT, turnId = turn, text = Lighthouse.CLIMB.text))
         rooms.disconnect(a.connection)
         val skipped = rooms.command(b.connection, ClientMessage.Command(1, NetworkAction.SKIP_DISCONNECTED, turnId = turn))
         assertNull(skipped.error)

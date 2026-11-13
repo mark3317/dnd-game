@@ -23,17 +23,11 @@ data class Hero(
 }
 
 @kotlinx.serialization.Serializable
-enum class Location(val title: String) {
-    SHORE("У подножия маяка"),
-    LANTERN_ROOM("Фонарная комната"),
-}
-
-@kotlinx.serialization.Serializable
 data class Player(
     val id: String,
     val name: String,
     val hero: Hero,
-    val location: Location = Location.SHORE,
+    val location: String,
 ) {
     init {
         require(id.isNotBlank()) { "Player ID must not be blank" }
@@ -61,22 +55,6 @@ data class TurnOrder(val playerIds: List<String>, val turnNumber: Long = 1) {
 data class TurnId(val sessionId: Long, val number: Long)
 
 @kotlinx.serialization.Serializable
-enum class Ending(val title: String, val description: String) {
-    LIGHTHOUSE_LIT("Свет над рекой", "Маяк снова горит. Паром обходит отмель и добирается до пристани."),
-    SIGNAL_GIVEN("Огонь в тумане", "Сигнал замечен: паром останавливается перед отмелью. Люди спасены, хотя маяк ещё предстоит починить."),
-    FERRY_LOST("Слишком поздно", "Из тумана доносится удар о мель. Спасательный отряд уже собирается на берегу. Предупредить паром вовремя не удалось."),
-}
-
-@kotlinx.serialization.Serializable
-enum class DemoAction(val text: String) {
-    LOOK("Осмотреться"),
-    TALK("Поговорить с хранителем"),
-    CLIMB("Подняться к фонарю"),
-    REPAIR("Починить механизм"),
-    SIGNAL("Подать сигнал"),
-}
-
-@kotlinx.serialization.Serializable
 data class CheckId(val sessionId: Long, val actionId: Long)
 
 @kotlinx.serialization.Serializable
@@ -84,10 +62,11 @@ data class PendingCheck(
     val id: CheckId,
     val playerId: String,
     val turnId: TurnId,
-    val action: DemoAction,
+    val action: String?,
     val ability: Ability,
     val difficulty: Int,
     val description: String,
+    val plan: SceneActionPlan? = null,
 )
 
 @kotlinx.serialization.Serializable
@@ -124,7 +103,9 @@ data class AdventureState(
     val checksRemaining: Int = 3,
     val journal: List<JournalEntry>,
     val pendingCheck: PendingCheck? = null,
-    val ending: Ending? = null,
+    val ending: String? = null,
+    val scene: SceneState = SceneState(),
+    val scenarioId: String = Lighthouse.ID,
 ) {
     init {
         require(players.isNotEmpty()) { "An adventure needs at least one player" }
@@ -136,12 +117,13 @@ data class AdventureState(
 
     val activePlayer: Player get() = players.first { it.id == turnOrder.activePlayerId }
     val turnId: TurnId get() = TurnId(sessionId, turnOrder.turnNumber)
-    val location: Location get() = activePlayer.location
+    val scenario: ScenarioDefinition get() = requireNotNull(Scenarios.find(scenarioId)) { "Unknown scenario" }
+    val location: String get() = activePlayer.location
+    val outcome: Outcome? get() = ending?.let { scenario.endings.getValue(it) }
     val canAct: Boolean get() = pendingCheck == null && ending == null
-    val suggestions: List<DemoAction>
-        get() = if (location == Location.SHORE) {
-            listOf(DemoAction.LOOK, DemoAction.TALK, DemoAction.CLIMB, DemoAction.SIGNAL)
-        } else {
-            listOf(DemoAction.LOOK, DemoAction.TALK, DemoAction.REPAIR, DemoAction.SIGNAL)
+    val suggestions: List<ScenarioAction>
+        get() = scenario.actions.filter { action ->
+            (action.locations.isEmpty() || location in action.locations) &&
+                (action.plan == null || SceneRules.validate(this, requireNotNull(action.planFor(this))) == null)
         }
 }

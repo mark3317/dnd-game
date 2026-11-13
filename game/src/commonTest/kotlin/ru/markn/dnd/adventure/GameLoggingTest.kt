@@ -25,7 +25,7 @@ class GameLoggingTest {
         val initial = engine.newGame(sessionId = 42)
         assertEquals("session_started", logger.events.single().name)
         assertEquals("42", logger.events.single().fields["session"])
-        val next = engine.submit(initial, initial.activePlayer.id, initial.turnId, DemoAction.LOOK.text)
+        val next = engine.submit(initial, initial.activePlayer.id, initial.turnId, Lighthouse.LOOK.text)
         val changed = logger.events.last { it.name == "turn_changed" }
         assertEquals(initial.activePlayer.id, changed.fields["previous_player"])
         assertEquals(next.activePlayer.id, changed.fields["next_player"])
@@ -38,7 +38,7 @@ class GameLoggingTest {
         val logger = RecordingLogger()
         val engine = AdventureEngine(DiceRoller { 7 }, logger)
         val initial = engine.newGame()
-        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, DemoAction.CLIMB.text)
+        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, Lighthouse.CLIMB.text)
         val requested = logger.events.last { it.name == "check_requested" }
         assertEquals(initial.activePlayer.id, requested.fields["player"])
         assertEquals("10", requested.fields["difficulty"])
@@ -64,7 +64,7 @@ class GameLoggingTest {
         assertEquals("wrong_player", logger.events.last().fields["reason"])
         var next = initial
         repeat(initial.players.size) { next = engine.endTurn(next, next.activePlayer.id, next.turnId) }
-        assertSame(next, engine.submit(next, initial.activePlayer.id, initial.turnId, DemoAction.LOOK.text))
+        assertSame(next, engine.submit(next, initial.activePlayer.id, initial.turnId, Lighthouse.LOOK.text))
         assertEquals("command_rejected", logger.events.last().name)
         assertEquals("stale_turn", logger.events.last().fields["reason"])
         assertEquals("1", logger.events.last().fields["requested_turn"])
@@ -94,7 +94,7 @@ class GameLoggingTest {
         val logger = RecordingLogger()
         val engine = AdventureEngine(logger = logger)
         val initial = engine.newGame()
-        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, DemoAction.CLIMB.text)
+        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, Lighthouse.CLIMB.text)
         val count = logger.events.size
         val cancelled = engine.cancelCheck(pending, pending.activePlayer.id, pending.pendingCheck!!.id)
         val added = logger.events.drop(count)
@@ -110,9 +110,9 @@ class GameLoggingTest {
             logger = GameLogger { error("Log output unavailable") },
         )
         val initial = engine.newGame()
-        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, DemoAction.CLIMB.text)
+        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, Lighthouse.CLIMB.text)
         val next = engine.roll(pending, pending.activePlayer.id, pending.pendingCheck!!.id)
-        assertEquals(Location.LANTERN_ROOM, next.players.first().location)
+        assertEquals(Lighthouse.LANTERN_ROOM, next.players.first().location)
         assertEquals(initial.players[1].id, next.activePlayer.id)
     }
 
@@ -121,7 +121,7 @@ class GameLoggingTest {
         val logger = RecordingLogger()
         val engine = AdventureEngine(DiceRoller { 21 }, logger)
         val initial = engine.newGame()
-        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, DemoAction.CLIMB.text)
+        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, Lighthouse.CLIMB.text)
         assertFailsWith<IllegalArgumentException> { engine.roll(pending, pending.activePlayer.id, pending.pendingCheck!!.id) }
         assertEquals("dice_failed", logger.events.last().name)
         assertEquals("invalid_result", logger.events.last().fields["reason"])

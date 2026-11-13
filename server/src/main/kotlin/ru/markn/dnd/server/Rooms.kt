@@ -26,7 +26,7 @@ class Rooms(
     private val random = SecureRandom()
     private val rooms = mutableMapOf<String, Room>()
 
-    internal class Member(val player: Player, val token: String, var connectionId: String?) {
+    internal class Member(var player: Player, val token: String, var connectionId: String?) {
         var replaced = CompletableDeferred<Unit>()
     }
     internal class AiWork(val request: PendingNarration, val state: AdventureState, val text: String) {
@@ -40,6 +40,7 @@ class Rooms(
         var lastActivity = System.currentTimeMillis()
         var pendingAi: AiWork? = null
         var gameMasterError: String? = null
+        var scenarioId: String = Lighthouse.ID
         val updates = MutableStateFlow(RoomView(code, "", emptyList()))
         fun publish(): RoomView {
             revision++
@@ -47,7 +48,7 @@ class Rooms(
             // Keep wire frames bounded during long sessions. Canonical state stays on the server.
             return RoomView(code, hostId, members.map { RoomMember(it.player, it.connectionId != null) },
                 adventure?.let { it.copy(journal = it.journal.takeLast(200)) }, revision,
-                gameMasterEnabled, pendingAi?.request, gameMasterError).also { updates.value = it }
+                gameMasterEnabled, pendingAi?.request, gameMasterError, scenarioId).also { updates.value = it }
         }
     }
     class Connection internal constructor(internal val room: Room, internal val member: Member, internal val id: String, val replaced: CompletableDeferred<Unit>) {
@@ -87,7 +88,7 @@ class Rooms(
             require(room.adventure == null) { "Приключение уже началось. Новые игроки пока не могут войти." }
             require(room.members.size < 3) { "В комнате уже три игрока." }
             require(room.members.none { it.player.name.equals(name, ignoreCase = true) }) { "Это имя уже занято в комнате." }
-            val template = AdventureEngine.demoPlayers().first { hero -> room.members.none { it.player.hero.name == hero.hero.name } }
+            val template = AdventureEngine.demoPlayers(room.scenarioId).first { hero -> room.members.none { it.player.hero.name == hero.hero.name } }
             member = Member(template.copy(id = UUID.randomUUID().toString(), name = name), UUID.randomUUID().toString(), null)
             room.members += member
         }
@@ -124,6 +125,15 @@ class Rooms(
             val state = room.adventure
             val host = actor == room.hostId
             when (message.action) {
+                NetworkAction.SELECT_SCENARIO -> {
+                    val scenario = message.scenarioId?.let(Scenarios::find)
+                    if (!host || state != null || scenario == null) error = "Сюжет выбирает ведущий комнаты до начала игры."
+                    else {
+                        room.scenarioId = scenario.id
+                        room.members.forEach { member -> member.player = member.player.copy(location = scenario.startLocation,
+                            hero = member.player.hero.copy(inventory = scenario.startingItems)) }
+                    }
+                }
                 NetworkAction.CANCEL_NARRATION -> {
                     val work = room.pendingAi
                     if (work == null || work.request.id != message.narrationId ||
@@ -134,14 +144,14 @@ class Rooms(
                 NetworkAction.START -> {
                     if (!host || state != null || room.members.size < 2 || room.members.any { it.connectionId == null }) {
                         error = "Начать может создатель комнаты, когда подключены 2–3 игрока."
-                    } else room.adventure = room.engine.newGame(players = room.members.map { it.player })
+                    } else room.adventure = room.engine.newGame(players = room.members.map { it.player }, scenarioId = room.scenarioId)
                 }
                 NetworkAction.RESTART -> {
                     if (!host || state == null || state.sessionId != message.sessionId) error = "Перезапуск недоступен."
                     else {
                         cancelAi(room)
                         room.gameMasterError = null
-                        room.adventure = room.engine.newGame(state.sessionId + 1, room.members.map { it.player })
+                        room.adventure = room.engine.newGame(state.sessionId + 1, room.members.map { it.player }, room.scenarioId)
                     }
                 }
                 NetworkAction.REMOVE_DISCONNECTED -> {
@@ -233,8 +243,11 @@ class Rooms(
                 networkLog("ai_request_failed", room, work.request.playerId, details = failureFields + mapOf(
                     "request_id" to work.request.id, "elapsed_ms" to started.elapsedNow().inWholeMilliseconds.toString()))
             } else {
-                room.adventure = room.engine.submit(work.state, work.request.playerId, work.request.turnId, work.text, decision)
-                networkLog("ai_request_completed", room, work.request.playerId, details = mapOf(
+                val next = room.engine.submit(work.state, work.request.playerId, work.request.turnId, work.text, decision)
+                if (next == work.state) {
+                    room.gameMasterError = "План ведущего не соответствует состоянию или правилам сцены. Ход сохранён — уточните действие."
+                } else room.adventure = next
+                networkLog(if (next == work.state) "ai_plan_rejected" else "ai_request_completed", room, work.request.playerId, details = mapOf(
                     "request_id" to work.request.id, "elapsed_ms" to started.elapsedNow().inWholeMilliseconds.toString()))
             }
             room.publish()
