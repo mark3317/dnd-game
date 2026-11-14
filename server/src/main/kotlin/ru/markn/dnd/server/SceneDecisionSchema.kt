@@ -3,7 +3,7 @@ package ru.markn.dnd.server
 import kotlinx.serialization.json.*
 import ru.markn.dnd.adventure.*
 
-/** Provider schema mirrors the wire contract; domain policy is enforced separately by the engine. */
+/** The provider may omit unused narration for mechanics; effects remain subject to engine validation. */
 internal fun sceneDecisionSchema(scenario: ScenarioDefinition = Lighthouse.definition): JsonObject {
     fun type(name: String) = buildJsonObject { put("type", name) }
     fun choice(values: List<String>) = buildJsonObject {
@@ -31,5 +31,5 @@ internal fun sceneDecisionSchema(scenario: ScenarioDefinition = Lighthouse.defin
         "usingItem" to nullable(item), "onSuccess" to array(effects), "onFailure" to array(effects),
     )
     return obj("action" to nullable(choice(scenario.actions.map { it.id })),
-        "narration" to type("string"), "plan" to nullable(plan))
+        "narration" to nullable(type("string")), "plan" to nullable(plan), "nextPlayerId" to type("string"))
 }

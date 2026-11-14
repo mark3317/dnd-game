@@ -5,7 +5,7 @@ import kotlinx.serialization.json.Json
 import ru.markn.dnd.adventure.*
 
 /** Change when making incompatible protocol changes. */
-const val PROTOCOL_VERSION = 4
+const val PROTOCOL_VERSION = 6
 val GameWireJson = Json { ignoreUnknownKeys = true }
 
 @Serializable
@@ -25,7 +25,11 @@ data class RoomView(
 )
 
 @Serializable
-data class PendingNarration(val id: String, val playerId: String, val turnId: TurnId)
+data class PendingNarration(val id: String, val playerId: String, val turnId: TurnId,
+    val kind: NarrationKind = NarrationKind.ACTION)
+
+@Serializable
+enum class NarrationKind { ACTION, REACTION, EPILOGUE }
 
 @Serializable
 sealed interface ClientMessage {

@@ -35,19 +35,21 @@ data class Player(
     }
 }
 
-/** Fixed local order. A completed action or explicit pass advances one turn. */
+/** Local order is the fallback; the game master can select the next actor without reordering the party. */
 @kotlinx.serialization.Serializable
-data class TurnOrder(val playerIds: List<String>, val turnNumber: Long = 1) {
+data class TurnOrder(val playerIds: List<String>, val turnNumber: Long = 1, val currentPlayerId: String? = null) {
     init {
         require(playerIds.isNotEmpty()) { "Turn order must not be empty" }
         require(playerIds.distinct().size == playerIds.size) { "Turn order must contain unique player IDs" }
         require(turnNumber > 0) { "Turn number must be positive" }
+        require(currentPlayerId == null || currentPlayerId in playerIds) { "Unknown active player" }
     }
 
-    val activeIndex: Int get() = ((turnNumber - 1) % playerIds.size).toInt()
+    val activeIndex: Int get() = currentPlayerId?.let(playerIds::indexOf) ?: ((turnNumber - 1) % playerIds.size).toInt()
     val activePlayerId: String get() = playerIds[activeIndex]
     val roundNumber: Long get() = (turnNumber - 1) / playerIds.size + 1
-    fun next(): TurnOrder = copy(turnNumber = turnNumber + 1)
+    fun next(playerId: String? = null): TurnOrder = copy(turnNumber = turnNumber + 1,
+        currentPlayerId = playerId ?: playerIds[(activeIndex + 1) % playerIds.size])
 }
 
 /** Rejects commands from a previous turn, including when the same player acts again. */
@@ -67,6 +69,7 @@ data class PendingCheck(
     val difficulty: Int,
     val description: String,
     val plan: SceneActionPlan? = null,
+    val nextPlayerId: String? = null,
 )
 
 @kotlinx.serialization.Serializable

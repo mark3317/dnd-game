@@ -4,6 +4,27 @@ import kotlin.test.*
 import ru.markn.dnd.adventure.*
 
 class ProtocolTest {
+    @Test fun outcomeNarrationStatusRoundTripsForReactionAndEpilogue() {
+        for (kind in listOf(NarrationKind.REACTION, NarrationKind.EPILOGUE)) {
+            val pending = PendingNarration("narration-id", "actor", TurnId(1, 2), kind)
+            assertEquals(pending, GameWireJson.decodeFromString<PendingNarration>(GameWireJson.encodeToString(pending)))
+        }
+    }
+    @Test fun selectedActorAndPendingHandoffRoundTrip() {
+        val engine = AdventureEngine(DiceRoller { 10 })
+        val start = engine.newGame()
+        val actor = start.players[2].id
+        val selected = start.copy(turnOrder = start.turnOrder.next(actor))
+        val pending = engine.submit(selected, actor, selected.turnId, "Поднимаюсь",
+            GameMasterDecision(Lighthouse.CLIMB, "Попытка", nextPlayerId = start.players[1].id))
+        val restored = GameWireJson.decodeFromString<AdventureState>(GameWireJson.encodeToString(pending))
+        assertEquals(pending, restored)
+        assertEquals(actor, restored.activePlayer.id)
+        val check = assertNotNull(restored.pendingCheck)
+        assertEquals(start.players[1].id, check.nextPlayerId)
+        assertEquals(start.players[1].id, engine.roll(restored, actor, check.id).activePlayer.id)
+    }
+
     @Test fun gameStateAndCommandsRoundTripWithCyrillicAndEscapedText() {
         val engine = AdventureEngine(DiceRoller { 10 })
         val game = engine.newGame()

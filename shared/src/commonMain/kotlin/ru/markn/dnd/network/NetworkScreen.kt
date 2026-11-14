@@ -57,11 +57,15 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, onLocal: () ->
                 room.gameMasterError?.let { Text(it, color = MaterialTheme.colorScheme.error) }
                 room.pendingNarration?.let { pending ->
                     LinearProgressIndicator(Modifier.fillMaxWidth())
-                    Text("Ведущий думает…")
+                    Text(when (pending.kind) {
+                        NarrationKind.ACTION -> "Ведущий думает…"
+                        NarrationKind.REACTION -> "Ведущий описывает результат…"
+                        NarrationKind.EPILOGUE -> "Ведущий завершает историю…"
+                    })
                     if (pending.playerId == state.playerId) TextButton(
                         enabled = available,
                         onClick = { client.command(NetworkAction.CANCEL_NARRATION, turnId = pending.turnId, narrationId = pending.id) },
-                    ) { Text("Отменить запрос") }
+                    ) { Text(if (pending.kind == NarrationKind.ACTION) "Отменить запрос" else "Пропустить описание") }
                 }
                 val game = room.adventure
                 if (game != null && game.ending == null && host &&

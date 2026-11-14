@@ -33,6 +33,11 @@ class AdventureEngine(
         if (text.isEmpty()) return rejected(state, "submit", playerId, "blank_input")
         if (text.length > MAX_ACTION_LENGTH) return rejected(state, "submit", playerId, "input_too_long")
         if (decision?.plan != null && decision.action != null) return rejected(state, "submit", playerId, "ambiguous_plan")
+        if (decision?.nextPlayerId != null && decision.nextPlayerId !in state.turnOrder.playerIds)
+            return rejected(state, "submit", playerId, "unknown_next_player")
+        if (decision != null && decision.action == null && decision.plan == null &&
+            decision.nextPlayerId != null && decision.nextPlayerId != playerId)
+            return rejected(state, "submit", playerId, "comment_cannot_pass_turn")
         val action = if (decision != null) state.scenario.actions.firstOrNull { it.id == decision.action }
             else state.scenario.actions.firstOrNull { it.text.lowercase() == text.lowercase().trimEnd('.', '!', '?') }
         if (decision?.action != null && action == null) return rejected(state, "submit", playerId, "unknown_action")
@@ -51,8 +56,11 @@ class AdventureEngine(
                     val failure = if (plan.onFailure.isEmpty()) "сцена не изменится." else plan.onFailure.joinToString(" ") { SceneRules.describe(state, it) }
                     next.append(EntryKind.NARRATOR, "Предложена проверка: ${plan.description}. При успехе: $success При провале: $failure При любом исходе будет потрачена одна общая проверка.", actor = actor)
                         .copy(pendingCheck = PendingCheck(CheckId(state.sessionId, next.journal.last().id),
-                            playerId, turnId, action?.id, plan.check.ability, plan.check.difficulty, plan.description, plan))
-                } else next.resolveEffects(plan.onSuccess).advanceTurn()
+                            playerId, turnId, action?.id, plan.check.ability, plan.check.difficulty, plan.description, plan,
+                            decision?.nextPlayerId))
+                } else next.resolveEffects(plan.onSuccess).let { resolved ->
+                    if (resolved.ending != null) resolved else resolved.advanceTurn(decision?.nextPlayerId)
+                }
             }
             action?.narrative != null -> {
                 val site = state.scenario.sites.getValue(state.location)
@@ -60,14 +68,14 @@ class AdventureEngine(
                     NarrativeKind.INSPECTION -> site.inspection
                     NarrativeKind.CONVERSATION -> site.conversation
                 }
-                next.append(EntryKind.NARRATOR, narration, actor = actor).advanceTurn()
+                next.append(EntryKind.NARRATOR, narration, actor = actor).advanceTurn(decision?.nextPlayerId)
             }
             else -> next.append(EntryKind.NARRATOR, decision?.narration ?:
                 "Пробный ведущий понимает действия из подсказок. Выберите подсказку или введите её текст. Ход сохранён.", actor = actor)
         }
         return recordTransition(state, next, "submit", playerId, mapOf("action" to (action?.id ?: if (plan != null) "SCENE_PLAN" else "UNSUPPORTED"),
             "input_length" to text.length.toString(), "outcome" to when {
-                plan == null && action == null -> "unsupported"
+                plan == null && action == null -> if (decision != null) "reply" else "unsupported"
                 next.turnId == state.turnId && next.pendingCheck == null -> "unavailable"
                 else -> "accepted"
             }))
@@ -92,7 +100,7 @@ class AdventureEngine(
             .append(EntryKind.CHECK, if (result.succeeded) "Проверка пройдена" else "Проверка не пройдена", result, actor)
             .resolveEffects(if (result.succeeded) plan.onSuccess else plan.onFailure)
         if (next.ending == null && checks == 0) next = next.finish(state.scenario.timeoutEnding)
-        if (next.ending == null) next = next.advanceTurn()
+        if (next.ending == null) next = next.advanceTurn(check.nextPlayerId)
         return recordTransition(state, next, "roll", playerId)
     }
 
@@ -228,11 +236,12 @@ class AdventureEngine(
         return if (ending != null) next.finish(ending) else next
     }
 
-    private fun AdventureState.advanceTurn(): AdventureState {
-        val next = copy(turnOrder = turnOrder.next())
+    private fun AdventureState.advanceTurn(nextPlayerId: String? = null): AdventureState {
+        val next = copy(turnOrder = turnOrder.next(nextPlayerId))
         return next.append(
             EntryKind.TURN,
-            "Ход: ${next.activePlayer.name} · ${next.activePlayer.hero.name}. Круг ${next.turnOrder.roundNumber}.",
+            "Ход: ${next.activePlayer.name} · ${next.activePlayer.hero.name}." +
+                if (nextPlayerId == null) " Круг ${next.turnOrder.roundNumber}." else "",
             actor = next.activePlayer,
         )
     }

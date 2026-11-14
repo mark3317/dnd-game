@@ -43,7 +43,7 @@ fun AdventureScreen(
     var showRestart by remember { mutableStateOf(false) }
     var showRules by remember { mutableStateOf(false) }
     var showHero by remember { mutableStateOf(false) }
-    var actionDraft by remember(state.turnId) { mutableStateOf("") }
+    var actionDraft by remember(state.turnId, state.journal.lastOrNull()?.id) { mutableStateOf("") }
 
     Surface(color = MaterialTheme.colorScheme.background) {
         BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding().imePadding()) {
@@ -144,8 +144,9 @@ fun AdventureScreen(
             text = {
                 Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text("Для рискованного действия: d20 + модификатор характеристики. Итог не ниже сложности — успех. Особых эффектов для 1 и 20 пока нет.")
-                    Text("Играйте по очереди: по сети каждый управляет своим героем, локально — на одном устройстве. Завершённое действие передаёт ход следующему участнику. Действие с кубиком завершается после броска; отмена до броска сохраняет ход. Кнопка «Передать ход» позволяет пропустить очередь.")
-                    Text("У каждого героя свои характеристики, здоровье и позиция. Начальный запас проверок: ${state.scenario.checkBudget}. Любой бросок расходует одну проверку, осмотр, разговор и безопасные действия — только передают ход.")
+                    Text(if (aiNarrator) "Сейчас пишет игрок, которому ведущий дал слово. Можно шутить, обсуждать план и спрашивать о правилах — такие реплики сохраняют ход. После действия ведущий решает, продолжает ли тот же герой или слово переходит другому. Кнопка «Передать ход» передаёт слово следующему в списке."
+                        else "Играйте по очереди: по сети каждый управляет своим героем, локально — на одном устройстве. Завершённое действие передаёт ход следующему участнику. Кнопка «Передать ход» позволяет пропустить очередь.")
+                    Text("У каждого героя свои характеристики, здоровье и позиция. Начальный запас проверок: ${state.scenario.checkBudget}. Любой бросок расходует одну проверку. Осмотр, разговор и безопасные действия проверок не расходуют. Действие с кубиком завершается после броска; отмена до броска сохраняет ход.")
                     Text(state.scenario.goal + " Условия действий зависят от места, снаряжения и предыдущих событий. Последняя успешная проверка ещё может завершить историю победой.")
                     Text(if (aiNarrator) "Это предварительные правила коротких приключений. Опишите свой способ действия или передайте предмет герою рядом. Ведущий учитывает выбранный сюжет. Перед броском показаны последствия успеха и провала."
                         else "Это предварительные правила одного эпизода. Ведущий пока понимает только действия из подсказок — их также можно написать вручную.")
@@ -171,7 +172,7 @@ private fun PartyPanel(state: AdventureState, compact: Boolean = false, onShowHe
         }
     } else {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("ОЧЕРЕДЬ ИГРОКОВ", color = AdventureGold, fontSize = 10.sp, letterSpacing = 1.5.sp)
+            Text("УЧАСТНИКИ", color = AdventureGold, fontSize = 10.sp, letterSpacing = 1.5.sp)
             players.forEach { PartyMember(it, state, compact = false) }
         }
     }
@@ -188,7 +189,7 @@ private fun PartyMember(player: Player, state: AdventureState, compact: Boolean)
         verticalArrangement = Arrangement.spacedBy(3.dp),
     ) {
         Text(
-            "${state.turnOrder.playerIds.indexOf(player.id) + 1}. ${player.hero.name}${if (active) " · сейчас ходит" else ""}",
+            "${player.hero.name}${if (active) " · сейчас ходит" else ""}",
             color = if (active) AdventureGold else MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.labelMedium,
         )
@@ -222,7 +223,7 @@ private fun SceneHeading(state: AdventureState, compact: Boolean) {
         Text(state.outcome?.title ?: state.scenario.sites.getValue(state.location).title, fontFamily = FontFamily.Serif, fontSize = 22.sp)
         if (state.ending == null) {
             Text(
-                "Ход: ${state.activePlayer.name} · ${state.activePlayer.hero.name} · Круг ${state.turnOrder.roundNumber}",
+                "Сейчас ходит: ${state.activePlayer.name} · ${state.activePlayer.hero.name}",
                 color = AdventureGreen, style = MaterialTheme.typography.labelLarge,
             )
         }
@@ -371,7 +372,7 @@ private fun ActionComposer(
                 value = draft,
                 onValueChange = { if (it.length <= AdventureEngine.MAX_ACTION_LENGTH) onDraftChange(it) },
                 modifier = Modifier.weight(1f),
-                placeholder = { Text("Что делает ${state.activePlayer.hero.name}?") },
+                placeholder = { Text(if (aiNarrator) "Что говорит или делает ${state.activePlayer.hero.name}?" else "Что делает ${state.activePlayer.hero.name}?") },
                 maxLines = 3,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                 keyboardActions = KeyboardActions(onSend = { send() }),
@@ -382,7 +383,7 @@ private fun ActionComposer(
             }
         }
         Text(
-            if (aiNarrator) "Опишите действие своими словами или выберите подсказку."
+            if (aiNarrator) "Пишите свободно: действие, шутку или вопрос. За комментарий ход не тратится."
             else "Пробный ведущий: выберите подсказку или напишите её текст.",
             color = AdventureMuted, style = MaterialTheme.typography.labelSmall,
         )
