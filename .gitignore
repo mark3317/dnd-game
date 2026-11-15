@@ -20,7 +20,10 @@ node_modules/
 /server/claude.local.json
 /.local/
 /scripts/tts/__pycache__/
+/scripts/__pycache__/
 
 # Local build/probe logs, PID files and downloaded diagnostics; keep authored reports.
 /reports/*
 !/reports/*.md
+# Synthetic AI review outputs are local artifacts, never production diagnostic logs.
+/reports/local-ai-evaluation/

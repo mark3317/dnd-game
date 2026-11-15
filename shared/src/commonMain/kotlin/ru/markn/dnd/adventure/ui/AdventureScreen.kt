@@ -2,6 +2,8 @@ package ru.markn.dnd.adventure.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.togetherWith
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -18,7 +20,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.markn.dnd.adventure.*
+import ru.markn.dnd.network.*
 
 @Composable
 fun AdventureScreen(
@@ -58,26 +60,65 @@ fun AdventureScreen(
     awaitingNarration: Boolean = false,
     onFinished: (() -> Unit)? = null,
     speechBaseUrl: String = "http://localhost:8080",
+    networkPresentation: RoomPresentation? = null,
+    connectionGeneration: Long = 0,
+    networkConnected: Boolean = true,
+    onSpeechAck: ((RoomSpeechAcknowledgement) -> Unit)? = null,
+    presentationPaused: Boolean = false,
+    pausedAtMillis: Long? = null,
 ) {
+    val pauseClock = remember(state.sessionId) { PresentationPauseClock() }
+    pauseClock.setPaused(presentationPaused)
+    CompositionLocalProvider(LocalPresentationPauseClock provides pauseClock) {
     var now by remember { mutableLongStateOf(storyNowMillis() + serverTimeOffsetMillis) }
-    LaunchedEffect(serverTimeOffsetMillis) {
-        while (true) { now = storyNowMillis() + serverTimeOffsetMillis; kotlinx.coroutines.delay(16) }
+    LaunchedEffect(serverTimeOffsetMillis, presentationPaused, pausedAtMillis) {
+        if (presentationPaused) {
+            pausedAtMillis?.let { now = it }
+        } else while (true) {
+            now = storyNowMillis() + serverTimeOffsetMillis
+            kotlinx.coroutines.delay(16)
+        }
     }
     val playback = state.playback
-    val voice = rememberStorySpeech(state, now, speechBaseUrl)
-    val showOpening = now < playback.openingEndsAt
-    val showEnding = playback.endingAt > 0 && now >= playback.endingAt
-    val endingFinished = showEnding && now >= playback.busyUntil && !awaitingNarration && !voice.busy
+    val motionProfile = GameMotionProfile(LocalReducedMotion.current)
+    val rolls = state.presentedRolls()
+    val queue = remember(state.sessionId) { RollPresentationQueue(rolls) }
+    // Include fresh authority events before the effect has appended them to the local queue.
+    val presentationPending = queue.pending.isNotEmpty() || queue.hasUnseen(rolls)
+    val combatPresentationPending = queue.pending.any { it.combat != null } || queue.hasUnseen(rolls.filter { it.combat != null })
+    val localEnding = remember(state.sessionId) { LocalEndingPlayback() }
+    SideEffect { localEnding.update(playback.endingAt, presentationPending, now) }
+    val coordinated = onSpeechAck != null
+    val presentation = networkPresentation?.takeIf { it.sessionId == state.sessionId }
+    val endingAllowed = endingPlaybackAllowed(presentation, presentationPending)
+    val voice = if (onSpeechAck != null) rememberRoomStorySpeech(state, presentation, now, speechBaseUrl,
+        connectionGeneration, networkConnected, onSpeechAck, endingReady = endingAllowed, paused = presentationPaused, pausedAtMillis = pausedAtMillis)
+        else rememberStorySpeech(state, now, speechBaseUrl, endingReady = !presentationPending)
+    val roomCue = voice.roomCue ?: presentation?.currentCue(now)
+    val showOpening = if (coordinated) presentation?.busy == true && roomCue?.kind == RoomSpeechKind.OPENING
+        else now < playback.openingEndsAt
+    var endingCinemaStarted by remember(state.sessionId) { mutableStateOf(false) }
+    val endingCueStarted = roomCue?.kind == RoomSpeechKind.ENDING || presentation?.cues?.any {
+        it.kind == RoomSpeechKind.ENDING && it.startsAt?.let { start -> start <= now } == true
+    } == true
+    SideEffect { if (endingCueStarted && endingAllowed) endingCinemaStarted = true }
+    val showEnding = if (coordinated) state.ending != null && endingAllowed && (endingCueStarted || endingCinemaStarted)
+        else state.ending != null && localEnding.startedAt != null
+    val endingFinished = if (coordinated) state.ending != null && endingCueStarted && presentation?.sealed == true &&
+        presentation.phase == RoomPresentationPhase.COMPLETE && !awaitingNarration && networkConnected &&
+        !presentationPending && !voice.busy
+        else showEnding && !awaitingNarration && localEnding.finished(now,
+            state.endingShots().sumOf { subtitleDuration(it.text) }, voice.busy, presentationPending)
     val finishCallback by rememberUpdatedState(onFinished)
-    LaunchedEffect(state.sessionId, endingFinished) { if (endingFinished) finishCallback?.invoke() }
+    LaunchedEffect(state.sessionId, endingFinished, presentationPaused) { if (endingFinished && !presentationPaused) finishCallback?.invoke() }
     // Buffered captions advance with playback, never with a response that is still synthesizing.
-    val speaking = if (voice.available) voice.current ?: voice.caption
+    val speaking = if (coordinated || voice.available) voice.current ?: voice.caption
         else playback.speeches.firstOrNull { now in it.startsAt until it.endsAt }
             ?: playback.speeches.lastOrNull { it.startsAt <= now }
-    val busy = now < playback.busyUntil || voice.busy
+    val busy = if (coordinated) presentation?.busy != false || !networkConnected else now < playback.busyUntil || voice.busy
     val combatEntrance = remember(state.sessionId) { CombatEntrance() }
-    LaunchedEffect(state.combat != null, busy, awaitingNarration) {
-        combatEntrance.update(state.combat != null, busy || awaitingNarration)
+    LaunchedEffect(state.combat != null, busy, awaitingNarration, presentationPaused) {
+        if (!presentationPaused) combatEntrance.update(state.combat != null, busy || awaitingNarration)
     }
     val actorState = if (busy && playback.actorId != null && state.players.any { it.id == playback.actorId })
         state.copy(turnOrder = state.turnOrder.copy(currentPlayerId = playback.actorId)) else state
@@ -85,38 +126,46 @@ fun AdventureScreen(
     val displayedState = if (combatEntrance.visible) actorState else actorState.copy(combat = null)
     val music = LocalStoryMusic.current
     val cue = when {
-        state.ending != null -> if (state.outcome?.success == true) MusicCue.VICTORY else MusicCue.DEFEAT
+        showEnding -> if (state.outcome?.success == true) MusicCue.VICTORY else MusicCue.DEFEAT
+        state.combat == null && combatPresentationPending -> MusicCue.COMBAT
         combatEntrance.visible -> MusicCue.COMBAT
         showOpening -> MusicCue.OPENING
         else -> MusicCue.EXPLORATION
     }
-    SideEffect { music?.cue = cue }
-    DisposableEffect(music) { onDispose { music?.cue = MusicCue.MENU } }
-    val rolls = state.presentedRolls()
-    val queue = remember(state.sessionId) { RollPresentationQueue(rolls) }
-    val presentationPending = queue.pending.isNotEmpty() || queue.hasUnseen(rolls)
+    SideEffect { music?.cue = cue; music?.roomPaused = presentationPaused; music?.pauseClock = pauseClock }
+    DisposableEffect(music) { onDispose { music?.cue = MusicCue.MENU; music?.roomPaused = false; music?.pauseClock = null } }
+    val effects = rememberGameEffects(state.sessionId, connectionGeneration, rolls.mapTo(mutableSetOf()) { it.id })
+    GameEffectsHost(effects, connected = !coordinated || networkConnected,
+        ambience = cellarAmbience(displayedState, showOpening || showEnding),
+        speaking = voice.current != null, paused = presentationPaused, history = rolls.mapTo(mutableSetOf()) { it.id })
     val initiativePending = queue.pending.any { it.combat?.kind == ru.markn.dnd.combat.CombatEventKind.INITIATIVE } ||
         queue.hasUnseen(rolls.filter { it.combat?.kind == ru.markn.dnd.combat.CombatEventKind.INITIATIVE })
     LaunchedEffect(rolls) { queue.receive(rolls) }
-    CompositionLocalProvider(LocalStorySpeech provides voice) {
+    CompositionLocalProvider(LocalStorySpeech provides voice, LocalGameEffects provides effects) {
     Box(Modifier.fillMaxSize()) {
-        AnimatedContent(displayedState, modifier = Modifier.fillMaxSize(), contentKey = { it.combat != null },
-            transitionSpec = { fadeIn(tween(320)) togetherWith fadeOut(tween(220)) }, label = "adventure combat transition") { scene ->
+        PausableCrossfade(displayedState, modifier = Modifier.fillMaxSize(), contentKey = { it.combat != null },
+            millis = motionProfile.transitionMillis(320)) { scene ->
           AdventureContent(scene, onSubmit, onRoll, onCancelCheck, onEndTurn, onRestart,
-            controllingPlayerId, commandsEnabled && !presentationPending && !busy && !awaitingNarration &&
+            controllingPlayerId, commandsEnabled && !presentationPaused && !presentationPending && !busy && !awaitingNarration &&
                 (state.combat == null || combatEntrance.visible), restartEnabled,
             aiNarrator, onRollWithTalent, onCombat, statusText, onExit, onCancelNarration,
-            onSkipDisconnected, onReconnect, speaking, now, !initiativePending, voice.available)
+            onSkipDisconnected, onReconnect, speaking, now, !initiativePending, coordinated || voice.available)
         }
         RollPresentationHost(queue, controllingPlayerId,
             combatPresentationsEnabled = state.combat == null || combatEntrance.visible)
         if (combatEntrance.visible && busy && speaking != null) StorySubtitle(
             speaking.entry.text, state.speakerName(speaking.entry), now - speaking.startsAt,
             Modifier.align(Alignment.BottomCenter).safeDrawingPadding())
-        AnimatedVisibility(showOpening || showEnding, enter = fadeIn(tween(600)), exit = fadeOut(tween(400))) {
+        PausableVisibility(showOpening || showEnding, enterMillis = motionProfile.transitionMillis(600),
+            exitMillis = motionProfile.transitionMillis(400)) {
             StoryCinema(state, ending = state.ending != null, now = now,
-                speech = voice.current ?: speaking?.takeIf { state.ending != null && it.startsAt >= playback.endingEndsAt })
+                speech = if (coordinated) speaking?.takeIf { timed -> roomCue?.let { cue ->
+                    timed.entry.id == cue.entry.id && timed.entry.text == cue.entry.text
+                } == true } else voice.current ?: speaking?.takeIf { state.ending != null && it.startsAt >= playback.endingEndsAt },
+                coordinated = coordinated, coordinatedCue = roomCue,
+                timelineStart = if (!coordinated && state.ending != null) localEnding.startedAt else null)
         }
+    }
     }
     }
 }
@@ -137,6 +186,7 @@ private fun AdventureContent(
     speech: TimedSpeech?, now: Long, initiativeVisible: Boolean, bufferedSpeech: Boolean,
 ) {
     val combat = state.combat
+    val motionProfile = GameMotionProfile(LocalReducedMotion.current)
     if (combat != null) {
         ru.markn.dnd.combat.CombatPrototypeScreen(onBack = { onExit?.invoke() }, battleState = combat, onReconnect = onReconnect,
             statusText = statusText,
@@ -152,22 +202,31 @@ private fun AdventureContent(
     var showRules by remember { mutableStateOf(false) }
     var actionDraft by remember(state.turnId, state.journal.lastOrNull()?.id) { mutableStateOf("") }
     val canControl = commandsEnabled && (controllingPlayerId == null || controllingPlayerId == state.activePlayer.id)
-    fun open(name: String) { panel = name; scope.launch { drawer.open() } }
-    fun close() { scope.launch { drawer.close() } }
+    fun open(name: String) { panel = name; scope.launch {
+        if (motionProfile.reduced) drawer.snapTo(DrawerValue.Open) else drawer.open()
+    } }
+    fun close() { scope.launch {
+        if (motionProfile.reduced) drawer.snapTo(DrawerValue.Closed) else drawer.close()
+    } }
     val pendingCheck = state.pendingCheck
     val subtitle = speech?.entry ?: state.lastSpokenEntry?.takeUnless { bufferedSpeech }?.let { entry ->
         entry.copy(text = subtitleSegments(entry.text).lastOrNull().orEmpty())
     }
     LaunchedEffect(state.pendingCheck?.id, canControl) {
-        if (state.pendingCheck != null && canControl) { panel = "Проверка"; drawer.open() }
+        if (state.pendingCheck != null && canControl) {
+            panel = "Проверка"
+            if (motionProfile.reduced) drawer.snapTo(DrawerValue.Open) else drawer.open()
+        }
     }
     ModalNavigationDrawer(drawerState = drawer, gesturesEnabled = drawer.isOpen, drawerContent = {
-        ModalDrawerSheet(Modifier.widthIn(max = 410.dp).fillMaxHeight()) {
+        ModalDrawerSheet(Modifier.widthIn(max = 410.dp).fillMaxHeight()
+            .border(1.dp, AdventureGold.copy(alpha = .24f), MaterialTheme.shapes.large),
+            drawerShape = MaterialTheme.shapes.large, drawerContainerColor = AdventureInk) {
             Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text(panel, Modifier.weight(1f), style = MaterialTheme.typography.titleLarge)
-                TextButton(shape = MaterialTheme.shapes.small, onClick = { close() }) { Text("Закрыть") }
+                AdventureButton(secondary = true, onClick = { close() }) { Text("Закрыть") }
             }
-            HorizontalDivider()
+            AdventureDivider(Modifier.padding(horizontal = 16.dp, vertical = 10.dp))
             when (panel) {
                 "Текст истории" -> Journal(state, Modifier.weight(1f).fillMaxWidth())
                 "Проверка" -> Column(Modifier.verticalScroll(rememberScrollState())) {
@@ -180,7 +239,7 @@ private fun AdventureContent(
                 }
                 "Персонажи" -> Column(Modifier.verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     state.players.forEach { player ->
-                        OutlinedButton(shape = MaterialTheme.shapes.small, onClick = { selectedHero = player.id }, modifier = Modifier.fillMaxWidth()) {
+                        AdventureButton(secondary = true, onClick = { selectedHero = player.id }, modifier = Modifier.fillMaxWidth()) {
                             Text(player.hero.name + if (player.id == state.activePlayer.id) " · сейчас ходит" else "")
                         }
                     }
@@ -190,7 +249,8 @@ private fun AdventureContent(
                 }
                 "Действия" -> Column(Modifier.verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     state.suggestions.forEach { action ->
-                        OutlinedButton(shape = MaterialTheme.shapes.small, onClick = { close(); onSubmit(state.activePlayer.id, state.turnId, action.text) },
+                        action.detail?.let { Text(it, color = AdventureMuted, style = MaterialTheme.typography.bodySmall) }
+                        AdventureButton(secondary = true, onClick = { close(); onSubmit(state.activePlayer.id, state.turnId, action.text) },
                             enabled = canControl && state.canAct, modifier = Modifier.fillMaxWidth()) { Text(action.text) }
                     }
                 }
@@ -199,11 +259,11 @@ private fun AdventureContent(
                     Text(state.scenario.goal)
                     GameSettingsButton()
                     Text("${state.scenario.pressure}: ${state.checksRemaining}", color = AdventureMuted)
-                    TextButton(shape = MaterialTheme.shapes.small, onClick = { showRules = true }) { Text("Правила и управление") }
-                    if (onReconnect != null) OutlinedButton(shape = MaterialTheme.shapes.small, onClick = onReconnect) { Text("Подключиться снова") }
-                    if (onSkipDisconnected != null) OutlinedButton(shape = MaterialTheme.shapes.small, onClick = { close(); onSkipDisconnected() }) { Text("Пропустить отключившегося игрока") }
-                    if (restartEnabled) OutlinedButton(shape = MaterialTheme.shapes.small, onClick = { showRestart = true }) { Text("Начать заново") }
-                    if (onExit != null) TextButton(shape = MaterialTheme.shapes.small, onClick = { close(); onExit() }) { Text("Выйти из истории") }
+                    AdventureButton(secondary = true, onClick = { showRules = true }, modifier = Modifier.fillMaxWidth()) { Text("Правила и управление") }
+                    if (onReconnect != null) AdventureButton(secondary = true, onClick = onReconnect, modifier = Modifier.fillMaxWidth()) { Text("Подключиться снова") }
+                    if (onSkipDisconnected != null) AdventureButton(secondary = true, onClick = { close(); onSkipDisconnected() }, modifier = Modifier.fillMaxWidth()) { Text("Пропустить отключившегося игрока") }
+                    if (restartEnabled) AdventureButton(secondary = true, onClick = { showRestart = true }, modifier = Modifier.fillMaxWidth()) { Text("Начать заново") }
+                    if (onExit != null) AdventureButton(secondary = true, onClick = { close(); onExit() }, modifier = Modifier.fillMaxWidth()) { Text("Выйти из истории") }
                 }
             }
         }
@@ -249,13 +309,12 @@ private fun AdventureContent(
                 }
                 state.pendingCheck != null -> Row(Modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
                     Text(pendingCheck!!.description, Modifier.weight(1f), style = MaterialTheme.typography.labelMedium, maxLines = 2)
-                    Button(shape = MaterialTheme.shapes.small, onClick = { open("Проверка") }) { Text("Проверка") }
+                    AdventureButton(onClick = { open("Проверка") }) { Text("Проверка") }
                 }
                 else -> Unit
             }
-            AnimatedVisibility(canControl && state.canAct,
-                enter = fadeIn(tween(250)) + expandVertically(tween(300)) + slideInVertically(tween(300)) { it / 2 },
-                exit = fadeOut(tween(180)) + shrinkVertically(tween(250)) + slideOutVertically(tween(250)) { it / 2 }) {
+            PausableVisibility(canControl && state.canAct, enterMillis = motionProfile.transitionMillis(300),
+                exitMillis = motionProfile.transitionMillis(250)) {
                 ActionComposer(state,
                     onSubmit = { onSubmit(state.activePlayer.id, state.turnId, it) },
                     onEndTurn = { onEndTurn(state.activePlayer.id, state.turnId) },
@@ -273,7 +332,7 @@ private fun AdventureContent(
             Text("Опишите действие или реплику героя. Готовые действия доступны кнопкой «Действия». Персонажи и весь текст истории открываются отдельно поверх сцены.")
             Text("Рискованное действие: d20 + модификатор + подходящая специализация (+1). Расовый талант: ещё +2 один раз за историю. Итог не ниже сложности — успех. До броска показаны последствия и цена; отмена сохраняет попытку.")
             Text("Бросок расходует одну общую проверку, разговоры и осмотр — нет. У каждого героя свои позиция и предметы. В бою выбирайте движение, действие и цель. Повязка лечит на 4; поднять героя можно один раз за бой. После победы здоровье не ниже 4, повязки не пополняются.")
-            Text("Игровые правила находятся здесь; рассказчик описывает события, а NPC говорят от своего лица. Озвучка пока недоступна; субтитры показывают последнюю реплику.")
+            Text("Игровые правила находятся здесь; рассказчик описывает события, а NPC говорят от своего лица. Громкость голосов, музыки и эффектов настраивается отдельно. Если озвучка недоступна, история продолжается с субтитрами последней реплики.")
         } }, confirmButton = { TextButton(shape = MaterialTheme.shapes.small, onClick = { showRules = false }) { Text("Понятно") } })
 }
 @Composable
@@ -305,10 +364,11 @@ private fun HeroPanel(hero: Hero, itemNames: Map<String, String>) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 row.forEach { ability ->
                     Column(
-                        Modifier.weight(1f).background(MaterialTheme.colorScheme.surface, RoundedCornerShape(10.dp)).padding(10.dp),
+                        Modifier.weight(1f).background(AdventurePanelColor, MaterialTheme.shapes.small)
+                            .border(1.dp, AdventureGold.copy(alpha = .18f), MaterialTheme.shapes.small).padding(10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text(ability.abbreviation + (hero.profile?.scores?.get(ability)?.let { " $it" } ?: ""), color = AdventureMuted, fontSize = 10.sp)
+                        Text(ability.abbreviation + (hero.profile?.scores?.get(ability)?.let { " $it" } ?: ""), color = AdventureMuted, fontSize = 11.sp)
                         Text(signed(hero.modifier(ability)), fontSize = 20.sp, color = AdventureGold)
                     }
                 }
@@ -322,8 +382,11 @@ private fun HeroPanel(hero: Hero, itemNames: Map<String, String>) {
 @Composable
 private fun Journal(state: AdventureState, modifier: Modifier) {
     val scroll = rememberLazyListState()
-    LaunchedEffect(state.sessionId, state.journal.size) {
-        if (state.journal.isNotEmpty()) scroll.animateScrollToItem(state.journal.lastIndex)
+    val reduced = LocalReducedMotion.current
+    LaunchedEffect(state.sessionId, state.journal.size, reduced) {
+        if (state.journal.isNotEmpty()) {
+            if (reduced) scroll.scrollToItem(state.journal.lastIndex) else scroll.animateScrollToItem(state.journal.lastIndex)
+        }
     }
     LazyColumn(
         modifier = modifier,
@@ -348,7 +411,8 @@ private fun JournalItem(entry: JournalEntry, speaker: String) {
         Column(
             modifier = Modifier.widthIn(max = 760.dp)
                 .then(
-                    if (isPlayer) Modifier.background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(14.dp)).padding(14.dp)
+                    if (isPlayer) Modifier.background(AdventurePanelColor, MaterialTheme.shapes.small)
+                        .border(1.dp, AdventureGold.copy(alpha = .2f), MaterialTheme.shapes.small).padding(14.dp)
                     else Modifier.padding(vertical = 2.dp),
                 ),
             verticalArrangement = Arrangement.spacedBy(7.dp),
@@ -363,12 +427,13 @@ private fun JournalItem(entry: JournalEntry, speaker: String) {
                     EntryKind.TURN -> "ОЧЕРЕДЬ ХОДОВ"
                 },
                 color = if (isPlayer) AdventureGreen else AdventureGold,
-                fontSize = 10.sp, letterSpacing = 1.sp,
+                style = MaterialTheme.typography.labelSmall,
             )
             val roll = entry.roll
             if (roll != null) {
                 Row(
-                    Modifier.fillMaxWidth().border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)).padding(14.dp),
+                    Modifier.fillMaxWidth().background(AdventurePanelColor, MaterialTheme.shapes.medium)
+                        .border(1.dp, AdventureGold.copy(alpha = .3f), MaterialTheme.shapes.medium).padding(14.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(14.dp),
                 ) {
@@ -396,39 +461,48 @@ private fun JournalItem(entry: JournalEntry, speaker: String) {
 }
 
 @Composable
-private fun ActionComposer(
+internal fun ActionComposer(
     state: AdventureState, onSubmit: (String) -> Unit, onEndTurn: () -> Unit,
     draft: String, onDraftChange: (String) -> Unit, onShowActions: () -> Unit,
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
     val valid = draft.isNotBlank() && draft.trim().length <= AdventureEngine.MAX_ACTION_LENGTH
     fun send() { if (valid) { onSubmit(draft); onDraftChange(""); keyboard?.hide() } }
-    Column(Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(horizontal = 10.dp, vertical = 4.dp)) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            OutlinedTextField(value = draft, onValueChange = { if (it.length <= AdventureEngine.MAX_ACTION_LENGTH) onDraftChange(it) },
-                modifier = Modifier.weight(1f), placeholder = { Text("Реплика или действие героя") }, maxLines = 2,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-                keyboardActions = KeyboardActions(onSend = { send() }), shape = RoundedCornerShape(12.dp))
-            Button(shape = MaterialTheme.shapes.small, onClick = { send() }, enabled = valid) { Text("Отправить") }
+    Column(Modifier.fillMaxWidth().background(AdventureInk).padding(horizontal = 10.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        AdventureDivider()
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+            val field: @Composable (Modifier) -> Unit = { modifier ->
+                AdventureTextField(value = draft, onValueChange = { if (it.length <= AdventureEngine.MAX_ACTION_LENGTH) onDraftChange(it) },
+                    modifier = modifier, placeholder = "Реплика или действие героя", maxLines = 2,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                    keyboardActions = KeyboardActions(onSend = { send() }))
+            }
+            if (maxWidth < 360.dp) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    field(Modifier.fillMaxWidth())
+                    AdventureButton(onClick = { send() }, enabled = valid, modifier = Modifier.fillMaxWidth()) { Text("Отправить") }
+                }
+            } else Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                field(Modifier.weight(1f))
+                AdventureButton(onClick = { send() }, enabled = valid) { Text("Отправить") }
+            }
         }
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text("${state.activePlayer.hero.name} · ваш ход", Modifier.weight(1f), color = AdventureMuted, style = MaterialTheme.typography.labelSmall)
+        Text("${state.activePlayer.hero.name} · ваш ход", color = AdventureMuted, style = MaterialTheme.typography.labelSmall)
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             TextButton(shape = MaterialTheme.shapes.small, onClick = onShowActions) { Text("Действия") }
             TextButton(shape = MaterialTheme.shapes.small, onClick = { keyboard?.hide(); onEndTurn() }) { Text("Передать ход") }
         }
     }
 }
 @Composable
-private fun CheckPanel(
+internal fun CheckPanel(
     check: PendingCheck, state: AdventureState, onRoll: (CheckId) -> Unit, onCancel: (CheckId) -> Unit,
     onRollWithTalent: ((CheckId) -> Unit)? = null,
 ) {
     val proposed = requireNotNull(check.plan?.check)
     val bonuses = CharacterRules.bonuses(state.activePlayer.hero, proposed)
-    Column(
-        Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-    ) {
+    AdventurePanel(Modifier.fillMaxWidth().padding(12.dp), emphasized = true) {
         Text("НУЖНА ПРОВЕРКА", color = AdventureGold, fontSize = 10.sp, letterSpacing = 1.sp)
         Text(check.description)
         if (proposed.domains.isNotEmpty()) Text("Области: " + proposed.domains.joinToString { it.title }, style = MaterialTheme.typography.bodySmall)
@@ -445,12 +519,10 @@ private fun CheckPanel(
             Text("Бросок расходует одну общую проверку при любом исходе. До броска можно отменить попытку.",
                 color = AdventureMuted, style = MaterialTheme.typography.bodySmall)
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Button(shape = MaterialTheme.shapes.small, onClick = { onRoll(check.id) }) { Text("Бросить d20") }
-            TextButton(shape = MaterialTheme.shapes.small, onClick = { onCancel(check.id) }) { Text("Выбрать другое действие") }
-        }
+        AdventureButton(onClick = { onRoll(check.id) }, modifier = Modifier.fillMaxWidth()) { Text("Бросить d20") }
+        AdventureButton(secondary = true, onClick = { onCancel(check.id) }, modifier = Modifier.fillMaxWidth()) { Text("Выбрать другое действие") }
         if (CharacterRules.canUseTalent(state, proposed) && onRollWithTalent != null) {
-            OutlinedButton(shape = MaterialTheme.shapes.small, onClick = { onRollWithTalent(check.id) }) {
+            AdventureButton(secondary = true, onClick = { onRollWithTalent(check.id) }, modifier = Modifier.fillMaxWidth()) {
                 Text("${state.activePlayer.hero.profile!!.race.talent}: бросить с +2 (итого ${signed(bonuses.total + 2)})")
             }
         }

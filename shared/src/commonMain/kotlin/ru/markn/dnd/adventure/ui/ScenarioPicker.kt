@@ -20,11 +20,17 @@ import ru.markn.dnd.adventure.*
 fun ScenarioPicker(selectedId: String?, enabled: Boolean = true, onlySelected: Boolean = false,
     actionLabel: String = "Выбрать историю", unavailableHint: String = "Историю выбирает создатель комнаты", onSelect: (String) -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(if (onlySelected) "Ваша история" else "Выберите приключение", style = MaterialTheme.typography.titleLarge)
+        AdventureSectionTitle(if (onlySelected) "Ваша история" else "Выберите приключение")
         FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Scenarios.available.filter { !onlySelected || it.id == selectedId }.forEach { scenario ->
             OutlinedCard(onClick = { onSelect(scenario.id) }, enabled = enabled && !onlySelected,
                 modifier = Modifier.widthIn(max = 420.dp).fillMaxWidth(),
+                shape = MaterialTheme.shapes.large,
+                colors = CardDefaults.outlinedCardColors(
+                    containerColor = AdventurePanelColor.copy(alpha = .96f),
+                    disabledContainerColor = AdventurePanelColor.copy(alpha = .96f),
+                    disabledContentColor = AdventureParchment,
+                ),
                 border = BorderStroke(if (selectedId == scenario.id) 2.dp else 1.dp,
                     if (selectedId == scenario.id) AdventureGold else MaterialTheme.colorScheme.outlineVariant)) {
                 Box(Modifier.fillMaxWidth().height(180.dp)) {

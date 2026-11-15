@@ -11,12 +11,13 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.plugins.cors.routing.CORS
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.json.Json
 import ru.markn.dnd.adventure.SpeechRequest
 
 /** The GPU worker is loopback-only. Clients use their existing game server origin. */
-fun Route.speechRoutes(http: HttpClient, worker: String = "http://127.0.0.1:8091") {
+fun Route.speechRoutes(http: HttpClient, worker: String = "http://127.0.0.1:8091", workerTimeoutMillis: Long = 8_000) {
+    require(workerTimeoutMillis > 0)
     val json = Json { ignoreUnknownKeys = false }
     val localAddresses = java.net.NetworkInterface.getNetworkInterfaces().toList()
         .flatMap { it.inetAddresses.toList() }.map { it.hostAddress }.toSet() + setOf("localhost", "127.0.0.1", "::1")
@@ -29,11 +30,9 @@ fun Route.speechRoutes(http: HttpClient, worker: String = "http://127.0.0.1:8091
     }
     suspend fun proxy(call: io.ktor.server.application.ApplicationCall, path: String, body: String? = null) {
         try {
-            val result = withTimeout(8_000) {
-                if (body == null) http.get("$worker/speech/$path")
-                else http.post("$worker/speech/$path") { contentType(ContentType.Application.Json); setBody(body) }
-            }
-            call.respondBytes(result.readRawBytes(), result.contentType() ?: ContentType.Application.Json, result.status)
+            val result = speechWorkerResponse(http, worker, path, body, workerTimeoutMillis)
+            if (result == null) call.respondText("{\"status\":\"unavailable\"}", ContentType.Application.Json, HttpStatusCode.ServiceUnavailable)
+            else call.respondBytes(result.bytes, result.contentType ?: ContentType.Application.Json, result.status)
         } catch (cancelled: CancellationException) { throw cancelled }
         catch (_: Exception) { call.respondText("{\"status\":\"unavailable\"}", ContentType.Application.Json, HttpStatusCode.ServiceUnavailable) }
     }
@@ -58,4 +57,15 @@ fun Route.speechRoutes(http: HttpClient, worker: String = "http://127.0.0.1:8091
         proxy(call, "audio/$file")
     }
     }
+}
+
+internal data class SpeechProxyResponse(val bytes: ByteArray, val contentType: ContentType?, val status: HttpStatusCode)
+
+/** Only this operation's timeout becomes unavailable; parent cancellation must propagate. */
+internal suspend fun speechWorkerResponse(http: HttpClient, worker: String, path: String,
+    body: String?, timeoutMillis: Long): SpeechProxyResponse? = withTimeoutOrNull(timeoutMillis) {
+    val response = if (body == null) http.get("$worker/speech/$path")
+        else http.post("$worker/speech/$path") { contentType(ContentType.Application.Json); setBody(body) }
+    // Include body transfer in the deadline: a stalled WAV must not hold a request indefinitely.
+    SpeechProxyResponse(response.readRawBytes(), response.contentType(), response.status)
 }

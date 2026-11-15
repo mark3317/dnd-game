@@ -1,0 +1,65 @@
+{
+  "checkpoint": "20261116-protocol14",
+  "status": "engineering_checkpoint_not_final_demo_acceptance",
+  "protocol": 14,
+  "source_and_resource_sha256": "12ac902c38a740e27d93e86c05c90de42ae05cd5d73c2a428de4b8b5659ca92d",
+  "input_file_count": 255,
+  "tests": {
+    "game": {
+      "tests": 116,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "shared": {
+      "tests": 76,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "server": {
+      "tests": 97,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "artifacts": [
+    {
+      "file": "dnd-game-demo-android-debug.apk",
+      "bytes": 127810800,
+      "sha256": "9d0b5e401ffc56bb091d331a2f76b33407a423aafdddcb314aa95a09bb629322"
+    },
+    {
+      "file": "dnd-game-demo-macos-arm64.zip",
+      "bytes": 182464574,
+      "sha256": "ce65bbf020fd0c68508ebd080f3e53b1960cd4233a211c829a0fe44c422c701f"
+    },
+    {
+      "file": "dnd-game-demo-server-jvm21.zip",
+      "bytes": 18866147,
+      "sha256": "c8586946aec2093fb0b0b3108e2902f1460d1c557938d74d6207a3d67bc84a60"
+    },
+    {
+      "file": "dnd-game-demo-web-wasm.zip",
+      "bytes": 105703069,
+      "sha256": "f21c172d954be530b4e35700c3bcd65b701d8de341375f819cf57230e3f42916"
+    }
+  ],
+  "verified": [
+    "JVM tests",
+    "Desktop distributable built",
+    "Android debug built",
+    "production Wasm built",
+    "iOS Simulator shared code compiled"
+  ],
+  "not_verified": [
+    "Desktop app launch/UI",
+    "live voices/listening",
+    "iOS app launch",
+    "new human group playtest",
+    "GPT Luna response quality: primary endpoint TCP unavailable"
+  ],
+  "ai_attempts_used": 15,
+  "ai_attempts_remaining": 135
+}

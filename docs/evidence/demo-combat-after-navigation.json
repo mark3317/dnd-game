@@ -1,0 +1,2769 @@
+{
+  "schema": 1,
+  "scope": "After enemy BFS fallback, identical robot policies/seeds; not human balance evidence",
+  "sourcesSha256": {
+    "game/src/commonMain/kotlin/ru/markn/dnd/adventure/AdventureCombat.kt": "229f082bf1f25841ac38ed1bee5e4be1ea0dcf925a822b95d1695228f2fe8025",
+    "game/src/commonMain/kotlin/ru/markn/dnd/adventure/ArchiveDemo.kt": "a06f5a896ed75caeb92c4e84745e4fb928a2bb8f4ab919fb36683579525ecec9",
+    "game/src/commonMain/kotlin/ru/markn/dnd/combat/CombatDemo.kt": "7b7dd2acc02657b4e0155ac690e4943e82f776a671132640424f9a767c3f942f",
+    "game/src/commonMain/kotlin/ru/markn/dnd/adventure/Characters.kt": "ea270d5e47bd8a8788189166b874e4643dee60006b86b960f9e7eae99997f577"
+  },
+  "sourceCaptureNote": "Frozen combat source after BFS; other combat/profile/scenario hashes retained from the unchanged pre-alternatives probe inputs",
+  "reports": {
+    "greedy": {
+      "schema": 1,
+      "policy": "visible-state-greedy-v1",
+      "kotlin": "2.4.21",
+      "description": "Seeded robot exercise of actual combat; not human balance or duration evidence",
+      "seedStart": 0,
+      "seedCount": 32,
+      "participantTurnLimit": 160,
+      "sampleCount": 768,
+      "elapsedMs": 908,
+      "waitingDefinition": "Consecutive other participant turns while hero remains standing; allies/enemies included, downed time reset, not wall-clock seconds",
+      "profiles": "Matching ReadyCharacters profile for each class, duplicated with unique IDs; original valid scores/race/background, full initial health/items",
+      "reportPath": "game/build/reports/combat-balance/probe-greedy-32-seeds.json",
+      "reportSha256": "b750a62227cc64900c71cfb68e19fb74b48f11b65ba74107309b76145299eed6",
+      "cells": [
+        {
+          "partySize": 2,
+          "class": "WARRIOR",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 15.0,
+          "participantTurnsP95": 48,
+          "roundMedian": 5.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 6.5625,
+          "meanEnemyAttacks": 6.96875,
+          "meanSpentBandages": 0.1875,
+          "runs": [
+            {
+              "seed": 0,
+              "outcome": "victory",
+              "participantTurns": 61,
+              "round": 17,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 17,
+                "hero-2": 16
+              },
+              "heroAttacks": 15,
+              "enemyAttacks": 27,
+              "remainingHeroHealth": 18,
+              "spentBandages": 1
+            },
+            {
+              "seed": 1,
+              "outcome": "victory",
+              "participantTurns": 17,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 6
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 2,
+              "outcome": "victory",
+              "participantTurns": 36,
+              "round": 10,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 10,
+                "hero-2": 10
+              },
+              "heroAttacks": 8,
+              "enemyAttacks": 15,
+              "remainingHeroHealth": 18,
+              "spentBandages": 1
+            },
+            {
+              "seed": 3,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 2,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 4,
+              "outcome": "victory",
+              "participantTurns": 28,
+              "round": 8,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 7,
+                "hero-2": 8
+              },
+              "heroAttacks": 11,
+              "enemyAttacks": 12,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            },
+            {
+              "seed": 5,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 2,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 2
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 6,
+              "outcome": "victory",
+              "participantTurns": 25,
+              "round": 7,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 7
+              },
+              "heroAttacks": 10,
+              "enemyAttacks": 11,
+              "remainingHeroHealth": 21,
+              "spentBandages": 1
+            },
+            {
+              "seed": 7,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 8,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 21,
+              "spentBandages": 0
+            },
+            {
+              "seed": 9,
+              "outcome": "victory",
+              "participantTurns": 48,
+              "round": 14,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 9,
+                "hero-2": 14
+              },
+              "heroAttacks": 10,
+              "enemyAttacks": 19,
+              "remainingHeroHealth": 18,
+              "spentBandages": 2
+            },
+            {
+              "seed": 10,
+              "outcome": "victory",
+              "participantTurns": 9,
+              "round": 3,
+              "maxWaitOtherTurns": 2,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 2,
+              "remainingHeroHealth": 26,
+              "spentBandages": 0
+            },
+            {
+              "seed": 11,
+              "outcome": "victory",
+              "participantTurns": 11,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 26,
+              "spentBandages": 0
+            },
+            {
+              "seed": 12,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 13,
+              "outcome": "victory",
+              "participantTurns": 17,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 5
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 20,
+              "spentBandages": 0
+            },
+            {
+              "seed": 14,
+              "outcome": "victory",
+              "participantTurns": 18,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 5
+              },
+              "heroAttacks": 8,
+              "enemyAttacks": 6,
+              "remainingHeroHealth": 19,
+              "spentBandages": 0
+            },
+            {
+              "seed": 15,
+              "outcome": "victory",
+              "participantTurns": 24,
+              "round": 7,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 7,
+                "hero-2": 7
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 8,
+              "remainingHeroHealth": 23,
+              "spentBandages": 0
+            },
+            {
+              "seed": 16,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 4
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 20,
+              "spentBandages": 0
+            },
+            {
+              "seed": 17,
+              "outcome": "victory",
+              "participantTurns": 18,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 5
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 6,
+              "remainingHeroHealth": 21,
+              "spentBandages": 0
+            },
+            {
+              "seed": 18,
+              "outcome": "victory",
+              "participantTurns": 26,
+              "round": 8,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 8,
+                "hero-2": 8
+              },
+              "heroAttacks": 8,
+              "enemyAttacks": 8,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 19,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 2
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 18,
+              "spentBandages": 0
+            },
+            {
+              "seed": 20,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 21,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 6,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            },
+            {
+              "seed": 22,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 23,
+              "outcome": "victory",
+              "participantTurns": 17,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 4
+              },
+              "heroAttacks": 8,
+              "enemyAttacks": 7,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 24,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 26,
+              "spentBandages": 0
+            },
+            {
+              "seed": 25,
+              "outcome": "victory",
+              "participantTurns": 19,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 5
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 7,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 26,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 4
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 27,
+              "outcome": "victory",
+              "participantTurns": 11,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 28,
+              "outcome": "victory",
+              "participantTurns": 33,
+              "round": 9,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 9,
+                "hero-2": 9
+              },
+              "heroAttacks": 8,
+              "enemyAttacks": 13,
+              "remainingHeroHealth": 18,
+              "spentBandages": 1
+            },
+            {
+              "seed": 29,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 5
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 21,
+              "spentBandages": 0
+            },
+            {
+              "seed": 30,
+              "outcome": "victory",
+              "participantTurns": 14,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 4
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 6,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 31,
+              "outcome": "victory",
+              "participantTurns": 17,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 5
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            }
+          ],
+          "seed28FinalTrace": [
+            "Стрелок → Бран 2: d20 18 + 2 = 20 против КЗ 15. Попадание. Урон 1d4: 1 = 1.",
+            "Ход Бран 2.",
+            "Бран 2 → Вышибала: d20 14 + 4 = 18 против КЗ 12. Попадание. Урон 1d8+2: 4 + 2 = 6. Вышибала выведен из боя.",
+            "Ход Бран 1.",
+            "Бран 1: переход на C4.",
+            "Бран 1: защита +2 КЗ до следующего собственного хода.",
+            "Раунд 8. Ход Стрелок.",
+            "Стрелок → Бран 2: d20 9 + 2 = 11 против КЗ 15. Промах; урон 0.",
+            "Ход Бран 2.",
+            "Бран 2: переход на E3.",
+            "Бран 2 → Стрелок: d20 14 + 4 = 18 против КЗ 11. Попадание. Урон 1d8+2: 6 + 2 = 8.",
+            "Ход Бран 1.",
+            "Бран 1: переход на B2.",
+            "Бран 1: защита +2 КЗ до следующего собственного хода.",
+            "Раунд 9. Ход Стрелок.",
+            "Стрелок: переход E2 → D1.",
+            "Стрелок → Бран 2: d20 6 + 2 = 8 против КЗ 15. Промах; урон 0.",
+            "Ход Бран 2.",
+            "Бран 2: переход на E1.",
+            "Бран 2 → Стрелок: d20 5 + 4 = 9 против КЗ 11. Промах; урон 0.",
+            "Ход Бран 1.",
+            "Бран 1: переход на C1.",
+            "Бран 1 → Стрелок: d20 20 + 4 = 24 против КЗ 11. Критическое попадание! Урон 2d8+2: 2 + 1 + 2 = 5. Стрелок выведен из боя.",
+            "Победа! Все выжившие герои приходят в себя: здоровье не ниже 4. Повязки не пополняются."
+          ]
+        },
+        {
+          "partySize": 2,
+          "class": "WARRIOR",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 12.5,
+          "participantTurnsP95": 33,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 5.71875,
+          "meanEnemyAttacks": 5.09375,
+          "meanSpentBandages": 0.03125,
+          "runs": [
+            {
+              "seed": 0,
+              "outcome": "victory",
+              "participantTurns": 42,
+              "round": 12,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 12,
+                "hero-2": 11
+              },
+              "heroAttacks": 10,
+              "enemyAttacks": 18,
+              "remainingHeroHealth": 19,
+              "spentBandages": 1
+            },
+            {
+              "seed": 1,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 2,
+              "outcome": "victory",
+              "participantTurns": 21,
+              "round": 7,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 7
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 7,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 3,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 2,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 4,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 2,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 5,
+              "outcome": "victory",
+              "participantTurns": 20,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 6
+              },
+              "heroAttacks": 11,
+              "enemyAttacks": 7,
+              "remainingHeroHealth": 21,
+              "spentBandages": 0
+            },
+            {
+              "seed": 6,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 2,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 2
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 20,
+              "spentBandages": 0
+            },
+            {
+              "seed": 7,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 5
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 8,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 9,
+              "outcome": "victory",
+              "participantTurns": 16,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 5
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 10,
+              "outcome": "victory",
+              "participantTurns": 9,
+              "round": 3,
+              "maxWaitOtherTurns": 2,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 2,
+              "remainingHeroHealth": 23,
+              "spentBandages": 0
+            },
+            {
+              "seed": 11,
+              "outcome": "victory",
+              "participantTurns": 32,
+              "round": 9,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 8,
+                "hero-2": 9
+              },
+              "heroAttacks": 13,
+              "enemyAttacks": 14,
+              "remainingHeroHealth": 20,
+              "spentBandages": 0
+            },
+            {
+              "seed": 12,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 13,
+              "outcome": "victory",
+              "participantTurns": 14,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 4
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 14,
+              "outcome": "victory",
+              "participantTurns": 20,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 5
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 7,
+              "remainingHeroHealth": 23,
+              "spentBandages": 0
+            },
+            {
+              "seed": 15,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            },
+            {
+              "seed": 16,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 19,
+              "spentBandages": 0
+            },
+            {
+              "seed": 17,
+              "outcome": "victory",
+              "participantTurns": 14,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 23,
+              "spentBandages": 0
+            },
+            {
+              "seed": 18,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 19,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 2
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 18,
+              "spentBandages": 0
+            },
+            {
+              "seed": 20,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 21,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 3
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 22,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 2,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 2
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 23,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 6,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 24,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 25,
+              "outcome": "victory",
+              "participantTurns": 33,
+              "round": 10,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 10,
+                "hero-2": 9
+              },
+              "heroAttacks": 12,
+              "enemyAttacks": 12,
+              "remainingHeroHealth": 26,
+              "spentBandages": 0
+            },
+            {
+              "seed": 26,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 5
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 27,
+              "outcome": "victory",
+              "participantTurns": 11,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            },
+            {
+              "seed": 28,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 2,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 29,
+              "outcome": "victory",
+              "participantTurns": 9,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 2,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 30,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 4
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 31,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 20,
+              "spentBandages": 0
+            }
+          ]
+        },
+        {
+          "partySize": 2,
+          "class": "ROGUE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 8.5,
+          "participantTurnsP95": 29,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 5.40625,
+          "meanEnemyAttacks": 3.5625,
+          "meanSpentBandages": 0.21875
+        },
+        {
+          "partySize": 2,
+          "class": "ROGUE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 8.5,
+          "participantTurnsP95": 29,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 5.40625,
+          "meanEnemyAttacks": 3.5625,
+          "meanSpentBandages": 0.21875
+        },
+        {
+          "partySize": 2,
+          "class": "MAGE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 14.0,
+          "participantTurnsP95": 26,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 7.1875,
+          "meanEnemyAttacks": 5.4375,
+          "meanSpentBandages": 0.59375
+        },
+        {
+          "partySize": 2,
+          "class": "MAGE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 10.0,
+          "participantTurnsP95": 24,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 5.65625,
+          "meanEnemyAttacks": 3.9375,
+          "meanSpentBandages": 0.40625
+        },
+        {
+          "partySize": 2,
+          "class": "BARD",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 13.0,
+          "participantTurnsP95": 26,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 7.15625,
+          "meanEnemyAttacks": 5.6875,
+          "meanSpentBandages": 0.15625
+        },
+        {
+          "partySize": 2,
+          "class": "BARD",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 11.5,
+          "participantTurnsP95": 18,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 6.375,
+          "meanEnemyAttacks": 4.46875,
+          "meanSpentBandages": 0.0
+        },
+        {
+          "partySize": 3,
+          "class": "WARRIOR",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 19.5,
+          "participantTurnsP95": 43,
+          "roundMedian": 5.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 7.0,
+          "meanEnemyAttacks": 7.4375,
+          "meanSpentBandages": 0.25
+        },
+        {
+          "partySize": 3,
+          "class": "WARRIOR",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 17.0,
+          "participantTurnsP95": 41,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 6.71875,
+          "meanEnemyAttacks": 7.53125,
+          "meanSpentBandages": 0.28125
+        },
+        {
+          "partySize": 3,
+          "class": "ROGUE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 9.0,
+          "participantTurnsP95": 21,
+          "roundMedian": 2.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 5.03125,
+          "meanEnemyAttacks": 2.5,
+          "meanSpentBandages": 0.15625
+        },
+        {
+          "partySize": 3,
+          "class": "ROGUE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 9.0,
+          "participantTurnsP95": 21,
+          "roundMedian": 2.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 5.03125,
+          "meanEnemyAttacks": 2.5,
+          "meanSpentBandages": 0.15625
+        },
+        {
+          "partySize": 3,
+          "class": "MAGE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 13.0,
+          "participantTurnsP95": 23,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 7.59375,
+          "meanEnemyAttacks": 4.0625,
+          "meanSpentBandages": 0.34375
+        },
+        {
+          "partySize": 3,
+          "class": "MAGE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 10.0,
+          "participantTurnsP95": 19,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 6.1875,
+          "meanEnemyAttacks": 3.09375,
+          "meanSpentBandages": 0.28125
+        },
+        {
+          "partySize": 3,
+          "class": "BARD",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 15.5,
+          "participantTurnsP95": 27,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 8.375,
+          "meanEnemyAttacks": 4.71875,
+          "meanSpentBandages": 0.0
+        },
+        {
+          "partySize": 3,
+          "class": "BARD",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 11.0,
+          "participantTurnsP95": 22,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 7.15625,
+          "meanEnemyAttacks": 3.90625,
+          "meanSpentBandages": 0.03125
+        },
+        {
+          "partySize": 4,
+          "class": "WARRIOR",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 26.0,
+          "participantTurnsP95": 42,
+          "roundMedian": 5.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 8.09375,
+          "meanEnemyAttacks": 6.90625,
+          "meanSpentBandages": 0.09375
+        },
+        {
+          "partySize": 4,
+          "class": "WARRIOR",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 23.0,
+          "participantTurnsP95": 52,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 7.625,
+          "meanEnemyAttacks": 6.46875,
+          "meanSpentBandages": 0.09375
+        },
+        {
+          "partySize": 4,
+          "class": "ROGUE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 9.5,
+          "participantTurnsP95": 15,
+          "roundMedian": 2.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 5.90625,
+          "meanEnemyAttacks": 2.15625,
+          "meanSpentBandages": 0.0625
+        },
+        {
+          "partySize": 4,
+          "class": "ROGUE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 9.5,
+          "participantTurnsP95": 15,
+          "roundMedian": 2.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 5.90625,
+          "meanEnemyAttacks": 2.15625,
+          "meanSpentBandages": 0.0625
+        },
+        {
+          "partySize": 4,
+          "class": "MAGE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 12.5,
+          "participantTurnsP95": 22,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 8.0625,
+          "meanEnemyAttacks": 3.25,
+          "meanSpentBandages": 0.21875
+        },
+        {
+          "partySize": 4,
+          "class": "MAGE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 9.5,
+          "participantTurnsP95": 20,
+          "roundMedian": 2.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 6.5625,
+          "meanEnemyAttacks": 2.6875,
+          "meanSpentBandages": 0.15625
+        },
+        {
+          "partySize": 4,
+          "class": "BARD",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 15.5,
+          "participantTurnsP95": 24,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 9.25,
+          "meanEnemyAttacks": 4.0625,
+          "meanSpentBandages": 0.0
+        },
+        {
+          "partySize": 4,
+          "class": "BARD",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 14.0,
+          "participantTurnsP95": 22,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 8.25,
+          "meanEnemyAttacks": 3.59375,
+          "meanSpentBandages": 0.0
+        }
+      ]
+    },
+    "route": {
+      "schema": 1,
+      "policy": "visible-state-route-v1",
+      "kotlin": "2.4.21",
+      "description": "Seeded robot exercise of actual combat; not human balance or duration evidence",
+      "seedStart": 0,
+      "seedCount": 32,
+      "participantTurnLimit": 160,
+      "sampleCount": 768,
+      "elapsedMs": 919,
+      "waitingDefinition": "Consecutive other participant turns while hero remains standing; allies/enemies included, downed time reset, not wall-clock seconds",
+      "profiles": "Matching ReadyCharacters profile for each class, duplicated with unique IDs; original valid scores/race/background, full initial health/items",
+      "reportPath": "game/build/reports/combat-balance/probe-route-32-seeds.json",
+      "reportSha256": "f13a8c48992c154274f9f06e1f03bc45208cfcb6cf2eed364fed39d94ac5f2a8",
+      "cells": [
+        {
+          "partySize": 2,
+          "class": "WARRIOR",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 13.5,
+          "participantTurnsP95": 27,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 6.15625,
+          "meanEnemyAttacks": 5.84375,
+          "meanSpentBandages": 0.09375,
+          "runs": [
+            {
+              "seed": 0,
+              "outcome": "victory",
+              "participantTurns": 27,
+              "round": 8,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 8,
+                "hero-2": 8
+              },
+              "heroAttacks": 13,
+              "enemyAttacks": 10,
+              "remainingHeroHealth": 23,
+              "spentBandages": 0
+            },
+            {
+              "seed": 1,
+              "outcome": "victory",
+              "participantTurns": 11,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 4
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 2,
+              "outcome": "victory",
+              "participantTurns": 20,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 6
+              },
+              "heroAttacks": 8,
+              "enemyAttacks": 8,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 3,
+              "outcome": "victory",
+              "participantTurns": 7,
+              "round": 2,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 2
+              },
+              "heroAttacks": 2,
+              "enemyAttacks": 2,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 4,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 5,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 2,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 2
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 6,
+              "outcome": "victory",
+              "participantTurns": 26,
+              "round": 7,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 7,
+                "hero-2": 7
+              },
+              "heroAttacks": 11,
+              "enemyAttacks": 11,
+              "remainingHeroHealth": 22,
+              "spentBandages": 1
+            },
+            {
+              "seed": 7,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 8,
+              "outcome": "victory",
+              "participantTurns": 20,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 5
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 9,
+              "remainingHeroHealth": 20,
+              "spentBandages": 0
+            },
+            {
+              "seed": 9,
+              "outcome": "victory",
+              "participantTurns": 21,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 6
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 9,
+              "remainingHeroHealth": 18,
+              "spentBandages": 0
+            },
+            {
+              "seed": 10,
+              "outcome": "victory",
+              "participantTurns": 9,
+              "round": 3,
+              "maxWaitOtherTurns": 2,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 2,
+              "remainingHeroHealth": 26,
+              "spentBandages": 0
+            },
+            {
+              "seed": 11,
+              "outcome": "victory",
+              "participantTurns": 11,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 26,
+              "spentBandages": 0
+            },
+            {
+              "seed": 12,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 4
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 13,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 3
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            },
+            {
+              "seed": 14,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 15,
+              "outcome": "victory",
+              "participantTurns": 21,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 6
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 9,
+              "remainingHeroHealth": 23,
+              "spentBandages": 1
+            },
+            {
+              "seed": 16,
+              "outcome": "victory",
+              "participantTurns": 29,
+              "round": 9,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 9,
+                "hero-2": 9
+              },
+              "heroAttacks": 11,
+              "enemyAttacks": 11,
+              "remainingHeroHealth": 15,
+              "spentBandages": 1
+            },
+            {
+              "seed": 17,
+              "outcome": "victory",
+              "participantTurns": 21,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 6
+              },
+              "heroAttacks": 8,
+              "enemyAttacks": 9,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 18,
+              "outcome": "victory",
+              "participantTurns": 19,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 5
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 8,
+              "remainingHeroHealth": 18,
+              "spentBandages": 0
+            },
+            {
+              "seed": 19,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 2
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 18,
+              "spentBandages": 0
+            },
+            {
+              "seed": 20,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 21,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 6,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            },
+            {
+              "seed": 22,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 23,
+              "outcome": "victory",
+              "participantTurns": 17,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 4
+              },
+              "heroAttacks": 8,
+              "enemyAttacks": 7,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 24,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 27,
+              "spentBandages": 0
+            },
+            {
+              "seed": 25,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 7,
+              "remainingHeroHealth": 27,
+              "spentBandages": 0
+            },
+            {
+              "seed": 26,
+              "outcome": "victory",
+              "participantTurns": 16,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 5
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 6,
+              "remainingHeroHealth": 26,
+              "spentBandages": 0
+            },
+            {
+              "seed": 27,
+              "outcome": "victory",
+              "participantTurns": 19,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 5
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 8,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 28,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 4
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 29,
+              "outcome": "victory",
+              "participantTurns": 9,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 30,
+              "outcome": "victory",
+              "participantTurns": 14,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 4
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 6,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 31,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            }
+          ]
+        },
+        {
+          "partySize": 2,
+          "class": "WARRIOR",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 13.0,
+          "participantTurnsP95": 32,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 5.9375,
+          "meanEnemyAttacks": 5.90625,
+          "meanSpentBandages": 0.0625,
+          "runs": [
+            {
+              "seed": 0,
+              "outcome": "victory",
+              "participantTurns": 25,
+              "round": 7,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 7,
+                "hero-2": 7
+              },
+              "heroAttacks": 9,
+              "enemyAttacks": 10,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 1,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 2,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 3,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 2,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 4,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            },
+            {
+              "seed": 5,
+              "outcome": "victory",
+              "participantTurns": 20,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 6
+              },
+              "heroAttacks": 11,
+              "enemyAttacks": 7,
+              "remainingHeroHealth": 21,
+              "spentBandages": 0
+            },
+            {
+              "seed": 6,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 2,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 2
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 20,
+              "spentBandages": 0
+            },
+            {
+              "seed": 7,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 8,
+              "outcome": "victory",
+              "participantTurns": 11,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 23,
+              "spentBandages": 0
+            },
+            {
+              "seed": 9,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 5
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 20,
+              "spentBandages": 0
+            },
+            {
+              "seed": 10,
+              "outcome": "victory",
+              "participantTurns": 9,
+              "round": 3,
+              "maxWaitOtherTurns": 2,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 2,
+              "remainingHeroHealth": 23,
+              "spentBandages": 0
+            },
+            {
+              "seed": 11,
+              "outcome": "victory",
+              "participantTurns": 32,
+              "round": 9,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 8,
+                "hero-2": 9
+              },
+              "heroAttacks": 13,
+              "enemyAttacks": 14,
+              "remainingHeroHealth": 20,
+              "spentBandages": 0
+            },
+            {
+              "seed": 12,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 4
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 13,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 14,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 3
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 15,
+              "outcome": "victory",
+              "participantTurns": 25,
+              "round": 7,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 7,
+                "hero-2": 7
+              },
+              "heroAttacks": 8,
+              "enemyAttacks": 11,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            },
+            {
+              "seed": 16,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 2
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 23,
+              "spentBandages": 0
+            },
+            {
+              "seed": 17,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 7,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            },
+            {
+              "seed": 18,
+              "outcome": "victory",
+              "participantTurns": 22,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 6
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 10,
+              "remainingHeroHealth": 14,
+              "spentBandages": 1
+            },
+            {
+              "seed": 19,
+              "outcome": "victory",
+              "participantTurns": 10,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 2
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 4,
+              "remainingHeroHealth": 18,
+              "spentBandages": 0
+            },
+            {
+              "seed": 20,
+              "outcome": "victory",
+              "participantTurns": 9,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 2
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 21,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 3
+              },
+              "heroAttacks": 6,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 24,
+              "spentBandages": 0
+            },
+            {
+              "seed": 22,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 2,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 2
+              },
+              "heroAttacks": 4,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 25,
+              "spentBandages": 0
+            },
+            {
+              "seed": 23,
+              "outcome": "victory",
+              "participantTurns": 15,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 4,
+                "hero-2": 4
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 6,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 24,
+              "outcome": "victory",
+              "participantTurns": 17,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 5
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 7,
+              "remainingHeroHealth": 21,
+              "spentBandages": 0
+            },
+            {
+              "seed": 25,
+              "outcome": "victory",
+              "participantTurns": 39,
+              "round": 11,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 11,
+                "hero-2": 11
+              },
+              "heroAttacks": 12,
+              "enemyAttacks": 17,
+              "remainingHeroHealth": 15,
+              "spentBandages": 1
+            },
+            {
+              "seed": 26,
+              "outcome": "victory",
+              "participantTurns": 19,
+              "round": 5,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 5,
+                "hero-2": 5
+              },
+              "heroAttacks": 8,
+              "enemyAttacks": 8,
+              "remainingHeroHealth": 26,
+              "spentBandages": 0
+            },
+            {
+              "seed": 27,
+              "outcome": "victory",
+              "participantTurns": 21,
+              "round": 6,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 6,
+                "hero-2": 6
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 9,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 28,
+              "outcome": "victory",
+              "participantTurns": 8,
+              "round": 3,
+              "maxWaitOtherTurns": 2,
+              "heroTurns": {
+                "hero-1": 2,
+                "hero-2": 3
+              },
+              "heroAttacks": 3,
+              "enemyAttacks": 3,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 29,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 4
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 26,
+              "spentBandages": 0
+            },
+            {
+              "seed": 30,
+              "outcome": "victory",
+              "participantTurns": 13,
+              "round": 4,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 4
+              },
+              "heroAttacks": 7,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 28,
+              "spentBandages": 0
+            },
+            {
+              "seed": 31,
+              "outcome": "victory",
+              "participantTurns": 12,
+              "round": 3,
+              "maxWaitOtherTurns": 3,
+              "heroTurns": {
+                "hero-1": 3,
+                "hero-2": 3
+              },
+              "heroAttacks": 5,
+              "enemyAttacks": 5,
+              "remainingHeroHealth": 22,
+              "spentBandages": 0
+            }
+          ]
+        },
+        {
+          "partySize": 2,
+          "class": "ROGUE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 9.0,
+          "participantTurnsP95": 20,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 5.125,
+          "meanEnemyAttacks": 3.15625,
+          "meanSpentBandages": 0.15625
+        },
+        {
+          "partySize": 2,
+          "class": "ROGUE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 9.0,
+          "participantTurnsP95": 20,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 5.125,
+          "meanEnemyAttacks": 3.15625,
+          "meanSpentBandages": 0.15625
+        },
+        {
+          "partySize": 2,
+          "class": "MAGE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 14.0,
+          "participantTurnsP95": 22,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 7.125,
+          "meanEnemyAttacks": 5.09375,
+          "meanSpentBandages": 0.65625
+        },
+        {
+          "partySize": 2,
+          "class": "MAGE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 10.0,
+          "participantTurnsP95": 18,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 5.65625,
+          "meanEnemyAttacks": 3.71875,
+          "meanSpentBandages": 0.34375
+        },
+        {
+          "partySize": 2,
+          "class": "BARD",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 12.0,
+          "participantTurnsP95": 24,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 6.84375,
+          "meanEnemyAttacks": 5.1875,
+          "meanSpentBandages": 0.125
+        },
+        {
+          "partySize": 2,
+          "class": "BARD",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 12.0,
+          "participantTurnsP95": 25,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 3,
+          "meanHeroAttacks": 6.6875,
+          "meanEnemyAttacks": 4.75,
+          "meanSpentBandages": 0.0625
+        },
+        {
+          "partySize": 3,
+          "class": "WARRIOR",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 19.0,
+          "participantTurnsP95": 30,
+          "roundMedian": 4.5,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 7.78125,
+          "meanEnemyAttacks": 6.625,
+          "meanSpentBandages": 0.03125
+        },
+        {
+          "partySize": 3,
+          "class": "WARRIOR",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 16.5,
+          "participantTurnsP95": 24,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 6.1875,
+          "meanEnemyAttacks": 5.5,
+          "meanSpentBandages": 0.0
+        },
+        {
+          "partySize": 3,
+          "class": "ROGUE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 8.5,
+          "participantTurnsP95": 19,
+          "roundMedian": 2.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 4.875,
+          "meanEnemyAttacks": 2.34375,
+          "meanSpentBandages": 0.125
+        },
+        {
+          "partySize": 3,
+          "class": "ROGUE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 8.5,
+          "participantTurnsP95": 19,
+          "roundMedian": 2.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 4.875,
+          "meanEnemyAttacks": 2.34375,
+          "meanSpentBandages": 0.125
+        },
+        {
+          "partySize": 3,
+          "class": "MAGE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 12.5,
+          "participantTurnsP95": 23,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 7.0,
+          "meanEnemyAttacks": 3.8125,
+          "meanSpentBandages": 0.28125
+        },
+        {
+          "partySize": 3,
+          "class": "MAGE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 10.5,
+          "participantTurnsP95": 19,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 5.75,
+          "meanEnemyAttacks": 2.875,
+          "meanSpentBandages": 0.21875
+        },
+        {
+          "partySize": 3,
+          "class": "BARD",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 15.0,
+          "participantTurnsP95": 24,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 8.0,
+          "meanEnemyAttacks": 4.59375,
+          "meanSpentBandages": 0.0
+        },
+        {
+          "partySize": 3,
+          "class": "BARD",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 13.5,
+          "participantTurnsP95": 23,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 4,
+          "meanHeroAttacks": 7.53125,
+          "meanEnemyAttacks": 4.09375,
+          "meanSpentBandages": 0.0
+        },
+        {
+          "partySize": 4,
+          "class": "WARRIOR",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 24.5,
+          "participantTurnsP95": 36,
+          "roundMedian": 5.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 7.90625,
+          "meanEnemyAttacks": 6.90625,
+          "meanSpentBandages": 0.0625
+        },
+        {
+          "partySize": 4,
+          "class": "WARRIOR",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 21.0,
+          "participantTurnsP95": 35,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 6.8125,
+          "meanEnemyAttacks": 6.28125,
+          "meanSpentBandages": 0.03125
+        },
+        {
+          "partySize": 4,
+          "class": "ROGUE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 9.0,
+          "participantTurnsP95": 22,
+          "roundMedian": 2.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 5.46875,
+          "meanEnemyAttacks": 2.4375,
+          "meanSpentBandages": 0.0625
+        },
+        {
+          "partySize": 4,
+          "class": "ROGUE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 9.0,
+          "participantTurnsP95": 22,
+          "roundMedian": 2.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 5.46875,
+          "meanEnemyAttacks": 2.4375,
+          "meanSpentBandages": 0.0625
+        },
+        {
+          "partySize": 4,
+          "class": "MAGE",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 14.0,
+          "participantTurnsP95": 24,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 8.4375,
+          "meanEnemyAttacks": 3.71875,
+          "meanSpentBandages": 0.15625
+        },
+        {
+          "partySize": 4,
+          "class": "MAGE",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 12.0,
+          "participantTurnsP95": 22,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 6.5625,
+          "meanEnemyAttacks": 3.09375,
+          "meanSpentBandages": 0.21875
+        },
+        {
+          "partySize": 4,
+          "class": "BARD",
+          "scouted": false,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 17.0,
+          "participantTurnsP95": 29,
+          "roundMedian": 4.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 9.9375,
+          "meanEnemyAttacks": 4.71875,
+          "meanSpentBandages": 0.0
+        },
+        {
+          "partySize": 4,
+          "class": "BARD",
+          "scouted": true,
+          "samples": 32,
+          "wins": 32,
+          "losses": 0,
+          "unfinished": 0,
+          "participantTurnsMedian": 14.0,
+          "participantTurnsP95": 23,
+          "roundMedian": 3.0,
+          "maxWaitOtherTurns": 5,
+          "meanHeroAttacks": 7.96875,
+          "meanEnemyAttacks": 3.875,
+          "meanSpentBandages": 0.0
+        }
+      ]
+    }
+  }
+}

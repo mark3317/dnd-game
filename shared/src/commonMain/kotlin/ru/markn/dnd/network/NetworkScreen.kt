@@ -1,6 +1,9 @@
 package ru.markn.dnd.network
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -27,7 +30,14 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
     val room = state.room
     val connected = state.status == ConnectionStatus.CONNECTED
     val host = room != null && room.hostPlayerId == state.playerId
-    val available = connected && !state.busy
+    val sessionUi = state.sessionPresentation()
+    val leaveUi = state.leavePresentation()
+    val paused = sessionUi.paused
+    val available = sessionUi.commandsAvailable
+    var awaitingLeaveAcknowledgement by remember { mutableStateOf(false) }
+    LaunchedEffect(state.leaveAcknowledged, awaitingLeaveAcknowledgement) {
+        if (state.leaveAcknowledged && awaitingLeaveAcknowledgement) onBack()
+    }
     var confirmLeave by remember { mutableStateOf(false) }
     var pendingScenario by rememberSaveable { mutableStateOf<String?>(null) }
     var copied by remember { mutableStateOf(false) }
@@ -47,9 +57,14 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
             Column(Modifier.widthIn(max = 1000.dp).fillMaxWidth().weight(1f).verticalScroll(rememberScrollState()).padding(24.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 MenuHeader(if (creating) "Создать игру" else "Присоединиться к игре",
-                    if (creating) "Выберите историю — и соберите свой отряд" else "У каждого приключения есть место для друга", onBack = { client.leave(); onBack() })
-                OutlinedTextField(address, { address = it }, label = { Text("Адрес сервера") }, singleLine = true, modifier = Modifier.fillMaxWidth(), enabled = state.status != ConnectionStatus.CONNECTING)
-                OutlinedTextField(name, { name = it.take(24) }, label = { Text("Ваше имя") }, singleLine = true, modifier = Modifier.fillMaxWidth(), enabled = state.status != ConnectionStatus.CONNECTING)
+                    if (creating) "Выберите историю — и соберите свой отряд" else "У каждого приключения есть место для друга", onBack = { if (!state.canResumeSession) client.leave(); onBack() })
+                if (state.canResumeSession) {
+                    Text("Партия ожидает вашего возвращения. Восстановите связь; история хранится только на работающем сервере.", color = AdventureMuted)
+                    AdventureButton(onClick = client::reconnect, enabled = state.status != ConnectionStatus.CONNECTING) { Text("Вернуться к партии") }
+                    state.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                } else {
+                AdventureTextField(address, { address = it }, label = "Адрес сервера", singleLine = true, modifier = Modifier.fillMaxWidth(), enabled = state.status != ConnectionStatus.CONNECTING)
+                AdventureTextField(name, { name = it.take(24) }, label = "Ваше имя", singleLine = true, modifier = Modifier.fillMaxWidth(), enabled = state.status != ConnectionStatus.CONNECTING)
                 if (creating) {
                     Text("Нажмите карточку, чтобы создать комнату. После этого можно выбрать героя и пригласить друзей.", color = AdventureMuted)
                     ScenarioPicker(null, enabled = name.isNotBlank() && address.isNotBlank() && state.status != ConnectionStatus.CONNECTING,
@@ -57,16 +72,20 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
                         pendingScenario = id; client.connect(address, name)
                     }
                 } else {
-                    OutlinedTextField(code, { code = it.uppercase().filter { ch -> ch.isLetterOrDigit() }.take(6) }, label = { Text("Код комнаты") }, singleLine = true, modifier = Modifier.fillMaxWidth())
-                    Button(shape = MaterialTheme.shapes.small, onClick = { client.connect(address, name, code) }, enabled = name.isNotBlank() && address.isNotBlank() && code.length == 6 && state.status != ConnectionStatus.CONNECTING,
+                    AdventureTextField(code, { code = it.uppercase().filter { ch -> ch.isLetterOrDigit() }.take(6) }, label = "Код комнаты", singleLine = true, modifier = Modifier.fillMaxWidth())
+                    AdventureButton(onClick = { client.connect(address, name, code) }, enabled = name.isNotBlank() && address.isNotBlank() && code.length == 6 && state.status != ConnectionStatus.CONNECTING,
                         modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp)) { Text("Присоединиться") }
                     Text("Попросите создателя комнаты прислать адрес сервера и код приглашения.", color = AdventureMuted)
                 }
                 if (state.status == ConnectionStatus.CONNECTING) {
-                    LinearProgressIndicator(Modifier.fillMaxWidth())
+                    if (LocalReducedMotion.current) {
+                        AdventureDivider()
+                        Text("Подключаемся к серверу…", color = AdventureMuted)
+                    } else LinearProgressIndicator(Modifier.fillMaxWidth())
                     TextButton(shape = MaterialTheme.shapes.small, onClick = client::leave) { Text("Отменить подключение") }
                 }
                 state.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                }
             }
         } else {
             if (room.adventure == null) Column(Modifier.widthIn(max = 1100.dp).fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -88,14 +107,12 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
             if (game == null) {
                 Column(Modifier.weight(1f).widthIn(max = 1100.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(24.dp),
                     verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                    Text("Ожидаем друзей", style = MaterialTheme.typography.headlineSmall)
-                    Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = .9f))) {
-                        Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Text("ПРИГЛАШЕНИЕ В ОТРЯД", color = AdventureGold, style = MaterialTheme.typography.labelSmall)
-                            Text(room.code, style = MaterialTheme.typography.headlineLarge)
-                            Text("Передайте друзьям код и адрес сервера. Они смогут войти через «Присоединиться к игре».")
-                            OutlinedButton(shape = MaterialTheme.shapes.small, onClick = { clipboard.setText(AnnotatedString("Истории у костра\nСервер: $address\nКод комнаты: ${room.code}")); copied = true }) { Text(if (copied) "Приглашение скопировано" else "Скопировать приглашение") }
-                        }
+                    AdventureSectionTitle("Ожидаем друзей")
+                    AdventurePanel(Modifier.fillMaxWidth(), emphasized = true) {
+                        Text("ПРИГЛАШЕНИЕ В ОТРЯД", color = AdventureGold, style = MaterialTheme.typography.labelSmall)
+                        Text(room.code, style = MaterialTheme.typography.headlineLarge)
+                        Text("Передайте друзьям код и адрес сервера. Они смогут войти через «Присоединиться к игре».")
+                        AdventureButton(secondary = true, onClick = { clipboard.setText(AnnotatedString("Истории у костра\nСервер: $address\nКод комнаты: ${room.code}")); copied = true }) { Text(if (copied) "Приглашение скопировано" else "Скопировать приглашение") }
                     }
                     ScenarioPicker(room.scenarioId, enabled = host && available, onlySelected = !choosingStory) { id ->
                         choosingStory = false
@@ -109,10 +126,10 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
                         selectionConfirmed = room.members.firstOrNull { it.player.id == state.playerId }?.characterConfirmed == true) { profile ->
                         client.command(NetworkAction.SELECT_CHARACTER, character = profile)
                     }
-                    Text("Ваш отряд", style = MaterialTheme.typography.titleLarge)
+                    AdventureSectionTitle("Ваш отряд")
                     room.members.forEach { member ->
-                        OutlinedCard(Modifier.fillMaxWidth()) {
-                            Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        AdventurePanel(Modifier.fillMaxWidth(), emphasized = member.player.id == state.playerId) {
+                            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                                 member.player.hero.profile?.let { CharacterPortrait(it, Modifier.size(56.dp)) }
                                 Column(Modifier.weight(1f)) {
                                     Text("${member.player.name} · ${member.player.hero.name}", style = MaterialTheme.typography.titleMedium)
@@ -126,7 +143,7 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
                             Text("Убрать из лобби: " + member.player.name)
                         }
                     }
-                    if (host) Button(shape = MaterialTheme.shapes.small, onClick = { client.command(NetworkAction.START) },
+                    if (host) AdventureButton(onClick = { client.command(NetworkAction.START) },
                         enabled = available && pendingScenario == null && room.members.size >= 2 && room.members.all { it.online && it.characterConfirmed },
                         modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp),
                     ) { Text("Начать приключение") }
@@ -135,12 +152,19 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
                     else if (room.members.any { !it.online }) Text("Дождитесь подключения всех участников или уберите отключившихся из группы.", color = AdventureMuted)
                     else if (room.members.any { !it.characterConfirmed }) Text("Каждый участник должен подтвердить выбор героя.", color = AdventureMuted)
                 }
-            } else {
+            } else if (room.lifecycle != RoomLifecycle.CLOSED) {
+                val speechGeneration = state.connectionGeneration
                 Box(Modifier.weight(1f).fillMaxWidth()) {
                     AdventureScreen(
                         state = game,
-                        speechBaseUrl = speechServerOrigin(address),
+                        speechBaseUrl = speechServerOrigin(client.serverAddress.ifBlank { address }),
                         serverTimeOffsetMillis = state.serverTimeOffsetMillis,
+                        networkPresentation = room.presentation,
+                        connectionGeneration = speechGeneration,
+                        networkConnected = connected,
+                        presentationPaused = paused,
+                        pausedAtMillis = room.pausedAtMillis,
+                        onSpeechAck = { acknowledgement -> client.speechAck(acknowledgement, speechGeneration) },
                         awaitingNarration = room.pendingNarration != null,
                         onFinished = { client.leave(); onBack() },
                         onSubmit = { _, turn, text -> client.command(NetworkAction.SUBMIT, turnId = turn, text = text) },
@@ -157,11 +181,10 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
                         onExit = { confirmLeave = true },
                         statusText = state.error ?: room.gameMasterError ?: if (!connected) "Связь прервана. Подключитесь снова." else
                             room.pendingNarration?.takeIf { it.kind != NarrationKind.REACTION }?.let { "Собеседник отвечает…" },
-                        onCancelNarration = room.pendingNarration?.takeIf { it.playerId == state.playerId }?.let { pending ->
+                        onCancelNarration = room.pendingNarration?.takeIf { it.playerId == state.playerId && available && !paused }?.let { pending ->
                             { client.command(NetworkAction.CANCEL_NARRATION, turnId = pending.turnId, narrationId = pending.id) }
                         },
-                        onSkipDisconnected = if (host && room.members.none { it.player.id == game.activePlayer.id && it.online })
-                            ({ client.command(NetworkAction.SKIP_DISCONNECTED, turnId = game.turnId) }) else null,
+                        onSkipDisconnected = null,
                         onReconnect = if (!connected) client::reconnect else null,
                     )
                 }
@@ -169,11 +192,42 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
         }
     }
     }
-    if (confirmLeave) AlertDialog(
+    if (room?.lifecycle == RoomLifecycle.CLOSED) {
+        val leaver = sessionUi.closedByName ?: "Участник"
+        Box(Modifier.fillMaxSize().background(Color(0xF5091118)).clickable(onClick = {}), contentAlignment = Alignment.Center) {
+            AdventurePanel(Modifier.widthIn(max = 580.dp).padding(24.dp)) {
+                Text("Партия завершена", style = MaterialTheme.typography.headlineMedium)
+                Text("$leaver подтвердил выход. Приключение завершено для всей группы.")
+                AdventureButton(onClick = { client.leave(); onBack() }) { Text("В главное меню") }
+            }
+        }
+    } else if (paused && room != null) {
+        val waiting = sessionUi.waitingNames
+        Box(Modifier.fillMaxSize().background(Color(0xDF091118)).clickable(onClick = {}), contentAlignment = Alignment.Center) {
+            AdventurePanel(Modifier.widthIn(max = 620.dp).padding(24.dp)) {
+                Text("Партия на паузе", style = MaterialTheme.typography.headlineMedium)
+                Text(if (waiting.isEmpty()) "Восстанавливаем связь с группой…" else "Ждём возвращения: ${waiting.joinToString()}.")
+                Text("Текущий момент сохранён на сервере. Игра продолжится, когда все вернутся.", color = AdventureMuted)
+                if (!connected) AdventureButton(onClick = client::reconnect, enabled = state.status != ConnectionStatus.CONNECTING) { Text("Подключиться снова") }
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    GameSettingsButton()
+                    AdventureButton(secondary = true, onClick = { confirmLeave = true }) { Text("Завершить партию…") }
+                }
+                state.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+            }
+        }
+    }
+    if (confirmLeave) AdventureDialog(
         onDismissRequest = { confirmLeave = false },
-        title = { Text("Выйти из комнаты?") },
-        text = { Text("После выхода вернуться к своему персонажу с этого экрана не получится. При обрыве связи используйте «Подключиться снова».") },
-        confirmButton = { TextButton(shape = MaterialTheme.shapes.small, onClick = { confirmLeave = false; client.leave(); onBack() }) { Text("Выйти") } },
-        dismissButton = { TextButton(shape = MaterialTheme.shapes.small, onClick = { confirmLeave = false }) { Text("Остаться") } },
+        title = "Выйти из комнаты?",
+        text = {
+            Text(leaveUi.explanation)
+            state.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+        },
+        confirmButton = { AdventureButton(secondary = true, onClick = {
+            if (leaveUi.requiresAcknowledgement) { awaitingLeaveAcknowledgement = true; client.requestLeave() }
+            else { confirmLeave = false; client.leave(); onBack() }
+        }, enabled = !state.leavePending) { Text(if (state.leavePending) "Ожидаем сервер…" else "Выйти") } },
+        dismissButton = { AdventureButton(onClick = { confirmLeave = false }) { Text("Остаться") } },
     )
 }

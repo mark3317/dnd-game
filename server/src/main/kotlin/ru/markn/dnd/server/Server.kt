@@ -13,6 +13,7 @@ import ru.markn.dnd.network.*
 import kotlin.time.Duration.Companion.seconds
 
 fun main(args: Array<String>) {
+    if ("--evaluate-ai" in args) { evaluateDemoAi(args); return }
     if ("--export-speech" in args) { exportSpeech(args.getOrNull(args.indexOf("--export-speech") + 1) ?: error("Output path required")); return }
     if ("--probe-ai" in args) { probeGameMaster(); return }
     if ("--probe-ai-region" in args) { probeGameMasterCases(alternativeRegion = true); return }
@@ -22,17 +23,19 @@ fun main(args: Array<String>) {
     embeddedServer(CIO, host = "0.0.0.0", port = port) {
         val narrator = ClaudeSettings.fromEnvironment()?.let { ClaudeGameMaster(it) }
         monitor.subscribe(ApplicationStopped) { narrator?.close() }
-        gameServer(Rooms(gameMaster = narrator, aiScope = this))
+        gameServer(gameMaster = narrator)
     }.start(wait = true)
 }
 
-fun Application.gameServer(rooms: Rooms = Rooms()) {
+fun Application.gameServer(rooms: Rooms? = null, gameMaster: GameMaster? = null) {
     val speechHttp = io.ktor.client.HttpClient(io.ktor.client.engine.cio.CIO)
     monitor.subscribe(ApplicationStopped) { speechHttp.close() }
+    val activeRooms = rooms ?: Rooms(gameMaster = gameMaster, aiScope = this,
+        speechPreparer = LocalRoomSpeechPreparer(speechHttp))
     install(WebSockets) {
         contentConverter = KotlinxWebsocketSerializationConverter(GameWireJson)
-        pingPeriod = 20.seconds
-        timeout = 30.seconds
+        pingPeriod = 5.seconds
+        timeout = 10.seconds
         maxFrameSize = 16 * 1024
     }
     routing {
@@ -43,7 +46,7 @@ fun Application.gameServer(rooms: Rooms = Rooms()) {
             try {
                 val join = withTimeout(15_000) { receiveDeserialized<ClientMessage>() } as? ClientMessage.Join
                     ?: error("Сначала подключитесь к комнате.")
-                val admission = rooms.join(join)
+                val admission = activeRooms.join(join)
                 connection = admission.connection
                 sendSerialized<ServerMessage>(admission.welcome)
                 val updates = launch {
@@ -55,13 +58,22 @@ fun Application.gameServer(rooms: Rooms = Rooms()) {
                 }
                 try {
                     while (true) {
-                        val command = receiveDeserialized<ClientMessage>() as? ClientMessage.Command
-                            ?: error("Повторное подключение недоступно.")
-                        sendSerialized<ServerMessage>(rooms.command(admission.connection, command))
+                        when (val message = receiveDeserialized<ClientMessage>()) {
+                            is ClientMessage.Command -> sendSerialized<ServerMessage>(activeRooms.command(admission.connection, message))
+                            is ClientMessage.SpeechAck -> activeRooms.speechAck(admission.connection, message.acknowledgement)
+                            ClientMessage.Leave -> {
+                                activeRooms.leave(admission.connection)
+                                sendSerialized<ServerMessage>(ServerMessage.Left)
+                                break
+                            }
+                            is ClientMessage.Join -> error("Повторное подключение недоступно.")
+                        }
                     }
                 } finally { updates.cancel(); replacement.cancel() }
             } catch (e: CancellationException) {
                 throw e
+            } catch (e: RoomConnectionRejected) {
+                sendSerialized<ServerMessage>(ServerMessage.Error(e.message ?: "Подключение недоступно.", e.reason))
             } catch (e: IllegalArgumentException) {
                 sendSerialized<ServerMessage>(ServerMessage.Error(e.message ?: "Неверные данные."))
             } catch (e: IllegalStateException) {
@@ -70,7 +82,7 @@ fun Application.gameServer(rooms: Rooms = Rooms()) {
                 // Transport errors and malformed frames must not leak tokens or payloads.
             } finally {
                 withContext(NonCancellable) {
-                    connection?.let { rooms.disconnect(it) }
+                    connection?.let { activeRooms.disconnect(it) }
                     close(CloseReason(CloseReason.Codes.NORMAL, "Session closed"))
                 }
             }

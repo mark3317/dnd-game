@@ -18,11 +18,19 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
+import ru.markn.dnd.adventure.ui.PausableCrossfade
+import ru.markn.dnd.adventure.ui.PausableVisibility
+import ru.markn.dnd.adventure.ui.LocalPresentationPauseClock
+import ru.markn.dnd.adventure.ui.presentationDelay
+import ru.markn.dnd.adventure.ui.presentationAnimation
 import org.jetbrains.compose.resources.painterResource
 import ru.markn.dnd.adventure.DiceEvent
 import ru.markn.dnd.adventure.ui.DiceRollOverlay
-import ru.markn.dnd.adventure.ui.LocalGameMotion
+import ru.markn.dnd.adventure.ui.LocalReducedMotion
+import ru.markn.dnd.adventure.ui.GameMotionProfile
+import ru.markn.dnd.adventure.ui.LocalGameEffects
+import ru.markn.dnd.adventure.ui.LocalSoundPresentationId
+import ru.markn.dnd.adventure.ui.combatSounds
 import ru.markn.dnd.generated.resources.*
 import kotlin.math.PI
 import kotlin.math.sin
@@ -32,6 +40,7 @@ internal fun CombatEventPresentation(event: CombatEvent, controllingPlayerId: St
     when (event.kind) {
         CombatEventKind.INITIATIVE -> CombatOpeningPresentation(event, controllingPlayerId, onDone)
         CombatEventKind.MOVE -> MovementPresentation(event, controllingPlayerId, onDone)
+        CombatEventKind.ESCORT_MOVE, CombatEventKind.ESCORT_EXPIRED -> EscortEventPresentation(event, onDone)
         else -> InteractionPresentation(event, onDone)
     }
 }
@@ -39,11 +48,10 @@ internal fun CombatEventPresentation(event: CombatEvent, controllingPlayerId: St
 @Composable
 private fun CombatOpeningPresentation(event: CombatEvent, controllingPlayerId: String?, onDone: () -> Unit) {
     var rolling by remember { mutableStateOf(false) }
-    val motion = LocalGameMotion.current
-    LaunchedEffect(Unit) { delay(if (motion) 950 else 350); rolling = true }
-    AnimatedContent(rolling, modifier = Modifier.fillMaxSize(), transitionSpec = {
-        fadeIn(tween(if (motion) 350 else 0)) togetherWith fadeOut(tween(if (motion) 250 else 0))
-    }, label = "battle opening") { showRoll ->
+    val pauseClock = LocalPresentationPauseClock.current
+    val profile = GameMotionProfile(LocalReducedMotion.current)
+    LaunchedEffect(Unit) { pauseClock.presentationDelay(if (profile.reduced) 350 else 950); rolling = true }
+    PausableCrossfade(rolling, modifier = Modifier.fillMaxSize(), millis = profile.transitionMillis(350)) { showRoll ->
         if (!showRoll) Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = .72f)).clickable(onClick = {}),
             contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(24.dp)) {
@@ -61,7 +69,7 @@ private fun CombatOpeningPresentation(event: CombatEvent, controllingPlayerId: S
                   Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("БОЙ НАЧИНАЕТСЯ", color = BattleGold, style = MaterialTheme.typography.titleLarge)
                     Spacer(Modifier.height(8.dp))
-                    AnimatedVisibility(revealed, enter = slideInVertically(tween(450)) { -it } + fadeIn(tween(450))) {
+                    PausableVisibility(revealed, enterMillis = profile.transitionMillis(450)) {
                         Column {
                             Text("ПОРЯДОК ХОДОВ", color = BattleGold, fontSize = 11.sp)
                             CombatTurnStrip(event.fighters, event.initiative, event.initiative.first().fighterId)
@@ -76,22 +84,46 @@ private fun CombatOpeningPresentation(event: CombatEvent, controllingPlayerId: S
 @Composable
 private fun MovementPresentation(event: CombatEvent, controllingPlayerId: String?, onDone: () -> Unit) {
     val progress = remember { Animatable(0f) }
-    LaunchedEffect(Unit) {
-        progress.animateTo((event.path.size - 1).coerceAtLeast(0).toFloat(),
-            tween((event.path.size - 1).coerceAtLeast(1) * 280, easing = LinearEasing))
-        delay(150); onDone()
+    val pauseClock = LocalPresentationPauseClock.current
+    val reduced = LocalReducedMotion.current
+    val effects by rememberUpdatedState(LocalGameEffects.current)
+    val soundId = LocalSoundPresentationId.current
+    LaunchedEffect(soundId) {
+        if (reduced) {
+            combatSounds(event).lastOrNull()?.let { if (soundId != null) effects?.play(soundId, it.phase, it.sound) }
+            return@LaunchedEffect
+        }
+        var elapsed = 0L
+        for (sound in combatSounds(event)) {
+            pauseClock.presentationDelay((sound.atMillis - elapsed).coerceAtLeast(0)); elapsed = sound.atMillis
+            if (soundId != null) effects?.play(soundId, sound.phase, sound.sound)
+        }
     }
-    val index = progress.value.toInt().coerceIn(0, event.path.lastIndex.coerceAtLeast(0))
+    LaunchedEffect(reduced) {
+        val end = (event.path.size - 1).coerceAtLeast(0).toFloat()
+        if (reduced) progress.snapTo(end) else pauseClock.presentationAnimation { progress.animateTo(end,
+            tween((event.path.size - 1).coerceAtLeast(1) * 280, easing = LinearEasing)) }
+    }
+    LaunchedEffect(Unit) {
+        // Static movement retains the same visible path interval; no queue event is dropped.
+        pauseClock.presentationDelay((event.path.size - 1).coerceAtLeast(1) * 280L + 150)
+        onDone()
+    }
+    val displayedProgress = if (reduced) event.path.lastIndex.coerceAtLeast(0).toFloat() else progress.value
+    val index = displayedProgress.toInt().coerceIn(0, event.path.lastIndex.coerceAtLeast(0))
     val from = event.path.getOrNull(index) ?: event.actor.tile
     val to = event.path.getOrNull(index + 1) ?: from
-    val fraction = progress.value - index
+    val fraction = displayedProgress - index
     val position = Offset(from.x + (to.x - from.x) * fraction, from.y + (to.y - from.y) * fraction)
-    val battle = remember(event) { CombatDemo(fighters = event.fighters, activeId = event.actor.id) }
+    val battle = remember(event) { CombatDemo(fighters = event.fighters, activeId = event.actor.id,
+        escortObjective = event.escortBefore ?: event.escortAfter) }
     BoxWithConstraints(Modifier.fillMaxSize().background(BattleInk).clickable(onClick = {}).safeDrawingPadding(), contentAlignment = Alignment.Center) {
         val boardWidth = ((maxHeight - 85.dp).coerceAtLeast(200.dp) * 1.2f).coerceAtMost(900.dp)
         Column(Modifier.widthIn(max = boardWidth).fillMaxWidth().verticalScroll(rememberScrollState()).padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
             Text("${event.actor.name} · перемещение", color = BattleGold, style = MaterialTheme.typography.titleLarge)
+            if (reduced) Text("Маршрут: ${event.path.joinToString(" → ") { it.label }}", color = BattleMint,
+                style = MaterialTheme.typography.bodySmall)
             Spacer(Modifier.height(10.dp))
             Battlefield(battle, movingId = event.actor.id, movingPosition = position,
                 highlightTurn = !event.actor.enemy && (controllingPlayerId == null || controllingPlayerId == event.actor.id))
@@ -102,18 +134,34 @@ private fun MovementPresentation(event: CombatEvent, controllingPlayerId: String
 @Composable
 private fun InteractionPresentation(event: CombatEvent, onDone: () -> Unit) {
     val progress = remember { Animatable(0f) }
+    val pauseClock = LocalPresentationPauseClock.current
+    val profile = GameMotionProfile(LocalReducedMotion.current)
     var fast by remember { mutableStateOf(false) }
     var revealed by remember { mutableStateOf(false) }
-    LaunchedEffect(fast) {
-        if (fast) progress.snapTo(1f) else progress.animateTo(1f, tween(2200, easing = LinearEasing))
-        revealed = true
-        delay(2400); onDone()
+    LaunchedEffect(fast, profile.reduced) {
+        if (!revealed) {
+            if (fast || profile.reduced) progress.snapTo(1f)
+            else pauseClock.presentationAnimation { progress.animateTo(1f, tween(profile.interactionWindupMillis, easing = LinearEasing)) }
+            revealed = true
+        }
     }
-    val t = progress.value
+    LaunchedEffect(revealed) { if (revealed) { pauseClock.presentationDelay(profile.interactionResultMillis); onDone() } }
+    val t = if (profile.reduced) 1f else progress.value
+    val effects by rememberUpdatedState(LocalGameEffects.current)
+    val soundId = LocalSoundPresentationId.current
+    val sounds = remember(event) { combatSounds(event) }
+    // Match the actual visual thresholds, including a user accelerating straight to impact.
+    LaunchedEffect(t >= .25f, t >= .55f, soundId) {
+        if (soundId != null) sounds.filter { sound ->
+            if (sound.phase == "windup") t >= .25f && t < .55f else t >= .55f
+        }.forEach { effects?.play(soundId, it.phase, it.sound) }
+    }
     val supportive = event.kind in listOf(CombatEventKind.HELP, CombatEventKind.HEAL, CombatEventKind.BANDAGE, CombatEventKind.GUARD)
     val healing = event.kind in listOf(CombatEventKind.HEAL, CombatEventKind.BANDAGE)
     val impact = t >= .55f
     val actorPose = when {
+        profile.reduced && event.kind == CombatEventKind.GUARD -> BattlePose.IDLE
+        profile.reduced -> if (supportive) BattlePose.HELP else BattlePose.ATTACK
         t < .25f || t > .88f -> BattlePose.IDLE
         event.kind == CombatEventKind.GUARD -> BattlePose.IDLE
         supportive -> BattlePose.HELP
@@ -137,15 +185,15 @@ private fun InteractionPresentation(event: CombatEvent, onDone: () -> Unit) {
             verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.Center) {
             BattleAvatar(event.actor, pose = if (target == null && impact && healing) BattlePose.HEALED else actorPose,
                 modifier = Modifier.weight(1f).fillMaxHeight().graphicsLayer {
-                    translationX = if (!supportive && t in .25f.. .8f) sin((t - .25f) / .55f * PI).toFloat() * width.toPx() * .10f else 0f
+                    translationX = if (!profile.reduced && !supportive && t in .25f.. .8f) sin((t - .25f) / .55f * PI).toFloat() * width.toPx() * .10f else 0f
                 })
             if (target != null) BattleAvatar(target, pose = targetPose, facingLeft = true,
                 modifier = Modifier.weight(1f).fillMaxHeight().graphicsLayer {
-                    translationX = if (impact && t < .88f) sin((t - .55f) / .33f * PI).toFloat() * width.toPx() * (if (event.hit) .025f else .07f) else 0f
+                    translationX = if (!profile.reduced && impact && t < .88f) sin((t - .55f) / .33f * PI).toFloat() * width.toPx() * (if (event.hit) .025f else .07f) else 0f
                 })
         }
         Canvas(Modifier.fillMaxSize()) {
-            if (t in .40f.. .9f) {
+            if (!profile.reduced && t in .40f.. .9f) {
                 val intensity = sin((t - .4f) / .5f * PI).toFloat().coerceIn(0f, 1f)
                 val color = if (supportive && event.kind != CombatEventKind.GUARD) BattleMint else BattleGold
                 val aim = Offset(size.width * if (target == null) .5f else .72f, size.height * .57f)
@@ -166,8 +214,7 @@ private fun InteractionPresentation(event: CombatEvent, onDone: () -> Unit) {
         }
         Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().safeDrawingPadding().heightIn(max = 240.dp)
             .verticalScroll(rememberScrollState()).padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            AnimatedVisibility(revealed, enter = fadeIn(tween(280)) + slideInVertically(tween(280)) { it / 3 },
-                exit = fadeOut(tween(180))) {
+            PausableVisibility(revealed, enterMillis = profile.transitionMillis(280), exitMillis = profile.transitionMillis(180)) {
               Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(interactionOutcome(event), color = if (supportive) BattleMint else BattleGold,
                     style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)

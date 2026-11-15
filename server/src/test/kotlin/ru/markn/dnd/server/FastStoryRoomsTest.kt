@@ -14,14 +14,14 @@ class FastStoryRoomsTest {
             override suspend fun narrate(outcome: OutcomeNarration): String { calls++; error("No model needed") }
         }
         val rooms = Rooms(gm, this, presentationEnabled = false) { AdventureEngine(DiceRoller { 1 }) }
-        val a = rooms.join(ClientMessage.Join("A"))
-        rooms.join(ClientMessage.Join("B", a.welcome.room.code))
-        val start = rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START)).room.adventure!!
-        val pending = rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.SUBMIT, turnId = start.turnId, text = Lighthouse.CLIMB.text))
+        val a = rooms.joinReady(ClientMessage.Join("A"))
+        rooms.joinReady(ClientMessage.Join("B", a.welcome.room.code))
+        val start = rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.START)).room.adventure!!
+        val pending = rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.SUBMIT, turnId = start.turnId, text = Lighthouse.CLIMB.text))
         assertNull(pending.error)
         assertNull(pending.room.pendingNarration)
         val check = pending.room.adventure!!.pendingCheck!!
-        val done = rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.ROLL, checkId = check.id))
+        val done = rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.ROLL, checkId = check.id))
         assertNull(done.error)
         assertNull(done.room.pendingNarration)
         assertEquals(2, done.room.adventure!!.checksRemaining)
@@ -41,14 +41,14 @@ class FastStoryRoomsTest {
             }
         }
         val rooms = Rooms(gm, this, presentationEnabled = false) { AdventureEngine(DiceRoller { 1 }) }
-        val a = rooms.join(ClientMessage.Join("A"))
-        val b = rooms.join(ClientMessage.Join("B", a.welcome.room.code))
-        val start = rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START)).room.adventure!!
-        rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.SUBMIT, turnId = start.turnId, text = "Пытаюсь подняться иным способом"))
+        val a = rooms.joinReady(ClientMessage.Join("A"))
+        val b = rooms.joinReady(ClientMessage.Join("B", a.welcome.room.code))
+        val start = rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.START)).room.adventure!!
+        rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.SUBMIT, turnId = start.turnId, text = "Пытаюсь подняться иным способом"))
         val prepared = withTimeout(3_000) { a.connection.updates.first { it.adventure?.pendingCheck != null } }
-        val rolled = rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.ROLL, checkId = prepared.adventure!!.pendingCheck!!.id))
+        val rolled = rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.ROLL, checkId = prepared.adventure!!.pendingCheck!!.id))
         entered.await()
-        val continued = rooms.command(b.connection, ClientMessage.Command(1, NetworkAction.PASS, turnId = rolled.room.adventure!!.turnId))
+        val continued = rooms.command(b.connection, ClientMessage.Command(2, NetworkAction.PASS, turnId = rolled.room.adventure!!.turnId))
         assertNotNull(continued.error)
         assertNotNull(continued.room.pendingNarration)
         release.complete(Unit)

@@ -28,6 +28,8 @@ class StoryMusic {
     var volume by mutableFloatStateOf(runCatching { settings?.getFloat("music.volume", .30f) ?: .30f }.getOrDefault(.30f).coerceIn(0f, 1f))
         private set
     var active by mutableStateOf(true)
+    var roomPaused by mutableStateOf(false)
+    internal var pauseClock: PresentationPauseClock? = null
     var loadedFile: String? = null
 
     fun toggle() {
@@ -42,7 +44,7 @@ class StoryMusic {
     }
     // Called directly in click handlers so browsers can grant audio playback permission.
     fun resume(force: Boolean = false) {
-        if (enabled && active) runCatching {
+        if (enabled && active && !roomPaused) runCatching {
             player?.setVolume(volume)
             if (force || player?.state?.value != PlaybackState.Playing) player?.play()
         }
@@ -66,12 +68,15 @@ fun StoryMusicHost(music: StoryMusic) {
         lifecycle.addObserver(observer)
         onDispose { lifecycle.removeObserver(observer); runCatching { player.close() } }
     }
+    LaunchedEffect(music.roomPaused) {
+        if (music.roomPaused) runCatching { player.pause() } else music.resume()
+    }
     LaunchedEffect(music.cue.file, music.enabled, music.active) {
         if (!music.enabled || !music.active) { runCatching { player.pause() }; return@LaunchedEffect }
         if (music.loadedFile != music.cue.file) {
             val initial = player.volume.value
             if (music.loadedFile != null) repeat(12) { step ->
-                runCatching { player.setVolume(initial * (1f - (step + 1) / 12f)) }; delay(40)
+                runCatching { player.setVolume(initial * (1f - (step + 1) / 12f)) }; music.pauseClock.presentationDelay(40)
             }
             runCatching {
                 player.stop()
@@ -81,7 +86,7 @@ fun StoryMusicHost(music: StoryMusic) {
                 player.play()
             }
             repeat(18) { step ->
-                runCatching { player.setVolume(music.volume * (step + 1) / 18f) }; delay(40)
+                runCatching { player.setVolume(music.volume * (step + 1) / 18f) }; music.pauseClock.presentationDelay(40)
             }
         } else music.resume()
     }
@@ -91,7 +96,7 @@ fun StoryMusicHost(music: StoryMusic) {
             state == PlaybackState.Ended || (state == PlaybackState.Playing && duration != null && duration.inWholeMilliseconds > 0 &&
                 position.inWholeMilliseconds >= duration.inWholeMilliseconds - 20)
         }.distinctUntilChanged().collect { ended ->
-            if (ended && music.enabled && music.active) runCatching { player.stop(); player.play() }
+            if (ended && music.enabled && music.active && !music.roomPaused) runCatching { player.stop(); player.play() }
         }
     }
 }

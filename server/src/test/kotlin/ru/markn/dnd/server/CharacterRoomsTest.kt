@@ -9,6 +9,35 @@ import ru.markn.dnd.adventure.*
 import ru.markn.dnd.network.*
 
 class CharacterRoomsTest {
+    @Test fun directStartRequiresEveryCharacterAndRejectedCommandsPreserveLobby() = runBlocking {
+        val rooms = Rooms(presentationEnabled = false)
+        val a = rooms.join(ClientMessage.Join("A"))
+        val b = rooms.join(ClientMessage.Join("B", a.welcome.room.code))
+        val original = a.connection.updates.value
+        val early = rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START))
+        assertNotNull(early.error)
+        assertEquals(original, early.room)
+        assertNull(early.room.adventure)
+        assertNull(rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.SELECT_CHARACTER, character = ReadyCharacters.rin)).error)
+        val halfReady = a.connection.updates.value
+        val partial = rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.START))
+        assertNotNull(partial.error)
+        assertEquals(halfReady, partial.room)
+        assertNull(rooms.command(b.connection, ClientMessage.Command(1, NetworkAction.SELECT_CHARACTER, character = ReadyCharacters.mira)).error)
+        rooms.disconnect(b.connection)
+        val offline = rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.START))
+        assertNotNull(offline.error)
+        assertNull(offline.room.adventure)
+        val restored = rooms.join(ClientMessage.Join("ignored", a.welcome.room.code, b.welcome.resumeToken))
+        assertTrue(restored.welcome.room.members.all { it.characterConfirmed })
+        assertNull(rooms.command(a.connection, ClientMessage.Command(5, NetworkAction.SELECT_SCENARIO, scenarioId = FloodedArchive.ID)).error)
+        val started = rooms.command(a.connection, ClientMessage.Command(6, NetworkAction.START))
+        assertNull(started.error)
+        assertEquals(FloodedArchive.ID, started.room.adventure!!.scenarioId)
+        assertEquals(listOf(ReadyCharacters.rin, ReadyCharacters.mira), started.room.adventure!!.players.map { it.hero.profile })
+        assertEquals(started.room, restored.connection.updates.value)
+    }
+
     @Test fun presetsCanBeChosenRegardlessOfJoinOrderButExplicitChoicesAreProtected() = runBlocking {
         val rooms = Rooms(presentationEnabled = false)
         val a = rooms.join(ClientMessage.Join("A"))
@@ -46,6 +75,7 @@ class CharacterRoomsTest {
         assertEquals(profile, selected.room.members.first().player.hero.profile)
         assertEquals(FloodedArchive.definition.startingItems, selected.room.members.first().player.hero.inventory)
         rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.SELECT_SCENARIO, scenarioId = Lighthouse.ID))
+        assertNull(rooms.command(b.connection, ClientMessage.Command(2, NetworkAction.SELECT_CHARACTER, character = ReadyCharacters.mira)).error)
         rooms.command(a.connection, ClientMessage.Command(5, NetworkAction.START))
         assertNotNull(rooms.command(a.connection, ClientMessage.Command(6, NetworkAction.SELECT_CHARACTER, character = ReadyCharacters.bran)).error)
         val game = a.connection.updates.value.adventure!!
@@ -58,10 +88,19 @@ class CharacterRoomsTest {
         assertEquals(4, rolled.journal.mapNotNull { it.roll }.single().modifier)
         assertNotNull(rooms.command(a.connection, roll.copy(requestId = 9)).error)
         rooms.disconnect(a.connection)
+        val paused = b.connection.updates.value
+        assertEquals(RoomLifecycle.PAUSED, paused.lifecycle)
+        val rejectedRestart = rooms.command(b.connection, ClientMessage.Command(10, NetworkAction.RESTART, sessionId = game.sessionId))
+        assertNotNull(rejectedRestart.error)
+        assertEquals(paused, rejectedRestart.room)
+        assertTrue(rejectedRestart.room.adventure!!.players.first().hero.racialTalentUsed)
         val resumed = rooms.join(ClientMessage.Join("ignored", a.welcome.room.code, a.welcome.resumeToken))
+        assertEquals(RoomLifecycle.ACTIVE, resumed.welcome.room.lifecycle)
         assertEquals(profile, resumed.welcome.room.adventure!!.players.first().hero.profile)
         assertTrue(resumed.welcome.room.adventure!!.players.first().hero.racialTalentUsed)
-        val restarted = rooms.command(b.connection, ClientMessage.Command(10, NetworkAction.RESTART, sessionId = game.sessionId)).room.adventure!!
+        val restart = rooms.command(b.connection, ClientMessage.Command(11, NetworkAction.RESTART, sessionId = game.sessionId))
+        assertNull(restart.error)
+        val restarted = restart.room.adventure!!
         assertEquals(profile, restarted.players.first().hero.profile)
         assertFalse(restarted.players.first().hero.racialTalentUsed)
         assertEquals(restarted.players.first().hero.maxHealth, restarted.players.first().hero.health)
@@ -86,6 +125,7 @@ class CharacterRoomsTest {
                 scores = ReadyCharacters.rin.scores, avatarId = "halfling_warrior")
             a.command(NetworkAction.SELECT_CHARACTER, character = custom)
             withTimeout(10_000) { a.state.first { !it.busy && it.room!!.members.first().player.hero.profile == custom } }
+            confirmNetworkCharacters(*clients.toTypedArray())
             a.command(NetworkAction.START)
             val started = withTimeout(10_000) { a.state.first { !it.busy && it.room?.adventure != null } }.room!!.adventure!!
             assertEquals(4, started.players.size)
@@ -93,7 +133,7 @@ class CharacterRoomsTest {
             a.command(NetworkAction.SUBMIT, turnId = started.turnId, text = Lighthouse.CLIMB.text)
             val check = withTimeout(10_000) { a.state.first { !it.busy && it.room!!.adventure!!.pendingCheck != null } }.room!!.adventure!!.pendingCheck!!
             a.reconnect()
-            withTimeout(15_000) { a.state.first { it.status == ConnectionStatus.CONNECTED } }
+            withTimeout(15_000) { a.state.first { it.status == ConnectionStatus.CONNECTED && it.room?.lifecycle == RoomLifecycle.ACTIVE } }
             a.command(NetworkAction.ROLL, checkId = check.id, useRacialTalent = true)
             val result = withTimeout(10_000) { a.state.first { !it.busy && it.room!!.adventure!!.pendingCheck == null && it.room!!.adventure!!.turnOrder.turnNumber == 2L } }.room!!
             for (client in clients) {

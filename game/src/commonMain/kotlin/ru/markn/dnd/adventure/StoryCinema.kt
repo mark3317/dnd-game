@@ -26,6 +26,7 @@ fun AdventureState.endingShots(): List<StoryShot> {
         ending == FloodedArchive.ORIGINALS_ENDING -> StoryArt.DOCUMENTS
         ending == FloodedArchive.FLOODED_ENDING -> StoryArt.FLOOD
         ending == ArchiveDemo.DEFEAT -> StoryArt.EXTERIOR
+        ending == ArchiveDemo.COURIER_SAFE -> StoryArt.YARD
         else -> StoryArt.YARD
     }
     // The authored ending is always available, even while an optional AI epilogue is pending.

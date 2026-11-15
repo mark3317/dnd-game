@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import ru.markn.dnd.adventure.DiceEvent
 
 @Serializable
-enum class CombatEventKind { INITIATIVE, MOVE, ATTACK, HEAL, HELP, BANDAGE, GUARD }
+enum class CombatEventKind { INITIATIVE, MOVE, ATTACK, HEAL, HELP, BANDAGE, GUARD, ESCORT_MOVE, ESCORT_EXPIRED }
 
 /** An immutable authority snapshot: clients can play every action in a batched update. */
 @Serializable
@@ -20,10 +20,13 @@ data class CombatEvent(
     val rolls: List<DiceEvent> = emptyList(),
     val hit: Boolean = true,
     val healthAfter: Int? = null,
+    val escortBefore: EscortObjectiveState? = null,
+    val escortAfter: EscortObjectiveState? = null,
 )
 
 /** Context controls the palette; validation and costs still come from preview(). */
 fun CombatDemo.contextActions(tile: Tile?): List<DemoAction> {
+    if (tile != null && tile == escortObjective?.tile) return listOf(DemoAction.ESCORT)
     val selected = tile?.let(::occupant) ?: return emptyList()
     return when {
         selected.id == activeId -> listOf(DemoAction.GUARD, DemoAction.BANDAGE) +

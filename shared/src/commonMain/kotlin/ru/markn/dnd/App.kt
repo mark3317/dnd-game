@@ -30,20 +30,30 @@ fun App(onExit: (() -> Unit)? = null) {
     var localScenarioChosen by rememberSaveable { mutableStateOf(false) }
     var confirmLocalExit by remember { mutableStateOf(false) }
     var confirmExit by remember { mutableStateOf(false) }
+    val leaveUi = networkState.leavePresentation()
+    var exitAfterLeave by remember { mutableStateOf(false) }
+    LaunchedEffect(networkState.leaveAcknowledged, exitAfterLeave) {
+        if (exitAfterLeave && networkState.leaveAcknowledged) onExit?.invoke()
+    }
     var selectedHero by remember { mutableStateOf<CharacterProfile?>(null) }
     LaunchedEffect(page, localScenarioChosen, networkState.room?.adventure != null) {
         if (page != "combat" && !(page == "local" && localScenarioChosen) &&
             !(page in listOf("create", "join") && networkState.room?.adventure != null)) music.cue = MusicCue.MENU
     }
-    CompositionLocalProvider(LocalStoryMusic provides music, LocalGameMotion provides preferences.motion, LocalGamePreferences provides preferences) {
+    CompositionLocalProvider(LocalStoryMusic provides music, LocalGameMotion provides preferences.motion,
+        LocalReducedMotion provides preferences.reduceMotion, LocalGamePreferences provides preferences) {
         StoryMusicHost(music)
         AdventureTheme {
             Surface(Modifier.fillMaxSize()) {
-                AnimatedContent(page, transitionSpec = { fadeIn(tween(if (preferences.motion) 280 else 0)) togetherWith fadeOut(tween(if (preferences.motion) 180 else 0)) }, label = "menu transition") { route ->
+                AnimatedContent(page, transitionSpec = {
+                    fadeIn(tween(GameMotionProfile(preferences.reduceMotion).transitionMillis(280))) togetherWith
+                        fadeOut(tween(GameMotionProfile(preferences.reduceMotion).transitionMillis(180)))
+                }, label = "menu transition") { route ->
                     when (route) {
                         "home" -> MainMenu(onCreate = { page = "create" }, onJoin = { page = "join" },
                             onCharacter = { page = "character" }, onSettings = { page = "settings" },
-                            onExit = onExit?.let { { confirmExit = true } })
+                            onExit = onExit?.let { { confirmExit = true } },
+                            onResume = if (networkState.canResumeSession) ({ page = "join"; network.client.reconnect() }) else null, networkError = networkState.error)
                         "create", "join" -> NetworkScreen(network.client, networkState, network.characters,
                             creating = route == "create", onBack = { page = "home" })
                         "character" -> GameBackdrop {
@@ -75,14 +85,27 @@ fun App(onExit: (() -> Unit)? = null) {
                         }
                     }
                 }
-                if (confirmLocalExit) AlertDialog(onDismissRequest = { confirmLocalExit = false },
-                    title = { Text("Вернуться в меню?") }, text = { Text("При выборе новой истории текущая локальная партия будет заменена.") },
-                    confirmButton = { TextButton(shape = MaterialTheme.shapes.small, onClick = { confirmLocalExit = false; localScenarioChosen = false; page = "home" }) { Text("В меню") } },
-                    dismissButton = { TextButton(shape = MaterialTheme.shapes.small, onClick = { confirmLocalExit = false }) { Text("Продолжить") } })
-                if (confirmExit) AlertDialog(onDismissRequest = { confirmExit = false },
-                    title = { Text("Покинуть костёр?") }, text = { Text("Выйти из игры на рабочий стол?") },
-                    confirmButton = { TextButton(shape = MaterialTheme.shapes.small, onClick = { onExit?.invoke() }) { Text("Выйти") } },
-                    dismissButton = { TextButton(shape = MaterialTheme.shapes.small, onClick = { confirmExit = false }) { Text("Остаться") } })
+                if (confirmLocalExit) AdventureDialog(onDismissRequest = { confirmLocalExit = false },
+                    title = "Вернуться в меню?", text = { Text("При выборе новой истории текущая локальная партия будет заменена.") },
+                    confirmButton = { AdventureButton(secondary = true, onClick = { confirmLocalExit = false; localScenarioChosen = false; page = "home" }) { Text("В меню") } },
+                    dismissButton = { AdventureButton(onClick = { confirmLocalExit = false }) { Text("Продолжить") } })
+                if (confirmExit) AdventureDialog(onDismissRequest = { confirmExit = false },
+                    title = "Покинуть костёр?", text = {
+                        Text(leaveUi.explanation)
+                        if (networkState.room?.lifecycle in listOf(RoomLifecycle.ACTIVE, RoomLifecycle.PAUSED))
+                            Text("Закрытие окна без подтверждения оставляет группу ждать вашего возвращения.")
+                        networkState.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                    },
+                    confirmButton = { AdventureButton(secondary = true, onClick = {
+                        if (leaveUi.requiresAcknowledgement) {
+                            exitAfterLeave = true; network.client.requestLeave()
+                        } else onExit?.invoke()
+                    }, enabled = !networkState.leavePending) { Text(if (networkState.leavePending) "Ожидаем сервер…" else "Выйти") } },
+                    dismissButton = { FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        if (networkState.canResumeSession && networkState.status != ConnectionStatus.CONNECTED)
+                            AdventureButton(secondary = true, onClick = network.client::reconnect, enabled = networkState.status != ConnectionStatus.CONNECTING) { Text("Восстановить связь") }
+                        AdventureButton(onClick = { confirmExit = false; exitAfterLeave = false }) { Text("Остаться") }
+                    } })
             }
         }
     }

@@ -25,6 +25,12 @@ class NetworkIntegrationTest {
             b.connect(address, "Друг", first.room!!.code)
             val second = withTimeout(15_000) { b.state.first { it.status == ConnectionStatus.CONNECTED } }
             withTimeout(10_000) { a.state.first { it.room!!.members.size == 2 } }
+            val unconfirmed = a.state.value.room!!
+            a.command(NetworkAction.START)
+            val rejectedStart = withTimeout(10_000) { a.state.first { !it.busy && it.error != null } }
+            assertEquals(unconfirmed, rejectedStart.room)
+            assertNull(rejectedStart.room!!.adventure)
+            confirmNetworkCharacters(a, b)
             a.command(NetworkAction.START)
             val startA = withTimeout(10_000) { a.state.first { it.room?.adventure != null && !it.busy } }
             val startB = withTimeout(10_000) { b.state.first { it.room?.adventure != null } }

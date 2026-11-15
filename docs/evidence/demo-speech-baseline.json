@@ -1,0 +1,254 @@
+{
+  "method": "mono PCM16 whole-file RMS/peak dBFS; not LUFS or listening acceptance",
+  "recordings": [
+    {
+      "file": "00c0e046c55ee40ce236f64635979b73e54fd313f426eb5aa31f0f293f0bf29a.wav",
+      "sha256": "eec33675f4b763cfedab1b02e4fe61889cb905fe721aa3b1687991c61fa77eb2",
+      "sample_rate": 24000,
+      "duration_ms": 720,
+      "rms_dbfs": -24.43,
+      "peak_dbfs": -8.21,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 46
+    },
+    {
+      "file": "0183b586297c0f01a749485fa684461d06bd022a5f1045b9b3e114abe9cc4fa9.wav",
+      "sha256": "032eeffc50a7288f0b15c33c32a21418c2bb7ba760b3541dae976787ba13ca50",
+      "sample_rate": 24000,
+      "duration_ms": 16240,
+      "rms_dbfs": -25.22,
+      "peak_dbfs": -7.42,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 82,
+      "trailing_near_silence_ms": 5
+    },
+    {
+      "file": "0f43a8c64a29781373f6ece17741f36cd883158817c3395df6e368f17e3ab4c2.wav",
+      "sha256": "d0c9b3f6b3d73821bdeba1524875eab5315632652d5c49cd6965b7b6b5851d06",
+      "sample_rate": 24000,
+      "duration_ms": 12240,
+      "rms_dbfs": -22.66,
+      "peak_dbfs": -6.58,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 50
+    },
+    {
+      "file": "12f208d647155f3806723d56118c8e287f4d2a377697b07d17d49210b534c2dd.wav",
+      "sha256": "185ace04fb199e16d70675b9f012113446e798ddfc14047cb1ffac1a1775308d",
+      "sample_rate": 24000,
+      "duration_ms": 2320,
+      "rms_dbfs": -24.38,
+      "peak_dbfs": -8.47,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 66
+    },
+    {
+      "file": "1625edd11b012e5d21b8ddf97422006110faa060e42da08db740488de2cba0e2.wav",
+      "sha256": "3ef0e814da04100324314dbb6f0b5a2ee8cc35cebba492550e2da227ae1cce6b",
+      "sample_rate": 24000,
+      "duration_ms": 6480,
+      "rms_dbfs": -22.44,
+      "peak_dbfs": -3.4,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 82,
+      "trailing_near_silence_ms": 25
+    },
+    {
+      "file": "17434d6040568d38f2b7353ad1944df9708cf6c93728f2bc06eefd026285e1d0.wav",
+      "sha256": "6e18ff7eca5ce0018e307f375dcb05505712a758072e3873ebf603526151e1c3",
+      "sample_rate": 24000,
+      "duration_ms": 11280,
+      "rms_dbfs": -24.11,
+      "peak_dbfs": -6.8,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 39
+    },
+    {
+      "file": "1a8c3cf2ba78e1b1cb26d831c6e530502031aef71057faac74544d31e8029dc3.wav",
+      "sha256": "eeeccc114edaa88ca8fe4f053101c8253743231ddc6e8c7ac820ee4b3e316f01",
+      "sample_rate": 24000,
+      "duration_ms": 13280,
+      "rms_dbfs": -24.64,
+      "peak_dbfs": -4.88,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 4
+    },
+    {
+      "file": "1ccc81e16fb513c559b3b95bafdc9a7c770977ece14b301870853b65bd60c908.wav",
+      "sha256": "897a257f212610746a46d0b11ef02c72f88b09e8463cc2c98e2b7fb893008103",
+      "sample_rate": 24000,
+      "duration_ms": 6160,
+      "rms_dbfs": -22.95,
+      "peak_dbfs": -6.88,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 62
+    },
+    {
+      "file": "1ce0dd04e9c6c3a70017f84bfe59cf6f6fc037634875e0067b894577e3dc5719.wav",
+      "sha256": "f1af4271bebd90d3b75a36b43dbcc9dda25300b9664b64aec4da9a34f88c9818",
+      "sample_rate": 24000,
+      "duration_ms": 15920,
+      "rms_dbfs": -22.52,
+      "peak_dbfs": -4.76,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 73
+    },
+    {
+      "file": "2d0113adec814f17e803b48b169bae9f5c28115f3254347dba999f1f66a1bf61.wav",
+      "sha256": "1e5aeeb75cf2c54bf306ef19c042625e309fbe7afb8391cdf01e5b16b0216ab5",
+      "sample_rate": 24000,
+      "duration_ms": 14320,
+      "rms_dbfs": -27.68,
+      "peak_dbfs": -11.2,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 46
+    },
+    {
+      "file": "552f9e36f7c63623565abf90d92cd980eea45503e59c3ea70b73e329a8aa400a.wav",
+      "sha256": "25bedb3dc669908d913fd4f5c4d38036d3cdd6238d4d1133ed61a91a91d323a2",
+      "sample_rate": 24000,
+      "duration_ms": 10400,
+      "rms_dbfs": -24.65,
+      "peak_dbfs": -6.88,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 82,
+      "trailing_near_silence_ms": 22
+    },
+    {
+      "file": "5b6c564d0a0120e65a441d6fade24df8039ef8a1f276a9c8016ab9288472df10.wav",
+      "sha256": "f5585e313b5eeb1838148dc0e6f349e7557e8a8ba17950d5aa6acf2fcb1fb506",
+      "sample_rate": 24000,
+      "duration_ms": 8720,
+      "rms_dbfs": -24.02,
+      "peak_dbfs": -8.56,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 82,
+      "trailing_near_silence_ms": 69
+    },
+    {
+      "file": "5d67762c45652aa09091e1906daa5c6d30d65d60851c118169d250c6292b5306.wav",
+      "sha256": "df2c73266ad6f3301ef4d71d2d98260c9fc3b13e8a75543bddca9bbef62ae13f",
+      "sample_rate": 24000,
+      "duration_ms": 6400,
+      "rms_dbfs": -23.03,
+      "peak_dbfs": -7.06,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 10
+    },
+    {
+      "file": "7f687260dbabc06b26ee500c9a452ca4f3da17328815bc584fe6a9aa4e7d0d2a.wav",
+      "sha256": "9d5d9fd9858b43ff2df05101b610240bbb264c88d24a2e9e29d9dc3fd6a6c6e5",
+      "sample_rate": 24000,
+      "duration_ms": 10560,
+      "rms_dbfs": -27.44,
+      "peak_dbfs": -7.87,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 85,
+      "trailing_near_silence_ms": 47
+    },
+    {
+      "file": "80c057813a66b65d08febca996b9ff10f5b1aa4d2eda078e101612482267509a.wav",
+      "sha256": "61a0a6ee0c82d6931414ea3e696fecc89fe948426de7223d87dfcbcd9cdca5db",
+      "sample_rate": 24000,
+      "duration_ms": 9200,
+      "rms_dbfs": -20.74,
+      "peak_dbfs": -3.25,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 13
+    },
+    {
+      "file": "83fe3d29588a2eb3a655fb0a4f4ed65391936c13769d3ec0506cc5db6ca15f9c.wav",
+      "sha256": "551cea85e26cb4a0588d2be8b7ab464be9e46032164bbf47d224158d779d2b64",
+      "sample_rate": 24000,
+      "duration_ms": 4800,
+      "rms_dbfs": -25.14,
+      "peak_dbfs": -5.12,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 4
+    },
+    {
+      "file": "8ad3854f64525dd8ba56f7cd0fd7fe54e694a2e0e4bec8bbb86662f2b0dc58c4.wav",
+      "sha256": "08ea5b0ae7b9e505f2e50fb7adbe12614281aae4a62363c08ac88581bcc406e3",
+      "sample_rate": 24000,
+      "duration_ms": 6800,
+      "rms_dbfs": -23.15,
+      "peak_dbfs": -6.65,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 0
+    },
+    {
+      "file": "b80570e5634917119c4d9e79d649570da60d910bce22e055a8f35841a0a06943.wav",
+      "sha256": "f28e1ee9040e01eaf21aff48a8115450388eb7b0d1ff693713e8ef54d760d034",
+      "sample_rate": 24000,
+      "duration_ms": 10000,
+      "rms_dbfs": -23.25,
+      "peak_dbfs": -5.06,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 0
+    },
+    {
+      "file": "c2fd3d59ca1990f78fee327d86ab65b8e688bca34ec9ed9dfe6783304b93ddc9.wav",
+      "sha256": "d8158808348b8127d3fc6a7d87a6b6406b3958ea4959865c2117765d99ac63d5",
+      "sample_rate": 24000,
+      "duration_ms": 14640,
+      "rms_dbfs": -26.37,
+      "peak_dbfs": -6.95,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 83,
+      "trailing_near_silence_ms": 68
+    },
+    {
+      "file": "c59686608cac444db46a3e60c133a69828ffd0df3b4ee81fbdbb412fc63637ac.wav",
+      "sha256": "e80c2e29661ad17ae5079614374692de6ecadc111c8b15836e9754e8668ba80c",
+      "sample_rate": 24000,
+      "duration_ms": 9680,
+      "rms_dbfs": -25.25,
+      "peak_dbfs": -7.5,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 45
+    },
+    {
+      "file": "ce904f5c1db354c64a689bb3f340b24466910d178be93adc00a7005477519b04.wav",
+      "sha256": "80e36339018335b669274b7f6f2bec61c494b23dc72bea1b9c4614fcec18de98",
+      "sample_rate": 24000,
+      "duration_ms": 9440,
+      "rms_dbfs": -23.84,
+      "peak_dbfs": -6.95,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 83,
+      "trailing_near_silence_ms": 68
+    },
+    {
+      "file": "f347c3b7eca12720849a2f9c847efa139a6009fbd0765a461c7403d45e7df917.wav",
+      "sha256": "6beb2eeff03c0e623aefbd937958464b22c9eb4d09d0999433738e85d73eb51b",
+      "sample_rate": 24000,
+      "duration_ms": 9600,
+      "rms_dbfs": -24.12,
+      "peak_dbfs": -6.16,
+      "near_full_scale_samples": 0,
+      "leading_near_silence_ms": 81,
+      "trailing_near_silence_ms": 73
+    }
+  ],
+  "summary": {
+    "files": 22,
+    "duration_ms": 209200,
+    "min_rms_dbfs": -27.68,
+    "max_rms_dbfs": -20.74,
+    "near_full_scale_samples": 0
+  }
+}

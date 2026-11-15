@@ -42,6 +42,7 @@ class ArchiveDemoNetworkTest {
             clients.forEach { await(it) { s -> s.room?.members?.size == 2 && s.status == ConnectionStatus.CONNECTED } }
             clients[0].command(NetworkAction.SELECT_SCENARIO, scenarioId = ArchiveDemo.ID)
             clients.forEach { await(it) { s -> s.room?.scenarioId == ArchiveDemo.ID } }
+            confirmNetworkCharacters(*clients.toTypedArray())
             clients[0].command(NetworkAction.START)
             clients.forEach { await(it) { s -> s.room?.adventure != null } }
             var state = game()

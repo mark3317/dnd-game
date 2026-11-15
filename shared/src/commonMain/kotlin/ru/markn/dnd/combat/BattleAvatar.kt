@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import org.jetbrains.compose.resources.imageResource
 import ru.markn.dnd.generated.resources.*
-import ru.markn.dnd.adventure.ui.LocalGameMotion
+import ru.markn.dnd.adventure.ui.LocalReducedMotion
 
 internal enum class BattlePose { IDLE, ATTACK, HURT, DODGE, HELP, HEALED }
 
@@ -84,14 +84,14 @@ internal fun BattleAvatar(fighter: DemoFighter, modifier: Modifier = Modifier,
         BattleAtlas.WARRIOR -> Res.drawable.combat_warrior_v1
     }
     val sheet = imageResource(resource)
-    val breathing = if (animateIdle) rememberInfiniteTransition(label = "combat idle").animateFloat(0f, 1f,
-        infiniteRepeatable(tween(1050), RepeatMode.Reverse), label = "breathing").value else 0f
-    Crossfade(pose, modifier = modifier.graphicsLayer {
+    val reduced = LocalReducedMotion.current
+    val breathing = ru.markn.dnd.adventure.ui.pausedLoop(0f, 1f, 1050, animateIdle && !reduced)
+    ru.markn.dnd.adventure.ui.PausableCrossfade(pose, modifier = modifier.graphicsLayer {
         scaleX = if (facingLeft) -1f else 1f
         scaleY = 1f + breathing * .018f
         translationY = -breathing * 2f
         if (fighter.hp == 0) { rotationZ = if (facingLeft) -22f else 22f; alpha = .65f }
-    }, animationSpec = tween(if (LocalGameMotion.current) 130 else 0), label = "battle pose") { currentPose ->
+    }, millis = if (reduced) 0 else 130) { currentPose ->
         val painter = remember(sheet, currentPose, atlas) { battleAvatarPainter(sheet, currentPose, atlas) }
         Image(painter, fighter.name + " · " + currentPose.name, Modifier.fillMaxSize(), contentScale = ContentScale.Fit)
     }

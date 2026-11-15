@@ -12,11 +12,12 @@ import kotlinx.coroutines.sync.withPermit
 import kotlinx.serialization.json.Json
 import ru.markn.dnd.adventure.*
 import ru.markn.dnd.generated.resources.Res
+import ru.markn.dnd.network.RoomSpeechCue
 
 private data class VoiceCue(val key: String, val entry: JournalEntry, val voice: String, val startsAt: Long, val endsAt: Long)
 private data class VoiceFile(val url: String, val duration: Long)
 
-class StorySpeech(private val preferences: GamePreferences) {
+class StorySpeech(private val preferences: GamePreferences, private val roomControlled: Boolean = false) {
     val player = runCatching { SoundscapePlayer.create() }.getOrNull()
     val enabled: Boolean get() = preferences.speechEnabled
     val volume: Float get() = preferences.speechVolume
@@ -25,6 +26,8 @@ class StorySpeech(private val preferences: GamePreferences) {
     var caption by mutableStateOf<TimedSpeech?>(null)
     var pending by mutableIntStateOf(0)
     var skipVersion by mutableIntStateOf(0)
+    internal var roomCue by mutableStateOf<RoomSpeechCue?>(null)
+    internal var resumeAction: (() -> Unit)? = null
     val available: Boolean get() = enabled && player != null
     val busy: Boolean get() = available && pending > 0
     fun toggle() {
@@ -33,14 +36,17 @@ class StorySpeech(private val preferences: GamePreferences) {
     }
     fun loudness(value: Float) { preferences.changeSpeechVolume(value); runCatching { player?.setVolume(volume) } }
     fun skip() { skipVersion++; current = null; caption = null; runCatching { player?.stop() } }
-    fun resume() { if (enabled) runCatching { player?.play() } }
+    fun resume() {
+        if (!enabled) return
+        if (roomControlled) resumeAction?.invoke() else runCatching { player?.play() }
+    }
 }
 
 val LocalStorySpeech = staticCompositionLocalOf<StorySpeech?> { null }
 
 /** Sentence-buffered synthesis: one shared server cache, no model or provider key on clients. */
 @Composable
-fun rememberStorySpeech(state: AdventureState, now: Long, baseUrl: String): StorySpeech {
+fun rememberStorySpeech(state: AdventureState, now: Long, baseUrl: String, endingReady: Boolean = true): StorySpeech {
     val preferences = LocalGamePreferences.current ?: remember { GamePreferences() }
     val speech = remember(state.sessionId, baseUrl, preferences) { StorySpeech(preferences) }
     val player = speech.player
@@ -56,6 +62,7 @@ fun rememberStorySpeech(state: AdventureState, now: Long, baseUrl: String): Stor
     val offset = now - storyNowMillis()
     val latestOffset by rememberUpdatedState(offset)
     val latestEnabled by rememberUpdatedState(speech.enabled)
+    val latestEndingReady by rememberUpdatedState(endingReady)
     var prepared by remember { mutableStateOf<List<PreparedSpeech>>(emptyList()) }
     var catalogLoaded by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
@@ -114,6 +121,8 @@ fun rememberStorySpeech(state: AdventureState, now: Long, baseUrl: String): Stor
                 while (!preparation.isCompleted && latestEnabled && skip == speech.skipVersion) delay(50)
                 if (!latestEnabled || skip != speech.skipVersion) { preparation.cancel(); continue }
                 val audio = preparation.await()
+                if (!latestEnabled || skip != speech.skipVersion) continue
+                while (cue.key.startsWith("ending:") && !latestEndingReady && latestEnabled && skip == speech.skipVersion) delay(25)
                 if (!latestEnabled || skip != speech.skipVersion) continue
                 // Cinematics follow the server clock; dialogue follows actual audio completion.
                 if (!cue.key.startsWith("entry:"))

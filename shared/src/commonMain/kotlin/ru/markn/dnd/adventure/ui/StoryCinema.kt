@@ -18,6 +18,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import ru.markn.dnd.adventure.*
 import ru.markn.dnd.generated.resources.*
+import ru.markn.dnd.network.RoomSpeechCue
 
 internal fun storyImage(art: StoryArt): DrawableResource? = when (art) {
     StoryArt.EXTERIOR -> Res.drawable.archive_exterior_night
@@ -32,23 +33,25 @@ internal fun storyImage(art: StoryArt): DrawableResource? = when (art) {
 
 @Composable
 internal fun MovingStoryImage(image: DrawableResource, description: String, modifier: Modifier = Modifier, motion: Boolean = LocalGameMotion.current) {
-    val movement = rememberInfiniteTransition(label = "slow camera")
-    val progress by movement.animateFloat(0f, 1f, infiniteRepeatable(tween(24000, easing = LinearEasing), RepeatMode.Reverse), label = "camera")
+    val profile = GameMotionProfile(LocalReducedMotion.current)
+    val moving = profile.cameraActive(motion)
+    val progress = pausedLoop(0f, 1f, 24000, moving)
     Box(modifier.clipToBounds()) {
-        Crossfade(image, animationSpec = tween(1200), label = "location dissolve") { frame ->
+        PausableCrossfade(image, millis = profile.transitionMillis(1200)) { frame ->
             Image(painterResource(frame), description, Modifier.fillMaxSize().graphicsLayer {
-                scaleX = if (motion) 1.06f + progress * .045f else 1f
+                scaleX = if (moving) 1.06f + progress * .045f else 1f
                 scaleY = scaleX
-                translationX = if (motion) size.width * .012f * (progress - .5f) else 0f
+                translationX = if (moving) size.width * .012f * (progress - .5f) else 0f
             }, contentScale = ContentScale.Crop)
         }
     }
 }
 
 @Composable
-fun StoryCinema(state: AdventureState, ending: Boolean, now: Long, speech: TimedSpeech? = null) {
+fun StoryCinema(state: AdventureState, ending: Boolean, now: Long, speech: TimedSpeech? = null,
+    coordinated: Boolean = false, coordinatedCue: RoomSpeechCue? = null, timelineStart: Long? = null) {
     val shots = remember(state.sessionId, state.scenarioId, state.ending) { if (ending) state.endingShots() else state.openingShots() }
-    val start = if (ending) state.playback.endingAt else state.playback.openingAt
+    val start = timelineStart ?: if (ending) state.playback.endingAt else state.playback.openingAt
     var cursor = start
     var selected = shots.lastOrNull()
     var elapsed = 0L
@@ -58,6 +61,11 @@ fun StoryCinema(state: AdventureState, ending: Boolean, now: Long, speech: Timed
         elapsed = now - cursor
         if (now < end) break
         cursor = end
+    }
+    if (coordinated) {
+        // Keep the actual local sentence's frame while it finishes, including slow audio.
+        selected = shots.getOrNull(coordinatedCue?.shotIndex ?: if (ending) shots.lastIndex else 0)
+        elapsed = coordinatedCue?.startsAt?.let { now - it } ?: 0L
     }
     Box(Modifier.fillMaxSize().background(Color.Black).pointerInput(Unit) {
         awaitPointerEventScope { while (true) awaitPointerEvent(PointerEventPass.Final).changes.forEach { it.consume() } }

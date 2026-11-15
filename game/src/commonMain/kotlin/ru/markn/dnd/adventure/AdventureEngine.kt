@@ -64,7 +64,8 @@ class AdventureEngine(
         val available = action == null || action.locations.isEmpty() || state.location in action.locations
         next = when {
             !available || invalid != null -> next.append(EntryKind.SYSTEM,
-                "Действие недоступно: проверьте место, снаряжение и выполненные условия. Ход сохранён.", actor = actor)
+                if (invalid == "forbidden_facts" && plan != null) SceneRules.unavailableMessage(state, plan)
+                else "Действие недоступно: проверьте место, снаряжение и выполненные условия. Ход сохранён.", actor = actor)
             plan != null -> {
                 if (plan.check != null) {
                     val success = plan.onSuccess.joinToString(" ") { SceneRules.describe(state, it) }
@@ -80,7 +81,7 @@ class AdventureEngine(
             action?.narrative != null -> {
                 val narration = decision?.narration ?: when (action.narrative) {
                     NarrativeKind.INSPECTION -> site.inspection
-                    NarrativeKind.CONVERSATION -> site.conversation
+                    NarrativeKind.CONVERSATION -> state.scriptedConversation(site)
                 }
                 val npc = decision?.speakerNpcId ?: if (action.narrative == NarrativeKind.CONVERSATION) site.npcId else null
                 next.append(if (npc == null) EntryKind.NARRATOR else EntryKind.NPC, narration, actor = actor, speakerNpcId = npc)
@@ -273,9 +274,11 @@ class AdventureEngine(
         val ending = next.scene.facts.firstNotNullOfOrNull { next.scenario.facts[it]?.ending }
         if (ending != null) return next.finish(ending)
         val encounter = next.scenario.encounter
-        if (encounter != null && encounter.triggerFact in next.scene.facts && encounter.victoryFact !in next.scene.facts && next.combat == null) {
+        val variant = encounter?.variants?.firstOrNull { it.triggerFact in next.scene.facts }
+        if (encounter != null && (encounter.triggerFact in next.scene.facts || variant != null) &&
+            encounter.victoryFact !in next.scene.facts && next.combat == null) {
             next = next.copy(players = next.players.map { it.copy(location = encounter.battleLocation) })
-            next = next.copy(combat = next.createEncounter(dice)).append(EntryKind.NARRATOR, encounter.introduction)
+            next = next.copy(combat = next.createEncounter(dice)).append(EntryKind.NARRATOR, variant?.introduction ?: encounter.introduction)
             next = next.settleCombat()
         }
         return next
@@ -320,8 +323,17 @@ class AdventureEngine(
                 combatEvents = battle.events.filter { it.logIndex == index })
         }
         val encounter = requireNotNull(scenario.encounter)
+        val variant = battle.encounterVariantId?.let { id -> encounter.variants.single { it.id == id } }
+        if (battle.escortObjective?.phase == EscortPhase.EXPIRED && variant != null && variant.expirationFact !in next.scene.facts) {
+            next = next.copy(scene = next.scene.copy(facts = next.scene.facts + variant.expirationFact))
+                .append(EntryKind.SYSTEM, scenario.facts.getValue(variant.expirationFact).description)
+        }
         if (battle.finished) {
             next = next.copy(combat = null, turnOrder = next.turnOrder.next(players.first().id))
+            if (battle.victory && battle.escortObjective?.phase == EscortPhase.ESCAPED && variant != null) {
+                return next.copy(scene = next.scene.copy(facts = next.scene.facts + variant.victoryFact))
+                    .finish(variant.victoryEnding)
+            }
             return if (battle.victory) next.copy(
                 players = next.players.map { it.copy(location = encounter.location) },
                 scene = next.scene.copy(facts = next.scene.facts + encounter.victoryFact))

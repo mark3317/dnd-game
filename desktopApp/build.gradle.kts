@@ -28,6 +28,11 @@ compose.desktop {
     application {
         mainClass = "ru.markn.dnd.MainKt"
         nativeDistributions {
+            // Build a review copy without overwriting an application currently being tested.
+            providers.gradleProperty("dnd.desktopCheckpoint").orNull?.let { checkpoint ->
+                require(checkpoint.matches(Regex("[A-Za-z0-9_-]+"))) { "Invalid desktop checkpoint name" }
+                outputBaseDir.set(layout.buildDirectory.dir("compose/checkpoints/$checkpoint"))
+            }
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "ru.markn.dnd"
             packageVersion = "1.0.0"

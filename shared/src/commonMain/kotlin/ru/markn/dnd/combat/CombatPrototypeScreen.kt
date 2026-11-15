@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -22,6 +23,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
+import ru.markn.dnd.adventure.ui.PausableVisibility
+import ru.markn.dnd.adventure.ui.PausableCrossfade
+import ru.markn.dnd.adventure.ui.LocalPresentationPauseClock
+import ru.markn.dnd.adventure.ui.presentationDelay
 import org.jetbrains.compose.resources.painterResource
 import ru.markn.dnd.adventure.ui.*
 import ru.markn.dnd.generated.resources.*
@@ -38,30 +43,32 @@ fun CombatPrototypeScreen(onBack: () -> Unit, battleState: CombatDemo? = null,
     initiativeVisible: Boolean = true, statusText: String? = null) {
     var teaching by remember { mutableStateOf(if (battleState == null) CombatDemo.start() else null) }
     val battle = battleState ?: requireNotNull(teaching)
+    val motionProfile = GameMotionProfile(LocalReducedMotion.current)
     val music = LocalStoryMusic.current
     if (battleState == null) {
         SideEffect { music?.cue = if (battle.finished) MusicCue.EXPLORATION else MusicCue.COMBAT }
         DisposableEffect(music) { onDispose { music?.cue = MusicCue.MENU } }
     }
     var generation by remember { mutableIntStateOf(0) }
-    val events = battle.events.mapIndexed { index, event -> PresentedRoll(index.toString(), combat = event) }
-    val queue = remember(generation) { RollPresentationQueue(emptyList()).apply {
-        if (battleState == null) receive(events)
-    } }
-    LaunchedEffect(events, generation) { if (battleState == null) queue.receive(events) }
-    val enabled = commandsEnabled && (battleState != null || queue.pending.isEmpty())
+    val effects = if (battleState == null) rememberGameEffects(-1L, generation.toLong(), emptySet()) else LocalGameEffects.current
+    val events = if (battleState == null) battle.events.mapIndexed { index, event -> PresentedRoll(index.toString(), combat = event) } else emptyList()
+    if (battleState == null && effects != null) GameEffectsHost(effects, history = events.mapTo(mutableSetOf()) { it.id })
+    val queue = if (battleState == null) remember(generation) { RollPresentationQueue(emptyList()).apply { receive(events) } } else null
+    if (queue != null) LaunchedEffect(events, generation) { queue.receive(events) }
+    val enabled = commandsEnabled && (queue?.pending?.isEmpty() != false)
     var selected by remember { mutableStateOf<Tile?>(null) }
     var action by remember { mutableStateOf<DemoAction?>(null) }
     var hint by remember { mutableStateOf<Pair<Offset, String>?>(null) }
     var showLog by remember { mutableStateOf(false) }
     var showHelp by remember { mutableStateOf(false) }
     var phone by remember { mutableStateOf(false) }
-    LaunchedEffect(battle.events.size) { showLog = false; showHelp = false }
+    LaunchedEffect(battle.log.size) { showLog = false; showHelp = false }
     LaunchedEffect(battle.activeId, generation) { selected = null; action = null }
-    LaunchedEffect(hint) { if (hint != null) { delay(3200); hint = null } }
-    LaunchedEffect(battle, queue.pending) {
-        if (battleState == null && queue.pending.isEmpty() && !battle.finished && battle.active.enemy) {
-            delay(500); teaching = battle.enemyTurn()
+    val pauseClock = LocalPresentationPauseClock.current
+    LaunchedEffect(hint) { if (hint != null) { pauseClock.presentationDelay(3200); hint = null } }
+    if (queue != null) LaunchedEffect(battle, queue.pending) {
+        if (queue.pending.isEmpty() && !battle.finished && battle.active.enemy) {
+            pauseClock.presentationDelay(500); teaching = battle.enemyTurn()
         }
     }
     val command = { command: DemoAction?, tile: Tile? ->
@@ -74,13 +81,18 @@ fun CombatPrototypeScreen(onBack: () -> Unit, battleState: CombatDemo? = null,
     // Lambda captures are refreshed when availability changes without a new battle snapshot.
     // A reference to a local function can retain the lock from the opening presentation.
     val doubleTap = { tile: Tile, point: Offset ->
-        val target = battle.occupant(tile)
-        val quick = if (target != null && target.enemy != battle.active.enemy) DemoAction.ATTACK else DemoAction.MOVE
-        val preview = battle.preview(quick, tile)
-        if (!enabled) hint = point to "Сейчас нельзя действовать: дождитесь своего хода и завершения анимации."
-        else if (!preview.valid) hint = point to preview.detail
-        else command(quick, tile)
+        val quick = battle.quickMapAction(tile)
+        if (quick == null) {
+            selected = tile; action = DemoAction.ESCORT
+            hint = point to battle.preview(DemoAction.ESCORT, tile).detail
+        } else {
+            val preview = battle.preview(quick, tile)
+            if (!enabled) hint = point to "Сейчас нельзя действовать: дождитесь своего хода и завершения анимации."
+            else if (!preview.valid) hint = point to preview.detail
+            else command(quick, tile)
+        }
     }
+    CompositionLocalProvider(LocalGameEffects provides effects) {
     Box(Modifier.fillMaxSize().background(BattleInk)) {
         Column(Modifier.fillMaxSize().safeDrawingPadding()) {
             FlowRow(Modifier.fillMaxWidth().padding(horizontal = 8.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -91,16 +103,16 @@ fun CombatPrototypeScreen(onBack: () -> Unit, battleState: CombatDemo? = null,
             }
             if (statusText != null) Text(statusText, Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp),
                 color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
-            AnimatedVisibility(initiativeVisible && (battleState != null || queue.pending.none { it.combat?.kind == CombatEventKind.INITIATIVE }),
-                enter = fadeIn(tween(260)) + expandVertically(tween(260)), exit = fadeOut(tween(180)) + shrinkVertically(tween(180))) {
+            EscortObjectivePanel(battle)
+            PausableVisibility(initiativeVisible && (queue?.pending?.none { it.combat?.kind == CombatEventKind.INITIATIVE } != false),
+                enterMillis = motionProfile.transitionMillis(260), exitMillis = motionProfile.transitionMillis(180)) {
                 CombatTurnStrip(battle.fighters, battle.initiative, battle.activeId)
             }
             Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                val turnTitle = when { battle.finished -> if (battle.victory) "Победа отряда" else "Отряд повержен"
+                val turnTitle = when { battle.finished -> if (battle.escortObjective?.phase == EscortPhase.ESCAPED) "Повозка выехала · копии обеспечены"
+                        else if (battle.victory) "Победа отряда" else "Отряд повержен"
                     else -> "Раунд ${battle.round} · ${battle.active.name}" }
-                AnimatedContent(turnTitle, modifier = Modifier.weight(1f), transitionSpec = {
-                    (fadeIn(tween(220)) + slideInVertically(tween(220)) { it / 3 }) togetherWith fadeOut(tween(140))
-                }, label = "combat turn") { title ->
+                PausableCrossfade(turnTitle, modifier = Modifier.weight(1f), millis = motionProfile.transitionMillis(220)) { title ->
                     Text(title, color = BattleGold, style = MaterialTheme.typography.titleMedium)
                 }
                 TextButton(shape = MaterialTheme.shapes.small, onClick = { showHelp = true }) { Text("Управление") }
@@ -121,7 +133,8 @@ fun CombatPrototypeScreen(onBack: () -> Unit, battleState: CombatDemo? = null,
                                     onSelect = { tile -> selected = tile; action = battle.contextActions(tile).firstOrNull(); hint = null },
                                     onDoubleTap = doubleTap)
                             }
-                            Text("Двойное нажатие: свободная клетка — идти · враг — атаковать", Modifier.padding(vertical = 8.dp),
+                            Text(if (battle.escortObjective == null) "Двойное нажатие: свободная клетка — идти · враг — атаковать"
+                                else "Повозка: выбрать и нажать «Продвинуть» · двойное нажатие не тратит действие", Modifier.padding(vertical = 8.dp),
                                 color = Muted, style = MaterialTheme.typography.labelSmall)
                             if (!wide) CombatControls(battle, selected, action, enabled,
                                 { action = it }, { action?.let { command(it, selected) } }, { command(null, null) })
@@ -129,13 +142,13 @@ fun CombatPrototypeScreen(onBack: () -> Unit, battleState: CombatDemo? = null,
                         if (wide) Column(Modifier.width(290.dp)) {
                             CombatControls(battle, selected, action, enabled,
                                 { action = it }, { action?.let { command(it, selected) } }, { command(null, null) })
-                            Text("Защитите документы от налётчиков. После боя история продолжится.", color = Muted)
+                            Text(battle.escortPanelText()?.detail ?: "Защитите документы от налётчиков. После боя история продолжится.", color = Muted)
                         }
                     }
                 }
             }
         }
-        if (battleState == null) RollPresentationHost(queue, battle.fighters.first { !it.enemy }.id)
+        if (queue != null) RollPresentationHost(queue, battle.fighters.first { !it.enemy }.id)
     }
     if (showLog) AlertDialog(onDismissRequest = { showLog = false }, title = { Text("Журнал боя") },
         text = { Column(Modifier.verticalScroll(rememberScrollState())) { battle.log.forEach { Text(it, Modifier.padding(vertical = 5.dp)) } } },
@@ -147,7 +160,9 @@ fun CombatPrototypeScreen(onBack: () -> Unit, battleState: CombatDemo? = null,
             Text("За ход доступны одно действие и одно перемещение. Когда оба потрачены, ход заканчивается автоматически; оставшиеся ресурсы можно пропустить кнопкой.")
             Text("Атака: d20 + бонус против КЗ. Натуральная 1 — промах, 20 — крит с двойными костями. Помощь даёт преимущество следующей атаке, защита +2 КЗ до своего следующего хода.")
             Text("Повязка лечит 4 здоровья за действие и предмет; выбывшего может поднять союзник один раз за бой. После победы у всех героев минимум 4 здоровья, повязки не пополняются.")
+            if (battle.escortObjective != null) Text("Повозка — отдельный объект без здоровья и хода. Герой рядом выбирает её и нажимает «Продвинуть повозку»: 1 основное действие без броска, герой остаётся на месте. Освобождайте отмеченный маршрут. До конца 6-го раунда нужно вывести повозку; иначе продолжится тот же бой за архив, а путь копий закроется.")
         } }, confirmButton = { TextButton(shape = MaterialTheme.shapes.small, onClick = { showHelp = false }) { Text("Понятно") } })
+    }
 }
 
 @Composable
@@ -174,11 +189,15 @@ internal fun CombatTurnStrip(fighters: List<DemoFighter>, initiative: List<DemoI
 @Composable
 private fun CombatControls(battle: CombatDemo, selected: Tile?, action: DemoAction?, enabled: Boolean,
     onAction: (DemoAction) -> Unit, onExecute: () -> Unit, onEnd: () -> Unit) {
-    Column(Modifier.fillMaxWidth().padding(vertical = 8.dp).animateContentSize(tween(180)), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    val profile = GameMotionProfile(LocalReducedMotion.current)
+    Column(Modifier.fillMaxWidth().padding(vertical = 8.dp).animateContentSize(tween(profile.transitionMillis(180))), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text("${battle.active.name} · действие ${if (battle.acted) 0 else 1}/1 · перемещение ${if (battle.moved) 0 else 1}/1",
             color = BattleMint, style = MaterialTheme.typography.labelMedium)
         val target = selected?.let(battle::occupant)
-        Text(target?.let { "${it.name} · ${it.hp}/${it.maxHp} ♥ · КЗ ${it.armor}" } ?: "Выберите существо или дважды нажмите клетку", color = Muted)
+        val cart = battle.escortObjective?.takeIf { it.tile == selected }
+        Text(if (cart != null) "Повозка · ${cart.tile.label} · ${cart.step}/${cart.definition.path.lastIndex} продвижений"
+            else target?.let { "${it.name} · ${it.hp}/${it.maxHp} ♥ · КЗ ${it.armor}" }
+                ?: if (battle.escortObjective != null) "Выберите героя, противника или повозку" else "Выберите существо или дважды нажмите клетку", color = Muted)
         battle.contextActions(selected).chunked(2).forEach { row ->
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 row.forEach { candidate ->
@@ -190,8 +209,8 @@ private fun CombatControls(battle: CombatDemo, selected: Tile?, action: DemoActi
         if (action != null) {
             val preview = battle.preview(action, selected)
             Text(preview.detail, color = Muted, style = MaterialTheme.typography.bodySmall)
-            if (preview.valid) Text(preview.cost, color = BattleGold, style = MaterialTheme.typography.labelSmall)
-            Button(shape = MaterialTheme.shapes.small, onClick = onExecute, enabled = enabled && preview.valid, modifier = Modifier.fillMaxWidth()) {
+            Text(preview.cost, color = BattleGold, style = MaterialTheme.typography.labelSmall)
+            AdventureButton(onClick = onExecute, enabled = enabled && preview.valid, modifier = Modifier.fillMaxWidth()) {
                 Text(if (action == DemoAction.SKILL) battle.skillName else action.title)
             }
         }
@@ -205,6 +224,7 @@ private fun CombatControls(battle: CombatDemo, selected: Tile?, action: DemoActi
 @Composable
 internal fun Battlefield(battle: CombatDemo, selected: Tile? = null, hint: Pair<Offset, String>? = null,
     movingId: String? = null, movingPosition: Offset? = null,
+    escortPosition: Offset? = null,
     highlightTurn: Boolean = false,
     onSelect: (Tile) -> Unit = {}, onDoubleTap: (Tile, Offset) -> Unit = { _, _ -> }) {
     BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(6f / 5f).border(1.dp, BattleGold.copy(alpha = .5f), RoundedCornerShape(10.dp))) {
@@ -214,8 +234,8 @@ internal fun Battlefield(battle: CombatDemo, selected: Tile? = null, hint: Pair<
         val doubleTap by rememberUpdatedState(onDoubleTap)
         Image(painterResource(Res.drawable.combat_field_v1), null, Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds)
         Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = .12f)))
-        val pulse = rememberInfiniteTransition(label = "active fighter").animateFloat(.4f, .95f,
-            infiniteRepeatable(tween(750), RepeatMode.Reverse), label = "active ring").value
+        battle.escortObjective?.let { EscortRoute(it, Modifier.fillMaxSize()) }
+        val pulse = if (LocalReducedMotion.current) 1f else ru.markn.dnd.adventure.ui.pausedLoop(.4f, .95f, 650)
         Box(Modifier.fillMaxSize().pointerInput(battle.activeId) {
             fun tile(point: Offset) = Tile((point.x / size.width * 6).toInt().coerceIn(0, 5), (point.y / size.height * 5).toInt().coerceIn(0, 4))
             val taps = BattleTileTaps(viewConfiguration.doubleTapTimeoutMillis)
@@ -233,14 +253,28 @@ internal fun Battlefield(battle: CombatDemo, selected: Tile? = null, hint: Pair<
         }) {
             CombatDemo.tiles.forEach { tile ->
                 val reachable = highlightTurn && battle.preview(DemoAction.MOVE, tile).valid
+                val objective = battle.escortObjective
+                val nextCartTile = objective?.takeIf { it.phase == EscortPhase.ACTIVE }?.let { it.definition.path.getOrNull(it.step + 1) }
+                val blockedRoute = tile == nextCartTile && battle.occupant(tile) != null
                 Box(Modifier.offset(width / 6 * tile.x, height / 5 * tile.y).size(width / 6, height / 5)
-                    .background(if (tile == selected) BattleGold.copy(alpha = .26f) else if (reachable) BattleMint.copy(alpha = .14f) else Color.Transparent)
+                    .background(if (tile == selected) BattleGold.copy(alpha = .26f) else if (blockedRoute) Color(0xFFF2A79C).copy(alpha = .25f)
+                        else if (reachable) BattleMint.copy(alpha = .14f) else Color.Transparent)
                     .border(if (tile == selected) 2.dp else .5.dp, if (tile == selected) BattleGold else Color.White.copy(alpha = .18f))
-                    .semantics { contentDescription = "${tile.label}${if (reachable) ", можно пройти" else ""}" }) {
+                    .semantics { contentDescription = "${tile.label}${if (reachable) ", можно пройти" else ""}${if (blockedRoute) ", путь повозки занят" else ""}" }) {
                     Text(tile.label, Modifier.align(Alignment.TopStart).padding(3.dp), color = Color.White.copy(alpha = .65f), fontSize = 9.sp)
                     if (tile in CombatDemo.walls) Text("▧", Modifier.align(Alignment.Center), color = Muted)
                     if (tile in CombatDemo.coverTiles) Text("◒", Modifier.align(Alignment.BottomEnd).padding(3.dp), color = BattleGold)
                     if (reachable) Box(Modifier.size(5.dp).align(Alignment.BottomCenter).background(BattleMint, CircleShape))
+                    if (tile == objective?.definition?.path?.lastOrNull()) Text("ВЫЕЗД", Modifier.align(Alignment.BottomCenter),
+                        color = BattleGold, fontSize = 8.sp)
+                }
+            }
+            battle.escortObjective?.takeIf { it.phase != EscortPhase.ESCAPED || escortPosition != null }?.let { objective ->
+                val pos = escortPosition ?: Offset(objective.tile.x.toFloat(), objective.tile.y.toFloat())
+                Box(Modifier.fillMaxSize().clipToBounds()) {
+                    EscortCart(objective, selected == objective.tile,
+                        Modifier.offset(width / 6 * pos.x, height / 5 * pos.y).size(width / 6, height / 5),
+                        onSelect = if (escortPosition == null) ({ select(objective.tile) }) else null)
                 }
             }
             battle.fighters.filter { it.hp > 0 || !it.enemy }.forEach { fighter ->

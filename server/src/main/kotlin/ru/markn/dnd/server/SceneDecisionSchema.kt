@@ -21,7 +21,7 @@ internal fun sceneDecisionSchema(scenario: ScenarioDefinition = Lighthouse.defin
         put("anyOf", JsonArray(listOf(
             obj("type" to choice(listOf("move")), "location" to choice(scenario.sites.keys.toList())),
             obj("type" to choice(listOf("transfer")), "item" to item, "targetPlayerId" to type("string")),
-            obj("type" to choice(listOf("fact")), "fact" to choice(scenario.facts.keys.filter { it != scenario.encounter?.victoryFact })),
+            obj("type" to choice(listOf("fact")), "fact" to choice(scenario.facts.keys.filter { it !in scenario.encounter?.serverOwnedFacts.orEmpty() })),
             obj("type" to choice(listOf("damage")), "amount" to type("integer")),
         )))
     }

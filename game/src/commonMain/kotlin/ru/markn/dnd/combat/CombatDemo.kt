@@ -59,6 +59,7 @@ data class DemoAttackResult(
 enum class DemoAction(val title: String, val symbol: String) {
     MOVE("Движение", "↗"), ATTACK("Атака", "⚔"), SKILL("Приём", "✦"),
     HELP("Помощь", "+"), GUARD("Защита", "◇"), BANDAGE("Повязка", "✚"),
+    ESCORT("Продвинуть повозку", "↠"),
 }
 
 @kotlinx.serialization.Serializable
@@ -80,14 +81,17 @@ data class CombatDemo(
     val log: List<String> = emptyList(), val lastResult: String = "Инициатива определяет порядок героев и противников.",
     val diceEvents: List<DiceEvent> = emptyList(),
     val events: List<CombatEvent> = emptyList(),
+    val encounterVariantId: String? = null,
+    val escortObjective: EscortObjectiveState? = null,
 ) {
     val active get() = fighters.first { it.id == activeId }
     val orderedFighters get() = initiative.map { roll -> fighters.first { it.id == roll.fighterId } }
-    val finished get() = fighters.none { it.enemy && it.hp > 0 } || fighters.none { !it.enemy && it.hp > 0 }
-    val victory get() = fighters.none { it.enemy && it.hp > 0 }
+    val finished get() = victory || fighters.none { !it.enemy && it.hp > 0 }
+    val victory get() = escortObjective?.phase == EscortPhase.ESCAPED || fighters.none { it.enemy && it.hp > 0 }
     val playerTurn get() = !finished && !active.enemy && active.hp > 0
     // Downed heroes reserve their tile so healing never revives them inside another fighter.
     fun occupant(tile: Tile) = fighters.firstOrNull { it.tile == tile && (it.hp > 0 || !it.enemy) }
+    private fun blocked(tile: Tile) = occupant(tile) != null || tile == escortObjective?.tile
     fun recoveryStatus(fighter: DemoFighter) =
         if (fighter.id in raisedHeroes) "Уже поднимали в этом бою" else "Поднятие доступно"
     fun armorOf(fighter: DemoFighter, from: Tile): Int = fighter.armor +
@@ -95,7 +99,7 @@ data class CombatDemo(
         (if (fighter.tile in coverTiles && from.distance(fighter.tile) > 1) 2 else 0)
 
     fun pathTo(target: Tile, limit: Int = 3): List<Tile> {
-        if (target !in tiles || target in walls || occupant(target) != null) return emptyList()
+        if (target !in tiles || target in walls || blocked(target)) return emptyList()
         val paths = mutableMapOf(active.tile to listOf(active.tile))
         val queue = mutableListOf(active.tile)
         var index = 0
@@ -104,7 +108,7 @@ data class CombatDemo(
             val path = paths.getValue(tile)
             if (path.size > limit) continue
             for (next in tiles.filter { it.distance(tile) == 1 }) {
-                if (next in paths || next in walls || occupant(next) != null) continue
+                if (next in paths || next in walls || blocked(next)) continue
                 val nextPath = path + next
                 if (next == target) return nextPath
                 paths[next] = nextPath
@@ -142,12 +146,26 @@ data class CombatDemo(
             if (target == null) return no("Выберите подсвеченную клетку — до 3 шагов.")
             val path = pathTo(target)
             if (target in walls) return no("Здесь каменная преграда — пройти нельзя.")
+            if (target == escortObjective?.tile) return no("Клетку занимает повозка. Выберите её, чтобы продвинуть рядом стоящим героем.")
             if (occupant(target) != null) return no("Клетка занята существом.")
             if (path.isEmpty()) return no("Нет свободного маршрута в пределах 3 шагов.")
             return DemoPreview(true, "Перейти на ${target.label}", "Маршрут: ${path.joinToString(" → ") { it.label }}",
                 "1 перемещение · ${path.size - 1}/3 шага", path)
         }
         if (acted) return no("Действие уже использовано. Можно двигаться или завершить ход.")
+        if (action == DemoAction.ESCORT) {
+            val escort = escortObjective ?: return no("В этом бою нет повозки для сопровождения.")
+            if (escort.phase != EscortPhase.ACTIVE) return no("Окно выезда закрыто. Теперь нужно отбить архив; повозку продвинуть нельзя.")
+            if (target != escort.tile) return no("Выберите повозку на ${escort.tile.label}.")
+            if (active.tile.distance(escort.tile) != 1) return no("Чтобы продвинуть повозку, нужно встать рядом по стороне.")
+            val next = escort.definition.path[escort.step + 1]
+            val blocker = occupant(next)
+            if (blocker != null) return no("Путь на ${next.label} занимает ${blocker.name}. Сначала освободите клетку.")
+            if (next in walls) return no("Каменная преграда закрывает путь повозки.")
+            return DemoPreview(true, "Продвинуть повозку: ${escort.tile.label} → ${next.label}",
+                "Без броска. Осталось продвижений: ${escort.remainingMoves}; выезд открыт до конца раунда ${escort.definition.lastRound}. Герой остаётся на месте.",
+                "1 основное действие", path = listOf(escort.tile, next))
+        }
         if (action == DemoAction.BANDAGE && active.bandages == 0) return no("Повязок не осталось.")
         if (action == DemoAction.GUARD) return DemoPreview(true, "Прикрыться", "+2 к КЗ до начала следующего собственного хода. Упрощённая защита.", "1 действие")
         if (action == DemoAction.SKILL && activeId in spentSkills) return no("Приём уже использован в этом бою.")
@@ -209,6 +227,17 @@ data class CombatDemo(
         if (action == DemoAction.GUARD) return copy(acted = true, guarded = guarded + activeId)
             .copy(events = events + CombatEvent(CombatEventKind.GUARD, active, active, "Защита", log.size, fighters))
             .record("${active.name}: защита +2 КЗ до следующего собственного хода.")
+        if (action == DemoAction.ESCORT) {
+            val before = requireNotNull(escortObjective)
+            val step = before.step + 1
+            val after = before.copy(step = step,
+                phase = if (step == before.definition.path.lastIndex) EscortPhase.ESCAPED else EscortPhase.ACTIVE)
+            return copy(acted = true, escortObjective = after,
+                events = events + CombatEvent(CombatEventKind.ESCORT_MOVE, active, title = "Выезд повозки",
+                    logIndex = log.size, fighters = fighters, path = listOf(before.tile, after.tile), escortBefore = before, escortAfter = after))
+                .record("${active.name}: повозка ${before.tile.label} → ${after.tile.label}; потрачено основное действие, броска нет.")
+                .recoverAfterVictory()
+        }
         if (action == DemoAction.SKILL && selfSkill) return heal(active, DamageDice(1, 10, 2), dice)
         val victim = requireNotNull(occupant(requireNotNull(target)))
         if (action == DemoAction.BANDAGE) {
@@ -276,7 +305,15 @@ data class CombatDemo(
 
     private fun recoverAfterVictory(): CombatDemo {
         if (!victory) return this
-        return copy(fighters = fighters.map {
+        val escort = escortObjective
+        val completed = if (escort?.phase == EscortPhase.ACTIVE) {
+            val after = escort.copy(step = escort.definition.path.lastIndex, phase = EscortPhase.ESCAPED)
+            copy(escortObjective = after, events = events + CombatEvent(CombatEventKind.ESCORT_MOVE, active,
+                title = "Свободный выезд", logIndex = log.size, fighters = fighters,
+                path = escort.definition.path.drop(escort.step), escortBefore = escort, escortAfter = after))
+                .record("Налётчики побеждены: повозка безопасно выезжает со двора.")
+        } else this
+        return completed.copy(fighters = fighters.map {
             if (!it.enemy) it.copy(hp = maxOf(it.hp, minOf(it.maxHp, victoryHealth))) else it
         }).record("Победа! Все выжившие герои приходят в себя: здоровье не ниже $victoryHealth. Повязки не пополняются.")
     }
@@ -289,22 +326,53 @@ data class CombatDemo(
         val offset = (1..initiative.size).first { step -> fighters.first { it.id == initiative[(current + step) % initiative.size].fighterId }.hp > 0 }
         val next = fighters.first { it.id == initiative[(current + offset) % initiative.size].fighterId }
         val newRound = round + (current + offset) / initiative.size
-        return copy(activeId = next.id, round = newRound, moved = false, acted = false, guarded = guarded - next.id,
+        val advanced = copy(activeId = next.id, round = newRound, moved = false, acted = false, guarded = guarded - next.id,
             log = log + "${if (newRound != round) "Раунд $newRound. " else ""}Ход ${next.name}.")
+        val escort = escortObjective
+        if (escort?.phase != EscortPhase.ACTIVE || newRound <= escort.definition.lastRound) return advanced
+        val expired = escort.copy(phase = EscortPhase.EXPIRED)
+        return advanced.copy(escortObjective = expired,
+            events = advanced.events + CombatEvent(CombatEventKind.ESCORT_EXPIRED, active, title = "Выезд закрыт",
+                logIndex = advanced.log.size, fighters = fighters, escortBefore = escort, escortAfter = expired))
+            .record("Дождь перекрыл выезд. Повозка остаётся во дворе; теперь нужно отбить архив.")
     }
 
     fun enemyTurn(dice: DiceRoller = randomDice): CombatDemo {
         if (finished || !active.enemy) return this
         val heroes = fighters.filter { !it.enemy && it.hp > 0 }
-        val positions = listOf(active.tile) + tiles.filter { pathTo(it).isNotEmpty() }
-        val destination = positions.minWith(compareBy<Tile> { position ->
-            if (heroes.any { position.distance(it.tile) <= active.range && clearSight(position, it.tile) }) 0 else 1
-        }.thenBy { position -> heroes.minOf { position.distance(it.tile) } }
-            .thenBy { if (it == active.tile) 0 else pathTo(it).size })
+        // Use the same reachable routes as player movement. A ranged opponent seeks
+        // a firing position, rather than walking into melee like the bruiser.
+        val routes = tiles.mapNotNull { tile -> pathTo(tile).takeIf { it.isNotEmpty() }?.let { tile to it } }.toMap()
+        val positions = listOf(active.tile) + routes.keys
+        val firingPositions = positions.filter { position ->
+            heroes.any { position.distance(it.tile) <= active.range && clearSight(position, it.tile) }
+        }
+        fun movementCost(tile: Tile) = routes[tile]?.size?.minus(1) ?: 0
+        val destination = if (firingPositions.isEmpty()) {
+            // A locally closer tile can lead into a cul-de-sac behind a wall.
+            // Plan the complete legal route to an attack position, but spend only
+            // this turn's three movement steps. Fallen heroes still reserve tiles.
+            val approach = tiles.filter { position ->
+                heroes.any { position.distance(it.tile) <= active.range && clearSight(position, it.tile) }
+            }.map { pathTo(it, limit = columns * rows) }.filter { it.isNotEmpty() }
+                .minByOrNull { it.size }
+            approach?.get(minOf(3, approach.lastIndex)) ?: active.tile
+        } else if (active.range > 1) {
+            firingPositions.minWith(compareBy<Tile> { position ->
+                heroes.count { position.distance(it.tile) <= 1 }
+            }.thenByDescending { position ->
+                heroes.minOf { hero -> armorOf(active.copy(tile = position), hero.tile) }
+            }.thenByDescending { position ->
+                minOf(active.range, heroes.minOf { position.distance(it.tile) })
+            }.thenBy { movementCost(it) })
+        } else {
+            firingPositions.minWith(compareBy<Tile> { position -> heroes.minOf { position.distance(it.tile) } }
+                .thenBy { movementCost(it) })
+        }
         var next = this
         if (destination != active.tile) next = copy(moved = true,
             events = events + CombatEvent(CombatEventKind.MOVE, active, title = "Перемещение", logIndex = log.size,
-                fighters = fighters, path = pathTo(destination)),
+                fighters = fighters, path = routes.getValue(destination)),
             fighters = fighters.map { if (it.id == activeId) it.copy(tile = destination) else it })
             .record("${active.name}: переход ${active.tile.label} → ${destination.label}.")
         val victim = heroes.filter { next.active.tile.distance(it.tile) <= next.active.range && clearSight(next.active.tile, it.tile) }
@@ -314,7 +382,11 @@ data class CombatDemo(
         return next.advanceTurn()
     }
 
-    private fun record(message: String) = copy(log = log + message, lastResult = message)
+    private fun record(message: String) = copy(log = log + message, lastResult = message,
+        events = if (escortObjective == null) events else events.map { event ->
+            if (event.logIndex == log.size && event.escortBefore == null)
+                event.copy(escortBefore = escortObjective, escortAfter = escortObjective) else event
+        })
 
     companion object {
         const val columns = 6

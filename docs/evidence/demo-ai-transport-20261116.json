@@ -1,0 +1,106 @@
+{
+  "run": "demo-v1-20261116-a",
+  "model": "gpt-6-luna",
+  "revision": null,
+  "source_sha256": "2aac5a33677e728030ea25543084c9be3e2f20634dd2e4f8991791c7052f28bc",
+  "selected_cases": 30,
+  "attempts_started": 15,
+  "completed_results": 14,
+  "terminated_in_flight": 1,
+  "responses_received": 0,
+  "mechanical_or_prose_quality": "unverified_no_model_response",
+  "stop_reason": "stopped_after_repeated_connection_timeouts",
+  "remaining_goal_request_budget": 135,
+  "network_diagnostic": {
+    "dns": "IPv4 resolved",
+    "direct_tcp_443": "timeout_after_4_seconds",
+    "anonymous_https": "URLError",
+    "proxy_variables_present": false
+  },
+  "results": [
+    {
+      "case": "GM01",
+      "attempt": 1,
+      "elapsed_ms": 5312,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM02",
+      "attempt": 2,
+      "elapsed_ms": 5021,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM03",
+      "attempt": 3,
+      "elapsed_ms": 5011,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM04",
+      "attempt": 4,
+      "elapsed_ms": 5004,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM05",
+      "attempt": 5,
+      "elapsed_ms": 5005,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM06",
+      "attempt": 6,
+      "elapsed_ms": 5003,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM07",
+      "attempt": 7,
+      "elapsed_ms": 5006,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM08",
+      "attempt": 8,
+      "elapsed_ms": 5008,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM09",
+      "attempt": 9,
+      "elapsed_ms": 5003,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM10",
+      "attempt": 10,
+      "elapsed_ms": 5005,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM11",
+      "attempt": 11,
+      "elapsed_ms": 5003,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM12",
+      "attempt": 12,
+      "elapsed_ms": 5005,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM13",
+      "attempt": 13,
+      "elapsed_ms": 5015,
+      "failure": "transport_timeout"
+    },
+    {
+      "case": "GM14",
+      "attempt": 14,
+      "elapsed_ms": 5011,
+      "failure": "transport_timeout"
+    }
+  ]
+}

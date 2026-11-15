@@ -70,19 +70,18 @@ internal fun RollPresentationHost(queue: RollPresentationQueue, controllingPlaye
     val current = queue.pending.firstOrNull() ?: return
     if (current.combat != null && !combatPresentationsEnabled) return
     key(current.id) {
-        val motion = LocalGameMotion.current
-        val visible = remember { MutableTransitionState(false).apply { targetState = true } }
-        LaunchedEffect(visible.isIdle, visible.currentState, visible.targetState) {
-            if (visible.isIdle && !visible.currentState && !visible.targetState) queue.advance(current.id)
-        }
-        // Keep the event queued, and commands blocked, until its exit animation has finished.
+        val profile = GameMotionProfile(LocalReducedMotion.current)
+        var visible by remember { mutableStateOf(true) }
+        // Keep the event mounted throughout pause, including its exit and advance barrier.
         Box(Modifier.fillMaxSize().clickable(onClick = {})) {
-            AnimatedVisibility(visible, enter = fadeIn(tween(if (motion) 240 else 0)),
-                exit = fadeOut(tween(if (motion) 220 else 0))) {
+            PausableVisibility(visible, enterMillis = profile.transitionMillis(240),
+                exitMillis = profile.transitionMillis(220), onHidden = { queue.advance(current.id) }) {
                 val combat = current.combat
-                val done = { visible.targetState = false }
-                if (combat != null) CombatEventPresentation(combat, controllingPlayerId, done)
-                else DiceRollOverlay(requireNotNull(current.event), queue.pending.size, onDone = done)
+                val done = { visible = false }
+                CompositionLocalProvider(LocalSoundPresentationId provides current.id) {
+                    if (combat != null) CombatEventPresentation(combat, controllingPlayerId, done)
+                    else DiceRollOverlay(requireNotNull(current.event), queue.pending.size, onDone = done)
+                }
             }
         }
     }
@@ -90,26 +89,40 @@ internal fun RollPresentationHost(queue: RollPresentationQueue, controllingPlaye
 
 @Composable
 internal fun DiceRollOverlay(event: DiceEvent, remaining: Int,
-    topContent: @Composable (Boolean) -> Unit = {}, onDone: () -> Unit) {
+    topContent: @Composable (Boolean) -> Unit = {},
+    soundOutput: ((String, GameSound) -> Unit)? = null, onDone: () -> Unit) {
+    val pauseClock = LocalPresentationPauseClock.current
     val motion = remember { Animatable(0f) }
+    val profile = GameMotionProfile(LocalReducedMotion.current)
     var revealed by remember { mutableStateOf(false) }
     var face by remember { mutableIntStateOf(1) }
-    LaunchedEffect(revealed) {
+    val effects by rememberUpdatedState(LocalGameEffects.current)
+    val soundId = LocalSoundPresentationId.current
+    fun sound(phase: String, clip: GameSound) {
+        if (soundOutput != null) soundOutput(phase, clip) else if (soundId != null) effects?.play(soundId, phase, clip)
+    }
+    LaunchedEffect(soundId) { if (!profile.reduced) sound("dice:cast", GameSound.DICE_CAST) }
+    LaunchedEffect(revealed, soundId) { if (revealed) sound("dice:land", GameSound.DICE_LAND) }
+    LaunchedEffect(revealed, profile.reduced) {
         if (!revealed) {
-            motion.animateTo(1f, tween(1450, easing = LinearOutSlowInEasing))
+            if (profile.reduced) motion.snapTo(1f) else pauseClock.presentationAnimation { motion.animateTo(1f, tween(profile.diceWindupMillis, easing = LinearOutSlowInEasing)) }
             revealed = true
-        } else {
+        }
+    }
+    // Mode changes after reveal do not restart the result's reading window.
+    LaunchedEffect(revealed) {
+        if (revealed) {
             motion.snapTo(1f)
-            delay(1800)
+            pauseClock.presentationDelay(profile.diceResultMillis)
             onDone()
         }
     }
-    LaunchedEffect(revealed) {
+    LaunchedEffect(revealed, profile.reduced) {
         var tick = 0
-        while (!revealed) {
+        while (!revealed && !profile.reduced) {
             face = (tick * 7 + 3) % event.sides + 1
             tick++
-            delay(65L + (motion.value * 90).toLong())
+            pauseClock.presentationDelay(65L + (motion.value * 90).toLong())
         }
     }
     val accent = when (event.success) {
@@ -135,10 +148,10 @@ internal fun DiceRollOverlay(event: DiceEvent, remaining: Int,
             }
         }
         Column(Modifier.widthIn(max = 620.dp).fillMaxWidth().verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp, vertical = 16.dp).animateContentSize(tween(220)),
+            .padding(horizontal = 24.dp, vertical = 16.dp).animateContentSize(tween(profile.transitionMillis(220))),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(if (compact) 6.dp else 14.dp)) {
-            topContent(revealed)
+            topContent(revealed || profile.reduced)
             Text("Н И Т И   С У Д Ь Б Ы", color = AdventureGold, fontSize = 11.sp)
             Text(event.title, color = Color(0xFFF0E9DD), fontFamily = MaterialTheme.typography.headlineLarge.fontFamily,
                 fontSize = if (compact) 24.sp else 32.sp, textAlign = TextAlign.Center)
@@ -146,7 +159,7 @@ internal fun DiceRollOverlay(event: DiceEvent, remaining: Int,
             if (event.difficulty != null) Text("НУЖНО ${event.difficulty}", color = AdventureGold,
                 style = MaterialTheme.typography.titleMedium)
             Box(Modifier.size(dieSize).graphicsLayer {
-                val t = motion.value
+                val t = if (profile.reduced) 1f else motion.value
                 rotationZ = (1f - t) * 610f
                 rotationY = (1f - t) * 720f
                 val scale = .65f + t * .35f
@@ -172,13 +185,11 @@ internal fun DiceRollOverlay(event: DiceEvent, remaining: Int,
                         drawLine(AdventureGold.copy(alpha = .4f), points[i], points[(i + 5) % 6], 1.dp.toPx())
                     }
                 }
-                Text(if (revealed) (if (event.best) event.dice.max() else event.dice.first()).toString() else face.toString(),
+                Text(if (revealed || profile.reduced) (if (event.best) event.dice.max() else event.dice.first()).toString() else face.toString(),
                     color = Color(0xFFFFE4B3), fontSize = if (compact) 46.sp else 68.sp,
                     fontWeight = FontWeight.Bold, fontFamily = MaterialTheme.typography.headlineLarge.fontFamily)
             }
-            AnimatedContent(revealed, transitionSpec = {
-                (fadeIn(tween(260)) + slideInVertically(tween(260)) { it / 4 }) togetherWith fadeOut(tween(140))
-            }, label = "dice result") { showResult ->
+            PausableCrossfade(revealed || profile.reduced, millis = profile.transitionMillis(260)) { showResult ->
               Column(horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite }) {
                 Text(if (showResult) event.outcome else "Кубик в полёте…",
@@ -192,7 +203,8 @@ internal fun DiceRollOverlay(event: DiceEvent, remaining: Int,
                 } else Text("${event.dice.size}d${event.sides} ${signedBonus(event.bonus)}", color = AdventureMuted)
               }
             }
-            AnimatedVisibility(revealed && event.detail.isNotEmpty(), enter = fadeIn() + expandVertically(), exit = fadeOut() + shrinkVertically()) {
+            PausableVisibility((revealed || profile.reduced) && event.detail.isNotEmpty(),
+                enterMillis = profile.transitionMillis(220), exitMillis = profile.transitionMillis(220)) {
                 Text(event.detail, color = AdventureMuted, style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
             }
             TextButton(shape = MaterialTheme.shapes.small, onClick = { if (revealed) onDone() else revealed = true }) {

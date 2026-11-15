@@ -40,6 +40,7 @@ class ScenarioNetworkTest {
             a.command(NetworkAction.SELECT_SCENARIO, scenarioId = FloodedArchive.ID)
             await(a) { it.room?.scenarioId == FloodedArchive.ID }
             await(b) { it.room?.scenarioId == FloodedArchive.ID }
+            confirmNetworkCharacters(a, b)
             a.command(NetworkAction.START)
             var state = await(a) { it.room?.adventure != null }.room!!.adventure!!
             a.command(NetworkAction.SUBMIT, turnId = state.turnId, text = "читаю")

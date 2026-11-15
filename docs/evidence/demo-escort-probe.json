@@ -1,0 +1,3358 @@
+{
+  "schema": 1,
+  "policyVersion": "visible-escort-v1",
+  "kotlin": "2.4.21",
+  "seedStart": 0,
+  "seedCount": 32,
+  "sampleCount": 1536,
+  "participantTurnLimit": 160,
+  "elapsedMs": 998,
+  "scope": "Correct matching ReadyCharacters profiles; identical actual cart/enemies; robot choices, not human balance or presentation timing",
+  "waitingDefinition": "Consecutive other participant turns while standing; downed time reset, not wall-clock",
+  "safeExitNote": "Auto-success after elimination may narratively clear the path; occupied path/exit flags describe presentation limitations, not failed mechanics",
+  "reportPath": "game/build/reports/escort-balance/probe-32-seeds.json",
+  "reportSha256": "a18173024cc2e4ec8f1598d4beb9aac2e3514ff21001942468e1e977af4b6715",
+  "sourcesSha256": {
+    "game/src/commonMain/kotlin/ru/markn/dnd/combat/EscortObjective.kt": "5f40b6d7d71f8a5d33af60441d25d14442bb9059d944877b6a5d52e092353ee1",
+    "game/src/commonMain/kotlin/ru/markn/dnd/combat/CombatDemo.kt": "863fb482c3e1d5b4974b3e9f77158164f1bb56c00259e85030df36199d5c8bec",
+    "game/src/commonMain/kotlin/ru/markn/dnd/adventure/AdventureCombat.kt": "b647f0e24e8900cf6d5ca801ff37b7de10672b68c05b8711757ef8332d4d70a9",
+    "game/src/commonMain/kotlin/ru/markn/dnd/adventure/Characters.kt": "ea270d5e47bd8a8788189166b874e4643dee60006b86b960f9e7eae99997f577",
+    "game/src/jvmTest/kotlin/ru/markn/dnd/adventure/EscortBalanceProbe.kt": "57c2177f60b7604e0404520fb039b94939ddbc0d00da1761a08f4d971e9a08bb"
+  },
+  "sourceNote": "Combat/harness frozen for probe; subsequent ArchiveDemo change only corrects HALL/ending narration and is not represented by these hashes",
+  "cells": [
+    {
+      "partySize": 2,
+      "class": "WARRIOR",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 6,
+        "courier_safe": 26
+      },
+      "participantTurnsMedian": 17.0,
+      "participantTurnsP95": 30,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 4.65625,
+      "expiryCount": 6,
+      "invalidBlockedPushes": 5,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0,
+      "selectedRuns": [
+        {
+          "seed": 0,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 36,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 3,
+          "finalStep": 3,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 10
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 1,
+          "outcome": "courier_safe",
+          "participantTurns": 14,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 2,
+          "outcome": "courier_safe",
+          "participantTurns": 13,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 3,
+          "outcome": "courier_safe",
+          "participantTurns": 20,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 4,
+          "outcome": "courier_safe",
+          "participantTurns": 13,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 5,
+          "outcome": "courier_safe",
+          "participantTurns": 17,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 6,
+          "outcome": "courier_safe",
+          "participantTurns": 14,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 7,
+          "outcome": "courier_safe",
+          "participantTurns": 13,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 8,
+          "outcome": "courier_safe",
+          "participantTurns": 20,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 9,
+          "outcome": "courier_safe",
+          "participantTurns": 14,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 10,
+          "outcome": "courier_safe",
+          "participantTurns": 12,
+          "round": 4,
+          "maxWaitOtherTurns": 2,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 1,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 11,
+          "outcome": "courier_safe",
+          "participantTurns": 15,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 12,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 30,
+          "round": 9,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 3,
+          "finalStep": 3,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 1,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 13,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 25,
+          "round": 7,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 4,
+          "finalStep": 4,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 1,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 14,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 28,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 3,
+          "finalStep": 3,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 1,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 15,
+          "outcome": "courier_safe",
+          "participantTurns": 20,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 16,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 26,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 4,
+          "finalStep": 4,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 17,
+          "outcome": "courier_safe",
+          "participantTurns": 17,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 18,
+          "outcome": "courier_safe",
+          "participantTurns": 20,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 19,
+          "outcome": "courier_safe",
+          "participantTurns": 19,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 20,
+          "outcome": "courier_safe",
+          "participantTurns": 15,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 21,
+          "outcome": "courier_safe",
+          "participantTurns": 18,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 22,
+          "outcome": "courier_safe",
+          "participantTurns": 14,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 23,
+          "outcome": "courier_safe",
+          "participantTurns": 17,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 24,
+          "outcome": "courier_safe",
+          "participantTurns": 19,
+          "round": 6,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 25,
+          "outcome": "courier_safe",
+          "participantTurns": 19,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 26,
+          "outcome": "courier_safe",
+          "participantTurns": 16,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 27,
+          "outcome": "courier_safe",
+          "participantTurns": 20,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 28,
+          "outcome": "courier_safe",
+          "participantTurns": 10,
+          "round": 3,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 4,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 29,
+          "outcome": "courier_safe",
+          "participantTurns": 13,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 30,
+          "outcome": "courier_safe",
+          "participantTurns": 14,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 5,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 31,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 30,
+          "round": 9,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 3,
+          "finalStep": 3,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 1,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        }
+      ]
+    },
+    {
+      "partySize": 2,
+      "class": "WARRIOR",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 3,
+        "courier_safe": 29
+      },
+      "participantTurnsMedian": 13.5,
+      "participantTurnsP95": 27,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.0,
+      "expiryCount": 3,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 4,
+      "selectedRuns": [
+        {
+          "seed": 0,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 27,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 1,
+          "outcome": "courier_safe",
+          "participantTurns": 11,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": true
+        },
+        {
+          "seed": 2,
+          "outcome": "courier_safe",
+          "participantTurns": 20,
+          "round": 6,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 6
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 3,
+          "outcome": "courier_safe",
+          "participantTurns": 7,
+          "round": 2,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 2,
+            "hero-1": 2
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": true
+        },
+        {
+          "seed": 4,
+          "outcome": "courier_safe",
+          "participantTurns": 12,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 5,
+          "outcome": "courier_safe",
+          "participantTurns": 8,
+          "round": 2,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 2,
+            "hero-1": 2
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 6,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 26,
+          "round": 7,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 7,
+          "outcome": "courier_safe",
+          "participantTurns": 13,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 8,
+          "outcome": "courier_safe",
+          "participantTurns": 20,
+          "round": 6,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 9,
+          "outcome": "courier_safe",
+          "participantTurns": 21,
+          "round": 6,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 6
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 10,
+          "outcome": "courier_safe",
+          "participantTurns": 9,
+          "round": 3,
+          "maxWaitOtherTurns": 2,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": true
+        },
+        {
+          "seed": 11,
+          "outcome": "courier_safe",
+          "participantTurns": 11,
+          "round": 3,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 12,
+          "outcome": "courier_safe",
+          "participantTurns": 15,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 13,
+          "outcome": "courier_safe",
+          "participantTurns": 12,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 14,
+          "outcome": "courier_safe",
+          "participantTurns": 12,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 15,
+          "outcome": "courier_safe",
+          "participantTurns": 21,
+          "round": 6,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 6
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": true
+        },
+        {
+          "seed": 16,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 29,
+          "round": 9,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 17,
+          "outcome": "courier_safe",
+          "participantTurns": 21,
+          "round": 6,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 6
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 18,
+          "outcome": "courier_safe",
+          "participantTurns": 19,
+          "round": 6,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 19,
+          "outcome": "courier_safe",
+          "participantTurns": 10,
+          "round": 3,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 2
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 20,
+          "outcome": "courier_safe",
+          "participantTurns": 10,
+          "round": 3,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 21,
+          "outcome": "courier_safe",
+          "participantTurns": 15,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 22,
+          "outcome": "courier_safe",
+          "participantTurns": 10,
+          "round": 3,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 2,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 23,
+          "outcome": "courier_safe",
+          "participantTurns": 17,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 24,
+          "outcome": "courier_safe",
+          "participantTurns": 10,
+          "round": 3,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 25,
+          "outcome": "courier_safe",
+          "participantTurns": 15,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 26,
+          "outcome": "courier_safe",
+          "participantTurns": 16,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 27,
+          "outcome": "courier_safe",
+          "participantTurns": 19,
+          "round": 6,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 28,
+          "outcome": "courier_safe",
+          "participantTurns": 12,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 29,
+          "outcome": "courier_safe",
+          "participantTurns": 9,
+          "round": 3,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 30,
+          "outcome": "courier_safe",
+          "participantTurns": 14,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 31,
+          "outcome": "courier_safe",
+          "participantTurns": 12,
+          "round": 4,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 4,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        }
+      ]
+    },
+    {
+      "partySize": 2,
+      "class": "WARRIOR",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 26,
+        "courier_safe": 6
+      },
+      "participantTurnsMedian": 27.0,
+      "participantTurnsP95": 41,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.4375,
+      "expiryCount": 26,
+      "invalidBlockedPushes": 172,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 6,
+      "selectedRuns": [
+        {
+          "seed": 0,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 44,
+          "round": 12,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 11,
+            "hero-1": 12
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 1,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 30,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 2,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 27,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 3,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 32,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 10
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 4,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 41,
+          "round": 11,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 11,
+            "hero-1": 11
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 5,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 29,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 6,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 31,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 7,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 25,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 8,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 25,
+          "round": 7,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 9,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 22,
+          "round": 7,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 10,
+          "outcome": "courier_safe",
+          "participantTurns": 9,
+          "round": 3,
+          "maxWaitOtherTurns": 2,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 3,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 3
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": true
+        },
+        {
+          "seed": 11,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 23,
+          "round": 7,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 12,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 30,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 13,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 26,
+          "round": 7,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 6
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 14,
+          "outcome": "courier_safe",
+          "participantTurns": 16,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": true
+        },
+        {
+          "seed": 15,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 33,
+          "round": 9,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 16,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 29,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 17,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 26,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 18,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 34,
+          "round": 9,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 19,
+          "outcome": "courier_safe",
+          "participantTurns": 23,
+          "round": 6,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 6
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": true
+        },
+        {
+          "seed": 20,
+          "outcome": "courier_safe",
+          "participantTurns": 16,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": true
+        },
+        {
+          "seed": 21,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 25,
+          "round": 7,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 22,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 27,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 23,
+          "outcome": "courier_safe",
+          "participantTurns": 19,
+          "round": 6,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 6
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": true
+        },
+        {
+          "seed": 24,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 27,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 25,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 40,
+          "round": 12,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 12,
+            "hero-1": 12
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 26,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 26,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 27,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 24,
+          "round": 7,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 28,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 30,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 29,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 27,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 30,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 32,
+          "round": 9,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 1,
+          "finalStep": 1,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 31,
+          "outcome": "courier_safe",
+          "participantTurns": 18,
+          "round": 5,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 5,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 5
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": true
+        }
+      ]
+    },
+    {
+      "partySize": 2,
+      "class": "WARRIOR",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 40.5,
+      "participantTurnsP95": 51,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0,
+      "selectedRuns": [
+        {
+          "seed": 0,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 39,
+          "round": 11,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 11,
+            "hero-1": 10
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 1,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 41,
+          "round": 11,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 11,
+            "hero-1": 11
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 2,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 30,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 8,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 3,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 42,
+          "round": 12,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 11,
+            "hero-1": 12
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 4,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 37,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 10
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 5,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 53,
+          "round": 14,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 14,
+            "hero-1": 14
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 6,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 34,
+          "round": 9,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 7,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 47,
+          "round": 13,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 13,
+            "hero-1": 13
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 8,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 40,
+          "round": 11,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 11,
+            "hero-1": 11
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 9,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 45,
+          "round": 13,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 13,
+            "hero-1": 13
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 10,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 41,
+          "round": 11,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 11,
+            "hero-1": 10
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 11,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 51,
+          "round": 14,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 13,
+            "hero-1": 14
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 12,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 39,
+          "round": 11,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 11,
+            "hero-1": 10
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 13,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 37,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 10
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 14,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 44,
+          "round": 12,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 12,
+            "hero-1": 12
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 15,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 35,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 16,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 43,
+          "round": 12,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 12,
+            "hero-1": 11
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 17,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 44,
+          "round": 12,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 12,
+            "hero-1": 12
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 18,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 50,
+          "round": 14,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 14,
+            "hero-1": 13
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 19,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 41,
+          "round": 11,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 11,
+            "hero-1": 11
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 20,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 48,
+          "round": 13,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 12,
+            "hero-1": 12
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 21,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 34,
+          "round": 9,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 8
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 22,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 34,
+          "round": 9,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 23,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 36,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 24,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 35,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 25,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 40,
+          "round": 12,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 12,
+            "hero-1": 11
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 26,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 48,
+          "round": 13,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 13,
+            "hero-1": 13
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 27,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 37,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 10
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 28,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 45,
+          "round": 13,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 12,
+            "hero-1": 13
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 29,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 34,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 10
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 30,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 36,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 9,
+            "hero-1": 10
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 31,
+          "outcome": "archive_defended_after_window",
+          "participantTurns": 44,
+          "round": 12,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 12,
+            "hero-1": 12
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        }
+      ]
+    },
+    {
+      "partySize": 2,
+      "class": "ROGUE",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 14.0,
+      "participantTurnsP95": 19,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 4.8125,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 2,
+      "class": "ROGUE",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 31,
+        "archive_defended_after_window": 1
+      },
+      "participantTurnsMedian": 8.5,
+      "participantTurnsP95": 23,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.0,
+      "expiryCount": 1,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 8
+    },
+    {
+      "partySize": 2,
+      "class": "ROGUE",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 19,
+        "courier_safe": 13
+      },
+      "participantTurnsMedian": 21.0,
+      "participantTurnsP95": 34,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.4375,
+      "expiryCount": 19,
+      "invalidBlockedPushes": 190,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 13
+    },
+    {
+      "partySize": 2,
+      "class": "ROGUE",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 31.5,
+      "participantTurnsP95": 45,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 2,
+      "class": "MAGE",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 15.0,
+      "participantTurnsP95": 19,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 4.90625,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 2,
+      "class": "MAGE",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 27,
+        "archive_defended_after_window": 5
+      },
+      "participantTurnsMedian": 14.0,
+      "participantTurnsP95": 24,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.0,
+      "expiryCount": 5,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 3
+    },
+    {
+      "partySize": 2,
+      "class": "MAGE",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 22,
+        "courier_safe": 9,
+        "defeat": 1
+      },
+      "participantTurnsMedian": 26.0,
+      "participantTurnsP95": 33,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.4375,
+      "expiryCount": 23,
+      "invalidBlockedPushes": 198,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 9,
+      "selectedRuns": [
+        {
+          "seed": 31,
+          "outcome": "defeat",
+          "participantTurns": 26,
+          "round": 8,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 9,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 4
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        }
+      ]
+    },
+    {
+      "partySize": 2,
+      "class": "MAGE",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 28,
+        "defeat": 4
+      },
+      "participantTurnsMedian": 36.0,
+      "participantTurnsP95": 45,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0,
+      "selectedRuns": [
+        {
+          "seed": 8,
+          "outcome": "defeat",
+          "participantTurns": 35,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 6
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 23,
+          "outcome": "defeat",
+          "participantTurns": 36,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 7,
+            "hero-1": 9
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 27,
+          "outcome": "defeat",
+          "participantTurns": 37,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        },
+        {
+          "seed": 31,
+          "outcome": "defeat",
+          "participantTurns": 36,
+          "round": 10,
+          "maxWaitOtherTurns": 3,
+          "pushActions": 0,
+          "finalStep": 0,
+          "finalPhase": "EXPIRED",
+          "expiryRound": 7,
+          "invalidBlockedPushes": 0,
+          "heroTurns": {
+            "hero-0": 10,
+            "hero-1": 7
+          },
+          "safeExitSharesHeroTile": false,
+          "safeExitPathContainsStandingOrDownedHero": false
+        }
+      ]
+    },
+    {
+      "partySize": 2,
+      "class": "BARD",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 15.5,
+      "participantTurnsP95": 21,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 4.9375,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 2,
+      "class": "BARD",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 29,
+        "archive_defended_after_window": 3
+      },
+      "participantTurnsMedian": 12.5,
+      "participantTurnsP95": 24,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.0,
+      "expiryCount": 3,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 5
+    },
+    {
+      "partySize": 2,
+      "class": "BARD",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 24,
+        "courier_safe": 8
+      },
+      "participantTurnsMedian": 26.5,
+      "participantTurnsP95": 34,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.4375,
+      "expiryCount": 24,
+      "invalidBlockedPushes": 208,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 8
+    },
+    {
+      "partySize": 2,
+      "class": "BARD",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 39.0,
+      "participantTurnsP95": 50,
+      "maxWaitOtherTurns": 3,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 0,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 3,
+      "class": "WARRIOR",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 30,
+        "archive_defended_after_window": 2
+      },
+      "participantTurnsMedian": 18.0,
+      "participantTurnsP95": 31,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 4.84375,
+      "expiryCount": 2,
+      "invalidBlockedPushes": 57,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 3,
+      "class": "WARRIOR",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 30,
+        "archive_defended_after_window": 2
+      },
+      "participantTurnsMedian": 19.5,
+      "participantTurnsP95": 30,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 2,
+      "invalidBlockedPushes": 58,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 11
+    },
+    {
+      "partySize": 3,
+      "class": "WARRIOR",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 9,
+        "courier_safe": 23
+      },
+      "participantTurnsMedian": 24.0,
+      "participantTurnsP95": 38,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 9,
+      "invalidBlockedPushes": 184,
+      "safeExitSharesHeroTile": 1,
+      "safeExitPathContainsStandingOrDownedHero": 23,
+      "selectedRuns": [
+        {
+          "seed": 18,
+          "outcome": "courier_safe",
+          "participantTurns": 27,
+          "round": 6,
+          "maxWaitOtherTurns": 4,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 7,
+          "heroTurns": {
+            "hero-0": 6,
+            "hero-1": 6,
+            "hero-2": 6
+          },
+          "safeExitSharesHeroTile": true,
+          "safeExitPathContainsStandingOrDownedHero": true
+        }
+      ]
+    },
+    {
+      "partySize": 3,
+      "class": "WARRIOR",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 46.5,
+      "participantTurnsP95": 55,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 384,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 3,
+      "class": "ROGUE",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 31,
+        "archive_defended_after_window": 1
+      },
+      "participantTurnsMedian": 16.5,
+      "participantTurnsP95": 21,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 4.3125,
+      "expiryCount": 1,
+      "invalidBlockedPushes": 56,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 2
+    },
+    {
+      "partySize": 3,
+      "class": "ROGUE",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 8.5,
+      "participantTurnsP95": 19,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 71,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 29
+    },
+    {
+      "partySize": 3,
+      "class": "ROGUE",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 29,
+        "archive_defended_after_window": 3
+      },
+      "participantTurnsMedian": 17.5,
+      "participantTurnsP95": 31,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 3,
+      "invalidBlockedPushes": 157,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 29
+    },
+    {
+      "partySize": 3,
+      "class": "ROGUE",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 37.5,
+      "participantTurnsP95": 48,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 384,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 3,
+      "class": "MAGE",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 18.0,
+      "participantTurnsP95": 21,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 4.65625,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 55,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 3,
+      "class": "MAGE",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 13.0,
+      "participantTurnsP95": 23,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 85,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 28
+    },
+    {
+      "partySize": 3,
+      "class": "MAGE",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 29,
+        "archive_defended_after_window": 3
+      },
+      "participantTurnsMedian": 19.0,
+      "participantTurnsP95": 30,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 3,
+      "invalidBlockedPushes": 167,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 29
+    },
+    {
+      "partySize": 3,
+      "class": "MAGE",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 44.0,
+      "participantTurnsP95": 58,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 384,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 3,
+      "class": "BARD",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 18.0,
+      "participantTurnsP95": 24,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 4.84375,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 56,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 3,
+      "class": "BARD",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 15.5,
+      "participantTurnsP95": 24,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 86,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 25
+    },
+    {
+      "partySize": 3,
+      "class": "BARD",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 26,
+        "archive_defended_after_window": 6
+      },
+      "participantTurnsMedian": 21.0,
+      "participantTurnsP95": 30,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 6,
+      "invalidBlockedPushes": 179,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 26
+    },
+    {
+      "partySize": 3,
+      "class": "BARD",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 47.0,
+      "participantTurnsP95": 56,
+      "maxWaitOtherTurns": 4,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 384,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 4,
+      "class": "WARRIOR",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 31,
+        "archive_defended_after_window": 1
+      },
+      "participantTurnsMedian": 20.0,
+      "participantTurnsP95": 30,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 4.75,
+      "expiryCount": 1,
+      "invalidBlockedPushes": 63,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 1
+    },
+    {
+      "partySize": 4,
+      "class": "WARRIOR",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 30,
+        "archive_defended_after_window": 2
+      },
+      "participantTurnsMedian": 24.5,
+      "participantTurnsP95": 36,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 2,
+      "invalidBlockedPushes": 78,
+      "safeExitSharesHeroTile": 2,
+      "safeExitPathContainsStandingOrDownedHero": 21,
+      "selectedRuns": [
+        {
+          "seed": 20,
+          "outcome": "courier_safe",
+          "participantTurns": 17,
+          "round": 4,
+          "maxWaitOtherTurns": 5,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 1,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 3,
+            "hero-2": 4,
+            "hero-3": 3
+          },
+          "safeExitSharesHeroTile": true,
+          "safeExitPathContainsStandingOrDownedHero": true
+        },
+        {
+          "seed": 21,
+          "outcome": "courier_safe",
+          "participantTurns": 20,
+          "round": 4,
+          "maxWaitOtherTurns": 5,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 1,
+          "heroTurns": {
+            "hero-0": 3,
+            "hero-1": 3,
+            "hero-2": 4,
+            "hero-3": 4
+          },
+          "safeExitSharesHeroTile": true,
+          "safeExitPathContainsStandingOrDownedHero": true
+        }
+      ]
+    },
+    {
+      "partySize": 4,
+      "class": "WARRIOR",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 28,
+        "archive_defended_after_window": 4
+      },
+      "participantTurnsMedian": 29.0,
+      "participantTurnsP95": 40,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 4,
+      "invalidBlockedPushes": 205,
+      "safeExitSharesHeroTile": 1,
+      "safeExitPathContainsStandingOrDownedHero": 28,
+      "selectedRuns": [
+        {
+          "seed": 9,
+          "outcome": "courier_safe",
+          "participantTurns": 29,
+          "round": 5,
+          "maxWaitOtherTurns": 5,
+          "pushActions": 0,
+          "finalStep": 5,
+          "finalPhase": "ESCAPED",
+          "expiryRound": null,
+          "invalidBlockedPushes": 6,
+          "heroTurns": {
+            "hero-0": 5,
+            "hero-1": 5,
+            "hero-2": 5,
+            "hero-3": 5
+          },
+          "safeExitSharesHeroTile": true,
+          "safeExitPathContainsStandingOrDownedHero": true
+        }
+      ]
+    },
+    {
+      "partySize": 4,
+      "class": "WARRIOR",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 56.0,
+      "participantTurnsP95": 67,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 384,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 4,
+      "class": "ROGUE",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 18.0,
+      "participantTurnsP95": 27,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 4.125,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 57,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 4
+    },
+    {
+      "partySize": 4,
+      "class": "ROGUE",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 9.0,
+      "participantTurnsP95": 22,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 63,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 29
+    },
+    {
+      "partySize": 4,
+      "class": "ROGUE",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 31,
+        "archive_defended_after_window": 1
+      },
+      "participantTurnsMedian": 15.0,
+      "participantTurnsP95": 32,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 1,
+      "invalidBlockedPushes": 131,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 31
+    },
+    {
+      "partySize": 4,
+      "class": "ROGUE",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 43.5,
+      "participantTurnsP95": 54,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 384,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 4,
+      "class": "MAGE",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 19.0,
+      "participantTurnsP95": 25,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 4.21875,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 59,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 3
+    },
+    {
+      "partySize": 4,
+      "class": "MAGE",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 32
+      },
+      "participantTurnsMedian": 14.0,
+      "participantTurnsP95": 27,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 0,
+      "invalidBlockedPushes": 80,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 29
+    },
+    {
+      "partySize": 4,
+      "class": "MAGE",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 31,
+        "archive_defended_after_window": 1
+      },
+      "participantTurnsMedian": 20.0,
+      "participantTurnsP95": 29,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 1,
+      "invalidBlockedPushes": 151,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 31
+    },
+    {
+      "partySize": 4,
+      "class": "MAGE",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 50.0,
+      "participantTurnsP95": 59,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 384,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    },
+    {
+      "partySize": 4,
+      "class": "BARD",
+      "policy": "escort",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 31,
+        "archive_defended_after_window": 1
+      },
+      "participantTurnsMedian": 21.0,
+      "participantTurnsP95": 25,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 4.71875,
+      "expiryCount": 1,
+      "invalidBlockedPushes": 59,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 1
+    },
+    {
+      "partySize": 4,
+      "class": "BARD",
+      "policy": "eliminate",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 31,
+        "archive_defended_after_window": 1
+      },
+      "participantTurnsMedian": 17.5,
+      "participantTurnsP95": 29,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 1,
+      "invalidBlockedPushes": 73,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 29
+    },
+    {
+      "partySize": 4,
+      "class": "BARD",
+      "policy": "block_route",
+      "samples": 32,
+      "outcomes": {
+        "courier_safe": 31,
+        "archive_defended_after_window": 1
+      },
+      "participantTurnsMedian": 22.5,
+      "participantTurnsP95": 30,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 1,
+      "invalidBlockedPushes": 163,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 31
+    },
+    {
+      "partySize": 4,
+      "class": "BARD",
+      "policy": "hold_window",
+      "samples": 32,
+      "outcomes": {
+        "archive_defended_after_window": 32
+      },
+      "participantTurnsMedian": 52.5,
+      "participantTurnsP95": 60,
+      "maxWaitOtherTurns": 5,
+      "meanPushActions": 0.0,
+      "expiryCount": 32,
+      "invalidBlockedPushes": 384,
+      "safeExitSharesHeroTile": 0,
+      "safeExitPathContainsStandingOrDownedHero": 0
+    }
+  ]
+}

@@ -55,6 +55,7 @@ class GameMasterNetworkTest {
             await(a) { it.room?.members?.size == 2 }
             a.command(NetworkAction.SELECT_SCENARIO, scenarioId = FloodedArchive.ID)
             await(a) { it.room?.scenarioId == FloodedArchive.ID }
+            confirmNetworkCharacters(a, b)
             a.command(NetworkAction.START)
             val start = await(a) { it.room?.adventure != null }.room!!.adventure!!
             val input = "Открываю замок двери подвала своими отмычками. Осторожно подбираю положение штифтов."
@@ -101,6 +102,7 @@ class GameMasterNetworkTest {
             await(a) { it.room?.members?.size == 2 }
             clients[2].connect(address, "C", code)
             clients.forEach { await(it) { s -> s.status == ConnectionStatus.CONNECTED && s.room?.members?.size == 3 } }
+            confirmNetworkCharacters(*clients.toTypedArray())
             a.command(NetworkAction.START)
             val state = await(a) { it.room?.adventure != null }.room!!.adventure!!
             a.command(NetworkAction.SUBMIT, turnId = state.turnId, text = "Подаю сигнал фонарём")
@@ -147,6 +149,7 @@ class GameMasterNetworkTest {
             val connected = withTimeout(10_000) { a.state.first { it.status == ConnectionStatus.CONNECTED } }
             b.connect(address, "B", connected.room!!.code)
             withTimeout(10_000) { a.state.first { it.room?.members?.size == 2 } }
+            confirmNetworkCharacters(a, b)
             a.command(NetworkAction.START)
             val before = withTimeout(10_000) { a.state.first { it.room?.adventure != null && !it.busy } }
                 .room!!.adventure!!
@@ -196,6 +199,7 @@ class GameMasterNetworkTest {
             val connected = withTimeout(10_000) { a.state.first { it.status == ConnectionStatus.CONNECTED } }
             b.connect(address, "B", connected.room!!.code)
             withTimeout(10_000) { a.state.first { it.room?.members?.size == 2 } }
+            confirmNetworkCharacters(a, b)
             a.command(NetworkAction.START)
             val started = withTimeout(10_000) { a.state.first { it.room?.adventure != null && !it.busy } }
             a.command(NetworkAction.SUBMIT, turnId = started.room!!.adventure!!.turnId, text = "Осторожно поднимаюсь по лестнице")

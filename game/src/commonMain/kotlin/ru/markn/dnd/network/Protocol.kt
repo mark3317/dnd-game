@@ -5,11 +5,17 @@ import kotlinx.serialization.json.Json
 import ru.markn.dnd.adventure.*
 
 /** Change when making incompatible protocol changes. */
-const val PROTOCOL_VERSION = 13
+const val PROTOCOL_VERSION = 16
 val GameWireJson = Json { ignoreUnknownKeys = true }
 
 @Serializable
 data class RoomMember(val player: Player, val online: Boolean, val characterConfirmed: Boolean = false)
+
+@Serializable
+enum class RoomLifecycle { LOBBY, ACTIVE, PAUSED, COMPLETED, CLOSED }
+
+@Serializable
+enum class ConnectionRejection { ROOM_UNAVAILABLE, RESUME_REJECTED, VERSION_MISMATCH }
 
 @Serializable
 data class RoomView(
@@ -23,6 +29,11 @@ data class RoomView(
     val gameMasterError: String? = null,
     val scenarioId: String = Lighthouse.ID,
     val serverTimeMillis: Long = 0,
+    val presentation: RoomPresentation? = null,
+    val lifecycle: RoomLifecycle = RoomLifecycle.LOBBY,
+    val waitingPlayerIds: List<String> = emptyList(),
+    val pausedAtMillis: Long? = null,
+    val closedByPlayerId: String? = null,
 )
 
 @Serializable
@@ -34,6 +45,14 @@ enum class NarrationKind { ACTION, REACTION, EPILOGUE }
 
 @Serializable
 sealed interface ClientMessage {
+    /** Explicit confirmed departure; closing the transport alone is an accidental disconnect. */
+    @Serializable
+    data object Leave : ClientMessage
+
+    /** Presentation transport is independent of gameplay request IDs and command busy state. */
+    @Serializable
+    data class SpeechAck(val acknowledgement: RoomSpeechAcknowledgement) : ClientMessage
+
     @Serializable
     data class Join(
         val name: String,
@@ -65,6 +84,10 @@ enum class NetworkAction { START, SUBMIT, ROLL, CANCEL, PASS, RESTART, SKIP_DISC
 
 @Serializable
 sealed interface ServerMessage {
+    /** Private acknowledgement of explicit departure, including departure from the lobby. */
+    @Serializable
+    data object Left : ServerMessage
+
     /** Private: never broadcast a resume token to the room. */
     @Serializable
     data class Welcome(val playerId: String, val resumeToken: String, val room: RoomView) : ServerMessage
@@ -73,5 +96,5 @@ sealed interface ServerMessage {
     @Serializable
     data class Reply(val requestId: Long, val error: String? = null, val room: RoomView) : ServerMessage
     @Serializable
-    data class Error(val message: String) : ServerMessage
+    data class Error(val message: String, val reason: ConnectionRejection? = null) : ServerMessage
 }

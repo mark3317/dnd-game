@@ -86,6 +86,158 @@ class ArchiveDemoTest {
         assertFalse(FloodedArchive.WRAP in state.players.first().hero.inventory)
     }
 
+    private fun focusFirst(initial: AdventureState): AdventureState {
+        var state = initial
+        while (state.activePlayer.id != "p0") state = engine.endTurn(state, state.activePlayer.id, state.turnId)
+        return state
+    }
+
+    private fun withoutFirstHeroesLockpicks(): AdventureState {
+        val won = focusFirst(win(act(start(), "DEFEND")))
+        val transfer = SceneActionPlan("Передать отмычки товарищу", null, null,
+            listOf(SceneEffect.Transfer(FloodedArchive.LOCKPICKS, "p1")), emptyList())
+        val moved = engine.submit(won, "p0", won.turnId, "Передаю отмычки товарищу", GameMasterDecision(null, "Передача", transfer))
+        assertFalse(FloodedArchive.LOCKPICKS in moved.players.first().hero.inventory)
+        assertEquals(won.players.sumOf { it.hero.inventory.count { item -> item == FloodedArchive.LOCKPICKS } },
+            moved.players.sumOf { it.hero.inventory.count { item -> item == FloodedArchive.LOCKPICKS } })
+        return focusFirst(moved)
+    }
+
+    @Test fun originalsCanBeSavedByForceWithoutLockpicksWhileOldLockpickingRemainsAvailableToOthers() {
+        var state = withoutFirstHeroesLockpicks()
+        val budget = state.checksRemaining
+        assertFalse(state.suggestions.any { it.id == "OPEN_DOOR" })
+        assertTrue(state.suggestions.any { it.id == "FORCE_DOOR" })
+        state = act(state, "FORCE_DOOR")
+        assertTrue(FloodedArchive.DOOR_OPEN in state.scene.facts)
+        state = act(state, "GO_CELLAR")
+        state = act(state, "FORCE_CHEST")
+        assertTrue(FloodedArchive.CHEST_OPEN in state.scene.facts)
+        state = act(state, "SAVE_DOCUMENTS")
+        assertEquals(FloodedArchive.ORIGINALS_ENDING, state.ending)
+        assertEquals(budget - 3, state.checksRemaining)
+        assertFalse(FloodedArchive.LOCKPICKS in state.players.first().hero.inventory)
+    }
+
+    @Test fun forceFailurePaysDamageAndOneCheckButCancelBeforeRollPaysNothing() {
+        val state = withoutFirstHeroesLockpicks()
+        val action = state.scenario.actions.single { it.id == "FORCE_DOOR" }
+        val pending = engine.submit(state, "p0", state.turnId, action.text)
+        val check = assertNotNull(pending.pendingCheck)
+        assertEquals(14, check.difficulty)
+        assertEquals(Ability.STRENGTH, check.ability)
+        val cancelled = engine.cancelCheck(pending, "p0", check.id)
+        assertEquals(state.players, cancelled.players)
+        assertEquals(state.checksRemaining, cancelled.checksRemaining)
+        val failed = act(state, "FORCE_DOOR", success = false)
+        assertFalse(FloodedArchive.DOOR_OPEN in failed.scene.facts)
+        assertEquals(state.players.first().hero.health - 2, failed.players.first().hero.health)
+        assertEquals(state.checksRemaining - 1, failed.checksRemaining)
+        assertNull(failed.pendingCheck)
+    }
+
+    @Test fun freeForcePlansCannotBorrowCheapLockpickingOrRemoveTheFailureRisk() {
+        val state = withoutFirstHeroesLockpicks()
+        val action = state.scenario.actions.single { it.id == "FORCE_DOOR" }
+        val valid = assertNotNull(action.planFor(state))
+        assertNull(SceneRules.validate(state, valid))
+        val cheaper = valid.copy(check = assertNotNull(valid.check).copy(difficulty = 10))
+        val otherAbility = valid.copy(check = valid.check!!.copy(ability = Ability.DEXTERITY, domains = emptySet()))
+        val noRisk = valid.copy(onFailure = emptyList())
+        for (invalid in listOf(cheaper, otherAbility, noRisk)) {
+            assertNotNull(SceneRules.validate(state, invalid))
+            assertSame(state, engine.submit(state, "p0", state.turnId, "Выбиваю дверь своим способом",
+                GameMasterDecision(null, "Намерение", invalid)))
+        }
+        val studied = focusFirst(act(state, "STUDY_LOCKS"))
+        assertEquals(12, assertNotNull(action.planFor(studied)?.check).difficulty)
+        assertNull(SceneRules.validate(studied, assertNotNull(action.planFor(studied))))
+        val encoded = GameWireJson.encodeToString(studied.scenario)
+        assertEquals(studied.scenario, GameWireJson.decodeFromString<ScenarioDefinition>(encoded))
+        assertTrue(GameWireJson.decodeFromString<FactDefinition>("{\"description\":\"Старый факт\"}").alternativeRequirements.isEmpty())
+    }
+
+    @Test fun scoutingSpendsOneCheckAndGivesEveryHeroOnlyTheirFirstAttackAdvantage() {
+        var initial = act(start(), "GO_YARD")
+        while (initial.activePlayer.id != "p0") initial = engine.endTurn(initial, initial.activePlayer.id, initial.turnId)
+        val scout = initial.scenario.actions.single { it.id == "SCOUT" }
+        val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, scout.text)
+        assertEquals(initial.checksRemaining, pending.checksRemaining)
+        assertTrue(assertNotNull(pending.pendingCheck).description.contains("преимущество на первую атаку"))
+        assertFalse(pending.lastSpokenEntry!!.text.contains("2d20"))
+        val scouted = act(initial, "SCOUT")
+        assertEquals(initial.checksRemaining - 1, scouted.checksRemaining)
+        assertTrue(ArchiveDemo.TRACKS in scouted.scene.facts)
+        var battle = scouted.createEncounter(DiceRoller { 1 })
+        assertEquals(scouted.players.map { it.id }.toSet(), battle.assisted)
+        assertTrue(battle.fighters.filter { it.enemy }.none { it.id in battle.assisted })
+        // Preparation is part of the same serializable combat state as ordinary help.
+        assertEquals(battle, GameWireJson.decodeFromString<CombatDemo>(GameWireJson.encodeToString(battle)))
+        val actor = battle.fighters.first { !it.enemy }
+        val target = battle.fighters.first { it.enemy }
+        battle = battle.copy(activeId = actor.id, fighters = battle.fighters.map {
+            if (it.id == actor.id) it.copy(tile = Tile(5, 1)) else it
+        })
+        assertEquals(battle, battle.execute(DemoAction.ATTACK, null, DiceRoller { error("Invalid attack rolled dice") }))
+        val rolls = mutableListOf<Int>()
+        val missed = battle.execute(DemoAction.ATTACK, target.tile, DiceRoller { sides -> rolls += sides; 1 })
+        assertEquals(listOf(20, 20), rolls)
+        assertFalse(actor.id in missed.assisted)
+        assertEquals(battle.assisted - actor.id, missed.assisted)
+        assertFalse(assertNotNull(missed.lastAttack).hit)
+        rolls.clear()
+        missed.copy(acted = false).execute(DemoAction.ATTACK, target.tile, DiceRoller { sides -> rolls += sides; 1 })
+        assertEquals(listOf(20), rolls)
+    }
+
+    @Test fun unsuccessfulOrAbsentScoutingDoesNotGrantPreparation() {
+        val initial = act(start(), "GO_YARD")
+        assertTrue(initial.createEncounter(DiceRoller { 1 }).assisted.isEmpty())
+        val failed = act(initial, "SCOUT", success = false)
+        assertEquals(initial.checksRemaining - 1, failed.checksRemaining)
+        assertFalse(ArchiveDemo.TRACKS in failed.scene.facts)
+        assertTrue(failed.createEncounter(DiceRoller { 1 }).assisted.isEmpty())
+    }
+
+    @Test fun scoutingIsAvailableBeforeBattleButCannotSpendChecksDuringOrAfterVictory() {
+        var before = act(start(), "GO_YARD")
+        while (before.activePlayer.id != "p0") before = engine.endTurn(before, before.activePlayer.id, before.turnId)
+        val scout = before.scenario.actions.single { it.id == "SCOUT" }
+        assertTrue(before.suggestions.any { it.id == scout.id })
+        val freePlan = requireNotNull(scout.planFor(before)).copy(description = "Проследить за подходами по следам")
+        assertNull(SceneRules.validate(before, freePlan))
+
+        val fighting = act(start(), "DEFEND")
+        assertEquals(fighting, engine.submit(fighting, fighting.activePlayer.id, fighting.turnId, scout.text))
+        var won = act(win(fighting), "GO_YARD")
+        while (won.activePlayer.id != "p0") won = engine.endTurn(won, won.activePlayer.id, won.turnId)
+        assertTrue(ArchiveDemo.WON in won.scene.facts)
+        assertFalse(won.suggestions.any { it.id == scout.id })
+        val rejected = engine.submit(won, won.activePlayer.id, won.turnId, scout.text)
+        assertNull(rejected.pendingCheck)
+        assertEquals(won.checksRemaining, rejected.checksRemaining)
+        assertEquals(won.scene, rejected.scene)
+        assertEquals(won.players, rejected.players)
+        assertEquals(won.turnId, rejected.turnId)
+        assertTrue(rejected.journal.last().text.contains(won.scenario.facts.getValue(ArchiveDemo.WON).description))
+        assertEquals("forbidden_facts", SceneRules.validate(won, freePlan))
+        assertSame(won, engine.submit(won, won.activePlayer.id, won.turnId, "Ещё раз разведаю подходы",
+            GameMasterDecision(null, "Намерение", freePlan)))
+    }
+
+    @Test fun forbiddenFactsAreValidatedAndDefaultToEmptyInOlderScenarioMetadata() {
+        assertTrue(GameWireJson.decodeFromString<Requirements>("{}").forbiddenFacts.isEmpty())
+        val scenario = ArchiveDemo.definition
+        assertEquals(scenario, GameWireJson.decodeFromString<ScenarioDefinition>(GameWireJson.encodeToString(scenario)))
+        val tracks = scenario.facts.getValue(ArchiveDemo.TRACKS)
+        for (requirements in listOf(
+            tracks.requirements.copy(forbiddenFacts = setOf("unknown")),
+            tracks.requirements.copy(facts = setOf(ArchiveDemo.WON), forbiddenFacts = setOf(ArchiveDemo.WON)),
+        )) assertFailsWith<IllegalArgumentException> {
+            scenario.copy(facts = scenario.facts + (ArchiveDemo.TRACKS to tracks.copy(requirements = requirements)))
+        }
+    }
+
     @Test fun copiesRouteAndAllSameClassPartiesWorkForTwoAndFourPlayers() {
         for (count in listOf(2, 4)) for (role in CharacterClass.entries) {
             var state = act(start(count, role), "READ_INDEX")

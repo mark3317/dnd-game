@@ -29,9 +29,16 @@ class GamePreferences(private val storage: Settings? = runCatching { Settings() 
     var motion by mutableStateOf(runCatching { storage?.getBoolean("ui.motion", true) ?: true }.getOrDefault(true))
         private set
     fun changeMotion(value: Boolean) { motion = value; runCatching { storage?.putBoolean("ui.motion", value) } }
+    var reduceMotion by mutableStateOf(runCatching { storage?.getBoolean("ui.reduceMotion", false) ?: false }.getOrDefault(false))
+        private set
+    fun changeReduceMotion(value: Boolean) { reduceMotion = value; runCatching { storage?.putBoolean("ui.reduceMotion", value) } }
     var speechEnabled by mutableStateOf(runCatching { storage?.getBoolean("speech.enabled", true) ?: true }.getOrDefault(true))
         private set
     var speechVolume by mutableFloatStateOf(readVolume("speech.volume", .9f))
+        private set
+    var effectsEnabled by mutableStateOf(runCatching { storage?.getBoolean("effects.enabled", true) ?: true }.getOrDefault(true))
+        private set
+    var effectsVolume by mutableFloatStateOf(readVolume("effects.volume", .65f))
         private set
     var subtitleScale by mutableFloatStateOf(runCatching { storage?.getFloat("ui.subtitleScale", 1f) ?: 1f }
         .getOrDefault(1f).let { if (it.isFinite()) it.coerceIn(.8f, 1.4f) else 1f })
@@ -39,6 +46,12 @@ class GamePreferences(private val storage: Settings? = runCatching { Settings() 
     private fun readVolume(key: String, fallback: Float) = runCatching { storage?.getFloat(key, fallback) ?: fallback }
         .getOrDefault(fallback).let { if (it.isFinite()) it.coerceIn(0f, 1f) else fallback }
     fun changeSpeech(value: Boolean) { speechEnabled = value; runCatching { storage?.putBoolean("speech.enabled", value) } }
+    fun changeEffects(value: Boolean) { effectsEnabled = value; runCatching { storage?.putBoolean("effects.enabled", value) } }
+    fun changeEffectsVolume(value: Float) {
+        if (!value.isFinite()) return
+        effectsVolume = value.coerceIn(0f, 1f)
+        runCatching { storage?.putFloat("effects.volume", effectsVolume) }
+    }
     fun changeSpeechVolume(value: Float) {
         if (!value.isFinite()) return
         speechVolume = value.coerceIn(0f, 1f)
@@ -67,17 +80,17 @@ fun GameBackdrop(content: @Composable BoxScope.() -> Unit) {
 @Composable
 fun MenuHeader(title: String, subtitle: String, onBack: () -> Unit) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        OutlinedButton(shape = MaterialTheme.shapes.small, onClick = onBack) { Text("‹  Назад") }
+        AdventureButton(secondary = true, onClick = onBack) { Text("‹  Назад") }
         Column(Modifier.weight(1f)) {
             Text(title, style = MaterialTheme.typography.headlineMedium)
             Text(subtitle, style = MaterialTheme.typography.bodySmall, color = AdventureMuted)
         }
     }
-    HorizontalDivider(Modifier.padding(vertical = 16.dp), color = AdventureGold.copy(alpha = .3f))
+    AdventureDivider(Modifier.padding(vertical = 16.dp))
 }
 
 @Composable
-fun MainMenu(onCreate: () -> Unit, onJoin: () -> Unit, onCharacter: () -> Unit, onSettings: () -> Unit, onExit: (() -> Unit)?) {
+fun MainMenu(onCreate: () -> Unit, onJoin: () -> Unit, onCharacter: () -> Unit, onSettings: () -> Unit, onExit: (() -> Unit)?, onResume: (() -> Unit)? = null, networkError: String? = null) {
     GameBackdrop {
         BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding()) {
             val compact = maxWidth < 700.dp
@@ -89,6 +102,8 @@ fun MainMenu(onCreate: () -> Unit, onJoin: () -> Unit, onCharacter: () -> Unit, 
                 Spacer(Modifier.height(16.dp))
                 Text("Соберите друзей. Выберите свой путь.\nСтаньте героями одной истории.", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.height(36.dp))
+                networkError?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                if (onResume != null) MenuEntry("↶", "Вернуться к партии", "Восстановить подключение к ожидающей группе", true, onResume)
                 MenuEntry("01", "Создать игру", "Выбрать историю и собрать отряд", true, onCreate)
                 MenuEntry("02", "Присоединиться к игре", "Продолжить путь вместе с друзьями", false, onJoin)
                 MenuEntry("03", "Персонаж", "Ваш герой и его облик", false, onCharacter)
@@ -107,7 +122,8 @@ private fun MenuEntry(number: String, title: String, subtitle: String, primary: 
     val hovered by interaction.collectIsHoveredAsState()
     val focused by interaction.collectIsFocusedAsState()
     val pressed by interaction.collectIsPressedAsState()
-    val emphasis by animateFloatAsState(if (hovered || focused || pressed) 1f else 0f, tween(180), label = "menu highlight")
+    val emphasis by animateFloatAsState(if (hovered || focused || pressed) 1f else 0f,
+        tween(GameMotionProfile(LocalReducedMotion.current).transitionMillis(180)), label = "menu highlight")
     Surface(onClick = onClick, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp).heightIn(min = 60.dp),
         interactionSource = interaction,
         shape = MaterialTheme.shapes.small, color = if (primary) AdventureGold.copy(alpha = .18f + emphasis * .12f) else MaterialTheme.colorScheme.surface.copy(alpha = .5f + emphasis * .4f),
@@ -130,11 +146,11 @@ fun GameSettings(preferences: GamePreferences, onBack: () -> Unit, onLocal: () -
             .safeDrawingPadding().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
             MenuHeader("Настройки", "Сохраняются на этом устройстве", onBack)
             GameSettingsContent(preferences)
-            HorizontalDivider()
-            Text("Игра на одном устройстве", style = MaterialTheme.typography.titleLarge)
+            AdventureDivider()
+            AdventureSectionTitle("Игра на одном устройстве")
             FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                OutlinedButton(shape = MaterialTheme.shapes.small, onClick = onLocal) { Text("Локальное приключение") }
-                OutlinedButton(shape = MaterialTheme.shapes.small, onClick = onCombat) { Text("Учебный бой") }
+                AdventureButton(secondary = true, onClick = onLocal) { Text("Локальное приключение") }
+                AdventureButton(secondary = true, onClick = onCombat) { Text("Учебный бой") }
             }
         }
     }
@@ -143,8 +159,9 @@ fun GameSettings(preferences: GamePreferences, onBack: () -> Unit, onLocal: () -
 @Composable
 internal fun GameSettingsContent(preferences: GamePreferences, speech: StorySpeech? = null) {
     val music = LocalStoryMusic.current
+    val effects = LocalGameEffects.current
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Text("Звук", style = MaterialTheme.typography.titleLarge)
+        AdventureSectionTitle("Звук")
         SettingsSection {
             SettingsToggle("Озвучка", "Голоса рассказчика, героев и собеседников", preferences.speechEnabled) {
                 if (speech != null) speech.toggle() else preferences.changeSpeech(it)
@@ -163,11 +180,15 @@ internal fun GameSettingsContent(preferences: GamePreferences, speech: StorySpee
                 if (playback is io.github.nadeemiqbal.soundscape.core.PlaybackState.Error)
                     Text("Не удалось воспроизвести музыку. Попробуйте включить звук снова.", color = MaterialTheme.colorScheme.error)
             }
-            OutlinedButton(shape = MaterialTheme.shapes.small, enabled = preferences.speechEnabled || music?.enabled == true,
-                onClick = { music?.resume(force = true); speech?.resume() }) { Text("Включить звук") }
+            HorizontalDivider()
+            SettingsToggle("Эффекты и окружение", "Кубики, шаги, действия и тихий фон локации", preferences.effectsEnabled, preferences::changeEffects)
+            VolumeSetting("Громкость эффектов", preferences.effectsVolume, preferences.effectsEnabled, preferences::changeEffectsVolume)
+            effects?.status?.takeIf { it.isNotBlank() }?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = AdventureMuted) }
+            AdventureButton(secondary = true, enabled = preferences.speechEnabled || preferences.effectsEnabled || music?.enabled == true,
+                onClick = { music?.resume(force = true); speech?.resume(); effects?.resume() }) { Text("Включить звук") }
             Text("Если браузер заблокировал воспроизведение, нажмите «Включить звук».", color = AdventureMuted, style = MaterialTheme.typography.bodySmall)
         }
-        Text("Отображение", style = MaterialTheme.typography.titleLarge)
+        AdventureSectionTitle("Отображение")
         SettingsSection {
             Text("Размер субтитров · ${(preferences.subtitleScale * 100).roundToInt()}%", style = MaterialTheme.typography.titleMedium)
             Slider(preferences.subtitleScale, preferences::changeSubtitleScale, valueRange = .8f..1.4f, steps = 5,
@@ -176,15 +197,17 @@ internal fun GameSettingsContent(preferences: GamePreferences, speech: StorySpee
                 Modifier.fillMaxWidth())
             HorizontalDivider()
             SettingsToggle("Движение камеры", "Плавное приближение фонов в меню и истории", preferences.motion, preferences::changeMotion)
+            if (preferences.reduceMotion) Text("Движение камеры отключено режимом уменьшения анимаций.",
+                color = AdventureMuted, style = MaterialTheme.typography.bodySmall)
+            SettingsToggle("Уменьшить анимации", "Без вращения кубиков, пульсации и перелётов. Результаты, текст и озвучка сохраняются.",
+                preferences.reduceMotion, preferences::changeReduceMotion)
         }
     }
 }
 
 @Composable
 private fun SettingsSection(content: @Composable ColumnScope.() -> Unit) {
-    OutlinedCard(Modifier.fillMaxWidth(), colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = .92f))) {
-        Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp), content = content)
-    }
+    AdventurePanel(Modifier.fillMaxWidth(), content = content)
 }
 
 @Composable
@@ -195,7 +218,7 @@ private fun SettingsToggle(title: String, description: String, checked: Boolean,
             Text(title, style = MaterialTheme.typography.titleMedium)
             Text(description, color = AdventureMuted, style = MaterialTheme.typography.bodySmall)
         }
-        Switch(checked, onCheckedChange = null)
+        AdventureToggleMark(checked)
     }
 }
 

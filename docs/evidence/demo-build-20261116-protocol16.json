@@ -1,0 +1,55 @@
+{
+  "protocol": 16,
+  "artifacts": [
+    {
+      "file": "dnd-game-demo-android-debug.apk",
+      "bytes": 128178074,
+      "sha256": "a620f5836991588e74b7fcc1d57279fd8ba1bbb7369b4a102e17767b863c22ec"
+    },
+    {
+      "file": "dnd-game-demo-macos-arm64.zip",
+      "bytes": 182680413,
+      "sha256": "ef5459653b76fc40d605dba4b117819bde1588daf1d84600aae23ad06ffc9c11"
+    },
+    {
+      "file": "dnd-game-demo-server-jvm21.zip",
+      "bytes": 18952081,
+      "sha256": "4981c6a7e5c7e0bb191d9eff4ddb7d49dd99f14e10aa26c1a21c2a4ae61199f2"
+    },
+    {
+      "file": "dnd-game-demo-web-wasm.zip",
+      "bytes": 105738799,
+      "sha256": "913a1e8581d1c7de206492c92afaeb959871e50165a03fcb1f66e0abac592194"
+    }
+  ],
+  "jvm_tests": {
+    "game": {
+      "tests": 148,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2
+    },
+    "shared": {
+      "tests": 108,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "server": {
+      "tests": 118,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2
+    }
+  },
+  "python_tests_passed": 12,
+  "platforms": [
+    "macOS arm64 distributable",
+    "Android debug APK",
+    "Web production Wasm",
+    "iOS simulator shared compilation only",
+    "JVM21 server"
+  ],
+  "human_acceptance": false,
+  "live_ai_successful_requests": 0
+}

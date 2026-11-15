@@ -36,26 +36,61 @@ object SceneRules {
     private fun requirements(state: AdventureState, rule: Requirements, plan: SceneActionPlan): String? {
         if (rule.location != null && state.location != rule.location) return "wrong_location"
         if (!state.scene.facts.containsAll(rule.facts)) return "missing_facts"
+        if (rule.forbiddenFacts.any { it in state.scene.facts }) return "forbidden_facts"
         if (rule.usingItem != null && (plan.usingItem != rule.usingItem || rule.usingItem !in state.activePlayer.hero.inventory)) return "missing_item"
+        if (rule.allowedAbilities.isNotEmpty() && plan.check?.ability !in rule.allowedAbilities) return "invalid_check_ability"
         val minimum = rule.difficulty(state)
         if (minimum != null && (plan.check == null || plan.check.difficulty < minimum)) return "check_required"
+        if (plan.onFailure.filterIsInstance<SceneEffect.Damage>().sumOf { it.amount } < rule.minimumFailureDamage) return "failure_cost_required"
         return null
     }
 
-    fun minimumDifficulty(state: AdventureState, effects: List<SceneEffect>): Int? = effects.mapNotNull { effect ->
+    /** Choose one whole approach, never mix the cheap check of one with the missing item of another. */
+    private fun approaches(fact: FactDefinition, plan: SceneActionPlan?): List<Requirements> =
+        if (plan == null || fact.alternativeRequirements.isEmpty()) fact.allRequirements else fact.allRequirements.filter { rule ->
+            (rule.usingItem == null || rule.usingItem == plan.usingItem) &&
+                (rule.allowedAbilities.isEmpty() || plan.check?.ability in rule.allowedAbilities) &&
+                (plan.check == null || rule.checkDomains.containsAll(plan.check.domains))
+        }
+
+    fun minimumDifficulty(state: AdventureState, effects: List<SceneEffect>, plan: SceneActionPlan? = null): Int? = effects.mapNotNull { effect ->
         when (effect) {
             is SceneEffect.Move -> state.scenario.routes.firstOrNull { it.from == state.location && it.to == effect.location }?.requirements?.difficulty(state)
-            is SceneEffect.Fact -> state.scenario.facts[effect.fact]?.requirements?.difficulty(state)
+            is SceneEffect.Fact -> state.scenario.facts[effect.fact]?.let { fact ->
+                approaches(fact, plan).mapNotNull { it.difficulty(state) }.minOrNull()
+            }
             else -> null
         }
     }.maxOrNull()
+
+    /** Explains obsolete actions using scenario facts, without story-specific engine branches. */
+    fun unavailableMessage(state: AdventureState, plan: SceneActionPlan): String {
+        var simulated = state
+        val reasons = linkedSetOf<String>()
+        for (effect in plan.onSuccess) {
+            val rule = when (effect) {
+                is SceneEffect.Fact -> state.scenario.facts[effect.fact]?.requirements
+                is SceneEffect.Move -> state.scenario.routes.firstOrNull {
+                    it.from == simulated.location && it.to == effect.location
+                }?.requirements
+                else -> null
+            }
+            rule?.forbiddenFacts?.filter { it in simulated.scene.facts }?.forEach {
+                reasons += state.scenario.facts.getValue(it).description
+            }
+            if (requirements(simulated, rule ?: Requirements(), plan) != null) break
+            simulated = apply(simulated, effect)
+        }
+        return if (reasons.isEmpty()) "Действие недоступно: проверьте место, снаряжение и выполненные условия. Ход сохранён."
+            else "Действие больше не требуется: ${reasons.joinToString(" ")} Ход и запас проверок сохранены."
+    }
 
     fun validate(state: AdventureState, plan: SceneActionPlan): String? {
         if (plan.description.isBlank() || plan.description.length > 500) return "invalid_description"
         if (plan.check != null && plan.check.difficulty !in 8..18) return "invalid_difficulty"
         if (plan.check != null) {
             val allowed = plan.onSuccess.flatMap { effect -> when (effect) {
-                is SceneEffect.Fact -> state.scenario.facts[effect.fact]?.requirements?.checkDomains.orEmpty()
+                is SceneEffect.Fact -> state.scenario.facts[effect.fact]?.allRequirements.orEmpty().flatMap { it.checkDomains }
                 is SceneEffect.Move -> state.scenario.routes.firstOrNull { it.from == state.location && it.to == effect.location }?.requirements?.checkDomains.orEmpty()
                 else -> emptySet()
             } }.toSet()
@@ -85,13 +120,15 @@ object SceneRules {
                         if (target.id == simulated.activePlayer.id || target.location != simulated.location) return "target_unreachable"
                     }
                     is SceneEffect.Fact -> {
-                        if (effect.fact == state.scenario.encounter?.victoryFact) return "combat_result_server_only"
+                        if (effect.fact in state.scenario.encounter?.serverOwnedFacts.orEmpty()) return "combat_result_server_only"
                         val fact = state.scenario.facts[effect.fact] ?: return "unknown_fact"
                         if (effect.fact in simulated.scene.facts) return "fact_already_set"
                         // Bonuses must predate this action, rather than discount their own acquisition.
-                        val rule = fact.requirements
-                        requirements(simulated, rule.copy(easierWhen = null, easierDifficulty = null,
-                            minimumDifficulty = rule.difficulty(state)), plan)?.let { return it }
+                        val candidates = approaches(fact, plan)
+                        if (candidates.isEmpty()) return "unsupported_approach"
+                        val issues = candidates.map { rule -> requirements(simulated,
+                            rule.copy(easierWhen = null, easierDifficulty = null, minimumDifficulty = rule.difficulty(state)), plan) }
+                        if (issues.none { it == null }) return requireNotNull(issues.first())
                     }
                     is SceneEffect.Damage -> Unit
                 }

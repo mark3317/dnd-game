@@ -34,5 +34,14 @@ internal fun AdventureState.createEncounter(dice: DiceRoller): CombatDemo {
         DemoFighter("archive-raider", "Стрелок", "Налётчик", "С", Tile(4, 3), hp, hp, true,
             range = 4, armor = 11, attackBonus = 2, damage = DamageDice(1, 4)),
     )
-    return CombatDemo.start(dice, heroes + foes)
+    val variant = scenario.encounter?.variants?.firstOrNull { it.triggerFact in scene.facts }
+    val objective = variant?.let { EscortObjectiveState(it.escortObjective) }
+    require(objective == null || (heroes + foes).none { it.tile == objective.tile }) { "Escort starts on an occupied tile" }
+    val initial = CombatDemo.start(dice, heroes + foes)
+    val battle = initial.copy(encounterVariantId = variant?.id, escortObjective = objective,
+        events = initial.events.map { it.copy(escortBefore = objective, escortAfter = objective) })
+    if (scenarioId != ArchiveDemo.ID || ArchiveDemo.TRACKS !in scene.facts) return battle
+    val preparation = "Разведка подходов: первая атака каждого героя получает преимущество (2d20, лучший); с помощью не складывается."
+    return battle.copy(assisted = heroes.map { it.id }.toSet(),
+        log = battle.log + preparation, lastResult = preparation)
 }

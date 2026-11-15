@@ -26,9 +26,9 @@ class OutcomeRoomsTest {
     }
 
     private suspend fun start(rooms: Rooms): List<Rooms.Admission> {
-        val a = rooms.join(ClientMessage.Join("A"))
-        val b = rooms.join(ClientMessage.Join("B", a.welcome.room.code))
-        rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START))
+        val a = rooms.joinReady(ClientMessage.Join("A"))
+        val b = rooms.joinReady(ClientMessage.Join("B", a.welcome.room.code))
+        rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.START))
         return listOf(a, b)
     }
     private suspend fun ready(a: Rooms.Admission) = withTimeout(3_000) {
@@ -36,7 +36,7 @@ class OutcomeRoomsTest {
     }
     private suspend fun propose(rooms: Rooms, a: Rooms.Admission, id: Long = 2) {
         val state = a.connection.updates.value.adventure!!
-        assertNull(rooms.command(a.connection, ClientMessage.Command(id, NetworkAction.SUBMIT,
+        assertNull(rooms.command(a.connection, ClientMessage.Command(id + 1, NetworkAction.SUBMIT,
             turnId = state.turnId, text = "Пробую подняться")).error)
         ready(a)
     }
@@ -49,14 +49,14 @@ class OutcomeRoomsTest {
         val (a, b) = start(rooms)
         propose(rooms, a)
         val check = a.connection.updates.value.adventure!!.pendingCheck!!
-        val rolled = rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.ROLL, checkId = check.id))
+        val rolled = rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.ROLL, checkId = check.id))
         assertNull(rolled.error)
         val committed = rolled.room.adventure!!
         assertEquals(2, committed.checksRemaining)
         assertNull(committed.pendingCheck)
         assertEquals(b.connection.playerId, committed.activePlayer.id)
         assertEquals(NarrationKind.REACTION, rolled.room.pendingNarration!!.kind)
-        val resumed = rooms.join(ClientMessage.Join("ignored", a.welcome.room.code, a.welcome.resumeToken))
+        val resumed = rooms.joinReady(ClientMessage.Join("ignored", a.welcome.room.code, a.welcome.resumeToken))
         assertEquals(rolled.room.pendingNarration, resumed.welcome.room.pendingNarration)
         response.complete("Нога соскальзывает, но герой удерживается у подножия. Мокрая лестница ждёт нового подхода.")
         val done = ready(resumed)
@@ -68,7 +68,7 @@ class OutcomeRoomsTest {
         assertEquals(check.playerId, narrator.outcomes.single().activity.playerId)
         assertFalse(narrator.outcomes.single().activity.roll!!.succeeded)
         assertEquals(check.playerId, done.adventure!!.journal.last().playerId)
-        assertNotNull(rooms.command(resumed.connection, ClientMessage.Command(1, NetworkAction.ROLL, checkId = check.id)).error)
+        assertNotNull(rooms.command(resumed.connection, ClientMessage.Command(2, NetworkAction.ROLL, checkId = check.id)).error)
         assertEquals(1, diceCalls)
     }
 
@@ -79,7 +79,7 @@ class OutcomeRoomsTest {
         val (a, b) = start(rooms)
         propose(rooms, a)
         val check = a.connection.updates.value.adventure!!.pendingCheck!!
-        val rolled = rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.ROLL, checkId = check.id))
+        val rolled = rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.ROLL, checkId = check.id))
         assertEquals(NarrationKind.EPILOGUE, rolled.room.pendingNarration!!.kind)
         assertEquals(Lighthouse.SIGNAL_GIVEN, rolled.room.adventure!!.ending)
         val committed = rolled.room.adventure!!
@@ -101,7 +101,7 @@ class OutcomeRoomsTest {
             val actor = party.single { it.connection.playerId == state.activePlayer.id }
             propose(rooms, actor, ++id)
             val check = actor.connection.updates.value.adventure!!.pendingCheck!!
-            rooms.command(actor.connection, ClientMessage.Command(++id, NetworkAction.ROLL, checkId = check.id))
+            rooms.command(actor.connection, ClientMessage.Command(++id + 1, NetworkAction.ROLL, checkId = check.id))
             ready(actor)
         }
         val done = party[0].connection.updates.value.adventure!!
@@ -127,13 +127,13 @@ class OutcomeRoomsTest {
             val (a, b) = start(rooms)
             propose(rooms, a)
             val check = a.connection.updates.value.adventure!!.pendingCheck!!
-            val rolled = rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.ROLL, checkId = check.id)).room
+            val rolled = rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.ROLL, checkId = check.id)).room
             entered.await()
             val pending = rolled.pendingNarration!!
-            assertNotNull(rooms.command(b.connection, ClientMessage.Command(1, NetworkAction.CANCEL_NARRATION,
+            assertNotNull(rooms.command(b.connection, ClientMessage.Command(2, NetworkAction.CANCEL_NARRATION,
                 turnId = pending.turnId, narrationId = pending.id)).error)
-            val stopped = if (restart) rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.RESTART, sessionId = 1))
-            else rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.CANCEL_NARRATION,
+            val stopped = if (restart) rooms.command(a.connection, ClientMessage.Command(5, NetworkAction.RESTART, sessionId = 1))
+            else rooms.command(a.connection, ClientMessage.Command(5, NetworkAction.CANCEL_NARRATION,
                 turnId = pending.turnId, narrationId = pending.id))
             assertNull(stopped.error)
             if (!restart) assertEquals(rolled.adventure, stopped.room.adventure)
@@ -151,7 +151,7 @@ class OutcomeRoomsTest {
             val (a, _) = start(rooms)
             propose(rooms, a)
             val check = a.connection.updates.value.adventure!!.pendingCheck!!
-            val committed = rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.ROLL, checkId = check.id)).room.adventure
+            val committed = rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.ROLL, checkId = check.id)).room.adventure
             val done = ready(a)
             assertEquals(committed, done.adventure)
             assertNotNull(done.gameMasterError)
@@ -169,9 +169,9 @@ class OutcomeRoomsTest {
         propose(rooms, a); yield()
         propose(rooms, b); yield()
         val checkA = a.connection.updates.value.adventure!!.pendingCheck!!
-        rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.ROLL, checkId = checkA.id))
+        rooms.command(a.connection, ClientMessage.Command(4, NetworkAction.ROLL, checkId = checkA.id))
         val checkB = b.connection.updates.value.adventure!!.pendingCheck!!
-        val committed = rooms.command(b.connection, ClientMessage.Command(3, NetworkAction.ROLL, checkId = checkB.id))
+        val committed = rooms.command(b.connection, ClientMessage.Command(4, NetworkAction.ROLL, checkId = checkB.id))
         assertNull(committed.error)
         assertNull(committed.room.pendingNarration)
         assertNotNull(committed.room.gameMasterError)

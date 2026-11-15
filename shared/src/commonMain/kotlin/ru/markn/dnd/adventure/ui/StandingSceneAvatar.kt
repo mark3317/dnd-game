@@ -31,9 +31,10 @@ internal fun StandingSceneAvatar(
         val interaction = remember { MutableInteractionSource() }
         val hovered by interaction.collectIsHoveredAsState()
         var tapped by remember { mutableStateOf(false) }
+        val pauseClock = LocalPresentationPauseClock.current
         LaunchedEffect(tapped) {
             if (tapped) {
-                delay(2500)
+                pauseClock.presentationDelay(2500)
                 tapped = false
             }
         }

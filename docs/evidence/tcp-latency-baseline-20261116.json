@@ -1,0 +1,3445 @@
+{
+    "schema": "tcp-latency-baseline-v1",
+    "started_at_utc": "2026-11-15T22:15:41.816344Z",
+    "source_sha256": "594b788586e29c46b92c395dc4e5cb32cd0b9d51daa83f2c9ea60bbea1d1f3cb",
+    "protocol_version": 15,
+    "profile": "real_tcp_scripted_look_presentation_disabled",
+    "java_runtime": "21.0.11+10-b1163.116",
+    "os": "Mac OS X",
+    "architecture": "aarch64",
+    "client_dispatcher": "single shared runBlocking event loop; same process as server",
+    "clock": "System.nanoTime monotonic; production Rooms wall clock is not replaced",
+    "warmup_per_cohort": 10,
+    "measured_per_cohort": 50,
+    "api_requests": 0,
+    "tts_requests": 0,
+    "wire_journal_limit": 200,
+    "excluded": [
+        "UI rendering/subtitle display",
+        "RoomPresentation scheduling/playback",
+        "AI inference",
+        "TTS generation/audio output",
+        "internet/LAN latency",
+        "human response time"
+    ],
+    "spoken_metric": "first StateFlow snapshot containing new confirmed isSpoken journal entries; not on-screen subtitles",
+    "observation": "StateFlow collector scheduling is included; values are not raw packet timestamps",
+    "summaries": [
+        {
+            "clients": 2,
+            "owner_ack": {
+                "n": 50,
+                "min_ms": 2.456666,
+                "median_ms": 3.510396,
+                "p95_nearest_rank_ms": 4.780584,
+                "max_ms": 5.770541
+            },
+            "all_snapshots": {
+                "n": 50,
+                "min_ms": 2.41225,
+                "median_ms": 3.2441459999999998,
+                "p95_nearest_rank_ms": 4.285417,
+                "max_ms": 5.812875
+            },
+            "first_spoken_journal": {
+                "n": 50,
+                "min_ms": 1.9805,
+                "median_ms": 3.128979,
+                "p95_nearest_rank_ms": 4.228875,
+                "max_ms": 5.718625
+            },
+            "owner_spoken_journal": {
+                "n": 50,
+                "min_ms": 1.9805,
+                "median_ms": 3.128979,
+                "p95_nearest_rank_ms": 4.252041,
+                "max_ms": 5.856166
+            },
+            "all_spoken_journal": {
+                "n": 50,
+                "min_ms": 2.478541,
+                "median_ms": 3.2589164999999998,
+                "p95_nearest_rank_ms": 4.298,
+                "max_ms": 5.856166
+            }
+        },
+        {
+            "clients": 3,
+            "owner_ack": {
+                "n": 50,
+                "min_ms": 2.552375,
+                "median_ms": 4.138291499999999,
+                "p95_nearest_rank_ms": 6.011291,
+                "max_ms": 6.181291
+            },
+            "all_snapshots": {
+                "n": 50,
+                "min_ms": 2.485958,
+                "median_ms": 3.9248955,
+                "p95_nearest_rank_ms": 5.337667,
+                "max_ms": 5.669416
+            },
+            "first_spoken_journal": {
+                "n": 50,
+                "min_ms": 1.79275,
+                "median_ms": 3.7946665,
+                "p95_nearest_rank_ms": 5.272,
+                "max_ms": 5.643375
+            },
+            "owner_spoken_journal": {
+                "n": 50,
+                "min_ms": 1.79275,
+                "median_ms": 3.8444374999999997,
+                "p95_nearest_rank_ms": 5.272,
+                "max_ms": 5.663125
+            },
+            "all_spoken_journal": {
+                "n": 50,
+                "min_ms": 2.493333,
+                "median_ms": 3.9320835,
+                "p95_nearest_rank_ms": 5.344917,
+                "max_ms": 5.676083
+            }
+        },
+        {
+            "clients": 4,
+            "owner_ack": {
+                "n": 50,
+                "min_ms": 1.061333,
+                "median_ms": 1.3868960000000001,
+                "p95_nearest_rank_ms": 1.672959,
+                "max_ms": 2.510958
+            },
+            "all_snapshots": {
+                "n": 50,
+                "min_ms": 1.141458,
+                "median_ms": 1.4275835,
+                "p95_nearest_rank_ms": 1.694084,
+                "max_ms": 2.519292
+            },
+            "first_spoken_journal": {
+                "n": 50,
+                "min_ms": 1.054333,
+                "median_ms": 1.3592499999999998,
+                "p95_nearest_rank_ms": 1.634375,
+                "max_ms": 2.475167
+            },
+            "owner_spoken_journal": {
+                "n": 50,
+                "min_ms": 1.075125,
+                "median_ms": 1.4017914999999999,
+                "p95_nearest_rank_ms": 1.689084,
+                "max_ms": 2.526292
+            },
+            "all_spoken_journal": {
+                "n": 50,
+                "min_ms": 1.148417,
+                "median_ms": 1.4355835,
+                "p95_nearest_rank_ms": 1.703334,
+                "max_ms": 2.526292
+            }
+        }
+    ],
+    "samples": [
+        {
+            "clients": 2,
+            "sample": 1,
+            "turn": 12,
+            "owner_index": 0,
+            "owner_ack_ms": 3.504333,
+            "all_snapshots_ms": 3.378292,
+            "first_spoken_journal_ms": 3.110333,
+            "owner_spoken_journal_ms": 3.110333,
+            "all_spoken_journal_ms": 3.405833,
+            "snapshot_receipts_ms": [
+                3.083875,
+                3.378292
+            ],
+            "spoken_journal_receipts_ms": [
+                3.110333,
+                3.405833
+            ],
+            "wire_journal_entries": 45
+        },
+        {
+            "clients": 2,
+            "sample": 2,
+            "turn": 13,
+            "owner_index": 1,
+            "owner_ack_ms": 2.815166,
+            "all_snapshots_ms": 2.457833,
+            "first_spoken_journal_ms": 2.425666,
+            "owner_spoken_journal_ms": 2.478541,
+            "all_spoken_journal_ms": 2.478541,
+            "snapshot_receipts_ms": [
+                2.397333,
+                2.457833
+            ],
+            "spoken_journal_receipts_ms": [
+                2.425666,
+                2.478541
+            ],
+            "wire_journal_entries": 49
+        },
+        {
+            "clients": 2,
+            "sample": 3,
+            "turn": 14,
+            "owner_index": 0,
+            "owner_ack_ms": 2.800792,
+            "all_snapshots_ms": 2.694625,
+            "first_spoken_journal_ms": 2.196292,
+            "owner_spoken_journal_ms": 2.196292,
+            "all_spoken_journal_ms": 2.72175,
+            "snapshot_receipts_ms": [
+                2.16075,
+                2.694625
+            ],
+            "spoken_journal_receipts_ms": [
+                2.196292,
+                2.72175
+            ],
+            "wire_journal_entries": 53
+        },
+        {
+            "clients": 2,
+            "sample": 4,
+            "turn": 15,
+            "owner_index": 1,
+            "owner_ack_ms": 2.653667,
+            "all_snapshots_ms": 2.677792,
+            "first_spoken_journal_ms": 2.628458,
+            "owner_spoken_journal_ms": 2.696708,
+            "all_spoken_journal_ms": 2.696708,
+            "snapshot_receipts_ms": [
+                2.600208,
+                2.677792
+            ],
+            "spoken_journal_receipts_ms": [
+                2.628458,
+                2.696708
+            ],
+            "wire_journal_entries": 57
+        },
+        {
+            "clients": 2,
+            "sample": 5,
+            "turn": 16,
+            "owner_index": 0,
+            "owner_ack_ms": 2.657375,
+            "all_snapshots_ms": 2.559208,
+            "first_spoken_journal_ms": 1.9805,
+            "owner_spoken_journal_ms": 1.9805,
+            "all_spoken_journal_ms": 2.583417,
+            "snapshot_receipts_ms": [
+                1.955875,
+                2.559208
+            ],
+            "spoken_journal_receipts_ms": [
+                1.9805,
+                2.583417
+            ],
+            "wire_journal_entries": 61
+        },
+        {
+            "clients": 2,
+            "sample": 6,
+            "turn": 17,
+            "owner_index": 1,
+            "owner_ack_ms": 2.7885,
+            "all_snapshots_ms": 2.809584,
+            "first_spoken_journal_ms": 2.767459,
+            "owner_spoken_journal_ms": 2.828584,
+            "all_spoken_journal_ms": 2.828584,
+            "snapshot_receipts_ms": [
+                2.743834,
+                2.809584
+            ],
+            "spoken_journal_receipts_ms": [
+                2.767459,
+                2.828584
+            ],
+            "wire_journal_entries": 65
+        },
+        {
+            "clients": 2,
+            "sample": 7,
+            "turn": 18,
+            "owner_index": 0,
+            "owner_ack_ms": 2.869166,
+            "all_snapshots_ms": 2.755708,
+            "first_spoken_journal_ms": 2.143083,
+            "owner_spoken_journal_ms": 2.143083,
+            "all_spoken_journal_ms": 2.782791,
+            "snapshot_receipts_ms": [
+                2.11325,
+                2.755708
+            ],
+            "spoken_journal_receipts_ms": [
+                2.143083,
+                2.782791
+            ],
+            "wire_journal_entries": 69
+        },
+        {
+            "clients": 2,
+            "sample": 8,
+            "turn": 19,
+            "owner_index": 1,
+            "owner_ack_ms": 3.032416,
+            "all_snapshots_ms": 2.41225,
+            "first_spoken_journal_ms": 2.178833,
+            "owner_spoken_journal_ms": 2.489625,
+            "all_spoken_journal_ms": 2.489625,
+            "snapshot_receipts_ms": [
+                2.153791,
+                2.41225
+            ],
+            "spoken_journal_receipts_ms": [
+                2.178833,
+                2.489625
+            ],
+            "wire_journal_entries": 73
+        },
+        {
+            "clients": 2,
+            "sample": 9,
+            "turn": 20,
+            "owner_index": 0,
+            "owner_ack_ms": 3.124625,
+            "all_snapshots_ms": 3.014792,
+            "first_spoken_journal_ms": 2.752417,
+            "owner_spoken_journal_ms": 2.752417,
+            "all_spoken_journal_ms": 3.038625,
+            "snapshot_receipts_ms": [
+                2.727709,
+                3.014792
+            ],
+            "spoken_journal_receipts_ms": [
+                2.752417,
+                3.038625
+            ],
+            "wire_journal_entries": 77
+        },
+        {
+            "clients": 2,
+            "sample": 10,
+            "turn": 21,
+            "owner_index": 1,
+            "owner_ack_ms": 2.456666,
+            "all_snapshots_ms": 2.482708,
+            "first_spoken_journal_ms": 2.167,
+            "owner_spoken_journal_ms": 2.504791,
+            "all_spoken_journal_ms": 2.504791,
+            "snapshot_receipts_ms": [
+                2.1405,
+                2.482708
+            ],
+            "spoken_journal_receipts_ms": [
+                2.167,
+                2.504791
+            ],
+            "wire_journal_entries": 81
+        },
+        {
+            "clients": 2,
+            "sample": 11,
+            "turn": 22,
+            "owner_index": 0,
+            "owner_ack_ms": 3.444791,
+            "all_snapshots_ms": 2.98325,
+            "first_spoken_journal_ms": 2.667958,
+            "owner_spoken_journal_ms": 2.667958,
+            "all_spoken_journal_ms": 3.007666,
+            "snapshot_receipts_ms": [
+                2.641416,
+                2.98325
+            ],
+            "spoken_journal_receipts_ms": [
+                2.667958,
+                3.007666
+            ],
+            "wire_journal_entries": 85
+        },
+        {
+            "clients": 2,
+            "sample": 12,
+            "turn": 23,
+            "owner_index": 1,
+            "owner_ack_ms": 2.930333,
+            "all_snapshots_ms": 2.951583,
+            "first_spoken_journal_ms": 2.909208,
+            "owner_spoken_journal_ms": 2.972542,
+            "all_spoken_journal_ms": 2.972542,
+            "snapshot_receipts_ms": [
+                2.876375,
+                2.951583
+            ],
+            "spoken_journal_receipts_ms": [
+                2.909208,
+                2.972542
+            ],
+            "wire_journal_entries": 89
+        },
+        {
+            "clients": 2,
+            "sample": 13,
+            "turn": 24,
+            "owner_index": 0,
+            "owner_ack_ms": 5.770541,
+            "all_snapshots_ms": 5.812875,
+            "first_spoken_journal_ms": 5.718625,
+            "owner_spoken_journal_ms": 5.856166,
+            "all_spoken_journal_ms": 5.856166,
+            "snapshot_receipts_ms": [
+                5.812875,
+                5.637041
+            ],
+            "spoken_journal_receipts_ms": [
+                5.856166,
+                5.718625
+            ],
+            "wire_journal_entries": 93
+        },
+        {
+            "clients": 2,
+            "sample": 14,
+            "turn": 25,
+            "owner_index": 1,
+            "owner_ack_ms": 4.211791,
+            "all_snapshots_ms": 4.233625,
+            "first_spoken_journal_ms": 4.189958,
+            "owner_spoken_journal_ms": 4.252041,
+            "all_spoken_journal_ms": 4.252041,
+            "snapshot_receipts_ms": [
+                4.155833,
+                4.233625
+            ],
+            "spoken_journal_receipts_ms": [
+                4.189958,
+                4.252041
+            ],
+            "wire_journal_entries": 97
+        },
+        {
+            "clients": 2,
+            "sample": 15,
+            "turn": 26,
+            "owner_index": 0,
+            "owner_ack_ms": 3.516459,
+            "all_snapshots_ms": 3.537584,
+            "first_spoken_journal_ms": 3.49125,
+            "owner_spoken_journal_ms": 3.558834,
+            "all_spoken_journal_ms": 3.558834,
+            "snapshot_receipts_ms": [
+                3.537584,
+                3.448542
+            ],
+            "spoken_journal_receipts_ms": [
+                3.558834,
+                3.49125
+            ],
+            "wire_journal_entries": 101
+        },
+        {
+            "clients": 2,
+            "sample": 16,
+            "turn": 27,
+            "owner_index": 1,
+            "owner_ack_ms": 3.190167,
+            "all_snapshots_ms": 3.207375,
+            "first_spoken_journal_ms": 3.17025,
+            "owner_spoken_journal_ms": 3.228,
+            "all_spoken_journal_ms": 3.228,
+            "snapshot_receipts_ms": [
+                3.135083,
+                3.207375
+            ],
+            "spoken_journal_receipts_ms": [
+                3.17025,
+                3.228
+            ],
+            "wire_journal_entries": 105
+        },
+        {
+            "clients": 2,
+            "sample": 17,
+            "turn": 28,
+            "owner_index": 0,
+            "owner_ack_ms": 2.875167,
+            "all_snapshots_ms": 2.893083,
+            "first_spoken_journal_ms": 2.859333,
+            "owner_spoken_journal_ms": 2.904958,
+            "all_spoken_journal_ms": 2.904958,
+            "snapshot_receipts_ms": [
+                2.893083,
+                2.840667
+            ],
+            "spoken_journal_receipts_ms": [
+                2.904958,
+                2.859333
+            ],
+            "wire_journal_entries": 109
+        },
+        {
+            "clients": 2,
+            "sample": 18,
+            "turn": 29,
+            "owner_index": 1,
+            "owner_ack_ms": 2.570125,
+            "all_snapshots_ms": 2.592,
+            "first_spoken_journal_ms": 2.548958,
+            "owner_spoken_journal_ms": 2.605416,
+            "all_spoken_journal_ms": 2.605416,
+            "snapshot_receipts_ms": [
+                2.525833,
+                2.592
+            ],
+            "spoken_journal_receipts_ms": [
+                2.548958,
+                2.605416
+            ],
+            "wire_journal_entries": 113
+        },
+        {
+            "clients": 2,
+            "sample": 19,
+            "turn": 30,
+            "owner_index": 0,
+            "owner_ack_ms": 3.240208,
+            "all_snapshots_ms": 2.8305,
+            "first_spoken_journal_ms": 2.81125,
+            "owner_spoken_journal_ms": 2.843291,
+            "all_spoken_journal_ms": 2.843291,
+            "snapshot_receipts_ms": [
+                2.8305,
+                2.794208
+            ],
+            "spoken_journal_receipts_ms": [
+                2.843291,
+                2.81125
+            ],
+            "wire_journal_entries": 117
+        },
+        {
+            "clients": 2,
+            "sample": 20,
+            "turn": 31,
+            "owner_index": 1,
+            "owner_ack_ms": 3.330833,
+            "all_snapshots_ms": 2.808833,
+            "first_spoken_journal_ms": 2.789333,
+            "owner_spoken_journal_ms": 2.825917,
+            "all_spoken_journal_ms": 2.825917,
+            "snapshot_receipts_ms": [
+                2.769292,
+                2.808833
+            ],
+            "spoken_journal_receipts_ms": [
+                2.789333,
+                2.825917
+            ],
+            "wire_journal_entries": 121
+        },
+        {
+            "clients": 2,
+            "sample": 21,
+            "turn": 32,
+            "owner_index": 0,
+            "owner_ack_ms": 3.133,
+            "all_snapshots_ms": 2.68875,
+            "first_spoken_journal_ms": 2.67525,
+            "owner_spoken_journal_ms": 2.67525,
+            "all_spoken_journal_ms": 2.701875,
+            "snapshot_receipts_ms": [
+                2.65525,
+                2.68875
+            ],
+            "spoken_journal_receipts_ms": [
+                2.67525,
+                2.701875
+            ],
+            "wire_journal_entries": 125
+        },
+        {
+            "clients": 2,
+            "sample": 22,
+            "turn": 33,
+            "owner_index": 1,
+            "owner_ack_ms": 2.645792,
+            "all_snapshots_ms": 2.6615,
+            "first_spoken_journal_ms": 2.631209,
+            "owner_spoken_journal_ms": 2.676667,
+            "all_spoken_journal_ms": 2.676667,
+            "snapshot_receipts_ms": [
+                2.6155,
+                2.6615
+            ],
+            "spoken_journal_receipts_ms": [
+                2.631209,
+                2.676667
+            ],
+            "wire_journal_entries": 129
+        },
+        {
+            "clients": 2,
+            "sample": 23,
+            "turn": 34,
+            "owner_index": 0,
+            "owner_ack_ms": 3.063334,
+            "all_snapshots_ms": 2.540084,
+            "first_spoken_journal_ms": 2.29475,
+            "owner_spoken_journal_ms": 2.29475,
+            "all_spoken_journal_ms": 2.551875,
+            "snapshot_receipts_ms": [
+                2.265542,
+                2.540084
+            ],
+            "spoken_journal_receipts_ms": [
+                2.29475,
+                2.551875
+            ],
+            "wire_journal_entries": 133
+        },
+        {
+            "clients": 2,
+            "sample": 24,
+            "turn": 35,
+            "owner_index": 1,
+            "owner_ack_ms": 3.484416,
+            "all_snapshots_ms": 3.498208,
+            "first_spoken_journal_ms": 3.466166,
+            "owner_spoken_journal_ms": 3.51025,
+            "all_spoken_journal_ms": 3.51025,
+            "snapshot_receipts_ms": [
+                3.447625,
+                3.498208
+            ],
+            "spoken_journal_receipts_ms": [
+                3.466166,
+                3.51025
+            ],
+            "wire_journal_entries": 137
+        },
+        {
+            "clients": 2,
+            "sample": 25,
+            "turn": 36,
+            "owner_index": 0,
+            "owner_ack_ms": 3.7455,
+            "all_snapshots_ms": 3.159666,
+            "first_spoken_journal_ms": 3.147625,
+            "owner_spoken_journal_ms": 3.147625,
+            "all_spoken_journal_ms": 3.171416,
+            "snapshot_receipts_ms": [
+                3.13175,
+                3.159666
+            ],
+            "spoken_journal_receipts_ms": [
+                3.147625,
+                3.171416
+            ],
+            "wire_journal_entries": 141
+        },
+        {
+            "clients": 2,
+            "sample": 26,
+            "turn": 37,
+            "owner_index": 1,
+            "owner_ack_ms": 3.743833,
+            "all_snapshots_ms": 3.758125,
+            "first_spoken_journal_ms": 3.7235,
+            "owner_spoken_journal_ms": 3.769292,
+            "all_spoken_journal_ms": 3.769292,
+            "snapshot_receipts_ms": [
+                3.708375,
+                3.758125
+            ],
+            "spoken_journal_receipts_ms": [
+                3.7235,
+                3.769292
+            ],
+            "wire_journal_entries": 145
+        },
+        {
+            "clients": 2,
+            "sample": 27,
+            "turn": 38,
+            "owner_index": 0,
+            "owner_ack_ms": 4.228667,
+            "all_snapshots_ms": 3.632542,
+            "first_spoken_journal_ms": 3.4055,
+            "owner_spoken_journal_ms": 3.4055,
+            "all_spoken_journal_ms": 3.643708,
+            "snapshot_receipts_ms": [
+                3.388875,
+                3.632542
+            ],
+            "spoken_journal_receipts_ms": [
+                3.4055,
+                3.643708
+            ],
+            "wire_journal_entries": 149
+        },
+        {
+            "clients": 2,
+            "sample": 28,
+            "turn": 39,
+            "owner_index": 1,
+            "owner_ack_ms": 3.683083,
+            "all_snapshots_ms": 3.697458,
+            "first_spoken_journal_ms": 3.6665,
+            "owner_spoken_journal_ms": 3.709833,
+            "all_spoken_journal_ms": 3.709833,
+            "snapshot_receipts_ms": [
+                3.648708,
+                3.697458
+            ],
+            "spoken_journal_receipts_ms": [
+                3.6665,
+                3.709833
+            ],
+            "wire_journal_entries": 153
+        },
+        {
+            "clients": 2,
+            "sample": 29,
+            "turn": 40,
+            "owner_index": 0,
+            "owner_ack_ms": 4.201125,
+            "all_snapshots_ms": 3.475125,
+            "first_spoken_journal_ms": 3.099167,
+            "owner_spoken_journal_ms": 3.099167,
+            "all_spoken_journal_ms": 3.48925,
+            "snapshot_receipts_ms": [
+                3.073542,
+                3.475125
+            ],
+            "spoken_journal_receipts_ms": [
+                3.099167,
+                3.48925
+            ],
+            "wire_journal_entries": 157
+        },
+        {
+            "clients": 2,
+            "sample": 30,
+            "turn": 41,
+            "owner_index": 1,
+            "owner_ack_ms": 3.798416,
+            "all_snapshots_ms": 3.810541,
+            "first_spoken_journal_ms": 3.78675,
+            "owner_spoken_journal_ms": 3.82,
+            "all_spoken_journal_ms": 3.82,
+            "snapshot_receipts_ms": [
+                3.773,
+                3.810541
+            ],
+            "spoken_journal_receipts_ms": [
+                3.78675,
+                3.82
+            ],
+            "wire_journal_entries": 161
+        },
+        {
+            "clients": 2,
+            "sample": 31,
+            "turn": 42,
+            "owner_index": 0,
+            "owner_ack_ms": 4.584875,
+            "all_snapshots_ms": 3.8745,
+            "first_spoken_journal_ms": 3.863458,
+            "owner_spoken_journal_ms": 3.863458,
+            "all_spoken_journal_ms": 3.886208,
+            "snapshot_receipts_ms": [
+                3.8475,
+                3.8745
+            ],
+            "spoken_journal_receipts_ms": [
+                3.863458,
+                3.886208
+            ],
+            "wire_journal_entries": 165
+        },
+        {
+            "clients": 2,
+            "sample": 32,
+            "turn": 43,
+            "owner_index": 1,
+            "owner_ack_ms": 2.933292,
+            "all_snapshots_ms": 2.946042,
+            "first_spoken_journal_ms": 2.92025,
+            "owner_spoken_journal_ms": 2.9575,
+            "all_spoken_journal_ms": 2.9575,
+            "snapshot_receipts_ms": [
+                2.9065,
+                2.946042
+            ],
+            "spoken_journal_receipts_ms": [
+                2.92025,
+                2.9575
+            ],
+            "wire_journal_entries": 169
+        },
+        {
+            "clients": 2,
+            "sample": 33,
+            "turn": 44,
+            "owner_index": 0,
+            "owner_ack_ms": 5.310583,
+            "all_snapshots_ms": 4.587583,
+            "first_spoken_journal_ms": 4.313416,
+            "owner_spoken_journal_ms": 4.313416,
+            "all_spoken_journal_ms": 4.597833,
+            "snapshot_receipts_ms": [
+                4.291166,
+                4.587583
+            ],
+            "spoken_journal_receipts_ms": [
+                4.313416,
+                4.597833
+            ],
+            "wire_journal_entries": 173
+        },
+        {
+            "clients": 2,
+            "sample": 34,
+            "turn": 45,
+            "owner_index": 1,
+            "owner_ack_ms": 3.553542,
+            "all_snapshots_ms": 3.5665,
+            "first_spoken_journal_ms": 3.540083,
+            "owner_spoken_journal_ms": 3.575542,
+            "all_spoken_journal_ms": 3.575542,
+            "snapshot_receipts_ms": [
+                3.525542,
+                3.5665
+            ],
+            "spoken_journal_receipts_ms": [
+                3.540083,
+                3.575542
+            ],
+            "wire_journal_entries": 177
+        },
+        {
+            "clients": 2,
+            "sample": 35,
+            "turn": 46,
+            "owner_index": 0,
+            "owner_ack_ms": 4.492208,
+            "all_snapshots_ms": 3.842541,
+            "first_spoken_journal_ms": 3.332875,
+            "owner_spoken_journal_ms": 3.332875,
+            "all_spoken_journal_ms": 3.853041,
+            "snapshot_receipts_ms": [
+                3.317541,
+                3.842541
+            ],
+            "spoken_journal_receipts_ms": [
+                3.332875,
+                3.853041
+            ],
+            "wire_journal_entries": 181
+        },
+        {
+            "clients": 2,
+            "sample": 36,
+            "turn": 47,
+            "owner_index": 1,
+            "owner_ack_ms": 4.190083,
+            "all_snapshots_ms": 4.285417,
+            "first_spoken_journal_ms": 4.228875,
+            "owner_spoken_journal_ms": 4.228875,
+            "all_spoken_journal_ms": 4.298,
+            "snapshot_receipts_ms": [
+                4.285417,
+                4.206667
+            ],
+            "spoken_journal_receipts_ms": [
+                4.298,
+                4.228875
+            ],
+            "wire_journal_entries": 185
+        },
+        {
+            "clients": 2,
+            "sample": 37,
+            "turn": 48,
+            "owner_index": 0,
+            "owner_ack_ms": 3.816834,
+            "all_snapshots_ms": 2.938625,
+            "first_spoken_journal_ms": 2.928709,
+            "owner_spoken_journal_ms": 2.928709,
+            "all_spoken_journal_ms": 2.951625,
+            "snapshot_receipts_ms": [
+                2.907959,
+                2.938625
+            ],
+            "spoken_journal_receipts_ms": [
+                2.928709,
+                2.951625
+            ],
+            "wire_journal_entries": 189
+        },
+        {
+            "clients": 2,
+            "sample": 38,
+            "turn": 49,
+            "owner_index": 1,
+            "owner_ack_ms": 3.794916,
+            "all_snapshots_ms": 3.805916,
+            "first_spoken_journal_ms": 3.780625,
+            "owner_spoken_journal_ms": 3.814833,
+            "all_spoken_journal_ms": 3.814833,
+            "snapshot_receipts_ms": [
+                3.763958,
+                3.805916
+            ],
+            "spoken_journal_receipts_ms": [
+                3.780625,
+                3.814833
+            ],
+            "wire_journal_entries": 193
+        },
+        {
+            "clients": 2,
+            "sample": 39,
+            "turn": 50,
+            "owner_index": 0,
+            "owner_ack_ms": 3.549125,
+            "all_snapshots_ms": 2.76025,
+            "first_spoken_journal_ms": 2.742708,
+            "owner_spoken_journal_ms": 2.742708,
+            "all_spoken_journal_ms": 2.77275,
+            "snapshot_receipts_ms": [
+                2.723041,
+                2.76025
+            ],
+            "spoken_journal_receipts_ms": [
+                2.742708,
+                2.77275
+            ],
+            "wire_journal_entries": 197
+        },
+        {
+            "clients": 2,
+            "sample": 40,
+            "turn": 51,
+            "owner_index": 1,
+            "owner_ack_ms": 3.648458,
+            "all_snapshots_ms": 3.658916,
+            "first_spoken_journal_ms": 3.638,
+            "owner_spoken_journal_ms": 3.670708,
+            "all_spoken_journal_ms": 3.670708,
+            "snapshot_receipts_ms": [
+                3.626166,
+                3.658916
+            ],
+            "spoken_journal_receipts_ms": [
+                3.638,
+                3.670708
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 2,
+            "sample": 41,
+            "turn": 52,
+            "owner_index": 0,
+            "owner_ack_ms": 4.780584,
+            "all_snapshots_ms": 3.924042,
+            "first_spoken_journal_ms": 3.915292,
+            "owner_spoken_journal_ms": 3.915292,
+            "all_spoken_journal_ms": 3.934,
+            "snapshot_receipts_ms": [
+                3.903042,
+                3.924042
+            ],
+            "spoken_journal_receipts_ms": [
+                3.915292,
+                3.934
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 2,
+            "sample": 42,
+            "turn": 53,
+            "owner_index": 1,
+            "owner_ack_ms": 3.80925,
+            "all_snapshots_ms": 3.82175,
+            "first_spoken_journal_ms": 3.797083,
+            "owner_spoken_journal_ms": 3.831208,
+            "all_spoken_journal_ms": 3.831208,
+            "snapshot_receipts_ms": [
+                3.782125,
+                3.82175
+            ],
+            "spoken_journal_receipts_ms": [
+                3.797083,
+                3.831208
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 2,
+            "sample": 43,
+            "turn": 54,
+            "owner_index": 0,
+            "owner_ack_ms": 4.608541,
+            "all_snapshots_ms": 3.850458,
+            "first_spoken_journal_ms": 3.836291,
+            "owner_spoken_journal_ms": 3.836291,
+            "all_spoken_journal_ms": 3.861625,
+            "snapshot_receipts_ms": [
+                3.82575,
+                3.850458
+            ],
+            "spoken_journal_receipts_ms": [
+                3.836291,
+                3.861625
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 2,
+            "sample": 44,
+            "turn": 55,
+            "owner_index": 1,
+            "owner_ack_ms": 2.766875,
+            "all_snapshots_ms": 2.777417,
+            "first_spoken_journal_ms": 2.5755,
+            "owner_spoken_journal_ms": 2.785709,
+            "all_spoken_journal_ms": 2.785709,
+            "snapshot_receipts_ms": [
+                2.561875,
+                2.777417
+            ],
+            "spoken_journal_receipts_ms": [
+                2.5755,
+                2.785709
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 2,
+            "sample": 45,
+            "turn": 56,
+            "owner_index": 0,
+            "owner_ack_ms": 3.270042,
+            "all_snapshots_ms": 3.280917,
+            "first_spoken_journal_ms": 3.259333,
+            "owner_spoken_journal_ms": 3.289833,
+            "all_spoken_journal_ms": 3.289833,
+            "snapshot_receipts_ms": [
+                3.280917,
+                3.2455
+            ],
+            "spoken_journal_receipts_ms": [
+                3.289833,
+                3.259333
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 2,
+            "sample": 46,
+            "turn": 57,
+            "owner_index": 1,
+            "owner_ack_ms": 4.20625,
+            "all_snapshots_ms": 4.216792,
+            "first_spoken_journal_ms": 4.196208,
+            "owner_spoken_journal_ms": 4.225792,
+            "all_spoken_journal_ms": 4.225792,
+            "snapshot_receipts_ms": [
+                4.183083,
+                4.216792
+            ],
+            "spoken_journal_receipts_ms": [
+                4.196208,
+                4.225792
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 2,
+            "sample": 47,
+            "turn": 58,
+            "owner_index": 0,
+            "owner_ack_ms": 3.599791,
+            "all_snapshots_ms": 3.610083,
+            "first_spoken_journal_ms": 3.590416,
+            "owner_spoken_journal_ms": 3.622875,
+            "all_spoken_journal_ms": 3.622875,
+            "snapshot_receipts_ms": [
+                3.610083,
+                3.578833
+            ],
+            "spoken_journal_receipts_ms": [
+                3.622875,
+                3.590416
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 2,
+            "sample": 48,
+            "turn": 59,
+            "owner_index": 1,
+            "owner_ack_ms": 4.073291,
+            "all_snapshots_ms": 4.083708,
+            "first_spoken_journal_ms": 4.063458,
+            "owner_spoken_journal_ms": 4.092166,
+            "all_spoken_journal_ms": 4.092166,
+            "snapshot_receipts_ms": [
+                4.049291,
+                4.083708
+            ],
+            "spoken_journal_receipts_ms": [
+                4.063458,
+                4.092166
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 2,
+            "sample": 49,
+            "turn": 60,
+            "owner_index": 0,
+            "owner_ack_ms": 2.902833,
+            "all_snapshots_ms": 2.912791,
+            "first_spoken_journal_ms": 2.890291,
+            "owner_spoken_journal_ms": 2.92075,
+            "all_spoken_journal_ms": 2.92075,
+            "snapshot_receipts_ms": [
+                2.912791,
+                2.879375
+            ],
+            "spoken_journal_receipts_ms": [
+                2.92075,
+                2.890291
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 2,
+            "sample": 50,
+            "turn": 61,
+            "owner_index": 1,
+            "owner_ack_ms": 3.80175,
+            "all_snapshots_ms": 3.81275,
+            "first_spoken_journal_ms": 3.791042,
+            "owner_spoken_journal_ms": 3.821375,
+            "all_spoken_journal_ms": 3.821375,
+            "snapshot_receipts_ms": [
+                3.777959,
+                3.81275
+            ],
+            "spoken_journal_receipts_ms": [
+                3.791042,
+                3.821375
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 1,
+            "turn": 12,
+            "owner_index": 1,
+            "owner_ack_ms": 2.773625,
+            "all_snapshots_ms": 2.851708,
+            "first_spoken_journal_ms": 2.763083,
+            "owner_spoken_journal_ms": 2.792208,
+            "all_spoken_journal_ms": 2.85925,
+            "snapshot_receipts_ms": [
+                2.751792,
+                2.784167,
+                2.851708
+            ],
+            "spoken_journal_receipts_ms": [
+                2.763083,
+                2.792208,
+                2.85925
+            ],
+            "wire_journal_entries": 45
+        },
+        {
+            "clients": 3,
+            "sample": 2,
+            "turn": 13,
+            "owner_index": 2,
+            "owner_ack_ms": 2.854,
+            "all_snapshots_ms": 2.941792,
+            "first_spoken_journal_ms": 2.840583,
+            "owner_spoken_journal_ms": 2.8745,
+            "all_spoken_journal_ms": 2.950583,
+            "snapshot_receipts_ms": [
+                2.941792,
+                2.82825,
+                2.865917
+            ],
+            "spoken_journal_receipts_ms": [
+                2.950583,
+                2.840583,
+                2.8745
+            ],
+            "wire_journal_entries": 49
+        },
+        {
+            "clients": 3,
+            "sample": 3,
+            "turn": 14,
+            "owner_index": 0,
+            "owner_ack_ms": 2.847792,
+            "all_snapshots_ms": 2.752375,
+            "first_spoken_journal_ms": 2.540417,
+            "owner_spoken_journal_ms": 2.540417,
+            "all_spoken_journal_ms": 2.76,
+            "snapshot_receipts_ms": [
+                2.530084,
+                2.55275,
+                2.752375
+            ],
+            "spoken_journal_receipts_ms": [
+                2.540417,
+                2.562,
+                2.76
+            ],
+            "wire_journal_entries": 53
+        },
+        {
+            "clients": 3,
+            "sample": 4,
+            "turn": 15,
+            "owner_index": 1,
+            "owner_ack_ms": 2.751417,
+            "all_snapshots_ms": 2.760875,
+            "first_spoken_journal_ms": 2.725917,
+            "owner_spoken_journal_ms": 2.767917,
+            "all_spoken_journal_ms": 2.767917,
+            "snapshot_receipts_ms": [
+                2.715708,
+                2.760875,
+                2.734542
+            ],
+            "spoken_journal_receipts_ms": [
+                2.725917,
+                2.767917,
+                2.742208
+            ],
+            "wire_journal_entries": 57
+        },
+        {
+            "clients": 3,
+            "sample": 5,
+            "turn": 16,
+            "owner_index": 2,
+            "owner_ack_ms": 3.0,
+            "all_snapshots_ms": 3.0765,
+            "first_spoken_journal_ms": 2.990125,
+            "owner_spoken_journal_ms": 3.015875,
+            "all_spoken_journal_ms": 3.0835,
+            "snapshot_receipts_ms": [
+                2.980833,
+                3.0765,
+                3.009
+            ],
+            "spoken_journal_receipts_ms": [
+                2.990125,
+                3.0835,
+                3.015875
+            ],
+            "wire_journal_entries": 61
+        },
+        {
+            "clients": 3,
+            "sample": 6,
+            "turn": 17,
+            "owner_index": 0,
+            "owner_ack_ms": 2.552375,
+            "all_snapshots_ms": 2.485958,
+            "first_spoken_journal_ms": 1.79275,
+            "owner_spoken_journal_ms": 1.79275,
+            "all_spoken_journal_ms": 2.493333,
+            "snapshot_receipts_ms": [
+                1.780625,
+                2.485958,
+                2.309
+            ],
+            "spoken_journal_receipts_ms": [
+                1.79275,
+                2.493333,
+                2.317
+            ],
+            "wire_journal_entries": 65
+        },
+        {
+            "clients": 3,
+            "sample": 7,
+            "turn": 18,
+            "owner_index": 1,
+            "owner_ack_ms": 3.091625,
+            "all_snapshots_ms": 2.710917,
+            "first_spoken_journal_ms": 2.360792,
+            "owner_spoken_journal_ms": 2.718625,
+            "all_spoken_journal_ms": 2.718625,
+            "snapshot_receipts_ms": [
+                2.351167,
+                2.710917,
+                2.682042
+            ],
+            "spoken_journal_receipts_ms": [
+                2.360792,
+                2.718625,
+                2.692917
+            ],
+            "wire_journal_entries": 69
+        },
+        {
+            "clients": 3,
+            "sample": 8,
+            "turn": 19,
+            "owner_index": 2,
+            "owner_ack_ms": 2.756958,
+            "all_snapshots_ms": 2.982083,
+            "first_spoken_journal_ms": 2.780916,
+            "owner_spoken_journal_ms": 2.780916,
+            "all_spoken_journal_ms": 2.9895,
+            "snapshot_receipts_ms": [
+                2.982083,
+                2.836916,
+                2.771208
+            ],
+            "spoken_journal_receipts_ms": [
+                2.9895,
+                2.844333,
+                2.780916
+            ],
+            "wire_journal_entries": 73
+        },
+        {
+            "clients": 3,
+            "sample": 9,
+            "turn": 20,
+            "owner_index": 0,
+            "owner_ack_ms": 2.980375,
+            "all_snapshots_ms": 3.087708,
+            "first_spoken_journal_ms": 3.001875,
+            "owner_spoken_journal_ms": 3.001875,
+            "all_spoken_journal_ms": 3.094791,
+            "snapshot_receipts_ms": [
+                2.993958,
+                3.072083,
+                3.087708
+            ],
+            "spoken_journal_receipts_ms": [
+                3.001875,
+                3.079375,
+                3.094791
+            ],
+            "wire_journal_entries": 77
+        },
+        {
+            "clients": 3,
+            "sample": 10,
+            "turn": 21,
+            "owner_index": 1,
+            "owner_ack_ms": 3.264833,
+            "all_snapshots_ms": 2.855542,
+            "first_spoken_journal_ms": 2.680125,
+            "owner_spoken_journal_ms": 2.864833,
+            "all_spoken_journal_ms": 2.864833,
+            "snapshot_receipts_ms": [
+                2.669333,
+                2.855542,
+                2.833833
+            ],
+            "spoken_journal_receipts_ms": [
+                2.680125,
+                2.864833,
+                2.842375
+            ],
+            "wire_journal_entries": 81
+        },
+        {
+            "clients": 3,
+            "sample": 11,
+            "turn": 22,
+            "owner_index": 2,
+            "owner_ack_ms": 3.499125,
+            "all_snapshots_ms": 3.225667,
+            "first_spoken_journal_ms": 3.187959,
+            "owner_spoken_journal_ms": 3.217375,
+            "all_spoken_journal_ms": 3.233709,
+            "snapshot_receipts_ms": [
+                3.17175,
+                3.225667,
+                3.206375
+            ],
+            "spoken_journal_receipts_ms": [
+                3.187959,
+                3.233709,
+                3.217375
+            ],
+            "wire_journal_entries": 85
+        },
+        {
+            "clients": 3,
+            "sample": 12,
+            "turn": 23,
+            "owner_index": 0,
+            "owner_ack_ms": 3.645875,
+            "all_snapshots_ms": 3.317458,
+            "first_spoken_journal_ms": 2.675625,
+            "owner_spoken_journal_ms": 2.675625,
+            "all_spoken_journal_ms": 3.325875,
+            "snapshot_receipts_ms": [
+                2.663125,
+                3.293791,
+                3.317458
+            ],
+            "spoken_journal_receipts_ms": [
+                2.675625,
+                3.308708,
+                3.325875
+            ],
+            "wire_journal_entries": 89
+        },
+        {
+            "clients": 3,
+            "sample": 13,
+            "turn": 24,
+            "owner_index": 1,
+            "owner_ack_ms": 3.408667,
+            "all_snapshots_ms": 3.496917,
+            "first_spoken_journal_ms": 3.398084,
+            "owner_spoken_journal_ms": 3.428334,
+            "all_spoken_journal_ms": 3.504042,
+            "snapshot_receipts_ms": [
+                3.496917,
+                3.419125,
+                3.388375
+            ],
+            "spoken_journal_receipts_ms": [
+                3.504042,
+                3.428334,
+                3.398084
+            ],
+            "wire_journal_entries": 93
+        },
+        {
+            "clients": 3,
+            "sample": 14,
+            "turn": 25,
+            "owner_index": 2,
+            "owner_ack_ms": 3.509917,
+            "all_snapshots_ms": 3.518834,
+            "first_spoken_journal_ms": 3.486584,
+            "owner_spoken_journal_ms": 3.527917,
+            "all_spoken_journal_ms": 3.527917,
+            "snapshot_receipts_ms": [
+                3.475542,
+                3.49425,
+                3.518834
+            ],
+            "spoken_journal_receipts_ms": [
+                3.486584,
+                3.501417,
+                3.527917
+            ],
+            "wire_journal_entries": 97
+        },
+        {
+            "clients": 3,
+            "sample": 15,
+            "turn": 26,
+            "owner_index": 0,
+            "owner_ack_ms": 3.862958,
+            "all_snapshots_ms": 3.524208,
+            "first_spoken_journal_ms": 3.498875,
+            "owner_spoken_journal_ms": 3.498875,
+            "all_spoken_journal_ms": 3.531958,
+            "snapshot_receipts_ms": [
+                3.486333,
+                3.524208,
+                3.508041
+            ],
+            "spoken_journal_receipts_ms": [
+                3.498875,
+                3.531958,
+                3.516083
+            ],
+            "wire_journal_entries": 101
+        },
+        {
+            "clients": 3,
+            "sample": 16,
+            "turn": 27,
+            "owner_index": 1,
+            "owner_ack_ms": 2.950875,
+            "all_snapshots_ms": 2.496834,
+            "first_spoken_journal_ms": 2.467292,
+            "owner_spoken_journal_ms": 2.504084,
+            "all_spoken_journal_ms": 2.504084,
+            "snapshot_receipts_ms": [
+                2.458375,
+                2.496834,
+                2.475084
+            ],
+            "spoken_journal_receipts_ms": [
+                2.467292,
+                2.504084,
+                2.483084
+            ],
+            "wire_journal_entries": 105
+        },
+        {
+            "clients": 3,
+            "sample": 17,
+            "turn": 28,
+            "owner_index": 2,
+            "owner_ack_ms": 4.380584,
+            "all_snapshots_ms": 4.475709,
+            "first_spoken_journal_ms": 4.368709,
+            "owner_spoken_journal_ms": 4.402084,
+            "all_spoken_journal_ms": 4.484875,
+            "snapshot_receipts_ms": [
+                4.475709,
+                4.349917,
+                4.392375
+            ],
+            "spoken_journal_receipts_ms": [
+                4.484875,
+                4.368709,
+                4.402084
+            ],
+            "wire_journal_entries": 109
+        },
+        {
+            "clients": 3,
+            "sample": 18,
+            "turn": 29,
+            "owner_index": 0,
+            "owner_ack_ms": 3.635709,
+            "all_snapshots_ms": 3.645542,
+            "first_spoken_journal_ms": 3.609417,
+            "owner_spoken_journal_ms": 3.652542,
+            "all_spoken_journal_ms": 3.652542,
+            "snapshot_receipts_ms": [
+                3.645542,
+                3.600125,
+                3.617292
+            ],
+            "spoken_journal_receipts_ms": [
+                3.652542,
+                3.609417,
+                3.626125
+            ],
+            "wire_journal_entries": 113
+        },
+        {
+            "clients": 3,
+            "sample": 19,
+            "turn": 30,
+            "owner_index": 1,
+            "owner_ack_ms": 3.4725,
+            "all_snapshots_ms": 2.977792,
+            "first_spoken_journal_ms": 2.950292,
+            "owner_spoken_journal_ms": 2.970542,
+            "all_spoken_journal_ms": 2.984667,
+            "snapshot_receipts_ms": [
+                2.940417,
+                2.963375,
+                2.977792
+            ],
+            "spoken_journal_receipts_ms": [
+                2.950292,
+                2.970542,
+                2.984667
+            ],
+            "wire_journal_entries": 117
+        },
+        {
+            "clients": 3,
+            "sample": 20,
+            "turn": 31,
+            "owner_index": 2,
+            "owner_ack_ms": 4.473208,
+            "all_snapshots_ms": 4.002875,
+            "first_spoken_journal_ms": 3.975917,
+            "owner_spoken_journal_ms": 4.009833,
+            "all_spoken_journal_ms": 4.009833,
+            "snapshot_receipts_ms": [
+                3.983167,
+                3.96725,
+                4.002875
+            ],
+            "spoken_journal_receipts_ms": [
+                3.99025,
+                3.975917,
+                4.009833
+            ],
+            "wire_journal_entries": 121
+        },
+        {
+            "clients": 3,
+            "sample": 21,
+            "turn": 32,
+            "owner_index": 0,
+            "owner_ack_ms": 4.377083,
+            "all_snapshots_ms": 3.985041,
+            "first_spoken_journal_ms": 3.957625,
+            "owner_spoken_journal_ms": 3.9785,
+            "all_spoken_journal_ms": 3.991875,
+            "snapshot_receipts_ms": [
+                3.971208,
+                3.948041,
+                3.985041
+            ],
+            "spoken_journal_receipts_ms": [
+                3.9785,
+                3.957625,
+                3.991875
+            ],
+            "wire_journal_entries": 125
+        },
+        {
+            "clients": 3,
+            "sample": 22,
+            "turn": 33,
+            "owner_index": 1,
+            "owner_ack_ms": 3.855875,
+            "all_snapshots_ms": 3.87075,
+            "first_spoken_journal_ms": 3.443625,
+            "owner_spoken_journal_ms": 3.878917,
+            "all_spoken_journal_ms": 3.878917,
+            "snapshot_receipts_ms": [
+                3.42525,
+                3.87075,
+                3.831167
+            ],
+            "spoken_journal_receipts_ms": [
+                3.443625,
+                3.878917,
+                3.842833
+            ],
+            "wire_journal_entries": 129
+        },
+        {
+            "clients": 3,
+            "sample": 23,
+            "turn": 34,
+            "owner_index": 2,
+            "owner_ack_ms": 3.7355,
+            "all_snapshots_ms": 3.745,
+            "first_spoken_journal_ms": 3.711125,
+            "owner_spoken_journal_ms": 3.751792,
+            "all_spoken_journal_ms": 3.751792,
+            "snapshot_receipts_ms": [
+                3.718292,
+                3.700917,
+                3.745
+            ],
+            "spoken_journal_receipts_ms": [
+                3.726125,
+                3.711125,
+                3.751792
+            ],
+            "wire_journal_entries": 133
+        },
+        {
+            "clients": 3,
+            "sample": 24,
+            "turn": 35,
+            "owner_index": 0,
+            "owner_ack_ms": 4.504166,
+            "all_snapshots_ms": 3.979041,
+            "first_spoken_journal_ms": 3.816083,
+            "owner_spoken_journal_ms": 3.816083,
+            "all_spoken_journal_ms": 3.98525,
+            "snapshot_receipts_ms": [
+                3.807708,
+                3.966625,
+                3.979041
+            ],
+            "spoken_journal_receipts_ms": [
+                3.816083,
+                3.973125,
+                3.98525
+            ],
+            "wire_journal_entries": 137
+        },
+        {
+            "clients": 3,
+            "sample": 25,
+            "turn": 36,
+            "owner_index": 1,
+            "owner_ack_ms": 3.03925,
+            "all_snapshots_ms": 3.12425,
+            "first_spoken_journal_ms": 3.057584,
+            "owner_spoken_journal_ms": 3.057584,
+            "all_spoken_journal_ms": 3.130375,
+            "snapshot_receipts_ms": [
+                3.111584,
+                3.0495,
+                3.12425
+            ],
+            "spoken_journal_receipts_ms": [
+                3.11825,
+                3.057584,
+                3.130375
+            ],
+            "wire_journal_entries": 141
+        },
+        {
+            "clients": 3,
+            "sample": 26,
+            "turn": 37,
+            "owner_index": 2,
+            "owner_ack_ms": 4.124083,
+            "all_snapshots_ms": 4.19975,
+            "first_spoken_journal_ms": 4.141458,
+            "owner_spoken_journal_ms": 4.141458,
+            "all_spoken_journal_ms": 4.206542,
+            "snapshot_receipts_ms": [
+                4.19975,
+                4.18625,
+                4.133875
+            ],
+            "spoken_journal_receipts_ms": [
+                4.206542,
+                4.193333,
+                4.141458
+            ],
+            "wire_journal_entries": 145
+        },
+        {
+            "clients": 3,
+            "sample": 27,
+            "turn": 38,
+            "owner_index": 0,
+            "owner_ack_ms": 4.598375,
+            "all_snapshots_ms": 4.067542,
+            "first_spoken_journal_ms": 3.872792,
+            "owner_spoken_journal_ms": 3.872792,
+            "all_spoken_journal_ms": 4.075208,
+            "snapshot_receipts_ms": [
+                3.862583,
+                4.052875,
+                4.067542
+            ],
+            "spoken_journal_receipts_ms": [
+                3.872792,
+                4.060792,
+                4.075208
+            ],
+            "wire_journal_entries": 149
+        },
+        {
+            "clients": 3,
+            "sample": 28,
+            "turn": 39,
+            "owner_index": 1,
+            "owner_ack_ms": 4.5815,
+            "all_snapshots_ms": 4.039541,
+            "first_spoken_journal_ms": 4.01725,
+            "owner_spoken_journal_ms": 4.03375,
+            "all_spoken_journal_ms": 4.04575,
+            "snapshot_receipts_ms": [
+                4.009541,
+                4.02725,
+                4.039541
+            ],
+            "spoken_journal_receipts_ms": [
+                4.01725,
+                4.03375,
+                4.04575
+            ],
+            "wire_journal_entries": 153
+        },
+        {
+            "clients": 3,
+            "sample": 29,
+            "turn": 40,
+            "owner_index": 2,
+            "owner_ack_ms": 4.948209,
+            "all_snapshots_ms": 4.465292,
+            "first_spoken_journal_ms": 4.429375,
+            "owner_spoken_journal_ms": 4.473959,
+            "all_spoken_journal_ms": 4.473959,
+            "snapshot_receipts_ms": [
+                4.41975,
+                4.435709,
+                4.465292
+            ],
+            "spoken_journal_receipts_ms": [
+                4.429375,
+                4.451292,
+                4.473959
+            ],
+            "wire_journal_entries": 157
+        },
+        {
+            "clients": 3,
+            "sample": 30,
+            "turn": 41,
+            "owner_index": 0,
+            "owner_ack_ms": 4.0685,
+            "all_snapshots_ms": 3.409583,
+            "first_spoken_journal_ms": 3.385791,
+            "owner_spoken_journal_ms": 3.403666,
+            "all_spoken_journal_ms": 3.416416,
+            "snapshot_receipts_ms": [
+                3.397,
+                3.377375,
+                3.409583
+            ],
+            "spoken_journal_receipts_ms": [
+                3.403666,
+                3.385791,
+                3.416416
+            ],
+            "wire_journal_entries": 161
+        },
+        {
+            "clients": 3,
+            "sample": 31,
+            "turn": 42,
+            "owner_index": 1,
+            "owner_ack_ms": 5.38675,
+            "all_snapshots_ms": 4.699,
+            "first_spoken_journal_ms": 4.670125,
+            "owner_spoken_journal_ms": 4.691959,
+            "all_spoken_journal_ms": 4.706417,
+            "snapshot_receipts_ms": [
+                4.699,
+                4.682917,
+                4.655959
+            ],
+            "spoken_journal_receipts_ms": [
+                4.706417,
+                4.691959,
+                4.670125
+            ],
+            "wire_journal_entries": 165
+        },
+        {
+            "clients": 3,
+            "sample": 32,
+            "turn": 43,
+            "owner_index": 2,
+            "owner_ack_ms": 4.489125,
+            "all_snapshots_ms": 4.55725,
+            "first_spoken_journal_ms": 4.4765,
+            "owner_spoken_journal_ms": 4.506209,
+            "all_spoken_journal_ms": 4.564417,
+            "snapshot_receipts_ms": [
+                4.55725,
+                4.46825,
+                4.498667
+            ],
+            "spoken_journal_receipts_ms": [
+                4.564417,
+                4.4765,
+                4.506209
+            ],
+            "wire_journal_entries": 169
+        },
+        {
+            "clients": 3,
+            "sample": 33,
+            "turn": 44,
+            "owner_index": 0,
+            "owner_ack_ms": 6.181291,
+            "all_snapshots_ms": 5.669416,
+            "first_spoken_journal_ms": 5.643375,
+            "owner_spoken_journal_ms": 5.663125,
+            "all_spoken_journal_ms": 5.676083,
+            "snapshot_receipts_ms": [
+                5.655625,
+                5.631791,
+                5.669416
+            ],
+            "spoken_journal_receipts_ms": [
+                5.663125,
+                5.643375,
+                5.676083
+            ],
+            "wire_journal_entries": 173
+        },
+        {
+            "clients": 3,
+            "sample": 34,
+            "turn": 45,
+            "owner_index": 1,
+            "owner_ack_ms": 5.3455,
+            "all_snapshots_ms": 4.797792,
+            "first_spoken_journal_ms": 4.778917,
+            "owner_spoken_journal_ms": 4.778917,
+            "all_spoken_journal_ms": 4.803959,
+            "snapshot_receipts_ms": [
+                4.7855,
+                4.767667,
+                4.797792
+            ],
+            "spoken_journal_receipts_ms": [
+                4.791917,
+                4.778917,
+                4.803959
+            ],
+            "wire_journal_entries": 177
+        },
+        {
+            "clients": 3,
+            "sample": 35,
+            "turn": 46,
+            "owner_index": 2,
+            "owner_ack_ms": 4.798792,
+            "all_snapshots_ms": 4.875042,
+            "first_spoken_journal_ms": 4.788417,
+            "owner_spoken_journal_ms": 4.817167,
+            "all_spoken_journal_ms": 4.884083,
+            "snapshot_receipts_ms": [
+                4.875042,
+                4.77875,
+                4.809833
+            ],
+            "spoken_journal_receipts_ms": [
+                4.884083,
+                4.788417,
+                4.817167
+            ],
+            "wire_journal_entries": 181
+        },
+        {
+            "clients": 3,
+            "sample": 36,
+            "turn": 47,
+            "owner_index": 0,
+            "owner_ack_ms": 4.1525,
+            "all_snapshots_ms": 3.530375,
+            "first_spoken_journal_ms": 3.506792,
+            "owner_spoken_journal_ms": 3.53725,
+            "all_spoken_journal_ms": 3.53725,
+            "snapshot_receipts_ms": [
+                3.530375,
+                3.498084,
+                3.5135
+            ],
+            "spoken_journal_receipts_ms": [
+                3.53725,
+                3.506792,
+                3.520084
+            ],
+            "wire_journal_entries": 185
+        },
+        {
+            "clients": 3,
+            "sample": 37,
+            "turn": 48,
+            "owner_index": 1,
+            "owner_ack_ms": 4.694833,
+            "all_snapshots_ms": 4.755875,
+            "first_spoken_journal_ms": 4.685667,
+            "owner_spoken_journal_ms": 4.710417,
+            "all_spoken_journal_ms": 4.762,
+            "snapshot_receipts_ms": [
+                4.674333,
+                4.703875,
+                4.755875
+            ],
+            "spoken_journal_receipts_ms": [
+                4.685667,
+                4.710417,
+                4.762
+            ],
+            "wire_journal_entries": 189
+        },
+        {
+            "clients": 3,
+            "sample": 38,
+            "turn": 49,
+            "owner_index": 2,
+            "owner_ack_ms": 4.753542,
+            "all_snapshots_ms": 4.826167,
+            "first_spoken_journal_ms": 4.773875,
+            "owner_spoken_journal_ms": 4.773875,
+            "all_spoken_journal_ms": 4.832542,
+            "snapshot_receipts_ms": [
+                4.826167,
+                4.814125,
+                4.765834
+            ],
+            "spoken_journal_receipts_ms": [
+                4.832542,
+                4.8205,
+                4.773875
+            ],
+            "wire_journal_entries": 193
+        },
+        {
+            "clients": 3,
+            "sample": 39,
+            "turn": 50,
+            "owner_index": 0,
+            "owner_ack_ms": 4.0495,
+            "all_snapshots_ms": 3.347584,
+            "first_spoken_journal_ms": 2.928,
+            "owner_spoken_journal_ms": 2.928,
+            "all_spoken_journal_ms": 3.354042,
+            "snapshot_receipts_ms": [
+                2.918667,
+                3.347584,
+                3.334417
+            ],
+            "spoken_journal_receipts_ms": [
+                2.928,
+                3.354042,
+                3.341584
+            ],
+            "wire_journal_entries": 197
+        },
+        {
+            "clients": 3,
+            "sample": 40,
+            "turn": 51,
+            "owner_index": 1,
+            "owner_ack_ms": 4.98075,
+            "all_snapshots_ms": 5.060541,
+            "first_spoken_journal_ms": 4.997916,
+            "owner_spoken_journal_ms": 4.997916,
+            "all_spoken_journal_ms": 5.066916,
+            "snapshot_receipts_ms": [
+                5.048041,
+                4.990416,
+                5.060541
+            ],
+            "spoken_journal_receipts_ms": [
+                5.054875,
+                4.997916,
+                5.066916
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 41,
+            "turn": 52,
+            "owner_index": 2,
+            "owner_ack_ms": 5.253,
+            "all_snapshots_ms": 5.337667,
+            "first_spoken_journal_ms": 5.272,
+            "owner_spoken_journal_ms": 5.272,
+            "all_spoken_journal_ms": 5.344917,
+            "snapshot_receipts_ms": [
+                5.337667,
+                5.323459,
+                5.263792
+            ],
+            "spoken_journal_receipts_ms": [
+                5.344917,
+                5.331084,
+                5.272
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 42,
+            "turn": 53,
+            "owner_index": 0,
+            "owner_ack_ms": 6.113,
+            "all_snapshots_ms": 5.419042,
+            "first_spoken_journal_ms": 5.387375,
+            "owner_spoken_journal_ms": 5.426167,
+            "all_spoken_journal_ms": 5.426167,
+            "snapshot_receipts_ms": [
+                5.419042,
+                5.375667,
+                5.394834
+            ],
+            "spoken_journal_receipts_ms": [
+                5.426167,
+                5.387375,
+                5.4025
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 43,
+            "turn": 54,
+            "owner_index": 1,
+            "owner_ack_ms": 6.011291,
+            "all_snapshots_ms": 5.196333,
+            "first_spoken_journal_ms": 5.166708,
+            "owner_spoken_journal_ms": 5.203291,
+            "all_spoken_journal_ms": 5.203291,
+            "snapshot_receipts_ms": [
+                5.173541,
+                5.196333,
+                5.157708
+            ],
+            "spoken_journal_receipts_ms": [
+                5.180833,
+                5.203291,
+                5.166708
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 44,
+            "turn": 55,
+            "owner_index": 2,
+            "owner_ack_ms": 4.831708,
+            "all_snapshots_ms": 4.84175,
+            "first_spoken_journal_ms": 4.809583,
+            "owner_spoken_journal_ms": 4.848875,
+            "all_spoken_journal_ms": 4.848875,
+            "snapshot_receipts_ms": [
+                4.801083,
+                4.816375,
+                4.84175
+            ],
+            "spoken_journal_receipts_ms": [
+                4.809583,
+                4.823666,
+                4.848875
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 45,
+            "turn": 56,
+            "owner_index": 0,
+            "owner_ack_ms": 5.396875,
+            "all_snapshots_ms": 4.664709,
+            "first_spoken_journal_ms": 4.133125,
+            "owner_spoken_journal_ms": 4.133125,
+            "all_spoken_journal_ms": 4.671709,
+            "snapshot_receipts_ms": [
+                4.123375,
+                4.664709,
+                4.650459
+            ],
+            "spoken_journal_receipts_ms": [
+                4.133125,
+                4.671709,
+                4.658084
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 46,
+            "turn": 57,
+            "owner_index": 1,
+            "owner_ack_ms": 3.794166,
+            "all_snapshots_ms": 3.804041,
+            "first_spoken_journal_ms": 3.77325,
+            "owner_spoken_journal_ms": 3.810583,
+            "all_spoken_journal_ms": 3.810583,
+            "snapshot_receipts_ms": [
+                3.763958,
+                3.804041,
+                3.779666
+            ],
+            "spoken_journal_receipts_ms": [
+                3.77325,
+                3.810583,
+                3.786375
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 47,
+            "turn": 58,
+            "owner_index": 2,
+            "owner_ack_ms": 5.026208,
+            "all_snapshots_ms": 5.145666,
+            "first_spoken_journal_ms": 5.054833,
+            "owner_spoken_journal_ms": 5.054833,
+            "all_spoken_journal_ms": 5.152583,
+            "snapshot_receipts_ms": [
+                5.114625,
+                5.145666,
+                5.046333
+            ],
+            "spoken_journal_receipts_ms": [
+                5.138833,
+                5.152583,
+                5.054833
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 48,
+            "turn": 59,
+            "owner_index": 0,
+            "owner_ack_ms": 5.425584,
+            "all_snapshots_ms": 4.765542,
+            "first_spoken_journal_ms": 4.741459,
+            "owner_spoken_journal_ms": 4.758875,
+            "all_spoken_journal_ms": 4.772792,
+            "snapshot_receipts_ms": [
+                4.750459,
+                4.717959,
+                4.765542
+            ],
+            "spoken_journal_receipts_ms": [
+                4.758875,
+                4.741459,
+                4.772792
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 49,
+            "turn": 60,
+            "owner_index": 1,
+            "owner_ack_ms": 5.727917,
+            "all_snapshots_ms": 4.804459,
+            "first_spoken_journal_ms": 4.783375,
+            "owner_spoken_journal_ms": 4.783375,
+            "all_spoken_journal_ms": 4.812292,
+            "snapshot_receipts_ms": [
+                4.804459,
+                4.7745,
+                4.790042
+            ],
+            "spoken_journal_receipts_ms": [
+                4.812292,
+                4.783375,
+                4.797917
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 3,
+            "sample": 50,
+            "turn": 61,
+            "owner_index": 2,
+            "owner_ack_ms": 5.099875,
+            "all_snapshots_ms": 5.169458,
+            "first_spoken_journal_ms": 5.090292,
+            "owner_spoken_journal_ms": 5.117167,
+            "all_spoken_journal_ms": 5.177958,
+            "snapshot_receipts_ms": [
+                5.169458,
+                5.079625,
+                5.109
+            ],
+            "spoken_journal_receipts_ms": [
+                5.177958,
+                5.090292,
+                5.117167
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 1,
+            "turn": 12,
+            "owner_index": 2,
+            "owner_ack_ms": 1.15675,
+            "all_snapshots_ms": 1.219875,
+            "first_spoken_journal_ms": 1.133042,
+            "owner_spoken_journal_ms": 1.172083,
+            "all_spoken_journal_ms": 1.227375,
+            "snapshot_receipts_ms": [
+                1.124917,
+                1.139417,
+                1.165708,
+                1.219875
+            ],
+            "spoken_journal_receipts_ms": [
+                1.133042,
+                1.146042,
+                1.172083,
+                1.227375
+            ],
+            "wire_journal_entries": 45
+        },
+        {
+            "clients": 4,
+            "sample": 2,
+            "turn": 13,
+            "owner_index": 3,
+            "owner_ack_ms": 1.208375,
+            "all_snapshots_ms": 1.216542,
+            "first_spoken_journal_ms": 1.173459,
+            "owner_spoken_journal_ms": 1.223334,
+            "all_spoken_journal_ms": 1.223334,
+            "snapshot_receipts_ms": [
+                1.163792,
+                1.193917,
+                1.1805,
+                1.216542
+            ],
+            "spoken_journal_receipts_ms": [
+                1.173459,
+                1.200459,
+                1.187459,
+                1.223334
+            ],
+            "wire_journal_entries": 49
+        },
+        {
+            "clients": 4,
+            "sample": 3,
+            "turn": 14,
+            "owner_index": 0,
+            "owner_ack_ms": 1.061333,
+            "all_snapshots_ms": 1.141458,
+            "first_spoken_journal_ms": 1.054333,
+            "owner_spoken_journal_ms": 1.075125,
+            "all_spoken_journal_ms": 1.148417,
+            "snapshot_receipts_ms": [
+                1.069,
+                1.127417,
+                1.046875,
+                1.141458
+            ],
+            "spoken_journal_receipts_ms": [
+                1.075125,
+                1.134583,
+                1.054333,
+                1.148417
+            ],
+            "wire_journal_entries": 53
+        },
+        {
+            "clients": 4,
+            "sample": 4,
+            "turn": 15,
+            "owner_index": 1,
+            "owner_ack_ms": 1.136042,
+            "all_snapshots_ms": 1.144167,
+            "first_spoken_journal_ms": 1.102167,
+            "owner_spoken_journal_ms": 1.150459,
+            "all_spoken_journal_ms": 1.150459,
+            "snapshot_receipts_ms": [
+                1.121709,
+                1.144167,
+                1.093625,
+                1.108917
+            ],
+            "spoken_journal_receipts_ms": [
+                1.128,
+                1.150459,
+                1.102167,
+                1.115625
+            ],
+            "wire_journal_entries": 57
+        },
+        {
+            "clients": 4,
+            "sample": 5,
+            "turn": 16,
+            "owner_index": 2,
+            "owner_ack_ms": 1.16475,
+            "all_snapshots_ms": 1.24775,
+            "first_spoken_journal_ms": 1.073458,
+            "owner_spoken_journal_ms": 1.17975,
+            "all_spoken_journal_ms": 1.254,
+            "snapshot_receipts_ms": [
+                1.235167,
+                1.066,
+                1.17275,
+                1.24775
+            ],
+            "spoken_journal_receipts_ms": [
+                1.241708,
+                1.073458,
+                1.17975,
+                1.254
+            ],
+            "wire_journal_entries": 61
+        },
+        {
+            "clients": 4,
+            "sample": 6,
+            "turn": 17,
+            "owner_index": 3,
+            "owner_ack_ms": 1.152125,
+            "all_snapshots_ms": 1.256292,
+            "first_spoken_journal_ms": 1.170792,
+            "owner_spoken_journal_ms": 1.170792,
+            "all_spoken_journal_ms": 1.2635,
+            "snapshot_receipts_ms": [
+                1.256292,
+                1.230209,
+                1.243667,
+                1.16225
+            ],
+            "spoken_journal_receipts_ms": [
+                1.2635,
+                1.237084,
+                1.250084,
+                1.170792
+            ],
+            "wire_journal_entries": 65
+        },
+        {
+            "clients": 4,
+            "sample": 7,
+            "turn": 18,
+            "owner_index": 0,
+            "owner_ack_ms": 1.120833,
+            "all_snapshots_ms": 1.195792,
+            "first_spoken_journal_ms": 1.136958,
+            "owner_spoken_journal_ms": 1.136958,
+            "all_spoken_journal_ms": 1.202083,
+            "snapshot_receipts_ms": [
+                1.129417,
+                1.169333,
+                1.183042,
+                1.195792
+            ],
+            "spoken_journal_receipts_ms": [
+                1.136958,
+                1.176917,
+                1.189375,
+                1.202083
+            ],
+            "wire_journal_entries": 69
+        },
+        {
+            "clients": 4,
+            "sample": 8,
+            "turn": 19,
+            "owner_index": 1,
+            "owner_ack_ms": 1.164417,
+            "all_snapshots_ms": 1.222959,
+            "first_spoken_journal_ms": 1.157334,
+            "owner_spoken_journal_ms": 1.179459,
+            "all_spoken_journal_ms": 1.229084,
+            "snapshot_receipts_ms": [
+                1.210709,
+                1.173042,
+                1.222959,
+                1.149875
+            ],
+            "spoken_journal_receipts_ms": [
+                1.217125,
+                1.179459,
+                1.229084,
+                1.157334
+            ],
+            "wire_journal_entries": 73
+        },
+        {
+            "clients": 4,
+            "sample": 9,
+            "turn": 20,
+            "owner_index": 2,
+            "owner_ack_ms": 1.255916,
+            "all_snapshots_ms": 1.315583,
+            "first_spoken_journal_ms": 1.235,
+            "owner_spoken_journal_ms": 1.272958,
+            "all_spoken_journal_ms": 1.322791,
+            "snapshot_receipts_ms": [
+                1.227,
+                1.24125,
+                1.263875,
+                1.315583
+            ],
+            "spoken_journal_receipts_ms": [
+                1.235,
+                1.248625,
+                1.272958,
+                1.322791
+            ],
+            "wire_journal_entries": 77
+        },
+        {
+            "clients": 4,
+            "sample": 10,
+            "turn": 21,
+            "owner_index": 3,
+            "owner_ack_ms": 1.217375,
+            "all_snapshots_ms": 1.266417,
+            "first_spoken_journal_ms": 1.198708,
+            "owner_spoken_journal_ms": 1.230875,
+            "all_spoken_journal_ms": 1.272833,
+            "snapshot_receipts_ms": [
+                1.204667,
+                1.266417,
+                1.191375,
+                1.224667
+            ],
+            "spoken_journal_receipts_ms": [
+                1.211,
+                1.272833,
+                1.198708,
+                1.230875
+            ],
+            "wire_journal_entries": 81
+        },
+        {
+            "clients": 4,
+            "sample": 11,
+            "turn": 22,
+            "owner_index": 0,
+            "owner_ack_ms": 1.132083,
+            "all_snapshots_ms": 1.191417,
+            "first_spoken_journal_ms": 1.125667,
+            "owner_spoken_journal_ms": 1.146083,
+            "all_spoken_journal_ms": 1.197625,
+            "snapshot_receipts_ms": [
+                1.139625,
+                1.117875,
+                1.179292,
+                1.191417
+            ],
+            "spoken_journal_receipts_ms": [
+                1.146083,
+                1.125667,
+                1.185667,
+                1.197625
+            ],
+            "wire_journal_entries": 85
+        },
+        {
+            "clients": 4,
+            "sample": 12,
+            "turn": 23,
+            "owner_index": 1,
+            "owner_ack_ms": 1.270083,
+            "all_snapshots_ms": 1.386083,
+            "first_spoken_journal_ms": 1.292042,
+            "owner_spoken_journal_ms": 1.292042,
+            "all_spoken_journal_ms": 1.39375,
+            "snapshot_receipts_ms": [
+                1.386083,
+                1.281917,
+                1.356083,
+                1.371667
+            ],
+            "spoken_journal_receipts_ms": [
+                1.39375,
+                1.292042,
+                1.36475,
+                1.379167
+            ],
+            "wire_journal_entries": 89
+        },
+        {
+            "clients": 4,
+            "sample": 13,
+            "turn": 24,
+            "owner_index": 2,
+            "owner_ack_ms": 1.262542,
+            "all_snapshots_ms": 1.306208,
+            "first_spoken_journal_ms": 1.242125,
+            "owner_spoken_journal_ms": 1.275833,
+            "all_spoken_journal_ms": 1.312625,
+            "snapshot_receipts_ms": [
+                1.231625,
+                1.24925,
+                1.269667,
+                1.306208
+            ],
+            "spoken_journal_receipts_ms": [
+                1.242125,
+                1.255625,
+                1.275833,
+                1.312625
+            ],
+            "wire_journal_entries": 93
+        },
+        {
+            "clients": 4,
+            "sample": 14,
+            "turn": 25,
+            "owner_index": 3,
+            "owner_ack_ms": 1.179625,
+            "all_snapshots_ms": 1.264083,
+            "first_spoken_journal_ms": 1.071333,
+            "owner_spoken_journal_ms": 1.2005,
+            "all_spoken_journal_ms": 1.270625,
+            "snapshot_receipts_ms": [
+                1.062792,
+                1.264083,
+                1.251792,
+                1.190667
+            ],
+            "spoken_journal_receipts_ms": [
+                1.071333,
+                1.270625,
+                1.258333,
+                1.2005
+            ],
+            "wire_journal_entries": 97
+        },
+        {
+            "clients": 4,
+            "sample": 15,
+            "turn": 26,
+            "owner_index": 0,
+            "owner_ack_ms": 1.213625,
+            "all_snapshots_ms": 1.22075,
+            "first_spoken_journal_ms": 1.182,
+            "owner_spoken_journal_ms": 1.227083,
+            "all_spoken_journal_ms": 1.227083,
+            "snapshot_receipts_ms": [
+                1.22075,
+                1.199875,
+                1.174333,
+                1.187958
+            ],
+            "spoken_journal_receipts_ms": [
+                1.227083,
+                1.206958,
+                1.182,
+                1.194333
+            ],
+            "wire_journal_entries": 101
+        },
+        {
+            "clients": 4,
+            "sample": 16,
+            "turn": 27,
+            "owner_index": 1,
+            "owner_ack_ms": 1.342333,
+            "all_snapshots_ms": 1.407417,
+            "first_spoken_journal_ms": 1.334417,
+            "owner_spoken_journal_ms": 1.358125,
+            "all_spoken_journal_ms": 1.413708,
+            "snapshot_receipts_ms": [
+                1.325292,
+                1.350542,
+                1.395083,
+                1.407417
+            ],
+            "spoken_journal_receipts_ms": [
+                1.334417,
+                1.358125,
+                1.401625,
+                1.413708
+            ],
+            "wire_journal_entries": 105
+        },
+        {
+            "clients": 4,
+            "sample": 17,
+            "turn": 28,
+            "owner_index": 2,
+            "owner_ack_ms": 1.2575,
+            "all_snapshots_ms": 1.315209,
+            "first_spoken_journal_ms": 1.238417,
+            "owner_spoken_journal_ms": 1.271125,
+            "all_spoken_journal_ms": 1.321959,
+            "snapshot_receipts_ms": [
+                1.230584,
+                1.244625,
+                1.264792,
+                1.315209
+            ],
+            "spoken_journal_receipts_ms": [
+                1.238417,
+                1.250917,
+                1.271125,
+                1.321959
+            ],
+            "wire_journal_entries": 109
+        },
+        {
+            "clients": 4,
+            "sample": 18,
+            "turn": 29,
+            "owner_index": 3,
+            "owner_ack_ms": 1.399334,
+            "all_snapshots_ms": 1.407667,
+            "first_spoken_journal_ms": 1.364167,
+            "owner_spoken_journal_ms": 1.414375,
+            "all_spoken_journal_ms": 1.414375,
+            "snapshot_receipts_ms": [
+                1.371209,
+                1.384667,
+                1.353875,
+                1.407667
+            ],
+            "spoken_journal_receipts_ms": [
+                1.37875,
+                1.3915,
+                1.364167,
+                1.414375
+            ],
+            "wire_journal_entries": 113
+        },
+        {
+            "clients": 4,
+            "sample": 19,
+            "turn": 30,
+            "owner_index": 0,
+            "owner_ack_ms": 1.204208,
+            "all_snapshots_ms": 1.281458,
+            "first_spoken_journal_ms": 1.220542,
+            "owner_spoken_journal_ms": 1.220542,
+            "all_spoken_journal_ms": 1.287708,
+            "snapshot_receipts_ms": [
+                1.212667,
+                1.268625,
+                1.255958,
+                1.281458
+            ],
+            "spoken_journal_receipts_ms": [
+                1.220542,
+                1.275458,
+                1.262583,
+                1.287708
+            ],
+            "wire_journal_entries": 117
+        },
+        {
+            "clients": 4,
+            "sample": 20,
+            "turn": 31,
+            "owner_index": 1,
+            "owner_ack_ms": 1.282084,
+            "all_snapshots_ms": 1.344375,
+            "first_spoken_journal_ms": 1.25775,
+            "owner_spoken_journal_ms": 1.302334,
+            "all_spoken_journal_ms": 1.351917,
+            "snapshot_receipts_ms": [
+                1.264084,
+                1.289792,
+                1.250125,
+                1.344375
+            ],
+            "spoken_journal_receipts_ms": [
+                1.270792,
+                1.302334,
+                1.25775,
+                1.351917
+            ],
+            "wire_journal_entries": 121
+        },
+        {
+            "clients": 4,
+            "sample": 21,
+            "turn": 32,
+            "owner_index": 2,
+            "owner_ack_ms": 1.205916,
+            "all_snapshots_ms": 1.254,
+            "first_spoken_journal_ms": 1.178333,
+            "owner_spoken_journal_ms": 1.219666,
+            "all_spoken_journal_ms": 1.260541,
+            "snapshot_receipts_ms": [
+                1.168916,
+                1.191083,
+                1.213291,
+                1.254
+            ],
+            "spoken_journal_receipts_ms": [
+                1.178333,
+                1.198458,
+                1.219666,
+                1.260541
+            ],
+            "wire_journal_entries": 125
+        },
+        {
+            "clients": 4,
+            "sample": 22,
+            "turn": 33,
+            "owner_index": 3,
+            "owner_ack_ms": 1.321334,
+            "all_snapshots_ms": 1.419,
+            "first_spoken_journal_ms": 1.341334,
+            "owner_spoken_journal_ms": 1.341334,
+            "all_spoken_journal_ms": 1.426334,
+            "snapshot_receipts_ms": [
+                1.406,
+                1.391584,
+                1.419,
+                1.332792
+            ],
+            "spoken_journal_receipts_ms": [
+                1.413,
+                1.3995,
+                1.426334,
+                1.341334
+            ],
+            "wire_journal_entries": 129
+        },
+        {
+            "clients": 4,
+            "sample": 23,
+            "turn": 34,
+            "owner_index": 0,
+            "owner_ack_ms": 1.356292,
+            "all_snapshots_ms": 1.417958,
+            "first_spoken_journal_ms": 1.333458,
+            "owner_spoken_journal_ms": 1.371167,
+            "all_spoken_journal_ms": 1.424875,
+            "snapshot_receipts_ms": [
+                1.3645,
+                1.32375,
+                1.341083,
+                1.417958
+            ],
+            "spoken_journal_receipts_ms": [
+                1.371167,
+                1.333458,
+                1.348917,
+                1.424875
+            ],
+            "wire_journal_entries": 133
+        },
+        {
+            "clients": 4,
+            "sample": 24,
+            "turn": 35,
+            "owner_index": 1,
+            "owner_ack_ms": 1.309375,
+            "all_snapshots_ms": 1.317042,
+            "first_spoken_journal_ms": 1.271958,
+            "owner_spoken_journal_ms": 1.327292,
+            "all_spoken_journal_ms": 1.327292,
+            "snapshot_receipts_ms": [
+                1.263833,
+                1.317042,
+                1.278417,
+                1.29525
+            ],
+            "spoken_journal_receipts_ms": [
+                1.271958,
+                1.327292,
+                1.289125,
+                1.301958
+            ],
+            "wire_journal_entries": 137
+        },
+        {
+            "clients": 4,
+            "sample": 25,
+            "turn": 36,
+            "owner_index": 2,
+            "owner_ack_ms": 1.3095,
+            "all_snapshots_ms": 1.366709,
+            "first_spoken_journal_ms": 1.289,
+            "owner_spoken_journal_ms": 1.323834,
+            "all_spoken_journal_ms": 1.373792,
+            "snapshot_receipts_ms": [
+                1.295334,
+                1.2805,
+                1.317125,
+                1.366709
+            ],
+            "spoken_journal_receipts_ms": [
+                1.302375,
+                1.289,
+                1.323834,
+                1.373792
+            ],
+            "wire_journal_entries": 141
+        },
+        {
+            "clients": 4,
+            "sample": 26,
+            "turn": 37,
+            "owner_index": 3,
+            "owner_ack_ms": 1.374458,
+            "all_snapshots_ms": 1.436167,
+            "first_spoken_journal_ms": 1.354333,
+            "owner_spoken_journal_ms": 1.389208,
+            "all_spoken_journal_ms": 1.444833,
+            "snapshot_receipts_ms": [
+                1.346083,
+                1.360542,
+                1.436167,
+                1.381833
+            ],
+            "spoken_journal_receipts_ms": [
+                1.354333,
+                1.368,
+                1.444833,
+                1.389208
+            ],
+            "wire_journal_entries": 145
+        },
+        {
+            "clients": 4,
+            "sample": 27,
+            "turn": 38,
+            "owner_index": 0,
+            "owner_ack_ms": 2.244709,
+            "all_snapshots_ms": 2.332459,
+            "first_spoken_journal_ms": 2.261042,
+            "owner_spoken_journal_ms": 2.261042,
+            "all_spoken_journal_ms": 2.338792,
+            "snapshot_receipts_ms": [
+                2.253167,
+                2.31875,
+                2.306375,
+                2.332459
+            ],
+            "spoken_journal_receipts_ms": [
+                2.261042,
+                2.326542,
+                2.313167,
+                2.338792
+            ],
+            "wire_journal_entries": 149
+        },
+        {
+            "clients": 4,
+            "sample": 28,
+            "turn": 39,
+            "owner_index": 1,
+            "owner_ack_ms": 1.448958,
+            "all_snapshots_ms": 1.491458,
+            "first_spoken_journal_ms": 1.429833,
+            "owner_spoken_journal_ms": 1.462417,
+            "all_spoken_journal_ms": 1.497875,
+            "snapshot_receipts_ms": [
+                1.422792,
+                1.45575,
+                1.43575,
+                1.491458
+            ],
+            "spoken_journal_receipts_ms": [
+                1.429833,
+                1.462417,
+                1.442542,
+                1.497875
+            ],
+            "wire_journal_entries": 153
+        },
+        {
+            "clients": 4,
+            "sample": 29,
+            "turn": 40,
+            "owner_index": 2,
+            "owner_ack_ms": 1.420417,
+            "all_snapshots_ms": 1.484292,
+            "first_spoken_journal_ms": 1.4135,
+            "owner_spoken_journal_ms": 1.435292,
+            "all_spoken_journal_ms": 1.491,
+            "snapshot_receipts_ms": [
+                1.405125,
+                1.471042,
+                1.428583,
+                1.484292
+            ],
+            "spoken_journal_receipts_ms": [
+                1.4135,
+                1.478292,
+                1.435292,
+                1.491
+            ],
+            "wire_journal_entries": 157
+        },
+        {
+            "clients": 4,
+            "sample": 30,
+            "turn": 41,
+            "owner_index": 3,
+            "owner_ack_ms": 1.473875,
+            "all_snapshots_ms": 1.481875,
+            "first_spoken_journal_ms": 1.438792,
+            "owner_spoken_journal_ms": 1.488917,
+            "all_spoken_journal_ms": 1.488917,
+            "snapshot_receipts_ms": [
+                1.445042,
+                1.428792,
+                1.459125,
+                1.481875
+            ],
+            "spoken_journal_receipts_ms": [
+                1.452417,
+                1.438792,
+                1.466125,
+                1.488917
+            ],
+            "wire_journal_entries": 161
+        },
+        {
+            "clients": 4,
+            "sample": 31,
+            "turn": 42,
+            "owner_index": 0,
+            "owner_ack_ms": 1.505125,
+            "all_snapshots_ms": 1.567709,
+            "first_spoken_journal_ms": 1.476459,
+            "owner_spoken_journal_ms": 1.522334,
+            "all_spoken_journal_ms": 1.577417,
+            "snapshot_receipts_ms": [
+                1.513959,
+                1.465,
+                1.483459,
+                1.567709
+            ],
+            "spoken_journal_receipts_ms": [
+                1.522334,
+                1.476459,
+                1.496792,
+                1.577417
+            ],
+            "wire_journal_entries": 165
+        },
+        {
+            "clients": 4,
+            "sample": 32,
+            "turn": 43,
+            "owner_index": 1,
+            "owner_ack_ms": 1.537917,
+            "all_snapshots_ms": 1.545959,
+            "first_spoken_journal_ms": 1.503334,
+            "owner_spoken_journal_ms": 1.553084,
+            "all_spoken_journal_ms": 1.553084,
+            "snapshot_receipts_ms": [
+                1.509875,
+                1.545959,
+                1.493167,
+                1.523417
+            ],
+            "spoken_journal_receipts_ms": [
+                1.517417,
+                1.553084,
+                1.503334,
+                1.530625
+            ],
+            "wire_journal_entries": 169
+        },
+        {
+            "clients": 4,
+            "sample": 33,
+            "turn": 44,
+            "owner_index": 2,
+            "owner_ack_ms": 1.436916,
+            "all_snapshots_ms": 1.444458,
+            "first_spoken_journal_ms": 1.403875,
+            "owner_spoken_journal_ms": 1.451208,
+            "all_spoken_journal_ms": 1.451208,
+            "snapshot_receipts_ms": [
+                1.395125,
+                1.422833,
+                1.444458,
+                1.410041
+            ],
+            "spoken_journal_receipts_ms": [
+                1.403875,
+                1.430375,
+                1.451208,
+                1.417041
+            ],
+            "wire_journal_entries": 173
+        },
+        {
+            "clients": 4,
+            "sample": 34,
+            "turn": 45,
+            "owner_index": 3,
+            "owner_ack_ms": 1.475875,
+            "all_snapshots_ms": 1.534791,
+            "first_spoken_journal_ms": 1.46925,
+            "owner_spoken_journal_ms": 1.491,
+            "all_spoken_journal_ms": 1.541916,
+            "snapshot_receipts_ms": [
+                1.460666,
+                1.52175,
+                1.534791,
+                1.483708
+            ],
+            "spoken_journal_receipts_ms": [
+                1.46925,
+                1.529125,
+                1.541916,
+                1.491
+            ],
+            "wire_journal_entries": 177
+        },
+        {
+            "clients": 4,
+            "sample": 35,
+            "turn": 46,
+            "owner_index": 0,
+            "owner_ack_ms": 1.498042,
+            "all_snapshots_ms": 1.56175,
+            "first_spoken_journal_ms": 1.47575,
+            "owner_spoken_journal_ms": 1.513042,
+            "all_spoken_journal_ms": 1.568708,
+            "snapshot_receipts_ms": [
+                1.506125,
+                1.466708,
+                1.48225,
+                1.56175
+            ],
+            "spoken_journal_receipts_ms": [
+                1.513042,
+                1.47575,
+                1.489833,
+                1.568708
+            ],
+            "wire_journal_entries": 181
+        },
+        {
+            "clients": 4,
+            "sample": 36,
+            "turn": 47,
+            "owner_index": 1,
+            "owner_ack_ms": 1.401791,
+            "all_snapshots_ms": 1.443416,
+            "first_spoken_journal_ms": 1.381416,
+            "owner_spoken_journal_ms": 1.415583,
+            "all_spoken_journal_ms": 1.450375,
+            "snapshot_receipts_ms": [
+                1.372791,
+                1.408833,
+                1.387416,
+                1.443416
+            ],
+            "spoken_journal_receipts_ms": [
+                1.381416,
+                1.415583,
+                1.394541,
+                1.450375
+            ],
+            "wire_journal_entries": 185
+        },
+        {
+            "clients": 4,
+            "sample": 37,
+            "turn": 48,
+            "owner_index": 2,
+            "owner_ack_ms": 1.412042,
+            "all_snapshots_ms": 1.450833,
+            "first_spoken_journal_ms": 1.392125,
+            "owner_spoken_journal_ms": 1.425667,
+            "all_spoken_journal_ms": 1.458875,
+            "snapshot_receipts_ms": [
+                1.384375,
+                1.398667,
+                1.418875,
+                1.450833
+            ],
+            "spoken_journal_receipts_ms": [
+                1.392125,
+                1.405583,
+                1.425667,
+                1.458875
+            ],
+            "wire_journal_entries": 189
+        },
+        {
+            "clients": 4,
+            "sample": 38,
+            "turn": 49,
+            "owner_index": 3,
+            "owner_ack_ms": 1.609167,
+            "all_snapshots_ms": 1.694084,
+            "first_spoken_journal_ms": 1.581417,
+            "owner_spoken_journal_ms": 1.627917,
+            "all_spoken_journal_ms": 1.703334,
+            "snapshot_receipts_ms": [
+                1.565875,
+                1.589375,
+                1.694084,
+                1.618709
+            ],
+            "spoken_journal_receipts_ms": [
+                1.581417,
+                1.599917,
+                1.703334,
+                1.627917
+            ],
+            "wire_journal_entries": 193
+        },
+        {
+            "clients": 4,
+            "sample": 39,
+            "turn": 50,
+            "owner_index": 0,
+            "owner_ack_ms": 1.672959,
+            "all_snapshots_ms": 1.681334,
+            "first_spoken_journal_ms": 1.634375,
+            "owner_spoken_journal_ms": 1.689084,
+            "all_spoken_journal_ms": 1.689084,
+            "snapshot_receipts_ms": [
+                1.681334,
+                1.623834,
+                1.641334,
+                1.657042
+            ],
+            "spoken_journal_receipts_ms": [
+                1.689084,
+                1.634375,
+                1.6505,
+                1.665584
+            ],
+            "wire_journal_entries": 197
+        },
+        {
+            "clients": 4,
+            "sample": 40,
+            "turn": 51,
+            "owner_index": 1,
+            "owner_ack_ms": 1.624667,
+            "all_snapshots_ms": 1.677583,
+            "first_spoken_journal_ms": 1.601542,
+            "owner_spoken_journal_ms": 1.641958,
+            "all_spoken_journal_ms": 1.685917,
+            "snapshot_receipts_ms": [
+                1.590708,
+                1.632958,
+                1.608667,
+                1.677583
+            ],
+            "spoken_journal_receipts_ms": [
+                1.601542,
+                1.641958,
+                1.617417,
+                1.685917
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 41,
+            "turn": 52,
+            "owner_index": 2,
+            "owner_ack_ms": 1.631167,
+            "all_snapshots_ms": 1.683667,
+            "first_spoken_journal_ms": 1.610292,
+            "owner_spoken_journal_ms": 1.646167,
+            "all_spoken_journal_ms": 1.691167,
+            "snapshot_receipts_ms": [
+                1.600792,
+                1.616792,
+                1.638958,
+                1.683667
+            ],
+            "spoken_journal_receipts_ms": [
+                1.610292,
+                1.624417,
+                1.646167,
+                1.691167
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 42,
+            "turn": 53,
+            "owner_index": 3,
+            "owner_ack_ms": 1.568083,
+            "all_snapshots_ms": 1.575167,
+            "first_spoken_journal_ms": 1.535375,
+            "owner_spoken_journal_ms": 1.581625,
+            "all_spoken_journal_ms": 1.581625,
+            "snapshot_receipts_ms": [
+                1.541167,
+                1.526625,
+                1.554417,
+                1.575167
+            ],
+            "spoken_journal_receipts_ms": [
+                1.548292,
+                1.535375,
+                1.561167,
+                1.581625
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 43,
+            "turn": 54,
+            "owner_index": 0,
+            "owner_ack_ms": 1.487541,
+            "all_snapshots_ms": 1.494541,
+            "first_spoken_journal_ms": 1.454625,
+            "owner_spoken_journal_ms": 1.501333,
+            "all_spoken_journal_ms": 1.501333,
+            "snapshot_receipts_ms": [
+                1.494541,
+                1.461375,
+                1.445666,
+                1.474208
+            ],
+            "spoken_journal_receipts_ms": [
+                1.501333,
+                1.468458,
+                1.454625,
+                1.481291
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 44,
+            "turn": 55,
+            "owner_index": 1,
+            "owner_ack_ms": 1.529958,
+            "all_snapshots_ms": 1.537833,
+            "first_spoken_journal_ms": 1.494125,
+            "owner_spoken_journal_ms": 1.544916,
+            "all_spoken_journal_ms": 1.544916,
+            "snapshot_receipts_ms": [
+                1.483916,
+                1.537833,
+                1.500625,
+                1.515166
+            ],
+            "spoken_journal_receipts_ms": [
+                1.494125,
+                1.544916,
+                1.509208,
+                1.5225
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 45,
+            "turn": 56,
+            "owner_index": 2,
+            "owner_ack_ms": 2.510958,
+            "all_snapshots_ms": 2.519292,
+            "first_spoken_journal_ms": 2.475167,
+            "owner_spoken_journal_ms": 2.526292,
+            "all_spoken_journal_ms": 2.526292,
+            "snapshot_receipts_ms": [
+                2.481208,
+                2.465083,
+                2.519292,
+                2.494375
+            ],
+            "spoken_journal_receipts_ms": [
+                2.48875,
+                2.475167,
+                2.526292,
+                2.501458
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 46,
+            "turn": 57,
+            "owner_index": 3,
+            "owner_ack_ms": 1.570792,
+            "all_snapshots_ms": 1.633542,
+            "first_spoken_journal_ms": 1.563875,
+            "owner_spoken_journal_ms": 1.585833,
+            "all_spoken_journal_ms": 1.640958,
+            "snapshot_receipts_ms": [
+                1.554292,
+                1.633542,
+                1.620333,
+                1.578375
+            ],
+            "spoken_journal_receipts_ms": [
+                1.563875,
+                1.640958,
+                1.627583,
+                1.585833
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 47,
+            "turn": 58,
+            "owner_index": 0,
+            "owner_ack_ms": 1.413125,
+            "all_snapshots_ms": 1.488209,
+            "first_spoken_journal_ms": 1.428334,
+            "owner_spoken_journal_ms": 1.428334,
+            "all_spoken_journal_ms": 1.495209,
+            "snapshot_receipts_ms": [
+                1.421042,
+                1.488209,
+                1.461792,
+                1.475167
+            ],
+            "spoken_journal_receipts_ms": [
+                1.428334,
+                1.495209,
+                1.469334,
+                1.482167
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 48,
+            "turn": 59,
+            "owner_index": 1,
+            "owner_ack_ms": 1.507833,
+            "all_snapshots_ms": 1.570083,
+            "first_spoken_journal_ms": 1.484958,
+            "owner_spoken_journal_ms": 1.523125,
+            "all_spoken_journal_ms": 1.580875,
+            "snapshot_receipts_ms": [
+                1.474375,
+                1.515792,
+                1.492542,
+                1.570083
+            ],
+            "spoken_journal_receipts_ms": [
+                1.484958,
+                1.523125,
+                1.501,
+                1.580875
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 49,
+            "turn": 60,
+            "owner_index": 2,
+            "owner_ack_ms": 1.476584,
+            "all_snapshots_ms": 1.541917,
+            "first_spoken_journal_ms": 1.455792,
+            "owner_spoken_journal_ms": 1.490792,
+            "all_spoken_journal_ms": 1.549167,
+            "snapshot_receipts_ms": [
+                1.461834,
+                1.447,
+                1.483792,
+                1.541917
+            ],
+            "spoken_journal_receipts_ms": [
+                1.469875,
+                1.455792,
+                1.490792,
+                1.549167
+            ],
+            "wire_journal_entries": 200
+        },
+        {
+            "clients": 4,
+            "sample": 50,
+            "turn": 61,
+            "owner_index": 3,
+            "owner_ack_ms": 1.438625,
+            "all_snapshots_ms": 1.489083,
+            "first_spoken_journal_ms": 1.417458,
+            "owner_spoken_journal_ms": 1.453292,
+            "all_spoken_journal_ms": 1.496542,
+            "snapshot_receipts_ms": [
+                1.408333,
+                1.489083,
+                1.423667,
+                1.446208
+            ],
+            "spoken_journal_receipts_ms": [
+                1.417458,
+                1.496542,
+                1.432,
+                1.453292
+            ],
+            "wire_journal_entries": 200
+        }
+    ]
+}

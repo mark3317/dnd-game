@@ -5,6 +5,9 @@ val JournalEntry.isSpoken: Boolean get() = speechEligible && (kind == EntryKind.
 
 val AdventureState.lastSpokenEntry: JournalEntry? get() = journal.lastOrNull { it.isSpoken }
 
+fun AdventureState.scriptedConversation(site: Site): String =
+    site.conversationOverrides.entries.firstOrNull { it.key in scene.facts }?.value ?: site.conversation
+
 fun AdventureState.speakerName(entry: JournalEntry): String = if (entry.kind == EntryKind.NPC)
     scenario.sites.values.firstOrNull { it.npcId == entry.speakerNpcId }?.let { it.npcName ?: it.title } ?: "Собеседник"
 else if (entry.kind == EntryKind.PLAYER) entry.actorName ?: players.firstOrNull { it.id == entry.playerId }?.hero?.name.orEmpty()

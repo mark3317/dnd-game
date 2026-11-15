@@ -66,6 +66,8 @@ def prepare(text, voice):
             result = json.loads(metadata.read_text(encoding='utf-8'))
             records[key] = result
             return dict(result)
+        if engine_state == 'failed':
+            raise HTTPException(503, 'model_unavailable')
         result = {'id': key, 'status': 'queued', 'duration_ms': 0, 'generation_ms': 0}
         try:
             jobs.put_nowait((key, text, voice))
@@ -75,13 +77,25 @@ def prepare(text, voice):
         return dict(result)
 
 
+def fail_waiting_jobs():
+    """Publish a terminal result to clients already polling during model startup."""
+    with lock:
+        while True:
+            try:
+                key, _, _ = jobs.get_nowait()
+            except queue.Empty:
+                break
+            records[key]['status'] = 'failed'
+            jobs.task_done()
+
+
 def worker():
     global engine, engine_state
-    import torch
-    import soundfile as sf
-    from faster_qwen3_tts import FasterQwen3TTS
-    CACHE.mkdir(parents=True, exist_ok=True)
     try:
+        import torch
+        import soundfile as sf
+        from faster_qwen3_tts import FasterQwen3TTS
+        CACHE.mkdir(parents=True, exist_ok=True)
         device = 'cuda:0'
         torch.set_num_threads(2)
         engine = FasterQwen3TTS.from_pretrained(MODEL, device=device,
@@ -91,6 +105,7 @@ def worker():
         print(json.dumps({'event': 'tts_ready', 'device': device, 'model': MODEL}), flush=True)
     except Exception as error:
         engine_state = 'failed'
+        fail_waiting_jobs()
         print(json.dumps({'event': 'tts_load_failed', 'type': type(error).__name__}), flush=True)
         return
     while True:
@@ -130,8 +145,6 @@ def health():
 
 @app.post('/speech/prepare')
 def request_speech(request: Request):
-    if engine_state == 'failed':
-        raise HTTPException(503, 'model_unavailable')
     return prepare(request.text, request.voice)
 
 
