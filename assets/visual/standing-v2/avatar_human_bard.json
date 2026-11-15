@@ -1,0 +1,18 @@
+﻿{
+    "id":  "avatar_human_bard",
+    "generator":  "built-in image_gen",
+    "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (human bard); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Adult HUMAN proportions. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+    "references":  [
+                       "assets/visual/menu-v1/avatars/human/bard.png",
+                       "assets/visual/standing-v2/source/hero_rin.png"
+                   ],
+    "source":  "source/avatar_human_bard.png",
+    "stage":  "stage/avatar_human_bard.png",
+    "portrait":  "portraits/avatar_human_bard.png",
+    "stageResource":  "drawable/stage_avatar_human_bard.png",
+    "portraitResource":  "drawable/avatar_human_bard.png",
+    "portraitFraction":  0.4,
+    "sourceSha256":  "116119257e03f6c79996731142f3e05631b4ba36437edad79558504d7928f5ea",
+    "stageSha256":  "ff80e53d35b2353cef970eff8e8e421ec6b6ab495d85f6650b9462390fb648b9",
+    "portraitSha256":  "9f363a329189c9723de8af240a9d3c3d04d69ea5490b0bd28290eb7f69cff62d"
+}

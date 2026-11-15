@@ -1,0 +1,18 @@
+﻿{
+    "id":  "archive_archivist",
+    "generator":  "built-in image_gen",
+    "prompt":  "Use case: identity-preserve. Asset type: visual novel standing transparent sprite. Image 1 is identity and costume edit target; image 2 Rin is the mandatory rendering/style/full-body framing reference. Agata elderly female human archivist, preserve silver bun, glasses, green and plum clothing, ink-stained cuffs, keys and shawl. Extend long green skirt and shoes. Repaint/extend as a full-body standing figure from top of hair through BOTH COMPLETE FEET, relaxed neutral stance, centered tall portrait canvas, small clear margins. Match image 2 hand-painted gouache, restrained outlines, expressive plausible face, warm amber upper-left light, cool slate shadows. Preserve image 1 identity, age, gender, hairstyle, costume colors and props. True transparent alpha background. NO scenery, dark backdrop, gradient, floor, cast shadow, glow, text or frame. One character only.",
+    "references":  [
+                       "assets/visual/stories/flooded-archive/v1/npcs/archivist.png",
+                       "assets/visual/standing-v2/source/hero_rin.png"
+                   ],
+    "source":  "source/archive_archivist.png",
+    "stage":  "stage/archive_archivist.png",
+    "portrait":  "portraits/archive_archivist.png",
+    "stageResource":  "drawable/stage_archive_archivist.png",
+    "portraitResource":  "drawable/archive_archivist.png",
+    "portraitFraction":  0.4,
+    "sourceSha256":  "3068c291bec399d5c5ffa8991003206ebdf177b9e7353a0f826baf045c60eb64",
+    "stageSha256":  "d62665d6ccfca07f3edd977a3f5070b392f428406355e8f084450e4912c487e5",
+    "portraitSha256":  "d738ffb0a0cf03460e05f2b240a7ed9f04f378c0533bc205b9eb993f031e3084"
+}

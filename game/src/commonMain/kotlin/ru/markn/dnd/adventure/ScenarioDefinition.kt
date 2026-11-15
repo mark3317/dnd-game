@@ -3,7 +3,8 @@ package ru.markn.dnd.adventure
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Site(val title: String, val inspection: String, val conversation: String)
+data class Site(val title: String, val inspection: String, val conversation: String, val npcId: String? = null,
+    val npcName: String? = null)
 
 /** Scenario policy is data. The engine has no branches on scenario, location, item or fact IDs. */
 @Serializable
@@ -14,6 +15,7 @@ data class Requirements(
     val minimumDifficulty: Int? = null,
     val easierWhen: String? = null,
     val easierDifficulty: Int? = null,
+    val checkDomains: Set<CheckDomain> = emptySet(),
 ) {
     fun difficulty(state: AdventureState): Int? =
         if (easierWhen != null && easierWhen in state.scene.facts) easierDifficulty ?: minimumDifficulty else minimumDifficulty
@@ -34,6 +36,10 @@ data class Route(val from: String, val to: String, val requirements: Requirement
 data class Outcome(val title: String, val description: String, val success: Boolean = true)
 
 @Serializable
+data class EncounterDefinition(val triggerFact: String, val victoryFact: String, val defeatEnding: String,
+    val location: String, val title: String, val introduction: String, val battleLocation: String = location)
+
+@Serializable
 enum class NarrativeKind { INSPECTION, CONVERSATION }
 
 @Serializable
@@ -43,6 +49,7 @@ data class ScenarioAction(
     val locations: Set<String> = emptySet(),
     val narrative: NarrativeKind? = null,
     val plan: SceneActionPlan? = null,
+    val contactsNpc: Boolean = false,
 ) {
     fun planFor(state: AdventureState): SceneActionPlan? = plan?.let { original ->
         original.copy(check = original.check?.copy(difficulty = SceneRules.minimumDifficulty(state, original.onSuccess)
@@ -68,6 +75,7 @@ data class ScenarioDefinition(
     val endings: Map<String, Outcome>,
     val timeoutEnding: String,
     val actions: List<ScenarioAction>,
+    val encounter: EncounterDefinition? = null,
 ) {
     init {
         require(id.isNotBlank() && checkBudget > 0 && startLocation in sites && timeoutEnding in endings)
@@ -84,5 +92,7 @@ data class ScenarioDefinition(
         require(routes.all { it.from in sites && it.to in sites && it.from != it.to && valid(it.requirements) })
         require(routes.map { it.from to it.to }.distinct().size == routes.size)
         require(actions.all { action -> action.locations.all { it in sites } && (action.narrative != null) != (action.plan != null) })
+        require(encounter == null || (encounter.triggerFact in facts && encounter.victoryFact in facts &&
+            encounter.defeatEnding in endings && encounter.location in sites && encounter.battleLocation in sites))
     }
 }

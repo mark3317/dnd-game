@@ -25,7 +25,7 @@ class GameLogFileTest {
             StaticConfig(minSeverity = Severity.Info, logWriterList = listOf(createGameFileWriter(directory))),
             "DndGame",
         )
-        val engine = AdventureEngine(DiceRoller { 7 }, GameLogger { event -> kermit.i { event.toJsonLine() } })
+        val engine = AdventureEngine(DiceRoller { 8 }, GameLogger { event -> kermit.i { event.toJsonLine() } })
         val initial = engine.newGame()
         val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, Lighthouse.CLIMB.text)
         val checkId = requireNotNull(pending.pendingCheck).id
@@ -59,8 +59,8 @@ class GameLogFileTest {
             .getValue("fields").jsonObject
         assertEquals(initial.activePlayer.id, roll.getValue("player").jsonPrimitive.content)
         assertEquals(checkId.actionId.toString(), roll.getValue("check_id").jsonPrimitive.content)
-        assertEquals("7", roll.getValue("die").jsonPrimitive.content)
-        assertEquals("3", roll.getValue("modifier").jsonPrimitive.content)
+        assertEquals("8", roll.getValue("die").jsonPrimitive.content)
+        assertEquals("2", roll.getValue("modifier").jsonPrimitive.content)
         assertEquals("10", roll.getValue("total").jsonPrimitive.content)
         assertEquals("10", roll.getValue("difficulty").jsonPrimitive.content)
         assertEquals("true", roll.getValue("succeeded").jsonPrimitive.content)

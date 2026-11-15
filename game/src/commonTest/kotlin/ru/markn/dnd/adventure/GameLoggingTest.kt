@@ -36,7 +36,7 @@ class GameLoggingTest {
     @Test
     fun checkEventsRecordOwnersNumbersAndConsequences() {
         val logger = RecordingLogger()
-        val engine = AdventureEngine(DiceRoller { 7 }, logger)
+        val engine = AdventureEngine(DiceRoller { 8 }, logger)
         val initial = engine.newGame()
         val pending = engine.submit(initial, initial.activePlayer.id, initial.turnId, Lighthouse.CLIMB.text)
         val requested = logger.events.last { it.name == "check_requested" }
@@ -45,8 +45,8 @@ class GameLoggingTest {
         engine.roll(pending, pending.activePlayer.id, pending.pendingCheck!!.id)
         val result = logger.events.last { it.name == "check_resolved" }
         assertEquals(requested.fields["check_id"], result.fields["check_id"])
-        assertEquals("7", result.fields["die"])
-        assertEquals("3", result.fields["modifier"])
+        assertEquals("8", result.fields["die"])
+        assertEquals("2", result.fields["modifier"])
         assertEquals("10", result.fields["total"])
         assertEquals("true", result.fields["succeeded"])
         val hero = logger.events.last { it.name == "hero_changed" }
@@ -106,7 +106,7 @@ class GameLoggingTest {
     @Test
     fun loggingFailureCannotBreakValidGameActions() {
         val engine = AdventureEngine(
-            dice = DiceRoller { 7 },
+            dice = DiceRoller { 8 },
             logger = GameLogger { error("Log output unavailable") },
         )
         val initial = engine.newGame()

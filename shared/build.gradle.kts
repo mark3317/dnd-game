@@ -31,10 +31,16 @@ kotlin {
     wasmJs { browser() }
 
     sourceSets {
+        jvmTest.dependencies {
+            implementation(compose.desktop.currentOs)
+        }
         commonTest.dependencies {
             implementation(kotlin("test"))
+            implementation(libs.settings.test)
         }
         commonMain.dependencies {
+            implementation(libs.soundscape.player)
+            implementation(libs.settings)
             api(projects.game)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)

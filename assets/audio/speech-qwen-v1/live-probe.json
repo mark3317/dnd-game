@@ -1,0 +1,24 @@
+[
+  {
+    "voice": "bran",
+    "clients": 4,
+    "ready_ms": 3828,
+    "cached_ms": 31,
+    "bytes": 284204,
+    "id": "36277831f575daa1636d4b9749306dcd1084260935dc869c9c17eca8ba6393c3",
+    "status": "ready",
+    "duration_ms": 5920,
+    "generation_ms": 3578
+  },
+  {
+    "voice": "archivist",
+    "clients": 4,
+    "ready_ms": 2344,
+    "cached_ms": 0,
+    "bytes": 284204,
+    "id": "ac4d27f3ee251dc056cbcfeba7dbc73fc7fb7deadecaa496a1b6a2462b1c41c1",
+    "status": "ready",
+    "duration_ms": 5920,
+    "generation_ms": 2282
+  }
+]

@@ -11,6 +11,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        io.github.nadeemiqbal.soundscape.core.AndroidContextHolder.install(application)
 
         setContent {
             App()

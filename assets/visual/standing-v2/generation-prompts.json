@@ -1,0 +1,380 @@
+﻿[
+    {
+        "id":  "archive_archivist",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: identity-preserve. Asset type: visual novel standing transparent sprite. Image 1 is identity and costume edit target; image 2 Rin is the mandatory rendering/style/full-body framing reference. Agata elderly female human archivist, preserve silver bun, glasses, green and plum clothing, ink-stained cuffs, keys and shawl. Extend long green skirt and shoes. Repaint/extend as a full-body standing figure from top of hair through BOTH COMPLETE FEET, relaxed neutral stance, centered tall portrait canvas, small clear margins. Match image 2 hand-painted gouache, restrained outlines, expressive plausible face, warm amber upper-left light, cool slate shadows. Preserve image 1 identity, age, gender, hairstyle, costume colors and props. True transparent alpha background. NO scenery, dark backdrop, gradient, floor, cast shadow, glow, text or frame. One character only.",
+        "references":  [
+                           "assets/visual/stories/flooded-archive/v1/npcs/archivist.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/archive_archivist.png",
+        "stage":  "stage/archive_archivist.png",
+        "portrait":  "portraits/archive_archivist.png",
+        "stageResource":  "drawable/stage_archive_archivist.png",
+        "portraitResource":  "drawable/archive_archivist.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "3068c291bec399d5c5ffa8991003206ebdf177b9e7353a0f826baf045c60eb64",
+        "stageSha256":  "d62665d6ccfca07f3edd977a3f5070b392f428406355e8f084450e4912c487e5",
+        "portraitSha256":  "d738ffb0a0cf03460e05f2b240a7ed9f04f378c0533bc205b9eb993f031e3084"
+    },
+    {
+        "id":  "archive_courier",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: identity-preserve. Asset type: visual novel standing transparent sprite. Image 1 is identity and costume edit target; image 2 Rin is the mandatory rendering/style/full-body framing reference. Egor adult human courier, preserve light brown wavy hair, short blond mustache, ochre rain cape, blue tunic and satchel. Extend with dark trousers and boots. Repaint/extend as a full-body standing figure from top of hair through BOTH COMPLETE FEET, relaxed neutral stance, centered tall portrait canvas, small clear margins. Match image 2 hand-painted gouache, restrained outlines, expressive plausible face, warm amber upper-left light, cool slate shadows. Preserve image 1 identity, age, gender, hairstyle, costume colors and props. True transparent alpha background. NO scenery, dark backdrop, gradient, floor, cast shadow, glow, text or frame. One character only.",
+        "references":  [
+                           "assets/visual/stories/flooded-archive/v1/npcs/courier.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/archive_courier.png",
+        "stage":  "stage/archive_courier.png",
+        "portrait":  "portraits/archive_courier.png",
+        "stageResource":  "drawable/stage_archive_courier.png",
+        "portraitResource":  "drawable/archive_courier.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "8526f8867f5cf2463feb4914573d0a3c17a9772a1d1ebe5dbd69440e9e369190",
+        "stageSha256":  "0c07613ae3dc4fac9e5a8349db6662409842f0db4571f9e3eaf0ddabed662e54",
+        "portraitSha256":  "570fa68903367a490b37c26abc263463b5c2faec86dde089d57125722e7c80d0"
+    },
+    {
+        "id":  "avatar_dwarf_bard",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (dwarf bard); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Short stocky DWARF adult proportions, sturdy short legs. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/dwarf/bard.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_dwarf_bard.png",
+        "stage":  "stage/avatar_dwarf_bard.png",
+        "portrait":  "portraits/avatar_dwarf_bard.png",
+        "stageResource":  "drawable/stage_avatar_dwarf_bard.png",
+        "portraitResource":  "drawable/avatar_dwarf_bard.png",
+        "portraitFraction":  0.48,
+        "sourceSha256":  "e899b43498040aa462f8a33efe1b532969a17809271d471eec03d7732c8d3027",
+        "stageSha256":  "5ddd5ae55f5a0208705a87a1285e3baebdb7192e86955314ab6e45e795511f27",
+        "portraitSha256":  "23c60d43aa2d9fe1dd18dfedcd89425c40927ee35bc9fefd76db807111b961e0"
+    },
+    {
+        "id":  "avatar_dwarf_mage",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (dwarf mage); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Short stocky DWARF adult proportions, sturdy short legs. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/dwarf/mage.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_dwarf_mage.png",
+        "stage":  "stage/avatar_dwarf_mage.png",
+        "portrait":  "portraits/avatar_dwarf_mage.png",
+        "stageResource":  "drawable/stage_avatar_dwarf_mage.png",
+        "portraitResource":  "drawable/avatar_dwarf_mage.png",
+        "portraitFraction":  0.48,
+        "sourceSha256":  "34945d7aa411de636ad94ab0ec7f2fd4e01f978c9e172a0e6165d7d20e580ce8",
+        "stageSha256":  "8dc303c1a2c730c5efbcc440c40a830999690f91aa5b1ccf75ed409de4be287d",
+        "portraitSha256":  "3877b100c5dae32962afe73f34e526393e04728e865e6d66e4fa628828ad939e"
+    },
+    {
+        "id":  "avatar_dwarf_rogue",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (dwarf rogue); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Short stocky DWARF adult proportions, sturdy short legs. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/dwarf/rogue.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_dwarf_rogue.png",
+        "stage":  "stage/avatar_dwarf_rogue.png",
+        "portrait":  "portraits/avatar_dwarf_rogue.png",
+        "stageResource":  "drawable/stage_avatar_dwarf_rogue.png",
+        "portraitResource":  "drawable/avatar_dwarf_rogue.png",
+        "portraitFraction":  0.48,
+        "sourceSha256":  "1a63dc901d8945dce3525adca53f0a7f258a70c4abe6f696867b46038518bd22",
+        "stageSha256":  "9ca073c4689afe3928482078dfd1b48e61f19c315d07fe1919926a7399b1909e",
+        "portraitSha256":  "48ee7daf9223bafda377e69887df655a4aac2a66a053aac3f1a30cc84cc2ea12"
+    },
+    {
+        "id":  "avatar_dwarf_warrior",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (dwarf warrior); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Short stocky DWARF adult proportions, sturdy short legs. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/dwarf/warrior.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_dwarf_warrior.png",
+        "stage":  "stage/avatar_dwarf_warrior.png",
+        "portrait":  "portraits/avatar_dwarf_warrior.png",
+        "stageResource":  "drawable/stage_avatar_dwarf_warrior.png",
+        "portraitResource":  "drawable/avatar_dwarf_warrior.png",
+        "portraitFraction":  0.48,
+        "sourceSha256":  "d8d7d75383cf545a449584ea2ae629d86ddd9aaf10a22375630bbc7dd04ed04b",
+        "stageSha256":  "c82553e7754e94ee706ed5c91b4832334607e5e4851ed5f371b4bbf2d3c4813a",
+        "portraitSha256":  "d4ba134e71bbb0eacf92c86be0ef7a8d455e45980cc723256135fa93b0353a40"
+    },
+    {
+        "id":  "avatar_elf_bard",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (elf bard); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Slender adult ELF proportions with pointed ears. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/elf/bard.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_elf_bard.png",
+        "stage":  "stage/avatar_elf_bard.png",
+        "portrait":  "portraits/avatar_elf_bard.png",
+        "stageResource":  "drawable/stage_avatar_elf_bard.png",
+        "portraitResource":  "drawable/avatar_elf_bard.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "4d5cab811351624f6ae27663839d828625e3baea36ff98ab708aff60e0ca83bd",
+        "stageSha256":  "cb8113c94c1fd6b48d8506f0b1558ba53b07a8c90cfbb360b089c7f3d65387ab",
+        "portraitSha256":  "32bc5ca48f422ba87f049b6c4e0a391674af8b8f20859c324c6fbc8522db53b0"
+    },
+    {
+        "id":  "avatar_elf_mage",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (elf mage); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Slender adult ELF proportions with pointed ears. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/elf/mage.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_elf_mage.png",
+        "stage":  "stage/avatar_elf_mage.png",
+        "portrait":  "portraits/avatar_elf_mage.png",
+        "stageResource":  "drawable/stage_avatar_elf_mage.png",
+        "portraitResource":  "drawable/avatar_elf_mage.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "fb90d5f1ed148b716c0f39439f46268235cd35c1623bb5c0cb3ce928d7119156",
+        "stageSha256":  "f114dfa5d195fc2b5418fead6e6277db75aa8d13d838cf10c12670b00f8f3140",
+        "portraitSha256":  "41c0bed7c59a07bbff31db85c3a9ea5ebc0490a9e09c191cf0830baf5ee8514b"
+    },
+    {
+        "id":  "avatar_elf_rogue",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (elf rogue); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Slender adult ELF proportions with pointed ears. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/elf/rogue.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_elf_rogue.png",
+        "stage":  "stage/avatar_elf_rogue.png",
+        "portrait":  "portraits/avatar_elf_rogue.png",
+        "stageResource":  "drawable/stage_avatar_elf_rogue.png",
+        "portraitResource":  "drawable/avatar_elf_rogue.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "f15a93017306e848bb591abcf9fa45c580a303f1fb27a7cbeca7815561fb38ec",
+        "stageSha256":  "c8255edc2202d04a1315f78185dca0c5b600cc067cbf1194eb8efcf758537133",
+        "portraitSha256":  "7365b2e5394157b0fac2bdf6dc1e05c08b4aa795fce03dc721ab73c6d47bc437"
+    },
+    {
+        "id":  "avatar_elf_warrior",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (elf warrior); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Slender adult ELF proportions with pointed ears. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/elf/warrior.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_elf_warrior.png",
+        "stage":  "stage/avatar_elf_warrior.png",
+        "portrait":  "portraits/avatar_elf_warrior.png",
+        "stageResource":  "drawable/stage_avatar_elf_warrior.png",
+        "portraitResource":  "drawable/avatar_elf_warrior.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "b37f2c4b66daa12752c5ce923753b1e38fe838ff7f29a147959512d77af8b450",
+        "stageSha256":  "89efe6c36efea04659e4d621f29ddee4a78caadb9436bd5914551ae6bdf5d7d7",
+        "portraitSha256":  "95918b0abda41d7398af2928d72b526edb09f3458cc9b34afaa23d970278b2ca"
+    },
+    {
+        "id":  "avatar_halfling_bard",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (halfling bard); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Very short adult HALFLING proportions, mature face, short legs, no child. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/halfling/bard.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_halfling_bard.png",
+        "stage":  "stage/avatar_halfling_bard.png",
+        "portrait":  "portraits/avatar_halfling_bard.png",
+        "stageResource":  "drawable/stage_avatar_halfling_bard.png",
+        "portraitResource":  "drawable/avatar_halfling_bard.png",
+        "portraitFraction":  0.48,
+        "sourceSha256":  "0a8dd7db447e0c84da19029295049f77169ac5af9a5fcbfd1daf9ebdd1e42bc2",
+        "stageSha256":  "68d30d0c939abc8ebb2b51ae427fd087ca7a5d2f6c6e62d6f7f87a88fb822461",
+        "portraitSha256":  "6ffa8957fcc93e116cf26d1038fcf0f2da4ba1a36a84d6566b9eaf14aa5c7fb6"
+    },
+    {
+        "id":  "avatar_halfling_mage",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (halfling mage); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Very short adult HALFLING proportions, mature face, short legs, no child. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/halfling/mage.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_halfling_mage.png",
+        "stage":  "stage/avatar_halfling_mage.png",
+        "portrait":  "portraits/avatar_halfling_mage.png",
+        "stageResource":  "drawable/stage_avatar_halfling_mage.png",
+        "portraitResource":  "drawable/avatar_halfling_mage.png",
+        "portraitFraction":  0.48,
+        "sourceSha256":  "5002ab2b7fe144ed9033fa9ba3df53fe48c7ecf29530eff281241b92920462f3",
+        "stageSha256":  "d31d3c254360158025e6e077aaa85073d044a4f35da9ce182b0076713b4f4936",
+        "portraitSha256":  "ec77c104bd695e34d150086ab2f744ab94c8f494b9f2b685d22d98646707cccb"
+    },
+    {
+        "id":  "avatar_halfling_rogue",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (halfling rogue); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Very short adult HALFLING proportions, mature face, short legs, no child. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/halfling/rogue.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_halfling_rogue.png",
+        "stage":  "stage/avatar_halfling_rogue.png",
+        "portrait":  "portraits/avatar_halfling_rogue.png",
+        "stageResource":  "drawable/stage_avatar_halfling_rogue.png",
+        "portraitResource":  "drawable/avatar_halfling_rogue.png",
+        "portraitFraction":  0.48,
+        "sourceSha256":  "e095e3d8c98b51f201e667348ebefc9361d2a8c2be30ed449389d3b127092703",
+        "stageSha256":  "d984d9546d5040422781e947a7d71947233528e72dd7be868c360a6741b854b8",
+        "portraitSha256":  "77a3bbde0a831f6c93c8f903d2484b93d1cfb407a30b805c4aec218c3701ef2e"
+    },
+    {
+        "id":  "avatar_halfling_warrior",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (halfling warrior); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Very short adult HALFLING proportions, mature face, short legs, no child. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/halfling/warrior.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_halfling_warrior.png",
+        "stage":  "stage/avatar_halfling_warrior.png",
+        "portrait":  "portraits/avatar_halfling_warrior.png",
+        "stageResource":  "drawable/stage_avatar_halfling_warrior.png",
+        "portraitResource":  "drawable/avatar_halfling_warrior.png",
+        "portraitFraction":  0.48,
+        "sourceSha256":  "d9937a25da74bc227baae460033ef4447eb45ed72219febcf0a10ccd473c9aba",
+        "stageSha256":  "7fc31e03ed39cbb3180e6e51cef0400ccbd60a7b7cd91bf4d5bd875ec2ae05de",
+        "portraitSha256":  "4de460c2d75bc49002e6c6ae05f5ab6a85c84fc682dff5ebb816c88814d47ac2"
+    },
+    {
+        "id":  "avatar_human_bard",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (human bard); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Adult HUMAN proportions. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/human/bard.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_human_bard.png",
+        "stage":  "stage/avatar_human_bard.png",
+        "portrait":  "portraits/avatar_human_bard.png",
+        "stageResource":  "drawable/stage_avatar_human_bard.png",
+        "portraitResource":  "drawable/avatar_human_bard.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "116119257e03f6c79996731142f3e05631b4ba36437edad79558504d7928f5ea",
+        "stageSha256":  "ff80e53d35b2353cef970eff8e8e421ec6b6ab495d85f6650b9462390fb648b9",
+        "portraitSha256":  "9f363a329189c9723de8af240a9d3c3d04d69ea5490b0bd28290eb7f69cff62d"
+    },
+    {
+        "id":  "avatar_human_mage",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (human mage); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Adult HUMAN proportions. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/human/mage.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_human_mage.png",
+        "stage":  "stage/avatar_human_mage.png",
+        "portrait":  "portraits/avatar_human_mage.png",
+        "stageResource":  "drawable/stage_avatar_human_mage.png",
+        "portraitResource":  "drawable/avatar_human_mage.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "c9858e5c6907be50d4e5581156cf39ecf43db2fbf8fc18fee004a7e0584278c8",
+        "stageSha256":  "b711433647166b59bd2a5f5660ec8b6883488a8f959eaca6bc22263522388bb1",
+        "portraitSha256":  "92e4e3372f5ef6f4fa4a6175cca2ad73710f4106489b7f4bf7b087d5b8155e59"
+    },
+    {
+        "id":  "avatar_human_rogue",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (human rogue); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Adult HUMAN proportions. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/human/rogue.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_human_rogue.png",
+        "stage":  "stage/avatar_human_rogue.png",
+        "portrait":  "portraits/avatar_human_rogue.png",
+        "stageResource":  "drawable/stage_avatar_human_rogue.png",
+        "portraitResource":  "drawable/avatar_human_rogue.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "b12c94fcfe443bb443701add7cb3376313121bf7775a609055880be244b2ad58",
+        "stageSha256":  "7bf83e12d3bc12dc641d89ad50682dbf243f23964474772dca4ab622aaa1ed66",
+        "portraitSha256":  "06daed4135a84d8cdda9770a850e7b20c321f28bf85f976218f60cbf2f2e22df"
+    },
+    {
+        "id":  "avatar_human_warrior",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (human warrior); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Adult HUMAN proportions. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+        "references":  [
+                           "assets/visual/menu-v1/avatars/human/warrior.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/avatar_human_warrior.png",
+        "stage":  "stage/avatar_human_warrior.png",
+        "portrait":  "portraits/avatar_human_warrior.png",
+        "stageResource":  "drawable/stage_avatar_human_warrior.png",
+        "portraitResource":  "drawable/avatar_human_warrior.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "65b80b1d2da4920c22a6fc4930daffdf8bf3c809500338bfc9558284ddccfe8a",
+        "stageSha256":  "4a126841d6d24e77ba4c40c8d2279edcdd65986398bf55bffa8732a095a60315",
+        "portraitSha256":  "d96a57b97e09f760bc9b7be18fab55f231b02128739309c71f491e20191ed348"
+    },
+    {
+        "id":  "hero_bran",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: identity-preserve. Asset type: visual novel standing transparent sprite. Image 1 is identity and costume edit target; image 2 Rin is the mandatory rendering/style/full-body framing reference. Bran, broad-shouldered adult human warrior, preserve short salt and pepper hair, trimmed beard, worn steel cuirass and dark red cloak. Extend with practical greaves and boots. Repaint/extend as a full-body standing figure from top of hair through BOTH COMPLETE FEET, relaxed neutral stance, centered tall portrait canvas, small clear margins. Match image 2 hand-painted gouache, restrained outlines, expressive plausible face, warm amber upper-left light, cool slate shadows. Preserve image 1 identity, age, gender, hairstyle, costume colors and props. True transparent alpha background. NO scenery, dark backdrop, gradient, floor, cast shadow, glow, text or frame. One character only.",
+        "references":  [
+                           "assets/visual/characters/ready/bran/v1/neutral.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/hero_bran.png",
+        "stage":  "stage/hero_bran.png",
+        "portrait":  "portraits/hero_bran.png",
+        "stageResource":  "drawable/stage_hero_bran.png",
+        "portraitResource":  "drawable/hero_bran.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "82daa80a44dc8e80e97cb56809ba8a13a27fad3cd17f95fe560fea9216bf0783",
+        "stageSha256":  "214b539f0e287373b5d56631fe42304c1cc0a8ce7e149f16de6eeb5ff228af75",
+        "portraitSha256":  "a396852a7bfac48c00da2a5d5e07ff41ec19b62a32889d6dd6a3e573b4fe15b6"
+    },
+    {
+        "id":  "hero_mira",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: identity-preserve. Asset type: visual novel standing transparent sprite. Image 1 is identity and costume edit target; image 2 Rin is the mandatory rendering/style/full-body framing reference. Mira, short stocky adult female dwarf scholar mage, preserve red braids with brass rings, round glasses, indigo and ochre coat and belt pouches. Extend with practical trousers and boots; clearly dwarf proportions, not a tall human. Repaint/extend as a full-body standing figure from top of hair through BOTH COMPLETE FEET, relaxed neutral stance, centered tall portrait canvas, small clear margins. Match image 2 hand-painted gouache, restrained outlines, expressive plausible face, warm amber upper-left light, cool slate shadows. Preserve image 1 identity, age, gender, hairstyle, costume colors and props. True transparent alpha background. NO scenery, dark backdrop, gradient, floor, cast shadow, glow, text or frame. One character only.",
+        "references":  [
+                           "assets/visual/characters/ready/mira/v1/neutral.png",
+                           "assets/visual/standing-v2/source/hero_rin.png"
+                       ],
+        "source":  "source/hero_mira.png",
+        "stage":  "stage/hero_mira.png",
+        "portrait":  "portraits/hero_mira.png",
+        "stageResource":  "drawable/stage_hero_mira.png",
+        "portraitResource":  "drawable/hero_mira.png",
+        "portraitFraction":  0.48,
+        "sourceSha256":  "03291ebb35046dfa72af19eb0fb0f1124609ab3d15d3dab8a9bb1ffc209546f1",
+        "stageSha256":  "69145ac144ffedb9ffeb15acc0a67c567aa7348595c8aa2be71eabe483c3d186",
+        "portraitSha256":  "242117c903f5e423368f256dbdd6d5f02ac4240d8bd714f81a0e674f2f62106e"
+    },
+    {
+        "id":  "hero_rin",
+        "generator":  "built-in image_gen",
+        "prompt":  "Use case: identity-preserve. Edit target: image 1 Rin, elf rogue. Create a full-body standing version, head to both complete boots, relaxed neutral stance, arms at sides, centered on tall portrait canvas with small clear margin. Preserve exactly face, dark hair, ears, teal worn jacket, rust scarf, sailor rope belt, gouache texture and restrained illustrated storybook style. Extend with practical dark trousers and worn leather boots. Warm upper-left light, cool slate shadows. Real transparent alpha background, no scenery, no floor, no gradient, no halo, no cast shadow, no text, no border. This is a visual novel sprite layered on an existing scene. Image 2 archivist is supporting style reference only; do not include her.",
+        "references":  [
+                           "assets/visual/characters/ready/rin/v1/neutral.png",
+                           "assets/visual/stories/flooded-archive/v1/npcs/archivist.png"
+                       ],
+        "source":  "source/hero_rin.png",
+        "stage":  "stage/hero_rin.png",
+        "portrait":  "portraits/hero_rin.png",
+        "stageResource":  "drawable/stage_hero_rin.png",
+        "portraitResource":  "drawable/hero_rin.png",
+        "portraitFraction":  0.4,
+        "sourceSha256":  "2c019fa57d89610ef469a179ee9e3d0d50031706ddeeabc0dc69d57a59d96864",
+        "stageSha256":  "30cdfd63eaa59c54f756c7b8a7b53ac50838cf460e21ac5901165b7969800b0a",
+        "portraitSha256":  "6d74b038f5434638f24055b8167f1c93b00404d56621e7fd8e4df3429985fc81"
+    }
+]

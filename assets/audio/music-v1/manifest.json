@@ -1,0 +1,35 @@
+﻿{
+    "retrieved":  "2026-11-15",
+    "tracks":  [
+                   {
+                       "url":  "https://opengameart.org/sites/default/files/FantasyOrchestralTheme_1.mp3",
+                       "source":  "https://opengameart.org/content/fantasy-orchestral-theme",
+                       "bytes":  3837827,
+                       "author":  "Joth",
+                       "license":  "CC0-1.0",
+                       "sha256":  "add1de5eae0771c4ce5b3782a6eae9c01f321d32446421691426587000e50cdc",
+                       "title":  "Fantasy Orchestral Theme",
+                       "file":  "fantasy_theme.mp3"
+                   },
+                   {
+                       "url":  "https://opengameart.org/sites/default/files/Contemplation.mp3",
+                       "source":  "https://opengameart.org/content/contemplation-0",
+                       "bytes":  2405271,
+                       "author":  "Joth",
+                       "license":  "CC0-1.0",
+                       "sha256":  "283962d3a975c93613c46cda30c9f0816176ae3e2899f961591a49e2d41b4bf3",
+                       "title":  "Contemplation",
+                       "file":  "contemplation.mp3"
+                   },
+                   {
+                       "url":  "https://opengameart.org/sites/default/files/Battle.mp3",
+                       "source":  "https://opengameart.org/content/battle-theme-0",
+                       "bytes":  4646747,
+                       "author":  "Wolfgang_",
+                       "license":  "CC0-1.0",
+                       "sha256":  "dde7bd4f10bde031800ba8e22151fad591b7c13e1c9ae51920341b4e4ae37be5",
+                       "title":  "Battle Theme",
+                       "file":  "battle.mp3"
+                   }
+               ]
+}

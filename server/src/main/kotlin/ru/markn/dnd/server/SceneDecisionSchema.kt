@@ -21,15 +21,23 @@ internal fun sceneDecisionSchema(scenario: ScenarioDefinition = Lighthouse.defin
         put("anyOf", JsonArray(listOf(
             obj("type" to choice(listOf("move")), "location" to choice(scenario.sites.keys.toList())),
             obj("type" to choice(listOf("transfer")), "item" to item, "targetPlayerId" to type("string")),
-            obj("type" to choice(listOf("fact")), "fact" to choice(scenario.facts.keys.toList())),
+            obj("type" to choice(listOf("fact")), "fact" to choice(scenario.facts.keys.filter { it != scenario.encounter?.victoryFact })),
             obj("type" to choice(listOf("damage")), "amount" to type("integer")),
         )))
     }
     val plan = obj(
         "description" to type("string"),
-        "check" to nullable(obj("ability" to choice(Ability.entries.map { it.name }), "difficulty" to type("integer"))),
+        "check" to nullable(obj("ability" to choice(Ability.entries.map { it.name }), "difficulty" to type("integer"),
+            "domains" to array(choice(CheckDomain.entries.map { it.name })))),
         "usingItem" to nullable(item), "onSuccess" to array(effects), "onFailure" to array(effects),
     )
-    return obj("action" to nullable(choice(scenario.actions.map { it.id })),
-        "narration" to nullable(type("string")), "plan" to nullable(plan), "nextPlayerId" to type("string"))
+    val presentation = buildJsonObject {
+        put("type", "array"); put("minItems", 1); put("maxItems", 4)
+        put("items", obj("kind" to choice(listOf("SPEECH", "ACTION")), "text" to buildJsonObject {
+            put("type", "string"); put("minLength", 1); put("maxLength", 1_000)
+        }))
+    }
+    return obj("inputPresentation" to presentation, "action" to nullable(choice(scenario.actions.map { it.id })),
+        "narration" to nullable(type("string")), "plan" to nullable(plan), "nextPlayerId" to type("string"),
+        "speakerNpcId" to nullable(type("string")))
 }

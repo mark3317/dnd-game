@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Аватары во весь рост</title>
+<style>
+body{margin:24px;background:#101c26;color:#f2e4cb;font:16px system-ui}h1{font-family:Georgia}
+button,select{font:inherit;padding:8px;background:#263945;color:inherit;border:1px solid #ba9254;border-radius:6px}
+main{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:20px}
+article{background:#1d2e3a;border:1px solid #405360;border-radius:12px;overflow:hidden}
+.stage{height:380px;display:flex;justify-content:center;align-items:flex-end;background:var(--backdrop);background-size:cover;background-position:center;overflow:hidden}
+.stage img{height:100%;width:auto;object-fit:contain}.portrait{width:112px;height:112px;object-fit:cover;background:#2c404c;border-radius:8px}
+footer{display:flex;gap:12px;align-items:center;padding:12px}small{color:#b9c6ca}header{position:sticky;top:0;background:#101c26e8;padding-bottom:12px}
+</style>
+<header><h1>Полноростовые аватары · v2</h1>
+<p>Стоящая фигура для сцены и портретная обрезка того же исходника. Старые образы сохранены в v1.</p>
+<label>Подложка <select id="background"><option value="scene">Архив</option><option value="light">Светлая</option><option value="dark">Тёмная</option><option value="grid">Шахматная</option></select></label>
+<label><input id="scale" type="checkbox" checked> Учитывать рост расы</label></header><main></main>
+<script>
+const races=['human','elf','dwarf','halfling'],classes=['warrior','rogue','mage','bard'];
+const raceNames=['Человек','Эльф','Дварф','Полурослик'],classNames=['воин','плут','маг','бард'];
+const entries=[['hero_rin','Рин','elf'],['hero_mira','Мира','dwarf'],['hero_bran','Бран','human'],['archive_archivist','Агата','human'],['archive_courier','Егор','human'],...races.flatMap((r,i)=>classes.map((c,j)=>['avatar_'+r+'_'+c,raceNames[i]+' · '+classNames[j],r]))];
+const heights={dwarf:.78,halfling:.64};
+for(const [id,name,race] of entries){const article=document.createElement('article');article.innerHTML=`<div class="stage"><img src="stage/${id}.png" alt="${name}" data-race="${race}"></div><footer><img class="portrait" src="portraits/${id}.png" alt="Карточка ${name}"><div>${name}<br><small>${id}</small></div></footer>`;document.querySelector('main').append(article)}
+function update(){const value=document.querySelector('select').value;const backgrounds={scene:'url(../stories/flooded-archive/v1/backgrounds/hall-open.png)',light:'#f0ece0',dark:'#101820',grid:'repeating-conic-gradient(#a9b5b8 0% 25%,#e4e9e8 0% 50%) 0 / 24px 24px'};document.documentElement.style.setProperty('--backdrop',backgrounds[value]);for(const img of document.querySelectorAll('.stage img'))img.style.height=(document.querySelector('#scale').checked?(heights[img.dataset.race]||1)*100:100)+'%'}
+document.querySelector('select').onchange=update;document.querySelector('#scale').onchange=update;update();
+</script></html>

@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.soundscape.player)
     implementation(projects.shared)
 
     implementation(libs.androidx.activity.compose)

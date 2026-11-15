@@ -1,0 +1,18 @@
+﻿{
+    "id":  "hero_mira",
+    "generator":  "built-in image_gen",
+    "prompt":  "Use case: identity-preserve. Asset type: visual novel standing transparent sprite. Image 1 is identity and costume edit target; image 2 Rin is the mandatory rendering/style/full-body framing reference. Mira, short stocky adult female dwarf scholar mage, preserve red braids with brass rings, round glasses, indigo and ochre coat and belt pouches. Extend with practical trousers and boots; clearly dwarf proportions, not a tall human. Repaint/extend as a full-body standing figure from top of hair through BOTH COMPLETE FEET, relaxed neutral stance, centered tall portrait canvas, small clear margins. Match image 2 hand-painted gouache, restrained outlines, expressive plausible face, warm amber upper-left light, cool slate shadows. Preserve image 1 identity, age, gender, hairstyle, costume colors and props. True transparent alpha background. NO scenery, dark backdrop, gradient, floor, cast shadow, glow, text or frame. One character only.",
+    "references":  [
+                       "assets/visual/characters/ready/mira/v1/neutral.png",
+                       "assets/visual/standing-v2/source/hero_rin.png"
+                   ],
+    "source":  "source/hero_mira.png",
+    "stage":  "stage/hero_mira.png",
+    "portrait":  "portraits/hero_mira.png",
+    "stageResource":  "drawable/stage_hero_mira.png",
+    "portraitResource":  "drawable/hero_mira.png",
+    "portraitFraction":  0.48,
+    "sourceSha256":  "03291ebb35046dfa72af19eb0fb0f1124609ab3d15d3dab8a9bb1ffc209546f1",
+    "stageSha256":  "69145ac144ffedb9ffeb15acc0a67c567aa7348595c8aa2be71eabe483c3d186",
+    "portraitSha256":  "242117c903f5e423368f256dbdd6d5f02ac4240d8bd714f81a0e674f2f62106e"
+}

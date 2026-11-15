@@ -45,7 +45,7 @@ class OutcomeRoomsTest {
         val response = CompletableDeferred<String>()
         var diceCalls = 0
         val narrator = Narrator({ response.await() })
-        val rooms = Rooms(narrator, this) { AdventureEngine(DiceRoller { diceCalls++; 1 }) }
+        val rooms = Rooms(narrator, this, presentationEnabled = false) { AdventureEngine(DiceRoller { diceCalls++; 1 }) }
         val (a, b) = start(rooms)
         propose(rooms, a)
         val check = a.connection.updates.value.adventure!!.pendingCheck!!
@@ -75,7 +75,7 @@ class OutcomeRoomsTest {
     @Test fun winningRollRequestsOneEpilogueInsteadOfSeparateReaction() = runBlocking<Unit> {
         val narrator = Narrator({ "Свет пробивается сквозь туман. Паром спасён, и герои могут перевести дух." },
             { state -> GameMasterDecision(Lighthouse.SIGNAL, "Сигнал", nextPlayerId = state.activePlayer.id) })
-        val rooms = Rooms(narrator, this) { AdventureEngine(DiceRoller { 20 }) }
+        val rooms = Rooms(narrator, this, presentationEnabled = false) { AdventureEngine(DiceRoller { 20 }) }
         val (a, b) = start(rooms)
         propose(rooms, a)
         val check = a.connection.updates.value.adventure!!.pendingCheck!!
@@ -93,7 +93,7 @@ class OutcomeRoomsTest {
 
     @Test fun losingFinalRollKeepsAllConfirmedContributionsAndDoesNotAskForActionAgain() = runBlocking<Unit> {
         val narrator = Narrator({ if (it.epilogue) "Туман скрыл паром. Герои сделали всё, что смогли, но времени не хватило." else "Мокрая лестница не поддалась." })
-        val rooms = Rooms(narrator, this) { AdventureEngine(DiceRoller { 1 }) }
+        val rooms = Rooms(narrator, this, presentationEnabled = false) { AdventureEngine(DiceRoller { 1 }) }
         val party = start(rooms)
         var id = 1L
         repeat(3) {
@@ -123,7 +123,7 @@ class OutcomeRoomsTest {
                 withContext(NonCancellable) { entered.complete(Unit); release.await(); exited.complete(Unit) }
                 "Запоздалое описание"
             })
-            val rooms = Rooms(narrator, this) { AdventureEngine(DiceRoller { 1 }) }
+            val rooms = Rooms(narrator, this, presentationEnabled = false) { AdventureEngine(DiceRoller { 1 }) }
             val (a, b) = start(rooms)
             propose(rooms, a)
             val check = a.connection.updates.value.adventure!!.pendingCheck!!
@@ -147,7 +147,7 @@ class OutcomeRoomsTest {
     @Test fun failureOrTimeoutOfNarrationNeverRollsBackOrExposesProviderMessage() = runBlocking<Unit> {
         for (hang in listOf(false, true)) {
             val narrator = Narrator({ if (hang) awaitCancellation() else error("private provider body and key") })
-            val rooms = Rooms(narrator, this, aiTimeoutMillis = 100) { AdventureEngine(DiceRoller { 1 }) }
+            val rooms = Rooms(narrator, this, aiTimeoutMillis = 100, presentationEnabled = false) { AdventureEngine(DiceRoller { 1 }) }
             val (a, _) = start(rooms)
             propose(rooms, a)
             val check = a.connection.updates.value.adventure!!.pendingCheck!!
@@ -163,7 +163,7 @@ class OutcomeRoomsTest {
     @Test fun saturatedNarrationCapacityDoesNotRejectOrDelayAConfirmedRoll() = runBlocking<Unit> {
         val response = CompletableDeferred<String>()
         val narrator = Narrator({ response.await() })
-        val rooms = Rooms(narrator, this, maxAiRequests = 1) { AdventureEngine(DiceRoller { 1 }) }
+        val rooms = Rooms(narrator, this, maxAiRequests = 1, presentationEnabled = false) { AdventureEngine(DiceRoller { 1 }) }
         val (a, _) = start(rooms)
         val (b, _) = start(rooms)
         propose(rooms, a); yield()

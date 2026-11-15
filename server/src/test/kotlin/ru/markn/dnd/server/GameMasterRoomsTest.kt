@@ -25,7 +25,7 @@ class GameMasterRoomsTest {
         val entered = CompletableDeferred<Unit>()
         val response = CompletableDeferred<GameMasterDecision>()
         var calls = 0
-        val rooms = Rooms(gameMaster = GameMaster { _, _ -> calls++; entered.complete(Unit); response.await() }, aiScope = this)
+        val rooms = Rooms(gameMaster = GameMaster { _, _ -> calls++; entered.complete(Unit); response.await() }, aiScope = this, presentationEnabled = false)
         val (a, b) = started(rooms)
         val (c, _) = started(rooms)
         val ack = rooms.command(a.connection, submit(a))
@@ -60,7 +60,7 @@ class GameMasterRoomsTest {
             }
             GameMasterDecision(null, "Помощь хранителя.", SceneActionPlan("Попросить хранителя помочь", null, null,
                 listOf(SceneEffect.Fact(Lighthouse.KEEPER_HELPING)), emptyList()))
-        }, aiScope = this)
+        }, aiScope = this, presentationEnabled = false)
         val (a, b) = started(rooms)
         val ack = rooms.command(a.connection, submit(a))
         entered.await()
@@ -86,7 +86,7 @@ class GameMasterRoomsTest {
         for (hang in listOf(false, true)) {
             val rooms = Rooms(gameMaster = GameMaster { _, _ ->
                 if (hang) awaitCancellation() else error("private provider response and key")
-            }, aiScope = this, aiTimeoutMillis = 30)
+            }, aiScope = this, aiTimeoutMillis = 30, presentationEnabled = false)
             val (a, _) = started(rooms)
             val original = a.connection.updates.value.adventure
             rooms.command(a.connection, submit(a))
@@ -99,7 +99,7 @@ class GameMasterRoomsTest {
 
     @Test fun restartInvalidatesRequestAndReconnectPreservesPendingOperation() = runBlocking<Unit> {
         val gate = CompletableDeferred<GameMasterDecision>()
-        val rooms = Rooms(gameMaster = GameMaster { _, _ -> gate.await() }, aiScope = this)
+        val rooms = Rooms(gameMaster = GameMaster { _, _ -> gate.await() }, aiScope = this, presentationEnabled = false)
         val (a, b) = started(rooms)
         val pending = rooms.command(a.connection, submit(a)).room.pendingNarration
         rooms.disconnect(a.connection)
@@ -118,7 +118,7 @@ class GameMasterRoomsTest {
 
     @Test fun saturationRejectsBeforeChangingGameAndReleasesSlotAfterFailure() = runBlocking<Unit> {
         val gate = CompletableDeferred<GameMasterDecision>()
-        val rooms = Rooms(gameMaster = GameMaster { _, _ -> gate.await() }, aiScope = this, maxAiRequests = 1)
+        val rooms = Rooms(gameMaster = GameMaster { _, _ -> gate.await() }, aiScope = this, maxAiRequests = 1, presentationEnabled = false)
         val (a, _) = started(rooms)
         val (b, _) = started(rooms)
         rooms.command(a.connection, submit(a))
@@ -137,7 +137,7 @@ class GameMasterRoomsTest {
         val rooms = Rooms(gameMaster = GameMaster { _, _ ->
             GameMasterDecision(null, "private invalid reply", SceneActionPlan("private intent", null, Lighthouse.ROPE,
                 listOf(SceneEffect.Fact(Lighthouse.ROPE_SECURED), SceneEffect.Move(Lighthouse.LANTERN_ROOM)), emptyList()))
-        }, aiScope = this)
+        }, aiScope = this, presentationEnabled = false)
         val (a, b) = started(rooms)
         val before = a.connection.updates.value.adventure
         rooms.command(a.connection, submit(a))

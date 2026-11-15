@@ -18,6 +18,8 @@ data class Hero(
     val maxHealth: Int,
     val modifiers: Map<Ability, Int>,
     val inventory: List<String>,
+    val profile: CharacterProfile? = null,
+    val racialTalentUsed: Boolean = false,
 ) {
     fun modifier(ability: Ability): Int = modifiers[ability] ?: 0
 }
@@ -80,13 +82,14 @@ data class RollResult(
     val die: Int,
     val modifier: Int,
     val difficulty: Int,
+    val bonuses: CheckBonuses? = null,
 ) {
     val total: Int get() = die + modifier
     val succeeded: Boolean get() = total >= difficulty
 }
 
 @kotlinx.serialization.Serializable
-enum class EntryKind { NARRATOR, PLAYER, CHECK, TURN }
+enum class EntryKind { NARRATOR, PLAYER, CHECK, TURN, NPC, SYSTEM }
 
 @kotlinx.serialization.Serializable
 data class JournalEntry(
@@ -96,6 +99,10 @@ data class JournalEntry(
     val roll: RollResult? = null,
     val playerId: String? = null,
     val actorName: String? = null,
+    val speakerNpcId: String? = null,
+    val diceEvents: List<DiceEvent> = emptyList(),
+    val combatEvents: List<ru.markn.dnd.combat.CombatEvent> = emptyList(),
+    val speechEligible: Boolean = true,
 )
 
 @kotlinx.serialization.Serializable
@@ -109,6 +116,8 @@ data class AdventureState(
     val ending: String? = null,
     val scene: SceneState = SceneState(),
     val scenarioId: String = Lighthouse.ID,
+    val combat: ru.markn.dnd.combat.CombatDemo? = null,
+    val playback: StoryPlayback = StoryPlayback(),
 ) {
     init {
         require(players.isNotEmpty()) { "An adventure needs at least one player" }
@@ -123,7 +132,7 @@ data class AdventureState(
     val scenario: ScenarioDefinition get() = requireNotNull(Scenarios.find(scenarioId)) { "Unknown scenario" }
     val location: String get() = activePlayer.location
     val outcome: Outcome? get() = ending?.let { scenario.endings.getValue(it) }
-    val canAct: Boolean get() = pendingCheck == null && ending == null
+    val canAct: Boolean get() = pendingCheck == null && ending == null && combat == null
     val suggestions: List<ScenarioAction>
         get() = scenario.actions.filter { action ->
             (action.locations.isEmpty() || location in action.locations) &&

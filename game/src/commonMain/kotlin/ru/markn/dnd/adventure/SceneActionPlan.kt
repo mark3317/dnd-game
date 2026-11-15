@@ -4,10 +4,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SceneState(val facts: Set<String> = emptySet())
+data class SceneState(val facts: Set<String> = emptySet(), val metNpcs: Map<String, Set<String>> = emptyMap())
 
 @Serializable
-data class ProposedCheck(val ability: Ability, val difficulty: Int)
+data class ProposedCheck(val ability: Ability, val difficulty: Int, val domains: Set<CheckDomain> = emptySet())
 
 /** Both branches are frozen before the server rolls any dice. IDs belong to a scenario. */
 @Serializable
@@ -53,6 +53,14 @@ object SceneRules {
     fun validate(state: AdventureState, plan: SceneActionPlan): String? {
         if (plan.description.isBlank() || plan.description.length > 500) return "invalid_description"
         if (plan.check != null && plan.check.difficulty !in 8..18) return "invalid_difficulty"
+        if (plan.check != null) {
+            val allowed = plan.onSuccess.flatMap { effect -> when (effect) {
+                is SceneEffect.Fact -> state.scenario.facts[effect.fact]?.requirements?.checkDomains.orEmpty()
+                is SceneEffect.Move -> state.scenario.routes.firstOrNull { it.from == state.location && it.to == effect.location }?.requirements?.checkDomains.orEmpty()
+                else -> emptySet()
+            } }.toSet()
+            if (!allowed.containsAll(plan.check.domains) || plan.check.domains.any { plan.check.ability !in it.abilities }) return "invalid_check_domains"
+        }
         if (plan.onSuccess.size !in 1..4 || plan.onFailure.size > 2) return "invalid_effect_count"
         if (plan.check == null && plan.onFailure.isNotEmpty()) return "unchecked_failure"
         if (plan.usingItem != null && (plan.usingItem !in state.scenario.items || plan.usingItem !in state.activePlayer.hero.inventory)) return "missing_item"
@@ -77,6 +85,7 @@ object SceneRules {
                         if (target.id == simulated.activePlayer.id || target.location != simulated.location) return "target_unreachable"
                     }
                     is SceneEffect.Fact -> {
+                        if (effect.fact == state.scenario.encounter?.victoryFact) return "combat_result_server_only"
                         val fact = state.scenario.facts[effect.fact] ?: return "unknown_fact"
                         if (effect.fact in simulated.scene.facts) return "fact_already_set"
                         // Bonuses must predate this action, rather than discount their own acquisition.

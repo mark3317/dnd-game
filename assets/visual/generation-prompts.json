@@ -1,0 +1,280 @@
+{
+  "createdOn": "2026-11-15",
+  "tool": "image_gen (built-in)",
+  "style": "Original hand-painted 2D fantasy adventure game illustration. Cozy theatrical storybook fantasy with expressive believable shapes, restrained ink contours, tactile gouache brushwork, readable silhouettes, warm amber highlights against desaturated teal and slate shadows, muted rust and parchment accents. Adventurous, humane, lightly humorous, never grotesque. Consistent professional game art direction, not photorealistic, not anime, not pixel art, no text, no logos, no UI. Soft upper-left amber key light and cool ambient fill.",
+  "assets": [
+    {
+      "id": "archive-hall-locked",
+      "file": "stories/flooded-archive/v1/backgrounds/hall-locked.png",
+      "kind": "background",
+      "scene": "ARCHIVE_HALL",
+      "prompt": "Wide landscape background plate, approximately 16:9, eye-level camera. Modest medieval town archive hall after rain, plaster and timber walls, tall shelves of bound ledgers, a sturdy desk with an open handwritten index ledger (only indistinct marks, no readable writing). A CLOSED heavy wooden cellar door with a simple visible iron lock, and a separate OPEN passage revealing a rainy cobbled courtyard. Dry hall floor with just damp footprints near entrance. No people or portraits or creatures. Keep lower middle and sides uncluttered to layer waist-up character sprites. No treasure, no exposed land deeds, no extra story objects. A real environment illustration, not a contact sheet.",
+      "reference": null,
+      "referenceRole": "style-only"
+    },
+    {
+      "id": "archive-yard",
+      "file": "stories/flooded-archive/v1/backgrounds/courier-yard.png",
+      "kind": "background",
+      "scene": "COURIER_YARD",
+      "prompt": "Wide landscape background plate, approximately 16:9, eye-level camera. Rainy small medieval archive courtyard: wet cobblestones, plaster and timber walls matching an amber-lit archive hall, modest courier wooden wagon with a practical canvas canopy for shelter from rain, open passage back into the archive. No people, no animals, no NPC baked into background. Not a tavern or palace. Keep foreground spacious and uncluttered for layered character avatars. Cozy amber light from the hall against cool teal rain. No text, no signs.",
+      "reference": "archive-hall-locked",
+      "referenceRole": "style-only"
+    },
+    {
+      "id": "archive-cellar-closed",
+      "file": "stories/flooded-archive/v1/backgrounds/cellar-chest-closed.png",
+      "kind": "background",
+      "scene": "FLOODED_CELLAR",
+      "prompt": "Wide landscape background plate, approximately 16:9, eye-level camera. Stone vaulted cellar under a modest medieval town archive. Murky water knee-high for an adult human, about 45 cm, partially submerges lowest steps. Stone staircase rises to open doorway with warm amber light in rear. One CLOSED dark wooden document chest with a plain iron lock sits above water on a waist-high stone pedestal. No visible contents, no loose documents or treasure or floating books. Keep roomy foreground for overlay characters. Cool teal floodwater and warm reflected light. No people or creatures. Readable attractive environment, mild urgency, not horror.",
+      "reference": "archive-hall-locked",
+      "referenceRole": "style-only"
+    },
+    {
+      "id": "rin-neutral",
+      "file": "characters/ready/rin/v1/neutral.png",
+      "kind": "avatar",
+      "character": "rin",
+      "emotion": "neutral",
+      "prompt": "Single centered waist-up character sprite on a genuinely transparent background, portrait format 3:4. Rin, an adult male elf rogue and sailor. Slim agile build, pointed elf ears clearly visible, olive skin, angular friendly face, hazel eyes, dark tousled hair tied into a short knot, a small brass ear cuff. Weathered forest-teal short leather coat, muted rust scarf, simple brown leather shoulder straps, practical sailor knot on belt. Distinctive expressive eyebrows. Neutral attentive expression with mouth closed and a hint of mischievous confidence. Three-quarter view facing slightly toward viewer, shoulders and hands fully within frame, arms relaxed. No weapon drawn, no held props, no background, no ground plane, no drop shadow, no halo, no portrait frame. Original appearance, not resembling a celebrity. Same framing must be usable for expression swaps.",
+      "reference": "archive-hall-locked",
+      "referenceRole": "style-only"
+    },
+    {
+      "id": "mira-neutral",
+      "file": "characters/ready/mira/v1/neutral.png",
+      "kind": "avatar",
+      "character": "mira",
+      "emotion": "neutral",
+      "prompt": "Single centered waist-up character sprite on a genuinely transparent background, portrait format 3:4. Mira, an adult female dwarf mage-researcher and archivist. Compact stocky sturdy build, broad warm face, light freckled skin, grey-green eyes, auburn hair braided into two thick short braids with brass rings, round brass spectacles, no beard. Practical deep-indigo scholar coat with muted ochre collar and worn leather document straps, small brass geometric brooch, no magical glowing effects. Neutral curious attentive expression, mouth closed. Three-quarter view facing slightly toward viewer, shoulders and relaxed hands fully within frame. No held book or scroll, no weapon drawn, no background, no ground plane, no drop shadow, no halo, no portrait frame. Original appearance. Same framing must be usable for expression swaps.",
+      "reference": "archive-hall-locked",
+      "referenceRole": "style-only"
+    },
+    {
+      "id": "bran-neutral",
+      "file": "characters/ready/bran/v1/neutral.png",
+      "kind": "avatar",
+      "character": "bran",
+      "emotion": "neutral",
+      "prompt": "Single centered waist-up character sprite on a genuinely transparent background, portrait format 3:4. Bran, an adult male human warrior and former soldier. Broad sturdy shoulders, square dependable face, medium warm skin, brown eyes, close-cropped dark hair with greying temples, short neat beard, small healed scar across one eyebrow. Worn practical steel breastplate over slate-blue padded jacket, dark oxblood cloak clasped with simple brass disk, sturdy leather straps. Neutral calm protective expression, mouth closed. Approachable reliable adventuring companion, not a grim warlord. Three-quarter view facing slightly toward viewer, shoulders and relaxed hands fully within frame. No weapon drawn or props held, no background, no ground plane, no drop shadow, no halo, no portrait frame. Original appearance. Same framing must be usable for expression swaps.",
+      "reference": "archive-hall-locked",
+      "referenceRole": "style-only"
+    },
+    {
+      "id": "archivist-neutral",
+      "file": "stories/flooded-archive/v1/npcs/archivist.png",
+      "kind": "avatar",
+      "character": "archivist",
+      "emotion": "neutral",
+      "prompt": "Single centered waist-up NPC sprite on genuinely transparent background, portrait format 3:4. Elderly human female town archivist, narrow kindly face, silver hair in untidy bun, small oval spectacles, anxious but capable expression with raised brows and mouth closed. Moss-green wool cardigan over parchment linen blouse, faded plum shawl, simple key ring at belt. Slight ink stain on one cuff. Medieval fantasy small-town civil servant, grounded and sympathetic, restrained gently humorous character design. Three-quarter view facing slightly toward viewer, shoulders and relaxed hands within frame. No held document, no background, no ground plane, no drop shadow, no halo, no frame.",
+      "reference": "archive-hall-locked",
+      "referenceRole": "style-only"
+    },
+    {
+      "id": "courier-neutral",
+      "file": "stories/flooded-archive/v1/npcs/courier.png",
+      "kind": "avatar",
+      "character": "courier",
+      "emotion": "neutral",
+      "prompt": "Single centered waist-up NPC sprite on genuinely transparent background, portrait format 3:4. Adult human male district courier, lean practical build, weather-tanned face, short sandy moustache, alert sceptical but not hostile expression, mouth closed. Wet dark-rust travelling hood pushed back to reveal face, waxed brown short cape, slate-blue tunic, leather satchel strap across chest, simple brass clasp. Modest official messenger, not a royal knight, no insignia or lettering. Three-quarter view facing slightly toward viewer, shoulders and relaxed hands within frame. No held props, no background, no ground plane, no drop shadow, no halo, no frame.",
+      "reference": "archive-hall-locked",
+      "referenceRole": "style-only"
+    },
+    {
+      "id": "archive-hall-open",
+      "file": "stories/flooded-archive/v1/backgrounds/hall-open.png",
+      "kind": "background",
+      "scene": "ARCHIVE_HALL",
+      "reference": "archive-hall-locked",
+      "prompt": "Precise state edit of the input archive hall background. Keep camera, shelves, furniture, ledger, lighting, rain outside, walls and every unrelated object exactly unchanged. Change ONLY the central heavy wooden cellar door: it is now visibly OPEN with its unlocked padlock hanging on the latch, revealing the first descending stone steps into a dim cellar. Keep the separate courtyard passage unchanged. No characters, no new props, no readable text. Same dimensions and composition.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "archive-cellar-open",
+      "file": "stories/flooded-archive/v1/backgrounds/cellar-chest-open.png",
+      "kind": "background",
+      "scene": "FLOODED_CELLAR",
+      "reference": "archive-cellar-closed",
+      "prompt": "Precise state edit of input cellar background. Keep the camera, stone pedestal, staircase, shelves, lamps, walls, water height and lighting exactly unchanged. Change ONLY the chest on the pedestal: its lid is now OPEN, with several plain parchment legal documents and rolled deeds inside. The documents are unwrapped and remain in the chest above water, not rescued yet. Indistinct marks only, no readable writing. Remove the locked padlock from the front, leave simple open latch. No treasure, no characters, no new objects. Same dimensions and composition.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "archive-cellar-flooded",
+      "file": "stories/flooded-archive/v1/backgrounds/cellar-flooded-ending.png",
+      "kind": "background",
+      "scene": "FLOODED_CELLAR",
+      "reference": "archive-cellar-closed",
+      "prompt": "Ending-only state edit of input cellar. Keep identical camera, architecture, stairs, pedestal and chest position. Floodwater has risen ABOVE the top of the chest, fully submerging its closed lid and the stone pedestal; the chest is only faintly discernible under murky water. Lower stairs and low shelves are submerged. Warm light still comes through the open doorway at top of the stairs. No people or bodies, no rescued papers, no readable writing or new objects. This is the confirmed archive-flooded ending, not a normal midgame water level. Same dimensions and composition.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "rin-happy",
+      "file": "characters/ready/rin/v1/happy.png",
+      "kind": "avatar",
+      "character": "rin",
+      "emotion": "happy",
+      "reference": "rin-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Joy: warm clearly happy smile with slightly raised cheeks, bright eyes. Keep adult identity, not slapstick. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "rin-angry",
+      "file": "characters/ready/rin/v1/angry.png",
+      "kind": "avatar",
+      "character": "rin",
+      "emotion": "angry",
+      "reference": "rin-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Anger: eyebrows drawn inward, eyes narrowed, jaw set with mouth closed. Express controlled frustration, no violence or red face. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "rin-surprised",
+      "file": "characters/ready/rin/v1/surprised.png",
+      "kind": "avatar",
+      "character": "rin",
+      "emotion": "surprised",
+      "reference": "rin-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Surprise: eyebrows raised, eyes noticeably widened, mouth slightly open in astonishment. No extra hands or gesture. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "rin-worried",
+      "file": "characters/ready/rin/v1/worried.png",
+      "kind": "avatar",
+      "character": "rin",
+      "emotion": "worried",
+      "reference": "rin-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Worry: inner eyebrows raised, tense concerned gaze, slightly pressed lips. Anxious but capable, no tears. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "rin-sad",
+      "file": "characters/ready/rin/v1/sad.png",
+      "kind": "avatar",
+      "character": "rin",
+      "emotion": "sad",
+      "reference": "rin-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Sadness: lowered brows and gaze, gently downturned mouth, subdued disappointment. No tears, no melodrama. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "mira-happy",
+      "file": "characters/ready/mira/v1/happy.png",
+      "kind": "avatar",
+      "character": "mira",
+      "emotion": "happy",
+      "reference": "mira-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Joy: warm clearly happy smile with slightly raised cheeks, bright eyes. Keep adult identity, not slapstick. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "mira-angry",
+      "file": "characters/ready/mira/v1/angry.png",
+      "kind": "avatar",
+      "character": "mira",
+      "emotion": "angry",
+      "reference": "mira-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Anger: eyebrows drawn inward, eyes narrowed, jaw set with mouth closed. Express controlled frustration, no violence or red face. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "mira-surprised",
+      "file": "characters/ready/mira/v1/surprised.png",
+      "kind": "avatar",
+      "character": "mira",
+      "emotion": "surprised",
+      "reference": "mira-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Surprise: eyebrows raised, eyes noticeably widened, mouth slightly open in astonishment. No extra hands or gesture. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "mira-worried",
+      "file": "characters/ready/mira/v1/worried.png",
+      "kind": "avatar",
+      "character": "mira",
+      "emotion": "worried",
+      "reference": "mira-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Worry: inner eyebrows raised, tense concerned gaze, slightly pressed lips. Anxious but capable, no tears. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "mira-sad",
+      "file": "characters/ready/mira/v1/sad.png",
+      "kind": "avatar",
+      "character": "mira",
+      "emotion": "sad",
+      "reference": "mira-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Sadness: lowered brows and gaze, gently downturned mouth, subdued disappointment. No tears, no melodrama. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "bran-happy",
+      "file": "characters/ready/bran/v1/happy.png",
+      "kind": "avatar",
+      "character": "bran",
+      "emotion": "happy",
+      "reference": "bran-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Joy: warm clearly happy smile with slightly raised cheeks, bright eyes. Keep adult identity, not slapstick. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "bran-angry",
+      "file": "characters/ready/bran/v1/angry.png",
+      "kind": "avatar",
+      "character": "bran",
+      "emotion": "angry",
+      "reference": "bran-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Anger: eyebrows drawn inward, eyes narrowed, jaw set with mouth closed. Express controlled frustration, no violence or red face. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "bran-surprised",
+      "file": "characters/ready/bran/v1/surprised.png",
+      "kind": "avatar",
+      "character": "bran",
+      "emotion": "surprised",
+      "reference": "bran-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Surprise: eyebrows raised, eyes noticeably widened, mouth slightly open in astonishment. No extra hands or gesture. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "bran-worried",
+      "file": "characters/ready/bran/v1/worried.png",
+      "kind": "avatar",
+      "character": "bran",
+      "emotion": "worried",
+      "reference": "bran-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Worry: inner eyebrows raised, tense concerned gaze, slightly pressed lips. Anxious but capable, no tears. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "bran-sad",
+      "file": "characters/ready/bran/v1/sad.png",
+      "kind": "avatar",
+      "character": "bran",
+      "emotion": "sad",
+      "reference": "bran-neutral",
+      "prompt": "Identity-preserving facial expression edit of input character sprite. Change ONLY facial expression to: Sadness: lowered brows and gaze, gently downturned mouth, subdued disappointment. No tears, no melodrama. Preserve the exact same person, face structure, age, race, ears, hairstyle, glasses if present, clothes, accessories, body build, pose, hands, camera angle, framing, scale, silhouette, light and painterly rendering. Do not add any held objects or props or change head position. Keep genuine transparent background and same canvas dimensions. Single avatar, no text, no panels. This is an interchangeable expression sprite for a game.",
+      "referenceRole": "edit-target"
+    },
+    {
+      "id": "archive-cellar-saved",
+      "file": "stories/flooded-archive/v1/backgrounds/cellar-documents-saved.png",
+      "kind": "background",
+      "scene": "FLOODED_CELLAR",
+      "reference": "archive-cellar-open",
+      "prompt": "Precise state edit of input cellar background after documents were removed and saved. Change ONLY the contents of the open chest: remove ALL papers, scrolls, deeds and visible document bundles so the chest is visibly EMPTY. Keep its lid open and keep exactly the same chest, stone pedestal, staircase, shelves, light, water height, camera and composition. Do not add people, wrapped bundles, new documents or new objects anywhere. No text. Same dimensions.",
+      "referenceRole": "edit-target"
+    }
+  ],
+  "corrections": [
+    {
+      "assetId": "archive-hall-open",
+      "prompt": "Correct ONLY the stairs inside the open central doorway. This door leads DOWN to a cellar BELOW this room, never upstairs. Replace the currently ascending stairs with a dark descending stairwell: the top landing is level with the hall floor, the next treads sink below floor level and recede down into darkness. There must be no stair tread rising above the doorway threshold, no upwards staircase, no steps protruding into the hall. Keep the open door, unlocked hanging padlock, all architecture, camera, shelves, table, ledger, courtyard and lighting exactly unchanged. No characters. Same wide dimensions."
+    },
+    {
+      "assetId": "archive-cellar-flooded",
+      "prompt": "Precise edit of the input final flooded cellar image. Keep camera, architecture, staircase, doorway, lamps and high waterline unchanged. Make the water below its surface fully murky and opaque, so the submerged chest, its lid and its lock are NOT visible at all. Remove the underwater transparent cutaway look. Above water only the upper walls, top stairs, high shelves and warm light remain visible. This ending must be usable whether the chest used to be open or closed. No people, floating documents, objects or text. Same wide composition."
+    }
+  ]
+}

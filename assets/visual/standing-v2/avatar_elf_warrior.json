@@ -1,0 +1,18 @@
+﻿{
+    "id":  "avatar_elf_warrior",
+    "generator":  "built-in image_gen",
+    "prompt":  "Use case: style-transfer and identity-preserve. Asset type: fantasy visual novel transparent full-body standing sprite. Image 1 is the character identity reference/edit target (elf warrior); image 2 Rin is the mandatory STYLE and full-body framing reference. Redraw image 1 character from head through BOTH COMPLETE FEET in image 2\u0027s illustrated storybook gouache style: restrained contour, matte painted texture, expressive plausible face, warm amber upper-left highlights and cool slate shadows. Preserve image 1 face identity, adult age, gender, hair, ears, costume colors, jewelry and class props. Simplify excessive metallic filigree to match the modest painted adventure style. Extend the same outfit logically to standing full body; relaxed balanced stance with arms at sides or naturally holding class prop. Slender adult ELF proportions with pointed ears. Centered single isolated character on tall portrait canvas, small clear margins beyond hair and soles. REAL TRANSPARENT ALPHA around the silhouette, completely remove original teal backdrop. No scenery, colored backdrop, vignette, floor, ground, halo, glow, cast shadow, border, text or extra person.",
+    "references":  [
+                       "assets/visual/menu-v1/avatars/elf/warrior.png",
+                       "assets/visual/standing-v2/source/hero_rin.png"
+                   ],
+    "source":  "source/avatar_elf_warrior.png",
+    "stage":  "stage/avatar_elf_warrior.png",
+    "portrait":  "portraits/avatar_elf_warrior.png",
+    "stageResource":  "drawable/stage_avatar_elf_warrior.png",
+    "portraitResource":  "drawable/avatar_elf_warrior.png",
+    "portraitFraction":  0.4,
+    "sourceSha256":  "b37f2c4b66daa12752c5ce923753b1e38fe838ff7f29a147959512d77af8b450",
+    "stageSha256":  "89efe6c36efea04659e4d621f29ddee4a78caadb9436bd5914551ae6bdf5d7d7",
+    "portraitSha256":  "95918b0abda41d7398af2928d72b526edb09f3458cc9b34afaa23d970278b2ca"
+}

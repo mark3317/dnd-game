@@ -1,0 +1,343 @@
+{
+  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
+  "phrases": [
+    {
+      "text": "Над посёлком гремит гроза; в лужах дрожат последние огни, а за тяжёлыми окнами архива ещё теплится свет.",
+      "voice": "narrator",
+      "file": "5b6c564d0a0120e65a441d6fade24df8039ef8a1f276a9c8016ab9288472df10.wav",
+      "duration_ms": 8720
+    },
+    {
+      "text": "Ливень хлещет по крыше, вода просачивается под дверь подвала — туда, где в сундуке хранятся земельные грамоты посёлка.",
+      "voice": "narrator",
+      "file": "b80570e5634917119c4d9e79d649570da60d910bce22e055a8f35841a0a06943.wav",
+      "duration_ms": 10000
+    },
+    {
+      "text": "Со двора доносятся окрик курьера и тяжёлые шаги: к воротам приближаются налётчики сборщика долгов.",
+      "voice": "narrator",
+      "file": "1ccc81e16fb513c559b3b95bafdc9a7c770977ece14b301870853b65bd60c908.wav",
+      "duration_ms": 6160
+    },
+    {
+      "text": "В зале пахнет воском и мокрой бумагой; архивариус Агата стоит у раскрытой описи, прислушиваясь к каждому удару в ворота.",
+      "voice": "narrator",
+      "file": "552f9e36f7c63623565abf90d92cd980eea45503e59c3ea70b73e329a8aa400a.wav",
+      "duration_ms": 10400
+    },
+    {
+      "text": "Вы отбили архив и вынесли оригиналы в непромокаемой ткани. Наутро Агата предъявит грамоты совету: земля останется у посёлка.",
+      "voice": "narrator",
+      "file": "80c057813a66b65d08febca996b9ff10f5b1aa4d2eda078e101612482267509a.wav",
+      "duration_ms": 9200
+    },
+    {
+      "text": "Егор везёт добрые вести, а в трактире уже спорят, кто храбрее — ваш отряд или сундук, выдержавший потоп. В трактире ещё долго будут вспоминать эту ночь.",
+      "voice": "narrator",
+      "file": "17434d6040568d38f2b7353ad1944df9708cf6c93728f2bc06eefd026285e1d0.wav",
+      "duration_ms": 11280
+    },
+    {
+      "text": "Архив защищён, Егор согласился изменить маршрут и доставить заверенные копии. Оригиналы остаются в затопленном подвале.",
+      "voice": "narrator",
+      "file": "c59686608cac444db46a3e60c133a69828ffd0df3b4ee81fbdbb412fc63637ac.wav",
+      "duration_ms": 9680
+    },
+    {
+      "text": "Посёлок сохранит право на землю, но до доставки придётся ждать и восстанавливать архив. Агата благодарит вас: вы спасли главное, хотя не всё.",
+      "voice": "narrator",
+      "file": "f347c3b7eca12720849a2f9c847efa139a6009fbd0765a461c7403d45e7df917.wav",
+      "duration_ms": 9600
+    },
+    {
+      "text": "Вода скрыла сундук. Спасти оригиналы не удалось, а доставка копий не обеспечена.",
+      "voice": "narrator",
+      "file": "8ad3854f64525dd8ba56f7cd0fd7fe54e694a2e0e4bec8bbb86662f2b0dc58c4.wav",
+      "duration_ms": 6800
+    },
+    {
+      "text": "Посёлку предстоит тяжёлый спор за землю. Агата закрывает мокрую опись: эта попытка закончилась поражением.",
+      "voice": "narrator",
+      "file": "ce904f5c1db354c64a689bb3f340b24466910d178be93adc00a7005477519b04.wav",
+      "duration_ms": 9440
+    },
+    {
+      "text": "За окнами продолжает шуметь дождь.",
+      "voice": "narrator",
+      "file": "12f208d647155f3806723d56118c8e287f4d2a377697b07d17d49210b534c2dd.wav",
+      "duration_ms": 2320
+    },
+    {
+      "text": "Отряд выведен из боя. Налётчики забирают опись и сундук, бросив раненых у ворот.",
+      "voice": "narrator",
+      "file": "5d67762c45652aa09091e1906daa5c6d30d65d60851c118169d250c6292b5306.wav",
+      "duration_ms": 6400
+    },
+    {
+      "text": "После их ухода Агата перевязывает вас, но документы уже увезены: посёлок потерял доказательства права на землю. Герои живы, но сегодня посёлок остался без защиты.",
+      "voice": "narrator",
+      "file": "c2fd3d59ca1990f78fee327d86ab65b8e688bca34ec9ed9dfe6783304b93ddc9.wav",
+      "duration_ms": 14640
+    },
+    {
+      "text": "Сухая опись на столе. На стене — чертёж замков, под окном — заклинивший слив. За дверью подвал, снаружи слышны шаги налётчиков. Ворота пока держатся, но тяжёлые шаги уже совсем",
+      "voice": "narrator",
+      "file": "1ce0dd04e9c6c3a70017f84bfe59cf6f6fc037634875e0067b894577e3dc5719.wav",
+      "duration_ms": 15920
+    },
+    {
+      "text": "близко.",
+      "voice": "narrator",
+      "file": "00c0e046c55ee40ce236f64635979b73e54fd313f426eb5aa31f0f293f0bf29a.wav",
+      "duration_ms": 720
+    },
+    {
+      "text": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться",
+      "voice": "archivist",
+      "file": "2d0113adec814f17e803b48b169bae9f5c28115f3254347dba999f1f66a1bf61.wav",
+      "duration_ms": 14320
+    },
+    {
+      "text": "бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!",
+      "voice": "archivist",
+      "file": "1625edd11b012e5d21b8ddf97422006110faa060e42da08db740488de2cba0e2.wav",
+      "duration_ms": 6480
+    },
+    {
+      "text": "Повозка Егора у ворот, каменные обломки закрывают прострел. Налётчики не собираются уходить без документов. Осмотрите подходы, к воротам тянутся свежие следы.",
+      "voice": "narrator",
+      "file": "0f43a8c64a29781373f6ece17741f36cd883158817c3395df6e368f17e3ab4c2.wav",
+      "duration_ms": 12240
+    },
+    {
+      "text": "Защитите двор, сообщите номера из описи и убедите меня изменить маршрут. Копии заверены уездной печатью, но приедут позже оригиналов.",
+      "voice": "courier",
+      "file": "7f687260dbabc06b26ee500c9a452ca4f3da17328815bc584fe6a9aa4e7d0d2a.wav",
+      "duration_ms": 10560
+    },
+    {
+      "text": "Вода по колено. На каменном постаменте запертый сундук; открытые бумаги нужно завернуть в непромокаемую ткань. Лестница ведёт в зал.",
+      "voice": "narrator",
+      "file": "1a8c3cf2ba78e1b1cb26d831c6e530502031aef71057faac74544d31e8029dc3.wav",
+      "duration_ms": 13280
+    },
+    {
+      "text": "Сначала откройте сундук, затем защитите бумаги от воды!",
+      "voice": "archivist",
+      "file": "83fe3d29588a2eb3a655fb0a4f4ed65391936c13769d3ec0506cc5db6ca15f9c.wav",
+      "duration_ms": 4800
+    },
+    {
+      "text": "Ворота распахиваются от удара. Налётчики врываются во двор, обходя каменные обломки. За вашей спиной — архив и его документы. Вышибала поднимает дубину, стрелок вскидывает оружие.",
+      "voice": "narrator",
+      "file": "0183b586297c0f01a749485fa684461d06bd022a5f1045b9b3e114abe9cc4fa9.wav",
+      "duration_ms": 16240
+    }
+  ],
+  "measurements": [
+    {
+      "voice": "narrator",
+      "id": "5b6c564d0a0120e65a441d6fade24df8039ef8a1f276a9c8016ab9288472df10",
+      "status": "ready",
+      "duration_ms": 8720,
+      "generation_ms": 4219,
+      "sha256": "f5585e313b5eeb1838148dc0e6f349e7557e8a8ba17950d5aa6acf2fcb1fb506"
+    },
+    {
+      "voice": "narrator",
+      "id": "b80570e5634917119c4d9e79d649570da60d910bce22e055a8f35841a0a06943",
+      "status": "ready",
+      "duration_ms": 10000,
+      "generation_ms": 3718,
+      "sha256": "f28e1ee9040e01eaf21aff48a8115450388eb7b0d1ff693713e8ef54d760d034"
+    },
+    {
+      "voice": "narrator",
+      "id": "1ccc81e16fb513c559b3b95bafdc9a7c770977ece14b301870853b65bd60c908",
+      "status": "ready",
+      "duration_ms": 6160,
+      "generation_ms": 2360,
+      "sha256": "897a257f212610746a46d0b11ef02c72f88b09e8463cc2c98e2b7fb893008103"
+    },
+    {
+      "voice": "narrator",
+      "id": "552f9e36f7c63623565abf90d92cd980eea45503e59c3ea70b73e329a8aa400a",
+      "status": "ready",
+      "duration_ms": 10400,
+      "generation_ms": 3875,
+      "sha256": "25bedb3dc669908d913fd4f5c4d38036d3cdd6238d4d1133ed61a91a91d323a2"
+    },
+    {
+      "voice": "narrator",
+      "id": "80c057813a66b65d08febca996b9ff10f5b1aa4d2eda078e101612482267509a",
+      "status": "ready",
+      "duration_ms": 9200,
+      "generation_ms": 3469,
+      "sha256": "61a0a6ee0c82d6931414ea3e696fecc89fe948426de7223d87dfcbcd9cdca5db"
+    },
+    {
+      "voice": "narrator",
+      "id": "17434d6040568d38f2b7353ad1944df9708cf6c93728f2bc06eefd026285e1d0",
+      "status": "ready",
+      "duration_ms": 11280,
+      "generation_ms": 4297,
+      "sha256": "6e18ff7eca5ce0018e307f375dcb05505712a758072e3873ebf603526151e1c3"
+    },
+    {
+      "voice": "narrator",
+      "id": "c59686608cac444db46a3e60c133a69828ffd0df3b4ee81fbdbb412fc63637ac",
+      "status": "ready",
+      "duration_ms": 9680,
+      "generation_ms": 3594,
+      "sha256": "e80c2e29661ad17ae5079614374692de6ecadc111c8b15836e9754e8668ba80c"
+    },
+    {
+      "voice": "narrator",
+      "id": "f347c3b7eca12720849a2f9c847efa139a6009fbd0765a461c7403d45e7df917",
+      "status": "ready",
+      "duration_ms": 9600,
+      "generation_ms": 3609,
+      "sha256": "6beb2eeff03c0e623aefbd937958464b22c9eb4d09d0999433738e85d73eb51b"
+    },
+    {
+      "voice": "narrator",
+      "id": "8ad3854f64525dd8ba56f7cd0fd7fe54e694a2e0e4bec8bbb86662f2b0dc58c4",
+      "status": "ready",
+      "duration_ms": 6800,
+      "generation_ms": 2563,
+      "sha256": "08ea5b0ae7b9e505f2e50fb7adbe12614281aae4a62363c08ac88581bcc406e3"
+    },
+    {
+      "voice": "narrator",
+      "id": "ce904f5c1db354c64a689bb3f340b24466910d178be93adc00a7005477519b04",
+      "status": "ready",
+      "duration_ms": 9440,
+      "generation_ms": 3547,
+      "sha256": "80e36339018335b669274b7f6f2bec61c494b23dc72bea1b9c4614fcec18de98"
+    },
+    {
+      "voice": "narrator",
+      "id": "12f208d647155f3806723d56118c8e287f4d2a377697b07d17d49210b534c2dd",
+      "status": "ready",
+      "duration_ms": 2320,
+      "generation_ms": 1047,
+      "sha256": "185ace04fb199e16d70675b9f012113446e798ddfc14047cb1ffac1a1775308d"
+    },
+    {
+      "voice": "narrator",
+      "id": "5d67762c45652aa09091e1906daa5c6d30d65d60851c118169d250c6292b5306",
+      "status": "ready",
+      "duration_ms": 6400,
+      "generation_ms": 2516,
+      "sha256": "df2c73266ad6f3301ef4d71d2d98260c9fc3b13e8a75543bddca9bbef62ae13f"
+    },
+    {
+      "voice": "narrator",
+      "id": "c2fd3d59ca1990f78fee327d86ab65b8e688bca34ec9ed9dfe6783304b93ddc9",
+      "status": "ready",
+      "duration_ms": 14640,
+      "generation_ms": 5719,
+      "sha256": "d8158808348b8127d3fc6a7d87a6b6406b3958ea4959865c2117765d99ac63d5"
+    },
+    {
+      "voice": "narrator",
+      "id": "1ce0dd04e9c6c3a70017f84bfe59cf6f6fc037634875e0067b894577e3dc5719",
+      "status": "ready",
+      "duration_ms": 15920,
+      "generation_ms": 6141,
+      "sha256": "f1af4271bebd90d3b75a36b43dbcc9dda25300b9664b64aec4da9a34f88c9818"
+    },
+    {
+      "voice": "narrator",
+      "id": "00c0e046c55ee40ce236f64635979b73e54fd313f426eb5aa31f0f293f0bf29a",
+      "status": "ready",
+      "duration_ms": 720,
+      "generation_ms": 500,
+      "sha256": "eec33675f4b763cfedab1b02e4fe61889cb905fe721aa3b1687991c61fa77eb2"
+    },
+    {
+      "voice": "archivist",
+      "id": "2d0113adec814f17e803b48b169bae9f5c28115f3254347dba999f1f66a1bf61",
+      "status": "ready",
+      "duration_ms": 14320,
+      "generation_ms": 5703,
+      "sha256": "1e5aeeb75cf2c54bf306ef19c042625e309fbe7afb8391cdf01e5b16b0216ab5"
+    },
+    {
+      "voice": "archivist",
+      "id": "1625edd11b012e5d21b8ddf97422006110faa060e42da08db740488de2cba0e2",
+      "status": "ready",
+      "duration_ms": 6480,
+      "generation_ms": 2672,
+      "sha256": "3ef0e814da04100324314dbb6f0b5a2ee8cc35cebba492550e2da227ae1cce6b"
+    },
+    {
+      "voice": "narrator",
+      "id": "0f43a8c64a29781373f6ece17741f36cd883158817c3395df6e368f17e3ab4c2",
+      "status": "ready",
+      "duration_ms": 12240,
+      "generation_ms": 4719,
+      "sha256": "d0c9b3f6b3d73821bdeba1524875eab5315632652d5c49cd6965b7b6b5851d06"
+    },
+    {
+      "voice": "courier",
+      "id": "7f687260dbabc06b26ee500c9a452ca4f3da17328815bc584fe6a9aa4e7d0d2a",
+      "status": "ready",
+      "duration_ms": 10560,
+      "generation_ms": 4047,
+      "sha256": "9d5d9fd9858b43ff2df05101b610240bbb264c88d24a2e9e29d9dc3fd6a6c6e5"
+    },
+    {
+      "voice": "narrator",
+      "id": "1a8c3cf2ba78e1b1cb26d831c6e530502031aef71057faac74544d31e8029dc3",
+      "status": "ready",
+      "duration_ms": 13280,
+      "generation_ms": 5890,
+      "sha256": "eeeccc114edaa88ca8fe4f053101c8253743231ddc6e8c7ac820ee4b3e316f01"
+    },
+    {
+      "voice": "archivist",
+      "id": "83fe3d29588a2eb3a655fb0a4f4ed65391936c13769d3ec0506cc5db6ca15f9c",
+      "status": "ready",
+      "duration_ms": 4800,
+      "generation_ms": 2391,
+      "sha256": "551cea85e26cb4a0588d2be8b7ab464be9e46032164bbf47d224158d779d2b64"
+    },
+    {
+      "voice": "narrator",
+      "id": "0183b586297c0f01a749485fa684461d06bd022a5f1045b9b3e114abe9cc4fa9",
+      "status": "ready",
+      "duration_ms": 16240,
+      "generation_ms": 6422,
+      "sha256": "032eeffc50a7288f0b15c33c32a21418c2bb7ba760b3541dae976787ba13ca50"
+    },
+    {
+      "sample": "bran",
+      "id": "754b0c745eef6ff98ae278c0e7bc01a99d005a9296f633a1e7a9e4808d79f39f",
+      "status": "ready",
+      "duration_ms": 4400,
+      "generation_ms": 1844
+    },
+    {
+      "sample": "rin",
+      "id": "42b593b76f486e3bf84923a08051f7ca11891018571ff90921ee8c91fdd024a1",
+      "status": "ready",
+      "duration_ms": 4320,
+      "generation_ms": 2469
+    },
+    {
+      "sample": "mira",
+      "id": "1532912d284db4f49fa9c580b37c239294c08f1d8556a65b37c62eaa7185170d",
+      "status": "ready",
+      "duration_ms": 5920,
+      "generation_ms": 2422
+    },
+    {
+      "sample": "lada",
+      "id": "3c36bb07f4a7b68e9bfc800e61a0afcf086b4a2dedf6622e3060b3acf82c3f15",
+      "status": "ready",
+      "duration_ms": 5760,
+      "generation_ms": 2328
+    }
+  ]
+}

@@ -86,7 +86,7 @@ class AdventureEngineTest {
 
     @Test
     fun repairRouteUsesModifiersAndMeetingDifficultySucceeds() {
-        val engine = AdventureEngine(FixedDice(7, 11))
+        val engine = AdventureEngine(FixedDice(8, 12))
         val climb = engine.submit(engine.solo(), Lighthouse.CLIMB.text)
         val upstairs = engine.roll(climb, climb.pendingCheck!!.id)
         assertEquals(Lighthouse.LANTERN_ROOM, upstairs.location)
@@ -105,7 +105,7 @@ class AdventureEngineTest {
         val engine = AdventureEngine(FixedDice(1))
         val state = engine.submit(engine.solo(), Lighthouse.CLIMB.text)
         val failed = engine.roll(state, state.pendingCheck!!.id)
-        assertEquals(10, failed.activePlayer.hero.health)
+        assertEquals(state.activePlayer.hero.health - 2, failed.activePlayer.hero.health)
         assertEquals(2, failed.checksRemaining)
         assertEquals(Lighthouse.SHORE, failed.location)
         assertNull(failed.pendingCheck)

@@ -18,3 +18,9 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
 /server/claude.local.json
+/.local/
+/scripts/tts/__pycache__/
+
+# Local build/probe logs, PID files and downloaded diagnostics; keep authored reports.
+/reports/*
+!/reports/*.md

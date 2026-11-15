@@ -18,6 +18,8 @@ class Rooms(
     private val aiScope: CoroutineScope? = null,
     private val aiTimeoutMillis: Long = 45_000,
     maxAiRequests: Int = 4,
+    private val presentationEnabled: Boolean = true,
+    private val playbackClock: () -> Long = ::storyNowMillis,
     private val engineFactory: () -> AdventureEngine = { AdventureEngine(logger = GameLogger.Platform) },
 ) {
     init { require(gameMaster == null || aiScope != null); require(aiTimeoutMillis > 0) }
@@ -28,15 +30,19 @@ class Rooms(
 
     internal class Member(var player: Player, val token: String, var connectionId: String?) {
         var replaced = CompletableDeferred<Unit>()
+        var characterConfirmed = false
     }
-    internal class AiWork(val request: PendingNarration, val state: AdventureState, val text: String,
+    internal class AiWork(val request: PendingNarration, var state: AdventureState, val text: String,
         val outcome: OutcomeNarration? = null, val participation: ParticipationSnapshot? = null) {
         var job: Job? = null
+        var inputPresentation: List<InputUtterance>? = null
     }
-    internal class Room(val code: String, val engine: AdventureEngine, val gameMasterEnabled: Boolean) {
+    internal class Room(val code: String, val engine: AdventureEngine, val gameMasterEnabled: Boolean,
+        val presentationEnabled: Boolean, val playbackClock: () -> Long) {
         val members = mutableListOf<Member>()
         var hostId = ""
         var adventure: AdventureState? = null
+            set(value) { field = if (presentationEnabled) value?.schedulePlayback(field, playbackClock()) else value }
         var revision = 0L
         var lastActivity = System.currentTimeMillis()
         var pendingAi: AiWork? = null
@@ -49,9 +55,9 @@ class Rooms(
             revision++
             lastActivity = System.currentTimeMillis()
             // Keep wire frames bounded during long sessions. Canonical state stays on the server.
-            return RoomView(code, hostId, members.map { RoomMember(it.player, it.connectionId != null) },
+            return RoomView(code, hostId, members.map { RoomMember(it.player, it.connectionId != null, it.characterConfirmed) },
                 adventure?.let { it.copy(journal = it.journal.takeLast(200)) }, revision,
-                gameMasterEnabled, pendingAi?.request, gameMasterError, scenarioId).also { updates.value = it }
+                gameMasterEnabled, pendingAi?.request, gameMasterError, scenarioId, playbackClock()).also { updates.value = it }
         }
     }
     class Connection internal constructor(internal val room: Room, internal val member: Member, internal val id: String, val replaced: CompletableDeferred<Unit>) {
@@ -83,15 +89,18 @@ class Rooms(
                 var generated: String
                 do { generated = (1..6).map { "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[random.nextInt(32)] }.joinToString("") }
                 while (generated in rooms)
-                room = Room(generated, engineFactory(), gameMaster != null)
+                room = Room(generated, engineFactory(), gameMaster != null, presentationEnabled, playbackClock)
                 rooms[generated] = room
             } else {
                 room = rooms[code] ?: error("Комната не найдена.")
             }
             require(room.adventure == null) { "Приключение уже началось. Новые игроки пока не могут войти." }
-            require(room.members.size < 3) { "В комнате уже три игрока." }
+            require(room.members.size < 4) { "В комнате уже четыре игрока." }
             require(room.members.none { it.player.name.equals(name, ignoreCase = true) }) { "Это имя уже занято в комнате." }
-            val template = AdventureEngine.demoPlayers(room.scenarioId).first { hero -> room.members.none { it.player.hero.name == hero.hero.name } }
+            val scenario = requireNotNull(Scenarios.find(room.scenarioId))
+            val profile = ReadyCharacters.all.firstOrNull { profile -> room.members.none { it.player.hero.name.equals(profile.name, true) } }
+                ?: ReadyCharacters.rin.copy(name = (1..100).map { "Герой $it" }.first { name -> room.members.none { it.player.hero.name.equals(name, true) } })
+            val template = Player("new", name, profile.hero(scenario), scenario.startLocation)
             member = Member(template.copy(id = UUID.randomUUID().toString(), name = name), UUID.randomUUID().toString(), null)
             room.members += member
         }
@@ -121,6 +130,10 @@ class Rooms(
         val room = connection.room
         val previousState = room.adventure
         val actor = connection.member.player.id
+        if (presentationEnabled && previousState != null && playbackClock() < previousState.playback.busyUntil &&
+            message.action !in listOf(NetworkAction.RESTART, NetworkAction.CANCEL_NARRATION)) {
+            return@withLock ServerMessage.Reply(message.requestId, "Дождитесь завершения реплики.", room.updates.value)
+        }
         var error: String? = null
         if (connection.member.connectionId != connection.id) error = "Подключение заменено. Подключитесь снова."
         else if (message.requestId <= connection.lastRequestId) error = "Повторная команда отклонена."
@@ -129,6 +142,24 @@ class Rooms(
             val state = room.adventure
             val host = actor == room.hostId
             when (message.action) {
+                NetworkAction.SELECT_CHARACTER -> {
+                    val profile = message.character
+                    val occupied = room.members.firstOrNull { it.player.id != actor && it.player.hero.name.equals(profile?.name, true) }
+                    error = when {
+                        state != null -> "Героя можно выбрать только до начала истории."
+                        profile == null -> "Выберите персонажа."
+                        profile.validationError() != null -> profile.validationError()
+                        occupied?.characterConfirmed == true -> "Герой с таким именем уже выбран. Выберите другое имя или героя."
+                        else -> null
+                    }
+                    if (error == null) {
+                        // Initial suggestions do not reserve presets. Swap only an unclaimed suggestion.
+                        occupied?.let { it.player = it.player.copy(hero = connection.member.player.hero) }
+                        connection.member.player = connection.member.player.copy(
+                            hero = requireNotNull(profile).hero(requireNotNull(Scenarios.find(room.scenarioId))))
+                        connection.member.characterConfirmed = true
+                    }
+                }
                 NetworkAction.SELECT_SCENARIO -> {
                     val scenario = message.scenarioId?.let(Scenarios::find)
                     if (!host || state != null || scenario == null) error = "Сюжет выбирает ведущий комнаты до начала игры."
@@ -147,7 +178,7 @@ class Rooms(
                 }
                 NetworkAction.START -> {
                     if (!host || state != null || room.members.size < 2 || room.members.any { it.connectionId == null }) {
-                        error = "Начать может создатель комнаты, когда подключены 2–3 игрока."
+                        error = "Начать может создатель комнаты, когда подключены 2–4 игрока."
                     } else {
                         room.activities.clear()
                         room.adventure = room.engine.newGame(players = room.members.map { it.player }, scenarioId = room.scenarioId)
@@ -185,14 +216,15 @@ class Rooms(
                 else -> {
                     if (state == null) error = "Приключение ещё не началось."
                     else if (room.pendingAi != null) error = "Дождитесь ответа ведущего или отмените запрос."
-                    else if (message.action == NetworkAction.SUBMIT && gameMaster != null) {
+                    else if (message.action == NetworkAction.SUBMIT && gameMaster != null &&
+                        state.scenario.actions.none { it.plan != null && it.text.equals(message.text.trim().trimEnd('.', '!', '?'), ignoreCase = true) }) {
                         if (!state.canAct || state.activePlayer.id != actor || state.turnId != message.turnId ||
                             message.text.trim().length !in 1..AdventureEngine.MAX_ACTION_LENGTH) {
                             error = "Действие недоступно: проверьте текст и дождитесь своего хода."
                         } else if (!aiSlots.tryAcquire()) {
                             error = "Ведущий занят. Попробуйте отправить действие немного позже."
                         } else {
-                            val work = AiWork(PendingNarration(UUID.randomUUID().toString(), actor, state.turnId), state, message.text.trim(),
+                            val work = AiWork(PendingNarration(UUID.randomUUID().toString(), actor, state.turnId), requireNotNull(room.adventure), message.text.trim(),
                                 participation = room.participation.snapshot(state,
                                     room.members.filter { it.connectionId != null }.map { it.player.id }.toSet()))
                             room.gameMasterError = null
@@ -205,9 +237,10 @@ class Rooms(
                     }
                     else {
                         val next = when (message.action) {
+                            NetworkAction.COMBAT -> message.turnId?.let { room.engine.combatCommand(state, actor, it, message.combatAction, message.combatTarget) }
                             NetworkAction.SUBMIT -> message.turnId?.let { room.engine.submit(state, actor, it, message.text) }
                             NetworkAction.PASS -> message.turnId?.let { room.engine.endTurn(state, actor, it) }
-                            NetworkAction.ROLL -> message.checkId?.let { room.engine.roll(state, actor, it) }
+                            NetworkAction.ROLL -> message.checkId?.let { room.engine.roll(state, actor, it, message.useRacialTalent) }
                             NetworkAction.CANCEL -> message.checkId?.let { room.engine.cancelCheck(state, actor, it) }
                             else -> null
                         }
@@ -235,13 +268,42 @@ class Rooms(
         val work = room.pendingAi
         room.pendingAi = null
         work?.job?.cancel()
+        clearSpeechPreview(room)
+    }
+
+    private fun clearSpeechPreview(room: Room) {
+        val state = room.adventure ?: return
+        if (state.playback.previewEntryId != null)
+            room.adventure = state.copy(playback = state.playback.copy(previewEntryId = null, previewEntryIds = emptyList()))
     }
 
     private suspend fun runAi(room: Room, work: AiWork) {
         val started = TimeSource.Monotonic.markNow()
         var failureFields = emptyMap<String, String>()
         val decision = try {
-            withTimeout(aiTimeoutMillis) { requireNotNull(gameMaster).respond(work.state, work.text, requireNotNull(work.participation)) }
+            withTimeout(aiTimeoutMillis) {
+                requireNotNull(gameMaster).respond(work.state, work.text, requireNotNull(work.participation)) { parts ->
+                    validateInputPresentation(parts)
+                    mutex.withLock {
+                        if (room.pendingAi === work && room.adventure === work.state && work.inputPresentation == null) {
+                            work.inputPresentation = parts.toList()
+                            if (presentationEnabled) {
+                                room.adventure = work.state.previewInputPresentation(parts, playbackClock())
+                                work.state = requireNotNull(room.adventure)
+                                room.publish()
+                            }
+                            networkLog("ai_input_presentation_ready", room, work.request.playerId, details = mapOf(
+                                "request_id" to work.request.id,
+                                "elapsed_ms" to started.elapsedNow().inWholeMilliseconds.toString(),
+                                "parts" to parts.size.toString(),
+                                "kinds" to parts.joinToString(",") { it.kind.name }))
+                        }
+                    }
+                }.also { decision ->
+                    if (work.inputPresentation != null && decision.inputPresentation != work.inputPresentation)
+                        throw AiFailure("input_presentation_changed")
+                }
+            }
         } catch (_: TimeoutCancellationException) {
             failureFields = mapOf("reason" to "request_timeout")
             null
@@ -257,17 +319,25 @@ class Rooms(
             room.pendingAi = null
             if (room.adventure !== work.state) return@withLock
             if (decision == null) {
-                room.gameMasterError = "Ведущий не ответил или вернул некорректный ответ. Ход сохранён — отправьте действие снова."
+                clearSpeechPreview(room)
+                room.gameMasterError = if (failureFields["http_status"] == "401")
+                    "Сервис ИИ отклонил авторизацию. Проверьте API-ключ на сервере. Ход сохранён."
+                else when (failureFields["reason"]) {
+                    "transport_timeout", "request_timeout" -> "Сервис ИИ не ответил вовремя. Ход сохранён. Можно повторить отправку или выбрать готовое действие."
+                    "connection_error", "dns_error", "tls_error" -> "Не удалось связаться с сервисом ИИ. Ход сохранён. Готовые действия доступны."
+                    else -> "Сервис ИИ вернул некорректный ответ или ошибку. Ход сохранён — отправьте действие снова."
+                }
                 networkLog("ai_request_failed", room, work.request.playerId, details = failureFields + mapOf(
                     "request_id" to work.request.id, "elapsed_ms" to started.elapsedNow().inWholeMilliseconds.toString()))
             } else {
                 val next = room.engine.submit(work.state, work.request.playerId, work.request.turnId, work.text, decision)
                 if (next == work.state) {
+                    clearSpeechPreview(room)
                     room.gameMasterError = "План ведущего не соответствует состоянию или правилам сцены. Ход сохранён — уточните действие."
                 } else {
                     room.adventure = next
                     room.participation.record(work.state, next, NetworkAction.SUBMIT)
-                    recordOutcome(room, work.state, next, work.request.playerId, false)
+                    recordOutcome(room, work.state, requireNotNull(room.adventure), work.request.playerId, false)
                 }
                 networkLog(if (next == work.state) "ai_plan_rejected" else "ai_request_completed", room, work.request.playerId, details = mapOf(
                     "request_id" to work.request.id, "elapsed_ms" to started.elapsedNow().inWholeMilliseconds.toString()))
@@ -280,6 +350,8 @@ class Rooms(
     private fun recordOutcome(room: Room, before: AdventureState, after: AdventureState, actor: String, rolled: Boolean) {
         val activity = confirmedActivity(before, after, actor) ?: return
         room.activities += activity
+        // Known scenario effects already contain a short authored description. Avoid a second model round trip.
+        if (rolled && before.pendingCheck?.action != null && before.pendingCheck?.nextPlayerId == null && after.ending == null) return
         if (gameMaster !is OutcomeNarrator || (!rolled && !(before.ending == null && after.ending != null))) return
         if (!aiSlots.tryAcquire()) {
             room.gameMasterError = "Результат сохранён. Ведущий занят и не смог подготовить описание."

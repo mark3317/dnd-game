@@ -24,7 +24,7 @@ class ScenarioNetworkTest {
             GameMasterDecision(null, "Намерение", plan)
         }
         val server = embeddedServer(CIO, host = "127.0.0.1", port = 0) {
-            gameServer(Rooms(gameMaster = gm, aiScope = scope) { AdventureEngine(DiceRoller { 20 }) })
+            gameServer(Rooms(gameMaster = gm, aiScope = scope, presentationEnabled = false) { AdventureEngine(DiceRoller { 20 }) })
         }.start()
         val a = NetworkGameClient(scope)
         val b = NetworkGameClient(scope)

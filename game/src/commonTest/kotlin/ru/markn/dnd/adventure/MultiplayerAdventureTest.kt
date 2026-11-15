@@ -95,7 +95,7 @@ class MultiplayerAdventureTest {
 
     @Test
     fun eachRollUsesItsOwnersModifiersHealthAndLocation() {
-        val engine = AdventureEngine(FixedDice(7, 7))
+        val engine = AdventureEngine(FixedDice(8, 7))
         val initial = engine.newGame()
         val rinUpstairs = engine.resolve(engine.act(initial, Lighthouse.CLIMB))
         assertEquals(initial.players[1].id, rinUpstairs.activePlayer.id)
@@ -103,8 +103,8 @@ class MultiplayerAdventureTest {
         assertEquals(Lighthouse.SHORE, rinUpstairs.activePlayer.location)
 
         val miraFalls = engine.resolve(engine.act(rinUpstairs, Lighthouse.CLIMB))
-        assertEquals(12, miraFalls.players[0].hero.health)
-        assertEquals(8, miraFalls.players[1].hero.health)
+        assertEquals(initial.players[0].hero.health, miraFalls.players[0].hero.health)
+        assertEquals(initial.players[1].hero.health - 2, miraFalls.players[1].hero.health)
         assertEquals(initial.players[2], miraFalls.players[2])
         assertEquals(Lighthouse.SHORE, miraFalls.players[1].location)
         assertEquals(Lighthouse.LANTERN_ROOM, miraFalls.players[0].location)

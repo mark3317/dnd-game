@@ -1,0 +1,134 @@
+﻿{
+    "version":  1,
+    "generatedWith":  "built-in image_gen",
+    "portraits":  [
+                      {
+                          "id":  "human_warrior",
+                          "race":  "human",
+                          "characterClass":  "warrior",
+                          "source":  "avatars/human/warrior.png",
+                          "resource":  "drawable/avatar_human_warrior.png",
+                          "sha256":  "6abf73724342d55f03f8c1c3566329ab1a60f39c45524120bb34ff74bdaf214a"
+                      },
+                      {
+                          "id":  "human_rogue",
+                          "race":  "human",
+                          "characterClass":  "rogue",
+                          "source":  "avatars/human/rogue.png",
+                          "resource":  "drawable/avatar_human_rogue.png",
+                          "sha256":  "6425b25dcf2dc794992804440a4ff432a791b4163c98ad8e38d92a40bf6e6c4e"
+                      },
+                      {
+                          "id":  "human_mage",
+                          "race":  "human",
+                          "characterClass":  "mage",
+                          "source":  "avatars/human/mage.png",
+                          "resource":  "drawable/avatar_human_mage.png",
+                          "sha256":  "59450b401a8f049b82fc0a3d65c4034873577a77015f2a48dfce299ab73b3a01"
+                      },
+                      {
+                          "id":  "human_bard",
+                          "race":  "human",
+                          "characterClass":  "bard",
+                          "source":  "avatars/human/bard.png",
+                          "resource":  "drawable/avatar_human_bard.png",
+                          "sha256":  "ab58ae95ecbf04764e74cb08aae67d5534c68bb1e9530628be7e87f7fc343a76"
+                      },
+                      {
+                          "id":  "elf_warrior",
+                          "race":  "elf",
+                          "characterClass":  "warrior",
+                          "source":  "avatars/elf/warrior.png",
+                          "resource":  "drawable/avatar_elf_warrior.png",
+                          "sha256":  "31e92bf831d371c8774799efede9e094d043bd389f81ffca7ae5488c8b6ccf5b"
+                      },
+                      {
+                          "id":  "elf_rogue",
+                          "race":  "elf",
+                          "characterClass":  "rogue",
+                          "source":  "avatars/elf/rogue.png",
+                          "resource":  "drawable/avatar_elf_rogue.png",
+                          "sha256":  "5a6e8156f7eae248074e272e37eab25d64cffb455ffa74d7b882467758d42a3e"
+                      },
+                      {
+                          "id":  "elf_mage",
+                          "race":  "elf",
+                          "characterClass":  "mage",
+                          "source":  "avatars/elf/mage.png",
+                          "resource":  "drawable/avatar_elf_mage.png",
+                          "sha256":  "708447e11b92631d47a3af84d916fdb75abf338c7a96bfb563e0303d464182a4"
+                      },
+                      {
+                          "id":  "elf_bard",
+                          "race":  "elf",
+                          "characterClass":  "bard",
+                          "source":  "avatars/elf/bard.png",
+                          "resource":  "drawable/avatar_elf_bard.png",
+                          "sha256":  "4164494961c8a3cb40e2aa5a0e8ffe92e61ba200f3bb7df9043817d614eb594f"
+                      },
+                      {
+                          "id":  "dwarf_warrior",
+                          "race":  "dwarf",
+                          "characterClass":  "warrior",
+                          "source":  "avatars/dwarf/warrior.png",
+                          "resource":  "drawable/avatar_dwarf_warrior.png",
+                          "sha256":  "f142e4f6604a2212dbd6782a38fc34565e21ae99daa7df75d63d29456abb4e93"
+                      },
+                      {
+                          "id":  "dwarf_rogue",
+                          "race":  "dwarf",
+                          "characterClass":  "rogue",
+                          "source":  "avatars/dwarf/rogue.png",
+                          "resource":  "drawable/avatar_dwarf_rogue.png",
+                          "sha256":  "7b2fc418c9bb1f5689097a5c1bdb9590682ad70ec67c3f9cc97105d404efaa11"
+                      },
+                      {
+                          "id":  "dwarf_mage",
+                          "race":  "dwarf",
+                          "characterClass":  "mage",
+                          "source":  "avatars/dwarf/mage.png",
+                          "resource":  "drawable/avatar_dwarf_mage.png",
+                          "sha256":  "cf47bd2e136244c09ca932681958f6f14d0cfdd951591f8d16a8461ddf43dc52"
+                      },
+                      {
+                          "id":  "dwarf_bard",
+                          "race":  "dwarf",
+                          "characterClass":  "bard",
+                          "source":  "avatars/dwarf/bard.png",
+                          "resource":  "drawable/avatar_dwarf_bard.png",
+                          "sha256":  "c3ff43c353da785314614337dc95e61fbcc5b051c07107d6f01145855dfe26f4"
+                      },
+                      {
+                          "id":  "halfling_warrior",
+                          "race":  "halfling",
+                          "characterClass":  "warrior",
+                          "source":  "avatars/halfling/warrior.png",
+                          "resource":  "drawable/avatar_halfling_warrior.png",
+                          "sha256":  "d1ff0f81125eda3064fa1675175589f24f4b0e8c0b56773ecbe9690698954ebb"
+                      },
+                      {
+                          "id":  "halfling_rogue",
+                          "race":  "halfling",
+                          "characterClass":  "rogue",
+                          "source":  "avatars/halfling/rogue.png",
+                          "resource":  "drawable/avatar_halfling_rogue.png",
+                          "sha256":  "ff49debd657018f37ca335109d001ff14a71b6d0cccdad657d5bf7b914dec11c"
+                      },
+                      {
+                          "id":  "halfling_mage",
+                          "race":  "halfling",
+                          "characterClass":  "mage",
+                          "source":  "avatars/halfling/mage.png",
+                          "resource":  "drawable/avatar_halfling_mage.png",
+                          "sha256":  "2c7b77c5019e0b5ca2689c33b8bc5f548bef0a49bb7a21aad76a4530c95af7a1"
+                      },
+                      {
+                          "id":  "halfling_bard",
+                          "race":  "halfling",
+                          "characterClass":  "bard",
+                          "source":  "avatars/halfling/bard.png",
+                          "resource":  "drawable/avatar_halfling_bard.png",
+                          "sha256":  "fb44fd492c350a7a77c0f63cf934b1dada4d6255f66bb1d1be9d498954402e94"
+                      }
+                  ]
+}

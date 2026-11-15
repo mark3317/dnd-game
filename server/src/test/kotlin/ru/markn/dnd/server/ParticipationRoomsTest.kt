@@ -22,7 +22,7 @@ class ParticipationRoomsTest {
                 return GameMasterDecision(Lighthouse.LOOK, "Осмотр", nextPlayerId = state.activePlayer.id)
             }
         }
-        val rooms = Rooms(gm, this)
+        val rooms = Rooms(gm, this, presentationEnabled = false)
         val a = rooms.join(ClientMessage.Join("A"))
         rooms.join(ClientMessage.Join("B", a.welcome.room.code))
         rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START))
@@ -58,7 +58,7 @@ class ParticipationRoomsTest {
                 }
             }
         }
-        val rooms = Rooms(gm, this) { AdventureEngine(DiceRoller { 20 }) }
+        val rooms = Rooms(gm, this, presentationEnabled = false) { AdventureEngine(DiceRoller { 20 }) }
         val a = rooms.join(ClientMessage.Join("A"))
         val b = rooms.join(ClientMessage.Join("B", a.welcome.room.code))
         val c = rooms.join(ClientMessage.Join("C", a.welcome.room.code))
@@ -116,7 +116,7 @@ class ParticipationRoomsTest {
                 return GameMasterDecision(Lighthouse.LOOK, "Осмотр", nextPlayerId = state.players[1].id)
             }
         }
-        val rooms = Rooms(gm, this)
+        val rooms = Rooms(gm, this, presentationEnabled = false)
         val a = rooms.join(ClientMessage.Join("A"))
         val b = rooms.join(ClientMessage.Join("B", a.welcome.room.code))
         val c = rooms.join(ClientMessage.Join("C", a.welcome.room.code))

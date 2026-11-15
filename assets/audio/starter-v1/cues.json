@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "status": "draft-mappings-not-integrated-or-auditioned",
+  "notes": "IDs reference manifest.json. These are presentation candidates, not mechanical effects. Final variant selection follows a confirmed event.",
+  "cues": [
+    {"id":"door.open", "variants":["door.open.1","door.open.2"], "trigger":"confirmed door opening"},
+    {"id":"door.close", "variants":["door.close.1","door.close.2"], "trigger":"confirmed door closing"},
+    {"id":"book.open", "variants":["book.open"], "trigger":"confirmed book opening"},
+    {"id":"book.page", "variants":["book.page.1","book.page.2"], "trigger":"confirmed page turning"},
+    {"id":"coins.handle", "variants":["coins.handle.1","coins.handle.2"], "trigger":"confirmed handling of coins"},
+    {"id":"step.wood", "variants":["step.wood.1","step.wood.2"], "trigger":"confirmed movement over wood"},
+    {"id":"step.stone", "variants":["step.stone.1","step.stone.2"], "trigger":"confirmed movement over stone"},
+    {"id":"step.grass", "variants":["step.grass.1","step.grass.2"], "trigger":"confirmed movement over grass"},
+    {"id":"ambience.dungeon", "variants":["ambience.dungeon"], "trigger":"enter matching location", "loopRequiresReview":true},
+    {"id":"ambience.tavern", "variants":["ambience.tavern"], "trigger":"enter tavern", "loopRequiresReview":true}
+  ],
+  "unfinishedRecipes": [
+    {"id":"lock.unlock", "ingredients":["mechanism.click","mechanism.latch"], "missing":"audition, dedicated key/lock-picking recording, edit and timing"},
+    {"id":"trap.mechanical", "ingredients":["mechanism.click","blade.slice","impact.metal.heavy"], "missing":"match a specific confirmed trap, audition, edit and timing"},
+    {"id":"trap.falling-wood", "ingredients":["wood.creak.1","impact.wood.heavy"], "missing":"match a specific confirmed trap, audition, edit and timing"}
+  ]
+}

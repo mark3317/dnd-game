@@ -39,7 +39,9 @@ class GameMasterDecisionTest {
                 GameMasterDecision(action, "Хранитель кивает в сторону тёмного маяка."))
             assertEquals(state.turnId.number + 1, next.turnId.number)
             assertEquals(state.players, next.players)
-            assertEquals(state.scene, next.scene)
+            assertEquals(state.scene.facts, next.scene.facts)
+            if (action == Lighthouse.TALK) assertEquals(setOf("KEEPER"), next.scene.metNpcs[state.activePlayer.id])
+            else assertEquals(state.scene, next.scene)
             assertEquals(state.checksRemaining, next.checksRemaining)
             assertNull(next.pendingCheck)
         }

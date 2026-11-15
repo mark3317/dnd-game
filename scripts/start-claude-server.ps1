@@ -1,5 +1,10 @@
 param(
-    [switch]$Rebuild
+    [switch]$Rebuild,
+    [switch]$ProbeModels,
+    [switch]$ProbeRegion,
+    [switch]$ProbeCurrent,
+    [string]$DistributionDirectory = '',
+    [string]$Model = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -7,6 +12,12 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
 $configPath = Join-Path $projectRoot 'server/claude.local.json'
 $examplePath = Join-Path $projectRoot 'server/claude.local.example.json'
 $serverLauncher = Join-Path $projectRoot 'server/build/install/server/bin/server.bat'
+if (-not [string]::IsNullOrWhiteSpace($DistributionDirectory)) {
+    $serverLauncher = Join-Path ([System.IO.Path]::GetFullPath($DistributionDirectory)) 'bin/server.bat'
+    if ($Rebuild -or -not (Test-Path -LiteralPath $serverLauncher)) {
+        throw 'Build the alternate distribution before launching it without -Rebuild.'
+    }
+}
 
 # The distributed server runs directly on Java; the key never enters a Gradle command line.
 $jdkCandidates = @($env:JAVA_HOME)
@@ -52,7 +63,7 @@ try {
         }
     }
     if ([string]::IsNullOrWhiteSpace($apiKey)) {
-        $secureKey = Read-Host 'Paste Claude API key (hidden input)' -AsSecureString
+        $secureKey = Read-Host 'Paste AI STAR API key (hidden input)' -AsSecureString
         $apiKey = [System.Net.NetworkCredential]::new('', $secureKey).Password
     }
     if ([string]::IsNullOrWhiteSpace($apiKey)) { throw 'Claude API key is empty.' }
@@ -60,12 +71,16 @@ try {
     $env:ANTHROPIC_API_KEY = $apiKey.Trim()
     $env:DND_CLAUDE_BASE_URL = [string]$settings.baseUrl
     $env:DND_CLAUDE_MODEL = [string]$settings.model
+    if (-not [string]::IsNullOrWhiteSpace($Model)) { $env:DND_CLAUDE_MODEL = $Model }
     if ([string]::IsNullOrWhiteSpace($env:DND_CLAUDE_BASE_URL)) { $env:DND_CLAUDE_BASE_URL = 'https://ai.starimg.ru' }
-    if ([string]::IsNullOrWhiteSpace($env:DND_CLAUDE_MODEL)) { $env:DND_CLAUDE_MODEL = 'claude-sonnet-5-5' }
+    if ([string]::IsNullOrWhiteSpace($env:DND_CLAUDE_MODEL)) { $env:DND_CLAUDE_MODEL = 'gpt-6-luna' }
 
-    Write-Host 'Starting the local Claude server. Connect game clients to ws://localhost:8080.'
+    $listenPort = if ([string]::IsNullOrWhiteSpace($env:DND_SERVER_PORT)) { '8080' } else { $env:DND_SERVER_PORT }
+    Write-Host "Starting the local AI server: ws://localhost:$listenPort, model=$($env:DND_CLAUDE_MODEL)."
     Write-Host 'The key is not printed. Stop this server with Ctrl+C.'
-    & $serverLauncher
+    if ($ProbeCurrent) { & $serverLauncher --probe-ai-current }
+    elseif ($ProbeRegion) { & $serverLauncher --probe-ai-region }
+    elseif ($ProbeModels) { & $serverLauncher --probe-ai } else { & $serverLauncher }
     if ($LASTEXITCODE -ne 0) { throw 'Server stopped with an error. Check its diagnostic output.' }
 } finally {
     foreach ($name in $names) { [Environment]::SetEnvironmentVariable($name, $previous[$name], 'Process') }

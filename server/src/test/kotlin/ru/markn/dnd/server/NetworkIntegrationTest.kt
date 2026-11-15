@@ -11,7 +11,7 @@ import ru.markn.dnd.network.*
 /** Real loopback TCP + production KMP client, without UI or mocked WebSocket transport. */
 class NetworkIntegrationTest {
     @Test fun twoClientsSynchronizeTheirOwnTurnsAndServerDice() = runBlocking {
-        val rooms = Rooms { AdventureEngine(DiceRoller { 10 }) }
+        val rooms = Rooms(presentationEnabled = false) { AdventureEngine(DiceRoller { 10 }) }
         val server = embeddedServer(CIO, host = "127.0.0.1", port = 0) { gameServer(rooms) }.start()
         val scope = CoroutineScope(coroutineContext + SupervisorJob())
         val a = NetworkGameClient(scope)

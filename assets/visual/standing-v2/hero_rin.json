@@ -1,0 +1,18 @@
+﻿{
+    "id":  "hero_rin",
+    "generator":  "built-in image_gen",
+    "prompt":  "Use case: identity-preserve. Edit target: image 1 Rin, elf rogue. Create a full-body standing version, head to both complete boots, relaxed neutral stance, arms at sides, centered on tall portrait canvas with small clear margin. Preserve exactly face, dark hair, ears, teal worn jacket, rust scarf, sailor rope belt, gouache texture and restrained illustrated storybook style. Extend with practical dark trousers and worn leather boots. Warm upper-left light, cool slate shadows. Real transparent alpha background, no scenery, no floor, no gradient, no halo, no cast shadow, no text, no border. This is a visual novel sprite layered on an existing scene. Image 2 archivist is supporting style reference only; do not include her.",
+    "references":  [
+                       "assets/visual/characters/ready/rin/v1/neutral.png",
+                       "assets/visual/stories/flooded-archive/v1/npcs/archivist.png"
+                   ],
+    "source":  "source/hero_rin.png",
+    "stage":  "stage/hero_rin.png",
+    "portrait":  "portraits/hero_rin.png",
+    "stageResource":  "drawable/stage_hero_rin.png",
+    "portraitResource":  "drawable/hero_rin.png",
+    "portraitFraction":  0.4,
+    "sourceSha256":  "2c019fa57d89610ef469a179ee9e3d0d50031706ddeeabc0dc69d57a59d96864",
+    "stageSha256":  "30cdfd63eaa59c54f756c7b8a7b53ac50838cf460e21ac5901165b7969800b0a",
+    "portraitSha256":  "6d74b038f5434638f24055b8167f1c93b00404d56621e7fd8e4df3429985fc81"
+}

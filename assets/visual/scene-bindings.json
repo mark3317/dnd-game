@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "status": "proposed-not-integrated",
+  "scenarioId": "flooded_archive",
+  "selection": "First matching rule in each location; the actual server state supplies facts and ending ID.",
+  "locations": {
+    "ARCHIVE_HALL": {
+      "backgroundRules": [
+        {"requiresFacts":["CELLAR_DOOR_OPEN"],"assetId":"archive-hall-open"},
+        {"assetId":"archive-hall-locked"}
+      ],
+      "visibleNpcIds":["ARCHIVIST"]
+    },
+    "COURIER_YARD": {
+      "backgroundRules":[{"assetId":"archive-yard"}],
+      "visibleNpcIds":["COURIER"]
+    },
+    "FLOODED_CELLAR": {
+      "backgroundRules":[
+        {"requiresEnding":"ARCHIVE_FLOODED","assetId":"archive-cellar-flooded"},
+        {"requiresFacts":["DOCUMENTS_SAVED"],"assetId":"archive-cellar-saved"},
+        {"requiresFacts":["CHEST_OPEN"],"assetId":"archive-cellar-open"},
+        {"assetId":"archive-cellar-closed"}
+      ],
+      "visibleNpcIds":[],
+      "offscreenNpcIds":["ARCHIVIST"]
+    }
+  },
+  "npcs": {
+    "ARCHIVIST":{"assetId":"archivist-neutral","physicalLocation":"ARCHIVE_HALL"},
+    "COURIER":{"assetId":"courier-neutral","physicalLocation":"COURIER_YARD"}
+  },
+  "readyCharacters": {
+    "rin":{"profileName":"Рин","assetPrefix":"rin-","characterClass":"ROGUE","race":"ELF"},
+    "mira":{"profileName":"Мира","assetPrefix":"mira-","characterClass":"MAGE","race":"DWARF"},
+    "bran":{"profileName":"Бран","assetPrefix":"bran-","characterClass":"WARRIOR","race":"HUMAN"}
+  },
+  "emotions":["neutral","happy","angry","surprised","worried","sad"],
+  "notes":[
+    "Visible hero avatars require location equality; preview group layout is not canonical presence.",
+    "Do not reveal open-chest contents before CHEST_OPEN.",
+    "Do not invent intermediate flood levels or delivered copies.",
+    "Speech highlighting is separate from portrait expression and active player turn."
+  ]
+}

@@ -2,13 +2,9 @@ package ru.markn.dnd.server
 
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.mock.MockEngine
-import io.ktor.client.engine.mock.respond
-import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpStatusCode
-import io.ktor.http.headersOf
-import io.ktor.http.content.TextContent
+import io.ktor.http.ContentType
+import io.ktor.server.request.receiveText
+import io.ktor.server.response.respondText
 import kotlinx.serialization.json.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
@@ -20,27 +16,32 @@ class GameMasterNetworkTest {
     @Test fun originalDoorIntentWithUnusedNullNarrationCreatesOneSharedCheckWithoutRephrasing() = runBlocking<Unit> {
         val scope = CoroutineScope(coroutineContext + SupervisorJob())
         var calls = 0
-        val gm = ClaudeGameMaster(ClaudeSettings("test-key", "https://ai.starimg.ru", "claude-sonnet-5-5"),
-            baseClient = HttpClient(MockEngine { request ->
+        val provider = LocalTextProvider.start { call ->
                 calls++
-                val body = Json.parseToJsonElement((request.body as TextContent).text).jsonObject
+                val body = Json.parseToJsonElement(call.receiveText()).jsonObject
                 val content = body["messages"]!!.jsonArray.first().jsonObject.getValue("content")
                 val text = if (content is JsonPrimitive) content.content
                     else content.jsonArray.first().jsonObject.getValue("text").jsonPrimitive.content
                 val context = Json.parseToJsonElement(text).jsonObject
                 val actor = context["active_player_id"]!!.jsonPrimitive.content
                 val decision = buildJsonObject {
+                    put("inputPresentation", Json.encodeToJsonElement(listOf(InputUtterance(InputUtteranceKind.ACTION,
+                        "Рин пытается вскрыть замок двери подвала."))))
                     put("action", "OPEN_DOOR"); put("plan", JsonNull); put("narration", JsonNull); put("nextPlayerId", actor)
                 }
-                val response = buildJsonObject {
-                    put("id", "test-message"); put("type", "message"); put("role", "assistant"); put("model", "claude-sonnet-5-5")
-                    putJsonArray("content") { addJsonObject { put("type", "text"); put("text", decision.toString()) } }
-                    put("stop_reason", "end_turn")
-                    putJsonObject("usage") { put("input_tokens", 100); put("output_tokens", 20) }
+                val delta = buildJsonObject {
+                    put("type", "content_block_delta"); put("index", 0)
+                    putJsonObject("delta") { put("type", "text_delta"); put("text", decision.toString()) }
                 }
-                respond(response.toString(), HttpStatusCode.OK, headersOf(HttpHeaders.ContentType, "application/json"))
-            }))
-        val rooms = Rooms(gm, scope)
+                val end = buildJsonObject {
+                    put("type", "message_delta")
+                    putJsonObject("delta") { put("stop_reason", "end_turn"); put("stop_sequence", JsonNull) }
+                    putJsonObject("usage") { put("output_tokens", 20) }
+                }
+                call.respondText("event: content_block_delta\ndata: $delta\n\nevent: message_delta\ndata: $end\n\nevent: message_stop\ndata: {\"type\":\"message_stop\"}\n\n", ContentType.Text.EventStream)
+            }
+        val gm = ClaudeGameMaster(ClaudeSettings("test-key", "https://ai.starimg.ru", "claude-sonnet-5-5"), baseClient = provider.client)
+        val rooms = Rooms(gm, scope, presentationEnabled = false)
         val server = embeddedServer(CIO, host = "127.0.0.1", port = 0) { gameServer(rooms) }.start()
         val a = NetworkGameClient(scope)
         val b = NetworkGameClient(scope)
@@ -66,7 +67,7 @@ class GameMasterNetworkTest {
             assertNull(proposed.gameMasterError)
             assertFalse(proposed.adventure!!.journal.any { it.text == "Действие передано на проверку серверу." })
             assertEquals(1, calls)
-        } finally { a.close(); b.close(); scope.cancel(); server.stop(100, 1_000); gm.close() }
+        } finally { a.close(); b.close(); scope.cancel(); server.stop(100, 1_000); gm.close(); provider.close() }
     }
 
     @Test fun threeClientsReceiveCommittedEndingThenOneSharedEpilogueAfterReconnect() = runBlocking<Unit> {
@@ -86,7 +87,7 @@ class GameMasterNetworkTest {
                 return epilogue.await()
             }
         }
-        val rooms = Rooms(narrator, scope) { AdventureEngine(DiceRoller { 20 }) }
+        val rooms = Rooms(narrator, scope, presentationEnabled = false) { AdventureEngine(DiceRoller { 20 }) }
         val server = embeddedServer(CIO, host = "127.0.0.1", port = 0) { gameServer(rooms) }.start()
         val clients = List(3) { NetworkGameClient(scope) }
         suspend fun await(client: NetworkGameClient, predicate: (NetworkState) -> Boolean) =
@@ -136,7 +137,7 @@ class GameMasterNetworkTest {
                 2 -> GameMasterDecision(Lighthouse.LOOK, "У берега возвышается тёмный маяк.", nextPlayerId = state.activePlayer.id)
                 else -> GameMasterDecision(Lighthouse.TALK, "Хранитель смотрит на вашего спутника.", nextPlayerId = state.players[1].id)
             }
-        }, aiScope = scope)
+        }, aiScope = scope, presentationEnabled = false)
         val server = embeddedServer(CIO, host = "127.0.0.1", port = 0) { gameServer(rooms) }.start()
         val a = NetworkGameClient(scope)
         val b = NetworkGameClient(scope)
@@ -183,7 +184,7 @@ class GameMasterNetworkTest {
     @Test fun realClientsSeePendingReplyAndOneServerOwnedCheck() = runBlocking<Unit> {
         val response = CompletableDeferred<GameMasterDecision>()
         val scope = CoroutineScope(coroutineContext + SupervisorJob())
-        val rooms = Rooms(gameMaster = GameMaster { _, _ -> response.await() }, aiScope = scope) {
+        val rooms = Rooms(gameMaster = GameMaster { _, _ -> response.await() }, aiScope = scope, presentationEnabled = false) {
             AdventureEngine(DiceRoller { 10 })
         }
         val server = embeddedServer(CIO, host = "127.0.0.1", port = 0) { gameServer(rooms) }.start()

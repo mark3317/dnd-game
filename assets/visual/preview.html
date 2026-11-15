@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Затопленный архив · визуальный пак v1</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#131c21;color:#efe8d9}*{box-sizing:border-box}body{max-width:1420px;margin:0 auto;padding:28px 24px}h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(28px,4vw,48px);margin:8px 0}p{line-height:1.6;color:#bdc8c9}a{color:#e4bd74}.eyebrow{color:#d2aa66;letter-spacing:.15em;text-transform:uppercase;font-size:12px}.controls{display:flex;flex-wrap:wrap;gap:14px;margin:24px 0}label{display:grid;gap:8px;font-size:13px;color:#bdc8c9}select,button{padding:10px;border:1px solid #526060;border-radius:8px;background:#233036;color:#fff;font:inherit}.stage{position:relative;aspect-ratio:1672/941;border:1px solid #65706a;border-radius:14px;overflow:hidden;background:#27373b}.bg{width:100%;height:100%;object-fit:cover}.actors{position:absolute;inset:0;display:flex;justify-content:center;align-items:flex-end;padding:0 3%;pointer-events:none}.actor{object-fit:contain;object-position:bottom;width:25%;height:85%;filter:drop-shadow(0 6px 7px #0004)}.actor.mira{height:72%}.actor.bran{height:90%}.actor.npc{height:82%}.speaking{filter:drop-shadow(0 0 8px #eac278) drop-shadow(0 5px 6px #0005)}.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:20px}figure{margin:0;padding:14px;border:1px solid #3e5158;border-radius:12px;background:#1b2a30}figure img{width:100%;height:260px;object-fit:contain;background:repeating-conic-gradient(#29383e 0% 25%,#213037 0% 50%) 50%/20px 20px;border-radius:8px}figcaption{margin-top:10px;color:#d8d7c9;font-size:14px}.backgrounds figure img{height:auto;aspect-ratio:1672/941;object-fit:cover}.backgrounds{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}h2{font-family:Georgia,serif;font-weight:500;margin-top:36px}.note{font-size:13px;color:#9db1b5}#error{color:#ffc29a}@media(max-width:600px){body{padding:18px 12px}.actor{height:84%}.controls{gap:10px}.stage{border-radius:8px}}
+.actor.mira{width:20%}.actor.bran{width:26%}.actor.npc{width:23%}
+</style>
+<div class="eyebrow">dnd-game / art pack 01</div>
+<h1>Затопленный архив</h1>
+<p>Окружения, два NPC и готовые герои в едином рисованном стиле. Это просмотр материалов, отдельный от игрового приложения.</p>
+<div class="controls">
+<label>Окружение<select id="scene">
+<option value="hall-locked">Зал · дверь закрыта</option><option value="hall-open">Зал · дверь открыта</option><option value="courier-yard">Двор курьера</option><option value="cellar-chest-closed">Подвал · сундук закрыт</option><option value="cellar-chest-open">Подвал · сундук открыт</option><option value="cellar-documents-saved">Подвал · грамоты спасены</option><option value="cellar-flooded-ending">Подвал · финал затопления</option>
+</select></label>
+<label>Выражение героев<select id="emotion"><option value="neutral">Нейтральное</option><option value="happy">Радость</option><option value="angry">Злость</option><option value="surprised">Удивление</option><option value="worried">Тревога</option><option value="sad">Грусть</option></select></label>
+<label>Аватары<select id="actors"><option value="all">Группа + местный NPC</option><option value="heroes">Только группа</option><option value="none">Только фон</option></select></label>
+<label>Подсветка говорящего<select id="speaker"><option value="">Нет</option><option value="rin">Рин</option><option value="mira">Мира</option><option value="bran">Бран</option><option value="npc">Местный NPC</option></select></label>
+</div>
+<div class="stage"><img class="bg" id="background" alt="Окружение"><div class="actors" id="actorLayer"></div></div>
+<p class="note">Здесь группа собрана для проверки композиции. В игре присутствие будет определяться положением героев. Архивариус остаётся наверху и в подвале аватаром не показывается. Финал затопления показан без персонажей.</p>
+<p id="error" role="status"></p>
+<h2>Герои и NPC</h2><div class="gallery" id="portraits"></div>
+<h2>Окружения и состояния</h2><div class="gallery backgrounds" id="backgroundGallery"></div>
+<p class="note"><a href="README.md">Описание пака</a> · <a href="STYLE.md">Стиль и персонажи</a> · <a href="generation-prompts.json">Промпты генерации</a> · <a href="manifest.json">Каталог файлов</a></p>
+<script>
+const root='stories/flooded-archive/v1/',heroRoot='characters/ready/';
+const labels={rin:'Рин · эльф-плут',mira:'Мира · дварф-исследовательница',bran:'Бран · человек-воин',archivist:'Архивариус',courier:'Курьер'};
+const scene=document.querySelector('#scene'),emotion=document.querySelector('#emotion'),actors=document.querySelector('#actors'),speaker=document.querySelector('#speaker');
+function image(src,alt,className){const img=new Image();img.src=src;img.alt=alt;if(className)img.className=className;img.addEventListener('error',()=>{document.querySelector('#error').textContent='Не удалось загрузить '+src;});return img;}
+function render(){document.querySelector('#error').textContent='';document.querySelector('#background').src=root+'backgrounds/'+scene.value+'.png';const layer=document.querySelector('#actorLayer');layer.replaceChildren();if(actors.value==='none'||scene.value==='cellar-flooded-ending')return;for(const id of ['rin','mira','bran'])layer.append(image(heroRoot+id+'/v1/'+emotion.value+'.png',labels[id],'actor '+id+(speaker.value===id?' speaking':'')));const npc=scene.value==='courier-yard'?'courier':scene.value.startsWith('hall')?'archivist':null;if(actors.value==='all'&&npc)layer.append(image(root+'npcs/'+npc+'.png',labels[npc],'actor npc'+(speaker.value==='npc'?' speaking':'')));}
+function renderPortraits(){const target=document.querySelector('#portraits');target.replaceChildren();for(const id of Object.keys(labels)){const fig=document.createElement('figure');const src=['rin','mira','bran'].includes(id)?heroRoot+id+'/v1/'+emotion.value+'.png':root+'npcs/'+id+'.png';fig.append(image(src,labels[id]));const cap=document.createElement('figcaption');cap.textContent=labels[id];fig.append(cap);target.append(fig);}}
+for(const control of [scene,emotion,actors,speaker])control.addEventListener('change',()=>{render();renderPortraits();});
+for(const option of scene.options){const fig=document.createElement('figure');fig.append(image(root+'backgrounds/'+option.value+'.png',option.text));const cap=document.createElement('figcaption');cap.textContent=option.text;fig.append(cap);document.querySelector('#backgroundGallery').append(fig);}
+render();renderPortraits();
+</script>
+</html>

@@ -32,7 +32,7 @@ class RoomsTest {
         assertEquals(2L, restarted.sessionId)
     }
 
-    private fun rooms() = Rooms { AdventureEngine(DiceRoller { 10 }) }
+    private fun rooms() = Rooms(presentationEnabled = false) { AdventureEngine(DiceRoller { 10 }) }
     private suspend fun join(rooms: Rooms, name: String, code: String = "") = rooms.join(ClientMessage.Join(name, code))
 
     @Test fun roomStartsWithActualRosterAndRejectsForeignAndDuplicateTurns() = runBlocking<Unit> {
@@ -57,7 +57,7 @@ class RoomsTest {
 
     @Test fun onlyCheckOwnerCanRollAndDiceRunOnceOnServer() = runBlocking<Unit> {
         var rolls = 0
-        val rooms = Rooms { AdventureEngine(DiceRoller { rolls++; 10 }) }
+        val rooms = Rooms(presentationEnabled = false) { AdventureEngine(DiceRoller { rolls++; 10 }) }
         val a = join(rooms, "A")
         val b = join(rooms, "B", a.welcome.room.code)
         rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START))
@@ -79,7 +79,7 @@ class RoomsTest {
 
     @Test fun simultaneousRollsAndTurnCommandsCannotAdvanceTwice() = runBlocking<Unit> {
         var rolls = 0
-        val rooms = Rooms { AdventureEngine(DiceRoller { rolls++; 5 }) }
+        val rooms = Rooms(presentationEnabled = false) { AdventureEngine(DiceRoller { rolls++; 5 }) }
         val a = join(rooms, "A")
         join(rooms, "B", a.welcome.room.code)
         rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START))
@@ -115,7 +115,7 @@ class RoomsTest {
 
     @Test fun hostCanSkipOnlyDisconnectedActorAndCancelPendingWithoutRolling() = runBlocking<Unit> {
         var rolls = 0
-        val rooms = Rooms { AdventureEngine(DiceRoller { rolls++; 20 }) }
+        val rooms = Rooms(presentationEnabled = false) { AdventureEngine(DiceRoller { rolls++; 20 }) }
         val a = join(rooms, "A")
         val b = join(rooms, "B", a.welcome.room.code)
         rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START))
@@ -137,7 +137,8 @@ class RoomsTest {
         assertNotNull(rooms.command(a.connection, ClientMessage.Command(1, NetworkAction.START)).error)
         val b = join(rooms, "B", a.welcome.room.code)
         join(rooms, "C", a.welcome.room.code)
-        assertFailsWith<IllegalArgumentException> { join(rooms, "D", a.welcome.room.code) }
+        join(rooms, "D", a.welcome.room.code)
+        assertFailsWith<IllegalArgumentException> { join(rooms, "F", a.welcome.room.code) }
         rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.START))
         assertFailsWith<IllegalArgumentException> { join(rooms, "E", a.welcome.room.code) }
         val session = a.connection.updates.value.adventure!!.sessionId

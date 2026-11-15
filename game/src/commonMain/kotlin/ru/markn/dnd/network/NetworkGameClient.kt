@@ -18,6 +18,7 @@ data class NetworkState(
     val playerId: String? = null,
     val busy: Boolean = false,
     val error: String? = null,
+    val serverTimeOffsetMillis: Long = 0,
 )
 
 /** Call on the UI dispatcher. In-memory credentials are scoped to one endpoint. Commands are never retried automatically. */
@@ -69,12 +70,14 @@ class NetworkGameClient(private val scope: CoroutineScope) {
                 val session = withTimeout(15_000) { http.webSocketSession(urlString = endpoint) }
                 socket = session
                 try {
+                    val joinSentAt = storyNowMillis()
                     session.sendSerialized<ClientMessage>(ClientMessage.Join(name, roomCode, token))
                     when (val welcome = withTimeout(15_000) { session.receiveDeserialized<ServerMessage>() }) {
                         is ServerMessage.Welcome -> {
                             token = welcome.resumeToken
                             roomCode = welcome.room.code
-                            mutableState.value = NetworkState(ConnectionStatus.CONNECTED, welcome.room, welcome.playerId)
+                            mutableState.value = NetworkState(ConnectionStatus.CONNECTED, welcome.room, welcome.playerId,
+                                serverTimeOffsetMillis = welcome.room.serverTimeMillis - (joinSentAt + storyNowMillis()) / 2)
                             log("network_connected")
                         }
                         is ServerMessage.Error -> {
@@ -123,7 +126,7 @@ class NetworkGameClient(private val scope: CoroutineScope) {
         if (room.revision >= (state.value.room?.revision ?: -1)) mutableState.value = state.value.copy(room = room)
     }
 
-    fun command(action: NetworkAction, turnId: TurnId? = null, checkId: CheckId? = null, text: String = "", sessionId: Long? = null, targetPlayerId: String? = null, narrationId: String? = null, scenarioId: String? = null) {
+    fun command(action: NetworkAction, turnId: TurnId? = null, checkId: CheckId? = null, text: String = "", sessionId: Long? = null, targetPlayerId: String? = null, narrationId: String? = null, scenarioId: String? = null, character: CharacterProfile? = null, useRacialTalent: Boolean = false, combatAction: ru.markn.dnd.combat.DemoAction? = null, combatTarget: ru.markn.dnd.combat.Tile? = null) {
         val session = socket ?: return
         if (state.value.status != ConnectionStatus.CONNECTED || state.value.busy) return
         val id = ++requestId
@@ -139,7 +142,7 @@ class NetworkGameClient(private val scope: CoroutineScope) {
         }
         scope.launch {
             try {
-                session.sendSerialized<ClientMessage>(ClientMessage.Command(id, action, turnId, checkId, text, sessionId, targetPlayerId, narrationId, scenarioId))
+                session.sendSerialized<ClientMessage>(ClientMessage.Command(id, action, turnId, checkId, text, sessionId, targetPlayerId, narrationId, scenarioId, character, useRacialTalent, combatAction, combatTarget))
             } catch (e: CancellationException) {
                 throw e
             } catch (_: Exception) {

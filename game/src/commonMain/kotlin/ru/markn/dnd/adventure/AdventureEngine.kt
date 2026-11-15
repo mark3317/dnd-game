@@ -1,6 +1,7 @@
 package ru.markn.dnd.adventure
 
 import kotlin.random.Random
+import ru.markn.dnd.combat.*
 import ru.markn.dnd.adventure.diagnostics.GameLogEvent
 import ru.markn.dnd.adventure.diagnostics.GameLogger
 
@@ -25,6 +26,7 @@ class AdventureEngine(
     fun submit(state: AdventureState, playerId: String, turnId: TurnId, input: String,
                decision: GameMasterDecision? = null): AdventureState {
         val text = input.trim()
+        if (state.combat != null) return rejected(state, "submit", playerId, "combat_active")
         if (state.ending != null) return rejected(state, "submit", playerId, "adventure_finished")
         if (state.pendingCheck != null) return rejected(state, "submit", playerId, "pending_check")
         if (state.activePlayer.id != playerId) return rejected(state, "submit", playerId, "wrong_player")
@@ -42,19 +44,32 @@ class AdventureEngine(
             else state.scenario.actions.firstOrNull { it.text.lowercase() == text.lowercase().trimEnd('.', '!', '?') }
         if (decision?.action != null && action == null) return rejected(state, "submit", playerId, "unknown_action")
         val plan = decision?.plan ?: action?.planFor(state)
+        val site = state.scenario.sites.getValue(state.location)
+        if (decision?.speakerNpcId != null && (decision.speakerNpcId != site.npcId || plan != null ||
+            action?.narrative == NarrativeKind.INSPECTION)) return rejected(state, "submit", playerId, "invalid_speaker")
         val invalid = plan?.let { SceneRules.validate(state, it) }
         if (decision?.plan != null && invalid != null) return rejected(state, "submit", playerId, invalid)
         val actor = state.activePlayer
-        var next = state.append(EntryKind.PLAYER, text, actor = actor)
+        val presentation = decision?.inputPresentation ?: if (decision == null && action != null) listOf(
+            InputUtterance(InputUtteranceKind.ACTION, when (action.narrative) {
+                NarrativeKind.INSPECTION -> "${actor.hero.name} осматривается."
+                NarrativeKind.CONVERSATION -> "${actor.hero.name} обращается к собеседнику."
+                else -> "${actor.hero.name} собирается ${action.text.replaceFirstChar { it.lowercase() }}."
+            })) else emptyList()
+        if ((decision?.inputPresentation != null || presentation.isNotEmpty()) &&
+            runCatching { validateInputPresentation(presentation) }.isFailure)
+            return rejected(state, "submit", playerId, "invalid_input_presentation")
+        var next = state.append(EntryKind.PLAYER, text, actor = actor, speechEligible = false)
+        if (presentation.isNotEmpty()) next = next.copy(journal = next.journal + state.inputEntries(presentation))
         val available = action == null || action.locations.isEmpty() || state.location in action.locations
         next = when {
-            !available || invalid != null -> next.append(EntryKind.NARRATOR,
+            !available || invalid != null -> next.append(EntryKind.SYSTEM,
                 "Действие недоступно: проверьте место, снаряжение и выполненные условия. Ход сохранён.", actor = actor)
             plan != null -> {
                 if (plan.check != null) {
                     val success = plan.onSuccess.joinToString(" ") { SceneRules.describe(state, it) }
                     val failure = if (plan.onFailure.isEmpty()) "сцена не изменится." else plan.onFailure.joinToString(" ") { SceneRules.describe(state, it) }
-                    next.append(EntryKind.NARRATOR, "Предложена проверка: ${plan.description}. При успехе: $success При провале: $failure При любом исходе будет потрачена одна общая проверка.", actor = actor)
+                    next.append(EntryKind.SYSTEM, "Предложена проверка: ${plan.description}. При успехе: $success При провале: $failure При любом исходе будет потрачена одна общая проверка.", actor = actor)
                         .copy(pendingCheck = PendingCheck(CheckId(state.sessionId, next.journal.last().id),
                             playerId, turnId, action?.id, plan.check.ability, plan.check.difficulty, plan.description, plan,
                             decision?.nextPlayerId))
@@ -63,16 +78,20 @@ class AdventureEngine(
                 }
             }
             action?.narrative != null -> {
-                val site = state.scenario.sites.getValue(state.location)
                 val narration = decision?.narration ?: when (action.narrative) {
                     NarrativeKind.INSPECTION -> site.inspection
                     NarrativeKind.CONVERSATION -> site.conversation
                 }
-                next.append(EntryKind.NARRATOR, narration, actor = actor).advanceTurn(decision?.nextPlayerId)
+                val npc = decision?.speakerNpcId ?: if (action.narrative == NarrativeKind.CONVERSATION) site.npcId else null
+                next.append(if (npc == null) EntryKind.NARRATOR else EntryKind.NPC, narration, actor = actor, speakerNpcId = npc)
+                    .advanceTurn(decision?.nextPlayerId)
             }
-            else -> next.append(EntryKind.NARRATOR, decision?.narration ?:
-                "Пробный ведущий понимает действия из подсказок. Выберите подсказку или введите её текст. Ход сохранён.", actor = actor)
+            else -> next.append(if (decision == null) EntryKind.SYSTEM else if (decision.speakerNpcId == null) EntryKind.NARRATOR else EntryKind.NPC,
+                decision?.narration ?: "Выберите действие или опишите его ведущему.", actor = actor, speakerNpcId = decision?.speakerNpcId)
         }
+        if (next.pendingCheck == null &&
+            ((next.turnId != state.turnId && (action?.narrative == NarrativeKind.CONVERSATION || action?.contactsNpc == true)) ||
+                decision?.speakerNpcId != null)) next = next.meetNpc(actor)
         return recordTransition(state, next, "submit", playerId, mapOf("action" to (action?.id ?: if (plan != null) "SCENE_PLAN" else "UNSUPPORTED"),
             "input_length" to text.length.toString(), "outcome" to when {
                 plan == null && action == null -> if (decision != null) "reply" else "unsupported"
@@ -81,24 +100,29 @@ class AdventureEngine(
             }))
     }
 
-    fun roll(state: AdventureState, playerId: String, checkId: CheckId): AdventureState {
+    fun roll(state: AdventureState, playerId: String, checkId: CheckId, useRacialTalent: Boolean = false): AdventureState {
         val reason = state.checkRejectionReason(playerId, checkId)
         if (reason != null) return rejected(state, "roll", playerId, reason, mapOf("requested_check" to checkId.actionId.toString()))
         val check = requireNotNull(state.pendingCheck)
         val plan = requireNotNull(check.plan)
         SceneRules.validate(state, plan)?.let { return rejected(state, "roll", playerId, it) }
         val actor = state.activePlayer
+        val proposed = requireNotNull(plan.check)
+        if (useRacialTalent && !CharacterRules.canUseTalent(state, proposed)) return rejected(state, "roll", playerId, "racial_talent_unavailable")
         val die = try { dice.roll(20) } catch (failure: Exception) {
             log("dice_failed", state, playerId, mapOf("reason" to "dice_source_exception", "type" to (failure::class.simpleName ?: "Exception")))
             throw failure
         }
         if (die !in 1..20) log("dice_failed", state, playerId, mapOf("reason" to "invalid_result", "die" to die.toString()))
         require(die in 1..20) { "A d20 result must be between 1 and 20" }
-        val result = RollResult(check.id, actor.id, check.ability, die, actor.hero.modifier(check.ability), check.difficulty)
+        val bonuses = CharacterRules.bonuses(actor.hero, proposed, useRacialTalent)
+        val result = RollResult(check.id, actor.id, check.ability, die, bonuses.total, check.difficulty, bonuses)
         val checks = (state.checksRemaining - 1).coerceAtLeast(0)
-        var next = state.copy(pendingCheck = null, checksRemaining = checks)
+        var next = state.copy(pendingCheck = null, checksRemaining = checks,
+            players = state.players.map { if (it.id == actor.id && useRacialTalent) it.copy(hero = it.hero.copy(racialTalentUsed = true)) else it })
             .append(EntryKind.CHECK, if (result.succeeded) "Проверка пройдена" else "Проверка не пройдена", result, actor)
             .resolveEffects(if (result.succeeded) plan.onSuccess else plan.onFailure)
+        if (CheckDomain.PERSUASION in proposed.domains) next = next.meetNpc(actor)
         if (next.ending == null && checks == 0) next = next.finish(state.scenario.timeoutEnding)
         if (next.ending == null) next = next.advanceTurn(check.nextPlayerId)
         return recordTransition(state, next, "roll", playerId)
@@ -108,25 +132,32 @@ class AdventureEngine(
         val reason = state.checkRejectionReason(playerId, checkId)
         if (reason != null) return rejected(state, "cancel_check", playerId, reason)
         val result = state.copy(pendingCheck = null).append(
-            EntryKind.NARRATOR, "Попытка отменена до броска. Запас проверок сохранён, ход остаётся у этого игрока.",
+            EntryKind.SYSTEM, "Попытка отменена до броска. Запас проверок сохранён, ход остаётся у этого игрока.",
             actor = state.activePlayer,
         )
         return recordTransition(state, result, "cancel_check", playerId)
     }
 
     fun endTurn(state: AdventureState, playerId: String, turnId: TurnId): AdventureState {
+        if (state.combat != null) return combatCommand(state, playerId, turnId, null, null)
         if (state.ending != null) return rejected(state, "end_turn", playerId, "adventure_finished")
         if (state.pendingCheck != null) return rejected(state, "end_turn", playerId, "pending_check")
         if (state.activePlayer.id != playerId) return rejected(state, "end_turn", playerId, "wrong_player")
         if (state.turnId != turnId) return rejected(state, "end_turn", playerId, "stale_turn", mapOf(
             "requested_session" to turnId.sessionId.toString(), "requested_turn" to turnId.number.toString(),
         ))
-        val next = state.append(EntryKind.PLAYER, "Передаю ход.", actor = state.activePlayer).advanceTurn()
+        val next = state.append(EntryKind.PLAYER, "Передаю ход.", actor = state.activePlayer, speechEligible = false)
+            .append(EntryKind.NARRATOR, "${state.activePlayer.hero.name} передаёт слово товарищам.", actor = state.activePlayer).advanceTurn()
         return recordTransition(state, next, "end_turn", playerId)
     }
 
     private fun AdventureState.isCurrentTurn(playerId: String, commandTurn: TurnId): Boolean =
         activePlayer.id == playerId && turnId == commandTurn
+
+    private fun AdventureState.meetNpc(actor: Player): AdventureState {
+        val npc = scenario.sites.getValue(actor.location).npcId ?: return this
+        return copy(scene = scene.copy(metNpcs = scene.metNpcs + (actor.id to (scene.metNpcs[actor.id].orEmpty() + npc))))
+    }
 
     private fun AdventureState.checkRejectionReason(playerId: String, checkId: CheckId): String? {
         if (ending != null) return "adventure_finished"
@@ -227,16 +258,31 @@ class AdventureEngine(
 
     private fun AdventureState.resolveEffects(effects: List<SceneEffect>): AdventureState {
         var next = this
-        if (effects.isEmpty()) next = next.append(EntryKind.NARRATOR, "Попытка не изменила сцену. Время на проверку потрачено.", actor = activePlayer)
+        if (effects.isEmpty()) next = next.append(EntryKind.NARRATOR, "${activePlayer.hero.name} пробует, но задуманное пока не удаётся.", actor = activePlayer)
         for (effect in effects) {
             val description = SceneRules.describe(next, effect)
-            next = SceneRules.apply(next, effect).append(EntryKind.NARRATOR, description, actor = activePlayer)
+            next = SceneRules.apply(next, effect).append(EntryKind.SYSTEM, description, actor = activePlayer)
+            val story = when (effect) {
+                is SceneEffect.Fact -> scenario.facts.getValue(effect.fact).description
+                is SceneEffect.Move -> "${activePlayer.hero.name} входит в ${scenario.sites.getValue(effect.location).title.lowercase()}."
+                is SceneEffect.Transfer -> "${activePlayer.hero.name} передаёт ${scenario.items.getValue(effect.item).lowercase()} товарищу."
+                is SceneEffect.Damage -> "${activePlayer.hero.name} отшатывается от боли."
+            }
+            next = next.append(EntryKind.NARRATOR, story, actor = activePlayer)
         }
         val ending = next.scene.facts.firstNotNullOfOrNull { next.scenario.facts[it]?.ending }
-        return if (ending != null) next.finish(ending) else next
+        if (ending != null) return next.finish(ending)
+        val encounter = next.scenario.encounter
+        if (encounter != null && encounter.triggerFact in next.scene.facts && encounter.victoryFact !in next.scene.facts && next.combat == null) {
+            next = next.copy(players = next.players.map { it.copy(location = encounter.battleLocation) })
+            next = next.copy(combat = next.createEncounter(dice)).append(EntryKind.NARRATOR, encounter.introduction)
+            next = next.settleCombat()
+        }
+        return next
     }
 
     private fun AdventureState.advanceTurn(nextPlayerId: String? = null): AdventureState {
+        if (combat != null) return this
         val next = copy(turnOrder = turnOrder.next(nextPlayerId))
         return next.append(
             EntryKind.TURN,
@@ -247,13 +293,52 @@ class AdventureEngine(
     }
 
     private fun AdventureState.finish(result: String): AdventureState =
-        copy(ending = result, pendingCheck = null).append(EntryKind.NARRATOR, scenario.endings.getValue(result).description)
+        copy(ending = result, pendingCheck = null, combat = null).append(EntryKind.NARRATOR, scenario.endings.getValue(result).description)
+
+    /** null action means end turn. Every accepted command advances the turn token, including movement. */
+    fun combatCommand(state: AdventureState, playerId: String, turnId: TurnId, action: DemoAction?, target: Tile?): AdventureState {
+        val battle = state.combat ?: return state
+        if (state.ending != null || state.turnId != turnId || battle.activeId != playerId || !battle.playerTurn) return state
+        val next = if (action == null) battle.endTurn() else battle.execute(action, target, dice).completeExhaustedTurn()
+        if (next == battle) return state
+        val resolved = state.copy(combat = next).settleCombat(previousLogSize = battle.log.size)
+        return recordTransition(state, resolved, "combat", playerId)
+    }
+
+    private fun AdventureState.settleCombat(previousLogSize: Int = 0): AdventureState {
+        var battle = requireNotNull(combat)
+        // Enemy turns run on the authority, never on observing clients.
+        while (!battle.finished && battle.active.enemy) battle = battle.enemyTurn(dice)
+        var next = copy(combat = battle, players = players.map { player ->
+            val fighter = battle.fighters.first { it.id == player.id }
+            player.copy(hero = player.hero.copy(health = fighter.hp,
+                inventory = player.hero.inventory.filterNot { it == ArchiveDemo.BANDAGE } + List(fighter.bandages) { ArchiveDemo.BANDAGE }))
+        })
+        battle.log.withIndex().drop(previousLogSize).forEach { (index, message) ->
+            next = next.append(EntryKind.SYSTEM, message,
+                diceEvents = battle.diceEvents.filter { it.logIndex == index },
+                combatEvents = battle.events.filter { it.logIndex == index })
+        }
+        val encounter = requireNotNull(scenario.encounter)
+        if (battle.finished) {
+            next = next.copy(combat = null, turnOrder = next.turnOrder.next(players.first().id))
+            return if (battle.victory) next.copy(
+                players = next.players.map { it.copy(location = encounter.location) },
+                scene = next.scene.copy(facts = next.scene.facts + encounter.victoryFact))
+                .append(EntryKind.NARRATOR, scenario.facts.getValue(encounter.victoryFact).description)
+            else next.finish(encounter.defeatEnding)
+        }
+        return next.copy(turnOrder = next.turnOrder.next(battle.activeId))
+    }
 
     private fun AdventureState.append(
-        kind: EntryKind, text: String, roll: RollResult? = null, actor: Player? = null,
+        kind: EntryKind, text: String, roll: RollResult? = null, actor: Player? = null, speakerNpcId: String? = null,
+        diceEvents: List<DiceEvent> = emptyList(),
+        combatEvents: List<CombatEvent> = emptyList(),
+        speechEligible: Boolean = true,
     ): AdventureState = copy(
         journal = journal + JournalEntry(
-            (journal.lastOrNull()?.id ?: 0) + 1, kind, text, roll, actor?.id, actor?.hero?.name,
+            (journal.lastOrNull()?.id ?: 0) + 1, kind, text, roll, actor?.id, actor?.hero?.name, speakerNpcId, diceEvents, combatEvents, speechEligible,
         ),
     )
 
@@ -262,30 +347,7 @@ class AdventureEngine(
 
         fun demoPlayers(scenarioId: String = Lighthouse.ID): List<Player> {
             val scenario = requireNotNull(Scenarios.find(scenarioId))
-            val rin = Hero(
-                "Рин", "Следопыт", 12, 12,
-                mapOf(
-                    Ability.STRENGTH to 1, Ability.DEXTERITY to 3, Ability.CONSTITUTION to 2,
-                    Ability.INTELLIGENCE to 1, Ability.WISDOM to 2, Ability.CHARISMA to 0,
-                ),
-                scenario.startingItems,
-            )
-            val mira = rin.copy(
-                name = "Мира", archetype = "Учёная", health = 10, maxHealth = 10,
-                modifiers = mapOf(
-                    Ability.STRENGTH to 0, Ability.DEXTERITY to 1, Ability.CONSTITUTION to 1,
-                    Ability.INTELLIGENCE to 3, Ability.WISDOM to 2, Ability.CHARISMA to 1,
-                ),
-            )
-            val bran = rin.copy(
-                name = "Бран", archetype = "Защитник", health = 16, maxHealth = 16,
-                modifiers = mapOf(
-                    Ability.STRENGTH to 3, Ability.DEXTERITY to 0, Ability.CONSTITUTION to 3,
-                    Ability.INTELLIGENCE to 0, Ability.WISDOM to 1, Ability.CHARISMA to 1,
-                ),
-            )
-            return listOf(Player("player-1", "Игрок 1", rin, scenario.startLocation),
-                Player("player-2", "Игрок 2", mira, scenario.startLocation), Player("player-3", "Игрок 3", bran, scenario.startLocation))
+            return ReadyCharacters.all.take(3).mapIndexed { index, profile -> Player("player-${index + 1}", "Игрок ${index + 1}", profile.hero(scenario), scenario.startLocation) }
         }
     }
 }
