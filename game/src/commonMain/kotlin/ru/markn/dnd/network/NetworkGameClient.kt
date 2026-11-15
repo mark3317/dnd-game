@@ -255,7 +255,7 @@ class NetworkGameClient(private val scope: CoroutineScope, private val resumeSto
         }
     }
 
-    fun command(action: NetworkAction, turnId: TurnId? = null, checkId: CheckId? = null, text: String = "", sessionId: Long? = null, targetPlayerId: String? = null, narrationId: String? = null, scenarioId: String? = null, character: CharacterProfile? = null, useRacialTalent: Boolean = false, combatAction: ru.markn.dnd.combat.DemoAction? = null, combatTarget: ru.markn.dnd.combat.Tile? = null) {
+    fun command(action: NetworkAction, turnId: TurnId? = null, checkId: CheckId? = null, text: String = "", sessionId: Long? = null, targetPlayerId: String? = null, narrationId: String? = null, scenarioId: String? = null, character: CharacterProfile? = null, useRacialTalent: Boolean = false, combatAction: ru.markn.dnd.combat.DemoAction? = null, combatTarget: ru.markn.dnd.combat.Tile? = null, soloTestMode: Boolean = false) {
         val session = socket ?: return
         if (state.value.status != ConnectionStatus.CONNECTED || state.value.busy || state.value.leavePending) return
         val id = ++requestId
@@ -272,7 +272,7 @@ class NetworkGameClient(private val scope: CoroutineScope, private val resumeSto
         scope.launch {
             if (current != generation || socket !== session || state.value.leavePending) return@launch
             try {
-                session.sendSerialized<ClientMessage>(ClientMessage.Command(id, action, turnId, checkId, text, sessionId, targetPlayerId, narrationId, scenarioId, character, useRacialTalent, combatAction, combatTarget))
+                session.sendSerialized<ClientMessage>(ClientMessage.Command(id, action, turnId, checkId, text, sessionId, targetPlayerId, narrationId, scenarioId, character, useRacialTalent, combatAction, combatTarget, soloTestMode))
             } catch (e: CancellationException) {
                 throw e
             } catch (_: Exception) {

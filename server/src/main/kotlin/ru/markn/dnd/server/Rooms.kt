@@ -225,8 +225,10 @@ class Rooms(
                     } else cancelAi(room)
                 }
                 NetworkAction.START -> {
-                    if (!host || state != null || room.members.size < 2 || room.members.any { it.connectionId == null }) {
+                    if (!host || state != null || room.members.size < (if (message.soloTestMode) 1 else 2) || room.members.any { it.connectionId == null }) {
                         error = "Начать может создатель комнаты, когда подключены 2–4 игрока."
+                    } else if (message.soloTestMode && (!room.gameMasterEnabled || room.members.size != 1)) {
+                        error = "Тестовый одиночный режим доступен одному игроку с ИИ-гейммастером."
                     } else if (room.members.any { !it.characterConfirmed }) {
                         error = "Каждый игрок должен подтвердить своего героя перед началом истории."
                     } else {

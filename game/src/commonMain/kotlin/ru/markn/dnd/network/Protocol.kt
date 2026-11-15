@@ -5,7 +5,7 @@ import kotlinx.serialization.json.Json
 import ru.markn.dnd.adventure.*
 
 /** Change when making incompatible protocol changes. */
-const val PROTOCOL_VERSION = 16
+const val PROTOCOL_VERSION = 17
 val GameWireJson = Json { ignoreUnknownKeys = true }
 
 @Serializable
@@ -76,6 +76,7 @@ sealed interface ClientMessage {
         val useRacialTalent: Boolean = false,
         val combatAction: ru.markn.dnd.combat.DemoAction? = null,
         val combatTarget: ru.markn.dnd.combat.Tile? = null,
+        val soloTestMode: Boolean = false,
     ) : ClientMessage
 }
 

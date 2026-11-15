@@ -28,6 +28,8 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
     var name by rememberSaveable { mutableStateOf("") }
     var code by rememberSaveable { mutableStateOf("") }
     val room = state.room
+    var soloTestMode by rememberSaveable(room?.code, room?.scenarioId) { mutableStateOf(false) }
+    val soloEnabled = soloTestMode && room?.gameMasterEnabled == true && room.members.size == 1
     val connected = state.status == ConnectionStatus.CONNECTED
     val host = room != null && room.hostPlayerId == state.playerId
     val sessionUi = state.sessionPresentation()
@@ -121,6 +123,18 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
                     if (host) TextButton(shape = MaterialTheme.shapes.small, onClick = { choosingStory = !choosingStory }, enabled = available) {
                         Text(if (choosingStory) "Оставить выбранную историю" else "Сменить историю")
                     }
+                    if (host) AdventurePanel(Modifier.fillMaxWidth()) {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            Column(Modifier.weight(1f)) {
+                                Text("Одиночный режим · тест", style = MaterialTheme.typography.titleMedium)
+                                Text("Пройти историю одним героем с ИИ-гейммастером. Баланс боя остаётся групповым.", color = AdventureMuted)
+                            }
+                            Switch(checked = soloEnabled, onCheckedChange = { soloTestMode = it },
+                                enabled = available && room.gameMasterEnabled && room.members.size == 1)
+                        }
+                        if (!room.gameMasterEnabled) Text("Нужен сервер с включённым ИИ-гейммастером.", color = AdventureMuted)
+                        else if (room.members.size != 1) Text("Для теста оставьте в комнате одного игрока.", color = AdventureMuted)
+                    }
                     CharacterPicker(characters, room.members.firstOrNull { it.player.id == state.playerId }?.player?.hero?.profile,
                         enabled = available, unavailableNames = room.members.filter { it.player.id != state.playerId && it.characterConfirmed }.map { it.player.hero.name },
                         selectionConfirmed = room.members.firstOrNull { it.player.id == state.playerId }?.characterConfirmed == true) { profile ->
@@ -143,12 +157,12 @@ fun NetworkScreen(client: NetworkGameClient, state: NetworkState, characters: Ch
                             Text("Убрать из лобби: " + member.player.name)
                         }
                     }
-                    if (host) AdventureButton(onClick = { client.command(NetworkAction.START) },
-                        enabled = available && pendingScenario == null && room.members.size >= 2 && room.members.all { it.online && it.characterConfirmed },
+                    if (host) AdventureButton(onClick = { client.command(NetworkAction.START, soloTestMode = soloEnabled) },
+                        enabled = available && pendingScenario == null && room.members.size >= (if (soloEnabled) 1 else 2) && room.members.all { it.online && it.characterConfirmed },
                         modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp),
                     ) { Text("Начать приключение") }
                     else Text("Ведущий комнаты начнёт приключение, когда все соберутся.")
-                    if (room.members.size < 2) Text("Для начала нужен хотя бы один друг.", color = AdventureMuted)
+                    if (room.members.size < 2 && !soloEnabled) Text("Для начала нужен хотя бы один друг.", color = AdventureMuted)
                     else if (room.members.any { !it.online }) Text("Дождитесь подключения всех участников или уберите отключившихся из группы.", color = AdventureMuted)
                     else if (room.members.any { !it.characterConfirmed }) Text("Каждый участник должен подтвердить выбор героя.", color = AdventureMuted)
                 }
