@@ -1,5 +1,5 @@
 {
   "apiKey": "",
   "baseUrl": "https://ai.starimg.ru",
-  "model": "gpt-6-luna"
+  "model": "deepseek-v4-pro-0813"
 }

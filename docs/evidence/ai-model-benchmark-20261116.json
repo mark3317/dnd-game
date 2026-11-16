@@ -1,0 +1,3539 @@
+{
+  "models": [
+    "gpt-6-astra",
+    "gpt-6.1-sol",
+    "gpt-6.1-terra",
+    "gpt-6-sol",
+    "gpt-6-luna",
+    "gpt-5.6-sol",
+    "gpt-5.6-terra",
+    "gpt-5.6-luna",
+    "claude-fable-5-2",
+    "claude-fable-5-1",
+    "claude-fable-5",
+    "claude-opus-5-5",
+    "claude-opus-5",
+    "claude-opus-4-8",
+    "claude-opus-4-7",
+    "claude-opus-4-6",
+    "claude-sonnet-5",
+    "claude-sonnet-4-6",
+    "claude-haiku-4-5",
+    "glm-5.3",
+    "glm-5.3-flash",
+    "glm-5-turbo",
+    "glm-5.2",
+    "grok-4.7",
+    "grok-4.6",
+    "grok-4.5",
+    "composer-2.5-fast",
+    "qwen-4-max-preview",
+    "qwen3.8-flash",
+    "qwen3.8-max",
+    "kimi-k3.1-pro",
+    "kimi-k3",
+    "kimi-k2.8-preview",
+    "hy4",
+    "deepseek-v4-pro-0813",
+    "deepseek-v4.1-flash-1017",
+    "deepseek-v4-flash-0731",
+    "claude-sonnet-5-5",
+    "claude-haiku-5-5",
+    "gemini-3.1-pro",
+    "gemini-3.8-flash",
+    "gemini-4-argon",
+    "gemini-4-carbon",
+    "minimax-m3.1-flash",
+    "mimo-v2.6-flash",
+    "mimo-v2.6-pro",
+    "nemotron-3-ultra",
+    "nemotron-3.5-lightning",
+    "nemotron-3.5-super-vl"
+  ],
+  "results": [
+    {
+      "model": "gpt-6.1-sol",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 2,
+      "elapsed_ms": 30067,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "gpt-6-astra",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 1,
+      "elapsed_ms": 30072,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "gpt-6.1-terra",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 3,
+      "first_text_ms": 6279,
+      "elapsed_ms": 6946,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 194,
+        "total_tokens": 10562
+      },
+      "finish": "stop",
+      "output": "{\"action\":null,\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gpt-6.1-terra",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gpt-6.1-terra",
+      "round": 1,
+      "cache_mode": "openai_retention",
+      "attempt": 5,
+      "first_text_ms": 10868,
+      "elapsed_ms": 11911,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 276,
+        "total_tokens": 10644,
+        "prompt_tokens_details": {
+          "cached_tokens": 10240
+        }
+      },
+      "finish": "stop",
+      "output": "{\"action\":null,\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gpt-6.1-terra",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gpt-6-sol",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 4,
+      "first_text_ms": 9646,
+      "elapsed_ms": 21821,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 192,
+        "total_tokens": 10560,
+        "prompt_tokens_details": {
+          "cached_tokens": 10240
+        }
+      },
+      "finish": "stop",
+      "output": "{\"action\":null,\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gpt-6-sol",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gpt-6-sol",
+      "round": 1,
+      "cache_mode": "openai_retention",
+      "attempt": 7,
+      "first_text_ms": 3989,
+      "elapsed_ms": 7113,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 187,
+        "total_tokens": 10555,
+        "prompt_tokens_details": {
+          "cached_tokens": 10240
+        }
+      },
+      "finish": "stop",
+      "output": "{\"action\":null,\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gpt-6-sol",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gpt-6-luna",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 6,
+      "elapsed_ms": 30045,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 8,
+      "elapsed_ms": 30035,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 10,
+      "first_text_ms": 9996,
+      "elapsed_ms": 13074,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 211,
+        "total_tokens": 10579,
+        "prompt_tokens_details": {
+          "cached_tokens": 10240
+        }
+      },
+      "finish": "stop",
+      "output": "{\"action\":null,\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gpt-5.6-luna",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 9,
+      "first_text_ms": 12129,
+      "elapsed_ms": 26540,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 243,
+        "total_tokens": 10611
+      },
+      "finish": "stop",
+      "output": "{\"action\":null,\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала, но вода прибывает; слив замедлит её. Сначала защитите двор, а потом спасайте бумаги — и не тратьте повязки на мебель!\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gpt-5.6-terra",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала, но вода прибывает; слив замедлит её. Сначала защитите двор, а потом спасайте бумаги — и не тратьте повязки на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "round": 1,
+      "cache_mode": "openai_retention",
+      "attempt": 12,
+      "first_text_ms": 3620,
+      "elapsed_ms": 7057,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 200,
+        "total_tokens": 10568
+      },
+      "finish": "stop",
+      "output": "{\"action\":null,\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера грамот в описи — наш запасной путь. Оригиналы лежат в сундуке подвала; слив замедлит воду, а чертёж поможет с замками. Сначала защитите двор от налётчиков, а потом спасайте бумаги — и, пожалуйста, не спасайте от потопа мебель вместо документов.\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gpt-5.6-terra",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера грамот в описи — наш запасной путь. Оригиналы лежат в сундуке подвала; слив замедлит воду, а чертёж поможет с замками. Сначала защитите двор от налётчиков, а потом спасайте бумаги — и, пожалуйста, не спасайте от потопа мебель вместо документов."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "round": 1,
+      "cache_mode": "openai_retention",
+      "attempt": 11,
+      "first_text_ms": 10201,
+      "elapsed_ms": 25110,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 186,
+        "total_tokens": 10554,
+        "prompt_tokens_details": {
+          "cached_tokens": 10240
+        }
+      },
+      "finish": "stop",
+      "output": "{\"action\":null,\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gpt-5.6-luna",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "claude-fable-5-1",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 14,
+      "first_text_ms": 2597,
+      "elapsed_ms": 8014,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4049
+        },
+        "cache_creation_input_tokens": 4049,
+        "cache_read_input_tokens": 14355,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 190,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4049
+            },
+            "cache_creation_input_tokens": 4049,
+            "cache_read_input_tokens": 14355,
+            "input_tokens": 4,
+            "output_tokens": 190,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"В подвале уже по колено. Грамоты в сундуке — они в безопасности, пока вода не поднялась выше. Но налётчики уже у ворот. Если мы отобьём архив, у вас будет время обернуть бумаги в ткань и вынести их. Если же Егор успеет уехать с номерами, я закажу заверенные копии — оригиналы можно будет восстанавливать спокойнее. Выбирайте: драться или помогать курьеру.\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-fable-5-1",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "В подвале уже по колено. Грамоты в сундуке — они в безопасности, пока вода не поднялась выше. Но налётчики уже у ворот. Если мы отобьём архив, у вас будет время обернуть бумаги в ткань и вынести их. Если же Егор успеет уехать с номерами, я закажу заверенные копии — оригиналы можно будет восстанавливать спокойнее. Выбирайте: драться или помогать курьеру."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-fable-5-1",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 15,
+      "first_text_ms": 4100,
+      "elapsed_ms": 5220,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4021
+        },
+        "cache_creation_input_tokens": 4021,
+        "cache_read_input_tokens": 14256,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 90,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4021
+            },
+            "cache_creation_input_tokens": 4021,
+            "cache_read_input_tokens": 14256,
+            "input_tokens": 4,
+            "output_tokens": 90,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата поднимает голову от описи, в её глазах вспыхивает надежда.\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-fable-5-1",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "Агата поднимает голову от описи, в её глазах вспыхивает надежда."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-fable-5-2",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 13,
+      "elapsed_ms": 45302,
+      "error": "TimeoutError",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "claude-opus-5-5",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 17,
+      "elapsed_ms": 723,
+      "http_status": 400,
+      "error": "{\"error\":{\"message\":\"claude-opus-5-5 requires adaptive thinking; omit thinking or use thinking.type=adaptive and output_config.effort\",\"type\":\"\\u003cnil\\u003e\",\"code\":\"invalid_request\"}}",
+      "phase": "screen"
+    },
+    {
+      "model": "claude-fable-5",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 16,
+      "first_text_ms": 6414,
+      "elapsed_ms": 20478,
+      "usage": {
+        "cache_creation_input_tokens": 202,
+        "cache_read_input_tokens": 3505,
+        "input_tokens": 9684,
+        "output_tokens": 120,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 202
+        }
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"\n    }\n  ],\n  \"action\": \"BRIEFING\",\n  \"narration\": null,\n  \"plan\": null,\n  \"nextPlayerId\": \"player-2\",\n  \"speakerNpcId\": null\n}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-fable-5",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-opus-5",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 18,
+      "first_text_ms": 2574,
+      "elapsed_ms": 5302,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4047
+        },
+        "cache_creation_input_tokens": 4047,
+        "cache_read_input_tokens": 14346,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 189,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4047
+            },
+            "cache_creation_input_tokens": 4047,
+            "cache_read_input_tokens": 14346,
+            "input_tokens": 4,
+            "output_tokens": 189,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата поднимает голову от описи, в её взгляде — надежда и спешка. Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-opus-5",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "Агата поднимает голову от описи, в её взгляде — надежда и спешка. Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-opus-5",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 20,
+      "first_text_ms": 1873,
+      "elapsed_ms": 3317,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4037
+        },
+        "cache_creation_input_tokens": 4037,
+        "cache_read_input_tokens": 14310,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 146,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4037
+            },
+            "cache_creation_input_tokens": 4037,
+            "cache_read_input_tokens": 14310,
+            "input_tokens": 4,
+            "output_tokens": 146,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Грамоты в сундуке подвала — они защищают землю посёлка. Слив замедлит воду, если его починить. Чертёж на стене поможет с замками. Но сначала нужно отбить двор: налётчики уже у ворот, и пока мы говорим, дождь прибывает.\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-opus-5",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "Грамоты в сундуке подвала — они защищают землю посёлка. Слив замедлит воду, если его починить. Чертёж на стене поможет с замками. Но сначала нужно отбить двор: налётчики уже у ворот, и пока мы говорим, дождь прибывает."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-opus-4-8",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 21,
+      "first_text_ms": 2009,
+      "elapsed_ms": 2775,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 4024,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 4024,
+        "cache_read_input_tokens": 14265,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 96,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 4024,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 4024,
+            "cache_read_input_tokens": 14265,
+            "input_tokens": 4,
+            "output_tokens": 96,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата поднимает взгляд от описи. Её лицо напряжено, но в глазах вспыхивает надежда.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-opus-4-8",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Агата поднимает взгляд от описи. Её лицо напряжено, но в глазах вспыхивает надежда."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "claude-fable-5",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 19,
+      "first_text_ms": 8325,
+      "elapsed_ms": 10317,
+      "usage": {
+        "cache_creation_input_tokens": 202,
+        "cache_read_input_tokens": 3526,
+        "input_tokens": 9684,
+        "output_tokens": 120,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 202
+        }
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"\n    }\n  ],\n  \"action\": \"BRIEFING\",\n  \"narration\": null,\n  \"plan\": null,\n  \"nextPlayerId\": \"player-2\",\n  \"speakerNpcId\": null\n}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-fable-5",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-opus-4-8",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 22,
+      "first_text_ms": 3252,
+      "elapsed_ms": 4161,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 4026,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 4026,
+        "cache_read_input_tokens": 14272,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 107,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 4026,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 4026,
+            "cache_read_input_tokens": 14272,
+            "input_tokens": 4,
+            "output_tokens": 107,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата поднимает взгляд от описи. Её лицо светлеет — перед ней не простые авантюристы, а люди, готовые к делу.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-opus-4-8",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Агата поднимает взгляд от описи. Её лицо светлеет — перед ней не простые авантюристы, а люди, готовые к делу."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "claude-opus-4-7",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 23,
+      "first_text_ms": 6093,
+      "elapsed_ms": 6902,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4024
+        },
+        "cache_creation_input_tokens": 4024,
+        "cache_read_input_tokens": 14263,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 94,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4024
+            },
+            "cache_creation_input_tokens": 4024,
+            "cache_read_input_tokens": 14263,
+            "input_tokens": 4,
+            "output_tokens": 94,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Дождь усилился. Рин, Мира и Бран стоят перед архивариусом, готовые к действию.\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-opus-4-7",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "Дождь усилился. Рин, Мира и Бран стоят перед архивариусом, готовые к действию."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-opus-4-6",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 24,
+      "first_text_ms": 2864,
+      "elapsed_ms": 5026,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4055
+        },
+        "cache_creation_input_tokens": 4055,
+        "cache_read_input_tokens": 14375,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 218,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4055
+            },
+            "cache_creation_input_tokens": 4055,
+            "cache_read_input_tokens": 14375,
+            "input_tokens": 4,
+            "output_tokens": 218,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Земельные грамоты посёлка лежат в сундуке подвала — туда уже просачивается вода. Номера документов записаны в описи на столе здесь. Если откроем подвал и сундук, грамоты нужно будет обернуть непромокаемой тканью и вынести до затопления. Но сначала отбросим налётчиков — они не дадут нам спокойно спуститься. Или можете помочь Егору выехать со двора: я дам ему номера из описи, он доставит заверенные копии в город, и архив будет спасён иначе.\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-opus-4-6",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "Земельные грамоты посёлка лежат в сундуке подвала — туда уже просачивается вода. Номера документов записаны в описи на столе здесь. Если откроем подвал и сундук, грамоты нужно будет обернуть непромокаемой тканью и вынести до затопления. Но сначала отбросим налётчиков — они не дадут нам спокойно спуститься. Или можете помочь Егору выехать со двора: я дам ему номера из описи, он доставит заверенные копии в город, и архив будет спасён иначе."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-opus-4-7",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 25,
+      "first_text_ms": 2135,
+      "elapsed_ms": 2899,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4024
+        },
+        "cache_creation_input_tokens": 4024,
+        "cache_read_input_tokens": 14263,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 97,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4024
+            },
+            "cache_creation_input_tokens": 4024,
+            "cache_read_input_tokens": 14263,
+            "input_tokens": 4,
+            "output_tokens": 97,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата поднимает взгляд от описи. Её лицо напряжено, но в глазах блеск надежды.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-opus-4-7",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Агата поднимает взгляд от описи. Её лицо напряжено, но в глазах блеск надежды."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "claude-opus-4-6",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 26,
+      "first_text_ms": 2329,
+      "elapsed_ms": 4426,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4048
+        },
+        "cache_creation_input_tokens": 4048,
+        "cache_read_input_tokens": 14351,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 194,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4048
+            },
+            "cache_creation_input_tokens": 4048,
+            "cache_read_input_tokens": 14351,
+            "input_tokens": 4,
+            "output_tokens": 194,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата поднимает голову от описи, узнав в голосе Рина знакомую нотку азарта. Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-opus-4-6",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "Агата поднимает голову от описи, узнав в голосе Рина знакомую нотку азарта. Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 28,
+      "first_text_ms": 2062,
+      "elapsed_ms": 3802,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 4041,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 4041,
+        "cache_read_input_tokens": 14324,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 166,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 4041,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 4041,
+            "cache_read_input_tokens": 14324,
+            "input_tokens": 4,
+            "output_tokens": 166,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Грамоты в сундуке подвала — они доказывают право посёлка на землю. Вода прибывает туда прямо сейчас. Можно спасти оригиналы после победы над налётчиками, либо я выпишу номера, и Егор доставит заверенные копии, если вы прикроете его выезд. Но сначала нужно отбить двор.\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-sonnet-4-6",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "Грамоты в сундуке подвала — они доказывают право посёлка на землю. Вода прибывает туда прямо сейчас. Можно спасти оригиналы после победы над налётчиками, либо я выпишу номера, и Егор доставит заверенные копии, если вы прикроете его выезд. Но сначала нужно отбить двор."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-sonnet-4-6",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 29,
+      "elapsed_ms": 236,
+      "http_status": 503,
+      "error": "{\"error\":{\"message\":\"Server is busy. Please retry in a moment.\",\"type\":\"service_unavailable_error\",\"code\":\"server_busy\"}}",
+      "phase": "screen"
+    },
+    {
+      "model": "claude-sonnet-5",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 27,
+      "first_text_ms": 3515,
+      "elapsed_ms": 7731,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 4060,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 4060,
+        "cache_read_input_tokens": 14394,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 238,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 4060,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 4060,
+            "cache_read_input_tokens": 14394,
+            "input_tokens": 4,
+            "output_tokens": 238,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"В сундуке подвала хранятся земельные грамоты посёлка — они защищают нашу землю от сборщиков долгов. Вода уже поднимается, но главное: налётчики идут на ворота. Если мы их не остановим, документы либо утонут, либо их заберут. У нас есть три пути: разведать подходы и встретить врага во дворе, отправить Егора с номерами из описи, чтобы он заказал заверенные копии, или спасти оригиналы после боя. Чертёж замков на стене поможет открыть двери, а слив под окном можно прочистить — тогда воды станет меньше.\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-sonnet-5",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "В сундуке подвала хранятся земельные грамоты посёлка — они защищают нашу землю от сборщиков долгов. Вода уже поднимается, но главное: налётчики идут на ворота. Если мы их не остановим, документы либо утонут, либо их заберут. У нас есть три пути: разведать подходы и встретить врага во дворе, отправить Егора с номерами из описи, чтобы он заказал заверенные копии, или спасти оригиналы после боя. Чертёж замков на стене поможет открыть двери, а слив под окном можно прочистить — тогда воды станет меньше."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-sonnet-5",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 31,
+      "first_text_ms": 1848,
+      "elapsed_ms": 3122,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 4029,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 4029,
+        "cache_read_input_tokens": 14284,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 123,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 4029,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 4029,
+            "cache_read_input_tokens": 14284,
+            "input_tokens": 4,
+            "output_tokens": 123,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Рин обращается к архивариусу с нахальной улыбкой. Агата поднимает взгляд от описи, заметив в словах герояхоть бы толику серьёзности среди шутки.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-sonnet-5",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Рин обращается к архивариусу с нахальной улыбкой. Агата поднимает взгляд от описи, заметив в словах герояхоть бы толику серьёзности среди шутки."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 30,
+      "first_text_ms": 1830,
+      "elapsed_ms": 4931,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4024
+        },
+        "cache_creation_input_tokens": 4024,
+        "cache_read_input_tokens": 14264,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 98,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4024
+            },
+            "cache_creation_input_tokens": 4024,
+            "cache_read_input_tokens": 14264,
+            "input_tokens": 4,
+            "output_tokens": 98,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата поднимает взгляд от описи. Её лицо напряжено, но в глазах мелькает надежда.\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-haiku-4-5",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "Агата поднимает взгляд от описи. Её лицо напряжено, но в глазах мелькает надежда."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-haiku-4-5",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 33,
+      "first_text_ms": 1779,
+      "elapsed_ms": 3687,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4044
+        },
+        "cache_creation_input_tokens": 4044,
+        "cache_read_input_tokens": 14337,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 175,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4044
+            },
+            "cache_creation_input_tokens": 4044,
+            "cache_read_input_tokens": 14337,
+            "input_tokens": 4,
+            "output_tokens": 175,
+            "type": "message"
+          }
+        ]
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата поднимает взгляд от описи. Номера в ней — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "claude-haiku-4-5",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "Агата поднимает взгляд от описи. Номера в ней — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "glm-5.3",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 32,
+      "first_text_ms": 4228,
+      "elapsed_ms": 4562,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 70,
+        "completion_tokens": 71,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 70,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 1.71,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 9549,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 9549,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 9620
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти?\"}],\"action\":\"BRIEFING\",\"plan\":null,\"narration\":null,\"speakerNpcId\":\"ARCHIVIST\",\"nextPlayerId\":\"player-1\"}",
+      "phase": "screen",
+      "review": {
+        "model": "glm-5.3",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": false,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "glm-5.3",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 35,
+      "first_text_ms": 4823,
+      "elapsed_ms": 5783,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 49,
+        "completion_tokens": 117,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 49,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 1.74,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 9549,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 9549,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 9666
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"speakerNpcId\":null,\"nextPlayerId\":\"player-2\",\"plan\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "glm-5.3",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "glm-5-turbo",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 36,
+      "first_text_ms": 4533,
+      "elapsed_ms": 7969,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 163,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 1.66,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 9542,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 9542,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 9705
+      },
+      "finish": "stop",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата отрывается от описи и кивает на тяжёлую дверь подвала. В сундуке там хранятся земельные грамоты посёлка — единственное доказательство нашего права на землю. Если вода доберётся до бумаг, они бесполезны. Курьер Егор за воротами может увезти номера и заказать заверенные копии, но дорогу уже почти смыло — время уходит.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "glm-5-turbo",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Агата отрывается от описи и кивает на тяжёлую дверь подвала. В сундуке там хранятся земельные грамоты посёлка — единственное доказательство нашего права на землю. Если вода доберётся до бумаг, они бесполезны. Курьер Егор за воротами может увезти номера и заказать заверенные копии, но дорогу уже почти смыло — время уходит."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "glm-5-turbo",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 37,
+      "first_text_ms": 5076,
+      "elapsed_ms": 8463,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 170,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 1.66,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 9542,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 9542,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 9712
+      },
+      "finish": "stop",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата отрывается от описи и кивает на тяжёлую дверь подвала. В сундуке там — земельные грамоты всего посёлка. Если вода доберётся до бумаг, доказательства права на землю утонут вместе с ними. Курьер за воротами может увезти номера и заказать заверенные копии, но только если вы успеете прикрыть его выезд до того, как дождь размоет дорогу.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "glm-5-turbo",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Агата отрывается от описи и кивает на тяжёлую дверь подвала. В сундуке там — земельные грамоты всего посёлка. Если вода доберётся до бумаг, доказательства права на землю утонут вместе с ними. Курьер за воротами может увезти номера и заказать заверенные копии, но только если вы успеете прикрыть его выезд до того, как дождь размоет дорогу."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "glm-5.2",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 38,
+      "first_text_ms": 3286,
+      "elapsed_ms": 3955,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 69,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 1.71,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 9543,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 9543,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 9612
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "glm-5.2",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": false,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "glm-5.2",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 39,
+      "first_text_ms": 3481,
+      "elapsed_ms": 4407,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9472,
+        "cached_tokens": 9472,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 93,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.48,
+        "prompt_cache_hit_tokens": 9472,
+        "prompt_cache_miss_tokens": 71,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 9543,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 9472,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 9636
+      },
+      "finish": "stop",
+      "output": "```json\n{\n  \"inputPresentation\": [\n    {\"kind\": \"SPEECH\", \"text\": \"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}\n  ],\n  \"action\": \"BRIEFING\",\n  \"narration\": null,\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": null\n}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "glm-5.2",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": true,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "glm-5.3-flash",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 34,
+      "first_text_ms": null,
+      "elapsed_ms": 32875,
+      "usage": {
+        "prompt_tokens": 9549,
+        "completion_tokens": 1200,
+        "total_tokens": 10749,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1196
+        }
+      },
+      "finish": "length",
+      "output": "",
+      "phase": "screen",
+      "review": {
+        "model": "glm-5.3-flash",
+        "round": 0,
+        "contract_valid": false,
+        "reason": "decision_not_json"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "glm-5.3-flash",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 41,
+      "first_text_ms": null,
+      "elapsed_ms": 25810,
+      "usage": {
+        "prompt_tokens": 9549,
+        "completion_tokens": 1200,
+        "total_tokens": 10749,
+        "prompt_tokens_details": {
+          "cached_tokens": 9536
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1199
+        }
+      },
+      "finish": "length",
+      "output": "",
+      "phase": "screen",
+      "review": {
+        "model": "glm-5.3-flash",
+        "round": 1,
+        "contract_valid": false,
+        "reason": "decision_not_json"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "grok-4.7",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 40,
+      "elapsed_ms": 35347,
+      "error": "TimeoutError",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "grok-4.5",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 43,
+      "first_text_ms": 8345,
+      "elapsed_ms": 8900,
+      "usage": {
+        "prompt_tokens": 11940,
+        "completion_tokens": 66,
+        "total_tokens": 12484,
+        "prompt_tokens_details": {
+          "text_tokens": 11940,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 478,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "num_sources_used": 0,
+        "cost_in_usd_ticks": 90070080
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "grok-4.5",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "grok-4.6",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 42,
+      "elapsed_ms": 30035,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "grok-4.5",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 44,
+      "first_text_ms": 14093,
+      "elapsed_ms": 16808,
+      "usage": {
+        "prompt_tokens": 11940,
+        "completion_tokens": 66,
+        "total_tokens": 12737,
+        "prompt_tokens_details": {
+          "text_tokens": 11940,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 731,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "num_sources_used": 0,
+        "cost_in_usd_ticks": 95231280
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "grok-4.5",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "qwen-4-max-preview",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 46,
+      "elapsed_ms": 7083,
+      "http_status": 503,
+      "error": "{\"error\":{\"message\":\"Service is temporarily unavailable. Please retry in a moment.\",\"type\":\"service_unavailable_error\",\"code\":\"capacity_unavailable\"}}",
+      "phase": "screen"
+    },
+    {
+      "model": "qwen3.8-flash",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 47,
+      "first_text_ms": 6599,
+      "elapsed_ms": 6601,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 138,
+        "completion_tokens": 209,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 138,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.19,
+        "prompt_cache_hit_tokens": 140,
+        "prompt_cache_miss_tokens": 10478,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10618,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 140,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10827
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "qwen3.8-flash",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "qwen3.8-flash",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 48,
+      "first_text_ms": 4934,
+      "elapsed_ms": 4937,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 68,
+        "completion_tokens": 222,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 68,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.19,
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 10490,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10618,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 128,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10840
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Сначала защитите двор и отгоните налётчиков; после этого откройте сундук в подвале и заверните грамоты в непромокаемую ткань. Если Егор успеет выехать с номерами из описи, он закажет заверенные копии — но сначала нужно прочитать опись и не пустить налётчиков в архив.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "qwen3.8-flash",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Сначала защитите двор и отгоните налётчиков; после этого откройте сундук в подвале и заверните грамоты в непромокаемую ткань. Если Егор успеет выехать с номерами из описи, он закажет заверенные копии — но сначала нужно прочитать опись и не пустить налётчиков в архив."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "composer-2.5-fast",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 45,
+      "elapsed_ms": 32604,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "qwen3.8-max",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 49,
+      "elapsed_ms": 35057,
+      "error": "TimeoutError",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "kimi-k3",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 51,
+      "first_text_ms": 9759,
+      "elapsed_ms": 11415,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 140,
+        "completion_tokens": 226,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 140,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 6.49,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 11132,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11132,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11358
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "kimi-k3",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "kimi-k3.1-pro",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 50,
+      "elapsed_ms": 35633,
+      "error": "TimeoutError",
+      "first_text_ms": 24992,
+      "phase": "screen"
+    },
+    {
+      "model": "kimi-k3",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 52,
+      "first_text_ms": 9571,
+      "elapsed_ms": 10989,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11008,
+        "cached_tokens": 11008,
+        "completion_thinking_tokens": 43,
+        "completion_tokens": 129,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 43,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.99,
+        "prompt_cache_hit_tokens": 11008,
+        "prompt_cache_miss_tokens": 124,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11132,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 11008,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11261
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "kimi-k3",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": true,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "kimi-k2.8-preview",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 53,
+      "first_text_ms": 16803,
+      "elapsed_ms": 20081,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 57,
+        "completion_tokens": 148,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 57,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 2.02,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 11132,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11132,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11280
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "kimi-k2.8-preview",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "kimi-k2.8-preview",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 55,
+      "first_text_ms": 14858,
+      "elapsed_ms": 21215,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11008,
+        "cached_tokens": 11008,
+        "completion_thinking_tokens": 183,
+        "completion_tokens": 274,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 183,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.71,
+        "prompt_cache_hit_tokens": 11008,
+        "prompt_cache_miss_tokens": 124,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11132,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 11008,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11406
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "kimi-k2.8-preview",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": true,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "deepseek-v4-pro-0813",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 56,
+      "first_text_ms": 2501,
+      "elapsed_ms": 4020,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 154,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 3.15,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10780,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10780,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10934
+      },
+      "finish": "stop",
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"Специалисты по мокрым делам — это кстати: пол под дверью подвала уже блестит от воды. Главное — земельные грамоты в сундуке, иначе посёлку нечем будет доказать право на землю.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": \"ARCHIVIST\"\n}",
+      "phase": "screen",
+      "review": {
+        "model": "deepseek-v4-pro-0813",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Специалисты по мокрым делам — это кстати: пол под дверью подвала уже блестит от воды. Главное — земельные грамоты в сундуке, иначе посёлку нечем будет доказать право на землю."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "hy4",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 54,
+      "elapsed_ms": 35724,
+      "error": "TimeoutError",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "deepseek-v4-pro-0813",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 57,
+      "first_text_ms": 2917,
+      "elapsed_ms": 4604,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10752,
+        "cached_tokens": 10752,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 160,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.24,
+        "prompt_cache_hit_tokens": 10752,
+        "prompt_cache_miss_tokens": 28,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10780,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 10752,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10940
+      },
+      "finish": "stop",
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"Земельные грамоты посёлка. Они в сундуке, в подвале, а вода уже подбирается к двери. Но сначала займитесь двором: у ворот налётчики, и без победы над ними ни бумаги, ни курьер не помогут.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": \"ARCHIVIST\"\n}",
+      "phase": "screen",
+      "review": {
+        "model": "deepseek-v4-pro-0813",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Земельные грамоты посёлка. Они в сундуке, в подвале, а вода уже подбирается к двери. Но сначала займитесь двором: у ворот налётчики, и без победы над ними ни бумаги, ни курьер не помогут."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "deepseek-v4.1-flash-1017",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 58,
+      "first_text_ms": 3505,
+      "elapsed_ms": 4096,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 101,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.7,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10781,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10781,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10882
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Вода уже лижет порог подвала, а в ворота снова бьют — пора решать, что именно вы спасаете сегодня.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "deepseek-v4.1-flash-1017",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Вода уже лижет порог подвала, а в ворота снова бьют — пора решать, что именно вы спасаете сегодня."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "deepseek-v4-flash-0731",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 59,
+      "first_text_ms": 2408,
+      "elapsed_ms": 2673,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 70,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 1.03,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10781,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10781,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10851
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "deepseek-v4-flash-0731",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": true,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "deepseek-v4.1-flash-1017",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 60,
+      "first_text_ms": 2759,
+      "elapsed_ms": 3820,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10624,
+        "cached_tokens": 10624,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 70,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.04,
+        "prompt_cache_hit_tokens": 10624,
+        "prompt_cache_miss_tokens": 157,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10781,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 10624,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10851
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "deepseek-v4.1-flash-1017",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": true,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "deepseek-v4-flash-0731",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 61,
+      "first_text_ms": 2331,
+      "elapsed_ms": 2676,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10624,
+        "cached_tokens": 10624,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 70,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.07,
+        "prompt_cache_hit_tokens": 10624,
+        "prompt_cache_miss_tokens": 157,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10781,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 10624,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10851
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "deepseek-v4-flash-0731",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-sonnet-5-5",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 62,
+      "elapsed_ms": 685,
+      "http_status": 400,
+      "error": "{\"error\":{\"message\":\"claude-sonnet-5-5 requires adaptive thinking or thinking.type=between_tools; omit thinking or use one of those modes\",\"type\":\"\\u003cnil\\u003e\",\"code\":\"invalid_request\"}}",
+      "phase": "screen"
+    },
+    {
+      "model": "claude-haiku-5-5",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 63,
+      "first_text_ms": 6252,
+      "elapsed_ms": 6357,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 70580
+        },
+        "cache_creation_input_tokens": 70580,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2322,
+        "output_tokens": 112,
+        "output_tokens_details": null,
+        "server_tool_use": null
+      },
+      "finish": "end_turn",
+      "output": "429重试‍‍‌⁠‌‌‍‌​​‌‌​⁠​‌​⁠​​​⁠​​​⁠​​​⁠​‌‌​⁠⁠‍‍‌⁠‌‌‍‌​​‌‌​⁠​‌​⁠​​​⁠​​​⁠​​​⁠​‍‌​‌‍",
+      "phase": "screen",
+      "review": {
+        "model": "claude-haiku-5-5",
+        "round": 0,
+        "contract_valid": false,
+        "reason": "decision_not_object"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-haiku-5-5",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 65,
+      "first_text_ms": 15354,
+      "elapsed_ms": 19922,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 10117
+        },
+        "cache_creation_input_tokens": 10117,
+        "cache_read_input_tokens": 22585,
+        "input_tokens": 2,
+        "output_tokens": 608
+      },
+      "finish": "end_turn",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Мокрые дела нам сейчас пригодятся, ведь вода уже подбирается к двери подвала. Главное — земельные грамоты в сундуке, но сначала отбейте налётчиков у ворот, иначе до бумаг не добраться.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "claude-haiku-5-5",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Мокрые дела нам сейчас пригодятся, ведь вода уже подбирается к двери подвала. Главное — земельные грамоты в сундуке, но сначала отбейте налётчиков у ворот, иначе до бумаг не добраться."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gemini-3.1-pro",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 64,
+      "elapsed_ms": 30038,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "gemini-4-argon",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 67,
+      "first_text_ms": 3833,
+      "elapsed_ms": 4355,
+      "usage": {
+        "prompt_tokens": 15013,
+        "completion_tokens": 175,
+        "total_tokens": 15188,
+        "prompt_tokens_details": {
+          "cached_tokens": 4096
+        }
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата быстро оборачивается, вглядываясь в ваши лица сквозь приоткрытую дверь, и указывает дрожащим пальцем на опись. «Земельные грамоты в сундуке подвала — всё, что удерживает нашу землю от рук сборщика, спасите их любой ценой!»\",\"plan\":{\"description\":\"Узнать, что поставлено на кон\",\"check\":null,\"usingItem\":null,\"onSuccess\":[{\"type\":\"fact\",\"fact\":\"VILLAGE_BRIEFING\"}],\"onFailure\":[]},\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gemini-4-argon",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": false,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Агата быстро оборачивается, вглядываясь в ваши лица сквозь приоткрытую дверь, и указывает дрожащим пальцем на опись. «Земельные грамоты в сундуке подвала — всё, что удерживает нашу землю от рук сборщика, спасите их любой ценой!»"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "gemini-4-argon",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 68,
+      "first_text_ms": 5840,
+      "elapsed_ms": 5843,
+      "usage": {
+        "prompt_tokens": 15013,
+        "completion_tokens": 175,
+        "total_tokens": 15188,
+        "prompt_tokens_details": {
+          "cached_tokens": 12288
+        }
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата быстро оборачивается, вглядываясь в ваши лица сквозь приоткрытую дверь, и указывает дрожащим пальцем на опись. «Земельные грамоты в сундуке подвала — всё, что удерживает нашу землю от рук сборщика, спасите их любой ценой!»\",\"plan\":{\"description\":\"Узнать, что поставлено на кон\",\"check\":null,\"usingItem\":null,\"onSuccess\":[{\"type\":\"fact\",\"fact\":\"VILLAGE_BRIEFING\"}],\"onFailure\":[]},\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gemini-4-argon",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": false,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Агата быстро оборачивается, вглядываясь в ваши лица сквозь приоткрытую дверь, и указывает дрожащим пальцем на опись. «Земельные грамоты в сундуке подвала — всё, что удерживает нашу землю от рук сборщика, спасите их любой ценой!»"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "gemini-3.8-flash",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 66,
+      "elapsed_ms": 30038,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "gemini-4-carbon",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 69,
+      "first_text_ms": 17092,
+      "elapsed_ms": 17784,
+      "usage": {
+        "completion_tokens": 175,
+        "prompt_tokens": 22326,
+        "prompt_tokens_details": {
+          "cached_tokens": 18274
+        },
+        "total_tokens": 22501
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата быстро оборачивается, вглядываясь в ваши лица сквозь приоткрытую дверь, и указывает дрожащим пальцем на опись. «Земельные грамоты в сундуке подвала — всё, что удерживает нашу землю от рук сборщика, спасите их любой ценой!»\",\"plan\":{\"description\":\"Узнать, что поставлено на кон\",\"check\":null,\"usingItem\":null,\"onSuccess\":[{\"type\":\"fact\",\"fact\":\"VILLAGE_BRIEFING\"}],\"onFailure\":[]},\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gemini-4-carbon",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": false,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Агата быстро оборачивается, вглядываясь в ваши лица сквозь приоткрытую дверь, и указывает дрожащим пальцем на опись. «Земельные грамоты в сундуке подвала — всё, что удерживает нашу землю от рук сборщика, спасите их любой ценой!»"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "minimax-m3.1-flash",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 70,
+      "first_text_ms": 10360,
+      "elapsed_ms": 11960,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128,
+        "cached_tokens": 128,
+        "completion_thinking_tokens": 124,
+        "completion_tokens": 195,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 124,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.35,
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 10536,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10664,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 128,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10859
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "minimax-m3.1-flash",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "minimax-m3.1-flash",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 72,
+      "first_text_ms": 4438,
+      "elapsed_ms": 4767,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 246,
+        "completion_tokens": 317,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 246,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.37,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10664,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10664,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10981
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "minimax-m3.1-flash",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "gemini-4-carbon",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 71,
+      "first_text_ms": 18229,
+      "elapsed_ms": 18232,
+      "usage": {
+        "completion_tokens": 175,
+        "prompt_tokens": 24539,
+        "prompt_tokens_details": {
+          "cached_tokens": 20085
+        },
+        "total_tokens": 24714
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Агата быстро оборачивается, вглядываясь в ваши лица сквозь приоткрытую дверь, и указывает дрожащим пальцем на опись. «Земельные грамоты в сундуке подвала — всё, что удерживает нашу землю от рук сборщика, спасите их любой ценой!»\",\"plan\":{\"description\":\"Узнать, что поставлено на кон\",\"check\":null,\"usingItem\":null,\"onSuccess\":[{\"type\":\"fact\",\"fact\":\"VILLAGE_BRIEFING\"}],\"onFailure\":[]},\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "gemini-4-carbon",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": false,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Агата быстро оборачивается, вглядываясь в ваши лица сквозь приоткрытую дверь, и указывает дрожащим пальцем на опись. «Земельные грамоты в сундуке подвала — всё, что удерживает нашу землю от рук сборщика, спасите их любой ценой!»"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "mimo-v2.6-pro",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 74,
+      "first_text_ms": 3603,
+      "elapsed_ms": 5920,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 128,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 1.01,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10526,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10526,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10654
+      },
+      "finish": "stop",
+      "output": "```json\n{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"Рин расправляется с такой самоуверенностью, будто ливень начался по их заказу.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": \"ARCHIVIST\"\n}\n```",
+      "phase": "screen",
+      "review": {
+        "model": "mimo-v2.6-pro",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Рин расправляется с такой самоуверенностью, будто ливень начался по их заказу."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "mimo-v2.6-flash",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 73,
+      "first_text_ms": 12055,
+      "elapsed_ms": 12198,
+      "usage": {
+        "completion_tokens": 2869,
+        "completion_tokens_details": {
+          "reasoning_tokens": 2797
+        },
+        "prompt_tokens": 11118,
+        "prompt_tokens_details": {
+          "cached_tokens": 51
+        },
+        "total_tokens": 13987
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "mimo-v2.6-flash",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": true,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "mimo-v2.6-pro",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 75,
+      "first_text_ms": 5828,
+      "elapsed_ms": 7019,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10496,
+        "cached_tokens": 10496,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 108,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.03,
+        "prompt_cache_hit_tokens": 10496,
+        "prompt_cache_miss_tokens": 30,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10526,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 10496,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10634
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Рин бросает шутку в сторону архивариуса, пока за стеной всё громче стучат по воротам.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "mimo-v2.6-pro",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Рин бросает шутку в сторону архивариуса, пока за стеной всё громче стучат по воротам."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "mimo-v2.6-flash",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 76,
+      "first_text_ms": 4246,
+      "elapsed_ms": 4248,
+      "usage": {
+        "completion_tokens": 831,
+        "completion_tokens_details": {
+          "reasoning_tokens": 759
+        },
+        "prompt_tokens": 11118,
+        "prompt_tokens_details": {
+          "cached_tokens": 2201
+        },
+        "total_tokens": 11949
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":null}",
+      "phase": "screen",
+      "review": {
+        "model": "mimo-v2.6-flash",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "nemotron-3-ultra",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 77,
+      "first_text_ms": 10691,
+      "elapsed_ms": 10867,
+      "usage": {
+        "prompt_tokens": 10975,
+        "completion_tokens": 529,
+        "total_tokens": 11504,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 354,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish": "stop",
+      "output": "{\"action\": null, \"inputPresentation\": [{\"kind\": \"SPEECH\", \"text\": \"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}], \"narration\": \"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\", \"nextPlayerId\": \"player-1\", \"plan\": null, \"speakerNpcId\": \"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "nemotron-3-ultra",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "nemotron-3.5-lightning",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 78,
+      "elapsed_ms": 30032,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "nemotron-3-ultra",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 79,
+      "first_text_ms": 32909,
+      "elapsed_ms": 33078,
+      "usage": {
+        "prompt_tokens": 10975,
+        "completion_tokens": 987,
+        "total_tokens": 11962,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 809,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish": "stop",
+      "output": "{\"action\": \"TALK\", \"inputPresentation\": [{\"kind\": \"SPEECH\", \"text\": \"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}], \"narration\": \"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\", \"nextPlayerId\": \"player-1\", \"plan\": null, \"speakerNpcId\": \"ARCHIVIST\"}",
+      "phase": "screen",
+      "review": {
+        "model": "nemotron-3-ultra",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "nemotron-3.5-super-vl",
+      "round": 0,
+      "cache_mode": "baseline",
+      "attempt": 80,
+      "elapsed_ms": 30033,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "screen"
+    },
+    {
+      "model": "claude-opus-5-5",
+      "round": 0,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 1,
+      "first_text_ms": 4490,
+      "elapsed_ms": 7855,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4050
+        },
+        "cache_creation_input_tokens": 4050,
+        "cache_read_input_tokens": 14359,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 191,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4050
+            },
+            "cache_creation_input_tokens": 4050,
+            "cache_read_input_tokens": 14359,
+            "input_tokens": 4,
+            "output_tokens": 191,
+            "type": "message"
+          }
+        ],
+        "output_tokens_details": {
+          "thinking_tokens": 15
+        }
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Земельные грамоты в сундуке подвала — они доказывают право посёлка на землю. Воде уже по колено, времени осталось на восемь проверок, пока архив полностью не затопит. Можно спасти оригиналы после победы над налётчиками или заказать заверенные копии через курьера, пока дорога ещё проходима. Но налётчики требуют документы уже сейчас — без боя не обойтись.\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "adaptive",
+      "review": {
+        "model": "claude-opus-5-5",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": true,
+        "narration": "Земельные грамоты в сундуке подвала — они доказывают право посёлка на землю. Воде уже по колено, времени осталось на восемь проверок, пока архив полностью не затопит. Можно спасти оригиналы после победы над налётчиками или заказать заверенные копии через курьера, пока дорога ещё проходима. Но налётчики требуют документы уже сейчас — без боя не обойтись."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-opus-5-5",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 2,
+      "first_text_ms": 3810,
+      "elapsed_ms": 6972,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 4055
+        },
+        "cache_creation_input_tokens": 4055,
+        "cache_read_input_tokens": 14374,
+        "inference_geo": "global",
+        "input_tokens": 4,
+        "output_tokens": 196,
+        "service_tier": "standard",
+        "speed": "standard",
+        "iterations": [
+          {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 4055
+            },
+            "cache_creation_input_tokens": 4055,
+            "cache_read_input_tokens": 14374,
+            "input_tokens": 4,
+            "output_tokens": 196,
+            "type": "message"
+          }
+        ],
+        "output_tokens_details": {
+          "thinking_tokens": 15
+        }
+      },
+      "finish": "end_turn",
+      "output": "```json\n{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Земельные грамоты посёлка в сундуке подвала — налётчики их ищут. Или я могу отправить курьера Егора с номерами, и он заказует заверенные копии в соседнем городе. Первое — спасти оригиналы, второе — обеспечить резервный путь. Слив под окном замедлит наступление воды, чертёж на стене поможет с замками. И главное: защитите двор, пока я здесь. Налётчики уже требуют отдать документы.\",\"plan\":null,\"nextPlayerId\":\"player-2\",\"speakerNpcId\":\"ARCHIVIST\"}\n```",
+      "phase": "adaptive",
+      "review": {
+        "model": "claude-opus-5-5",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": false,
+        "technical_prose": false,
+        "narration": "Земельные грамоты посёлка в сундуке подвала — налётчики их ищут. Или я могу отправить курьера Егора с номерами, и он заказует заверенные копии в соседнем городе. Первое — спасти оригиналы, второе — обеспечить резервный путь. Слив под окном замедлит наступление воды, чертёж на стене поможет с замками. И главное: защитите двор, пока я здесь. Налётчики уже требуют отдать документы."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-sonnet-5-5",
+      "round": 0,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 3,
+      "first_text_ms": 16702,
+      "elapsed_ms": 17626,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 49400
+        },
+        "cache_creation_input_tokens": 49400,
+        "cache_read_input_tokens": 22130,
+        "input_tokens": 1689,
+        "output_tokens": 3689,
+        "output_tokens_details": null,
+        "server_tool_use": null
+      },
+      "finish": "end_turn",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Мокрых дел у нас сегодня с избытком, так что вы вовремя. Спасти нужно земельные грамоты посёлка: оригиналы лежат в сундуке в подвале, а если не успеем, номера из описи позволят заказать заверенные копии.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "adaptive",
+      "review": {
+        "model": "claude-sonnet-5-5",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Мокрых дел у нас сегодня с избытком, так что вы вовремя. Спасти нужно земельные грамоты посёлка: оригиналы лежат в сундуке в подвале, а если не успеем, номера из описи позволят заказать заверенные копии."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "claude-sonnet-5-5",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 4,
+      "first_text_ms": 11673,
+      "elapsed_ms": 11675,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 49400
+        },
+        "cache_creation_input_tokens": 49400,
+        "cache_read_input_tokens": 19815,
+        "input_tokens": 3232,
+        "output_tokens": 756,
+        "output_tokens_details": null,
+        "server_tool_use": null
+      },
+      "finish": "end_turn",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"BRIEFING\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null}",
+      "phase": "adaptive",
+      "review": {
+        "model": "claude-sonnet-5-5",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": false,
+        "keeps_focus": true,
+        "technical_prose": true,
+        "narration": "Действие передано на проверку серверу."
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "deepseek-v4-pro-0813",
+      "round": 0,
+      "cache_mode": "automatic_repeat",
+      "attempt": 1,
+      "first_text_ms": 4271,
+      "elapsed_ms": 14327,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 193,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 3.18,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10780,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10780,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10973
+      },
+      "finish": "stop",
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"Мы специалисты по мокрым делам!\"\n    },\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"Агата, объясни, что требуется спасти.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"Всё, что стоит между посёлком и потерей земли, — это грамоты в сундуке подвала, но сначала надо отбить архив от налётчиков. Номера из описи позволят заказать заверенные копии, а слив и чертёж замков помогут, когда доберёмся до бумаг.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": \"ARCHIVIST\"\n}",
+      "phase": "finalists",
+      "review": {
+        "model": "deepseek-v4-pro-0813",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Всё, что стоит между посёлком и потерей земли, — это грамоты в сундуке подвала, но сначала надо отбить архив от налётчиков. Номера из описи позволят заказать заверенные копии, а слив и чертёж замков помогут, когда доберёмся до бумаг."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "deepseek-v4-pro-0813",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 2,
+      "first_text_ms": 4515,
+      "elapsed_ms": 14428,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10752,
+        "cached_tokens": 10752,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 188,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.27,
+        "prompt_cache_hit_tokens": 10752,
+        "prompt_cache_miss_tokens": 28,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10780,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 10752,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10968
+      },
+      "finish": "stop",
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": \"ARCHIVIST\"\n}",
+      "phase": "finalists",
+      "review": {
+        "model": "deepseek-v4-pro-0813",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "qwen3.8-flash",
+      "round": 0,
+      "cache_mode": "automatic_repeat",
+      "attempt": 3,
+      "first_text_ms": 5004,
+      "elapsed_ms": 5007,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 187,
+        "completion_tokens": 260,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 187,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.05,
+        "prompt_cache_hit_tokens": 10617,
+        "prompt_cache_miss_tokens": 1,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10618,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 10617,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10878
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"action\":\"TALK\",\"narration\":null,\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "finalists",
+      "review": {
+        "model": "qwen3.8-flash",
+        "round": 0,
+        "contract_valid": false,
+        "reason": "decision_narration_invalid"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "qwen3.8-flash",
+      "round": 1,
+      "cache_mode": "automatic_repeat",
+      "attempt": 4,
+      "first_text_ms": 8606,
+      "elapsed_ms": 8608,
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 188,
+        "completion_tokens": 372,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 188,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.2,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10618,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10618,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10990
+      },
+      "finish": "stop",
+      "output": "{\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам!\"},{\"kind\":\"SPEECH\",\"text\":\"Агата, объясни, что требуется спасти.\"}],\"action\":null,\"narration\":\"Нужно отбить архив от налётчиков, а затем добраться до сундука в подвале и завернуть грамоты в непромокаемую ткань, пока вода их не погубила. Если повезёт, Егор успеет увезти номера грамот и заказать заверенные копии; чертёж на стене поможет с замками, а слив — остановить воду.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "finalists",
+      "review": {
+        "model": "qwen3.8-flash",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Нужно отбить архив от налётчиков, а затем добраться до сундука в подвале и завернуть грамоты в непромокаемую ткань, пока вода их не погубила. Если повезёт, Егор успеет увезти номера грамот и заказать заверенные копии; чертёж на стене поможет с замками, а слив — остановить воду."
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gpt-6.1-terra",
+      "round": 0,
+      "cache_mode": "openai_retention",
+      "attempt": 5,
+      "first_text_ms": 7452,
+      "elapsed_ms": 9511,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 212,
+        "total_tokens": 10580,
+        "prompt_tokens_details": {
+          "cached_tokens": 10240
+        }
+      },
+      "finish": "stop",
+      "output": "{\"action\":\"TALK\",\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "finalists",
+      "review": {
+        "model": "gpt-6.1-terra",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gpt-6.1-terra",
+      "round": 1,
+      "cache_mode": "openai_retention",
+      "attempt": 6,
+      "first_text_ms": 10240,
+      "elapsed_ms": 18637,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 193,
+        "total_tokens": 10561
+      },
+      "finish": "stop",
+      "output": "{\"action\":null,\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "finalists",
+      "review": {
+        "model": "gpt-6.1-terra",
+        "round": 1,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "claude-haiku-5-5",
+      "round": 0,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 7,
+      "first_text_ms": 8598,
+      "elapsed_ms": 8620,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 49400
+        },
+        "cache_creation_input_tokens": 49400,
+        "cache_read_input_tokens": 22940,
+        "input_tokens": 1149,
+        "output_tokens": 112,
+        "output_tokens_details": null,
+        "server_tool_use": null
+      },
+      "finish": "end_turn",
+      "output": "429重试‍‍‌⁠‌‌‍‌​​‌‌​⁠​‌​⁠​​​⁠​​​⁠​​​⁠​‌‌​⁠⁠‍‍‌⁠‌‌‍‌​​‌‌​⁠​‌​⁠​​​⁠​​​⁠​​​⁠​‍‌​‌‍",
+      "phase": "finalists",
+      "review": {
+        "model": "claude-haiku-5-5",
+        "round": 0,
+        "contract_valid": false,
+        "reason": "decision_not_object"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "claude-haiku-5-5",
+      "round": 1,
+      "cache_mode": "anthropic_explicit",
+      "attempt": 8,
+      "first_text_ms": 4810,
+      "elapsed_ms": 4821,
+      "usage": {
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 6699
+        },
+        "cache_creation_input_tokens": 6699,
+        "cache_read_input_tokens": 20769,
+        "input_tokens": 17766,
+        "output_tokens": 112,
+        "output_tokens_details": null,
+        "server_tool_use": null
+      },
+      "finish": "end_turn",
+      "output": "429重试‍‍‌⁠‌‌‍‌​​‌‌​⁠​‌​⁠​​​⁠​​​⁠​​​⁠​‌‌​⁠⁠‍‍‌⁠‌‌‍‌​​‌‌​⁠​‌​⁠​​​⁠​​​⁠​​​⁠​‍‌​‌‍",
+      "phase": "finalists",
+      "review": {
+        "model": "claude-haiku-5-5",
+        "round": 1,
+        "contract_valid": false,
+        "reason": "decision_not_object"
+      },
+      "usable_contract": false
+    },
+    {
+      "model": "gpt-6-luna",
+      "round": 0,
+      "cache_mode": "openai_retention",
+      "attempt": 9,
+      "first_text_ms": 3756,
+      "elapsed_ms": 5498,
+      "usage": {
+        "prompt_tokens": 10368,
+        "completion_tokens": 156,
+        "total_tokens": 10524,
+        "prompt_tokens_details": {
+          "cached_tokens": 2688
+        }
+      },
+      "finish": "stop",
+      "output": "{\"action\":null,\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}],\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"nextPlayerId\":\"player-1\",\"plan\":null,\"speakerNpcId\":\"ARCHIVIST\"}",
+      "phase": "finalists",
+      "review": {
+        "model": "gpt-6-luna",
+        "round": 0,
+        "contract_valid": true,
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "npc_correct": true,
+        "keeps_focus": true,
+        "technical_prose": false,
+        "narration": "Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!"
+      },
+      "usable_contract": true
+    },
+    {
+      "model": "gpt-6-luna",
+      "round": 1,
+      "cache_mode": "openai_retention",
+      "attempt": 10,
+      "elapsed_ms": 30035,
+      "error": "timeout",
+      "first_text_ms": null,
+      "phase": "finalists"
+    }
+  ],
+  "attempts": 94,
+  "inference_total": 133,
+  "inference_remaining": 17
+}

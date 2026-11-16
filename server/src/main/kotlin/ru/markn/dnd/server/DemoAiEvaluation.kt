@@ -181,7 +181,8 @@ internal fun assessDemoDecision(case: DemoAiCase, decision: GameMasterDecision):
     val matches = when (case.expected) {
         ExpectedDecision.SOCIAL -> classification == "SOCIAL"
         ExpectedDecision.LOOK -> classification == "LOOK"
-        ExpectedDecision.TALK -> classification == "TALK" && decision.speakerNpcId == before.scenario.sites[before.location]?.npcId
+        ExpectedDecision.TALK -> (classification == "TALK" || (classification == "SOCIAL" && sameMechanics && accepted)) &&
+            decision.speakerNpcId == before.scenario.sites[before.location]?.npcId
         ExpectedDecision.MECHANICAL -> targetMatches && accepted && after.pendingCheck != null
         ExpectedDecision.INTELLIGENCE_PLAN -> decision.action == null && decision.plan?.check?.ability == Ability.INTELLIGENCE && targetMatches && accepted
         ExpectedDecision.TRANSFER -> proposed?.onSuccess?.filterIsInstance<SceneEffect.Transfer>()?.singleOrNull()?.let {

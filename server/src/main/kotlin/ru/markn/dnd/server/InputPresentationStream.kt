@@ -4,11 +4,31 @@ import kotlinx.serialization.json.Json
 import ru.markn.dnd.adventure.InputUtterance
 import ru.markn.dnd.adventure.validateInputPresentation
 
-/** Locate only a complete first-field array; kotlinx.serialization validates its contents.
+/** Locate a complete top-level array regardless of JSON field order; kotlinx.serialization validates its contents.
  * Partial strings, escaped quotes and brackets inside text must never trigger speech. */
 internal fun inputPresentationPrefix(text: String): List<InputUtterance>? {
-    val prefix = Regex("^\\s*\\{\\s*\"inputPresentation\"\\s*:\\s*\\[").find(text) ?: return null
-    val start = prefix.range.last
+    var objectDepth = 0
+    var inString = false
+    var escape = false
+    var start = -1
+    for (index in text.indices) {
+        val char = text[index]
+        if (inString) {
+            if (escape) escape = false
+            else if (char == '\\') escape = true
+            else if (char == '"') inString = false
+        } else {
+            if (char == '"') {
+                if (objectDepth == 1) {
+                    val match = Regex("^\"inputPresentation\"\\s*:\\s*\\[").find(text.substring(index))
+                    if (match != null) { start = index + match.range.last; break }
+                }
+                inString = true
+            } else if (char == '{' || char == '[') objectDepth++
+            else if (char == '}' || char == ']') objectDepth--
+        }
+    }
+    if (start < 0) return null
     var quoted = false
     var escaped = false
     var depth = 0

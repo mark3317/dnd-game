@@ -1,0 +1,1256 @@
+{
+  "results": [
+    {
+      "attempt": 1,
+      "case": "GM02",
+      "repeat": 0,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"\u041c\u044b \u0441\u043f\u0435\u0446\u0438\u0430\u043b\u0438\u0441\u0442\u044b \u043f\u043e \u043c\u043e\u043a\u0440\u044b\u043c \u0434\u0435\u043b\u0430\u043c! \u0410\u0433\u0430\u0442\u0430, \u043e\u0431\u044a\u044f\u0441\u043d\u0438, \u0447\u0442\u043e \u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u0441\u043f\u0430\u0441\u0442\u0438.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u0417\u0435\u043c\u0435\u043b\u044c\u043d\u044b\u0435 \u0433\u0440\u0430\u043c\u043e\u0442\u044b \u043f\u043e\u0441\u0451\u043b\u043a\u0430. \u0415\u0441\u043b\u0438 \u043e\u043d\u0438 \u043f\u043e\u0433\u0438\u0431\u043d\u0443\u0442, \u043d\u0430\u0448\u0430 \u0437\u0435\u043c\u043b\u044f \u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f \u0431\u0435\u0437 \u0437\u0430\u0449\u0438\u0442\u044b. \u041d\u0430\u043b\u0451\u0442\u0447\u0438\u043a\u0438 \u0443\u0436\u0435 \u0443 \u0432\u043e\u0440\u043e\u0442, \u0438 \u0432\u043e\u0434\u0430 \u0432 \u043f\u043e\u0434\u0432\u0430\u043b\u0435 \u043f\u0440\u0438\u0431\u044b\u0432\u0430\u0435\u0442.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": \"ARCHIVIST\"\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 140,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 3.14,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 10780,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10780,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10920
+      },
+      "finish": "stop",
+      "elapsed_ms": 5440,
+      "first_text_ms": 3886,
+      "review": {
+        "attempt": 1,
+        "case": "GM02",
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0417\u0435\u043c\u0435\u043b\u044c\u043d\u044b\u0435 \u0433\u0440\u0430\u043c\u043e\u0442\u044b \u043f\u043e\u0441\u0451\u043b\u043a\u0430. \u0415\u0441\u043b\u0438 \u043e\u043d\u0438 \u043f\u043e\u0433\u0438\u0431\u043d\u0443\u0442, \u043d\u0430\u0448\u0430 \u0437\u0435\u043c\u043b\u044f \u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f \u0431\u0435\u0437 \u0437\u0430\u0449\u0438\u0442\u044b. \u041d\u0430\u043b\u0451\u0442\u0447\u0438\u043a\u0438 \u0443\u0436\u0435 \u0443 \u0432\u043e\u0440\u043e\u0442, \u0438 \u0432\u043e\u0434\u0430 \u0432 \u043f\u043e\u0434\u0432\u0430\u043b\u0435 \u043f\u0440\u0438\u0431\u044b\u0432\u0430\u0435\u0442.",
+          "nextPlayerId": "player-1",
+          "speakerNpcId": "ARCHIVIST",
+          "inputPresentation": [
+            {
+              "kind": "SPEECH",
+              "text": "\u041c\u044b \u0441\u043f\u0435\u0446\u0438\u0430\u043b\u0438\u0441\u0442\u044b \u043f\u043e \u043c\u043e\u043a\u0440\u044b\u043c \u0434\u0435\u043b\u0430\u043c! \u0410\u0433\u0430\u0442\u0430, \u043e\u0431\u044a\u044f\u0441\u043d\u0438, \u0447\u0442\u043e \u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u0441\u043f\u0430\u0441\u0442\u0438."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": null,
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 2,
+      "case": "GM02",
+      "repeat": 1,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"\u041c\u044b \u0441\u043f\u0435\u0446\u0438\u0430\u043b\u0438\u0441\u0442\u044b \u043f\u043e \u043c\u043e\u043a\u0440\u044b\u043c \u0434\u0435\u043b\u0430\u043c! \u0410\u0433\u0430\u0442\u0430, \u043e\u0431\u044a\u044f\u0441\u043d\u0438, \u0447\u0442\u043e \u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u0441\u043f\u0430\u0441\u0442\u0438.\"\n    }\n  ],\n  \"action\": \"BRIEFING\",\n  \"narration\": null,\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10752,
+        "cached_tokens": 10752,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 95,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.19,
+        "prompt_cache_hit_tokens": 10752,
+        "prompt_cache_miss_tokens": 28,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10780,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 10752,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10875
+      },
+      "finish": "stop",
+      "elapsed_ms": 3545,
+      "first_text_ms": 2848,
+      "review": {
+        "attempt": 2,
+        "case": "GM02",
+        "classification": "BRIEFING",
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": "BRIEFING",
+          "narration": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u043f\u0435\u0440\u0435\u0434\u0430\u043d\u043e \u043d\u0430 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443 \u0441\u0435\u0440\u0432\u0435\u0440\u0443.",
+          "nextPlayerId": "player-1",
+          "inputPresentation": [
+            {
+              "kind": "SPEECH",
+              "text": "\u041c\u044b \u0441\u043f\u0435\u0446\u0438\u0430\u043b\u0438\u0441\u0442\u044b \u043f\u043e \u043c\u043e\u043a\u0440\u044b\u043c \u0434\u0435\u043b\u0430\u043c! \u0410\u0433\u0430\u0442\u0430, \u043e\u0431\u044a\u044f\u0441\u043d\u0438, \u0447\u0442\u043e \u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044f \u0441\u043f\u0430\u0441\u0442\u0438."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": null,
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 3,
+      "case": "GM04",
+      "repeat": 0,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"\u041c\u043e\u0436\u0435\u0442, \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0435\u043c \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c?\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u0410\u0433\u0430\u0442\u0430 \u043d\u0430 \u043c\u0433\u043d\u043e\u0432\u0435\u043d\u0438\u0435 \u043e\u0442\u0440\u044b\u0432\u0430\u0435\u0442 \u0432\u0437\u0433\u043b\u044f\u0434 \u043e\u0442 \u043e\u043f\u0438\u0441\u0438: \u00ab\u0414\u0432\u0435\u0440\u044c \u043f\u043e\u0434\u0432\u0430\u043b\u0430 \u0437\u0430\u043f\u0435\u0440\u0442\u0430. \u0415\u0441\u043b\u0438 \u0443 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c \u043e\u0442\u043c\u044b\u0447\u043a\u0438, \u043c\u043e\u0436\u043d\u043e \u043f\u043e\u043f\u0440\u043e\u0431\u043e\u0432\u0430\u0442\u044c \u2014 \u043d\u043e \u0441\u043d\u0430\u0447\u0430\u043b\u0430 \u0441\u0442\u043e\u0438\u0442 \u043f\u043e\u0434\u0443\u043c\u0430\u0442\u044c \u043e \u0434\u0432\u043e\u0440\u0435: \u0448\u0430\u0433\u0438 \u0443\u0436\u0435 \u0441\u043b\u0438\u0448\u043a\u043e\u043c \u0431\u043b\u0438\u0437\u043a\u043e\u00bb.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": \"ARCHIVIST\"\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10752,
+        "cached_tokens": 10752,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 141,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.23,
+        "prompt_cache_hit_tokens": 10752,
+        "prompt_cache_miss_tokens": 36,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10788,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 10752,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10929
+      },
+      "finish": "stop",
+      "elapsed_ms": 4057,
+      "first_text_ms": 2576,
+      "review": {
+        "attempt": 3,
+        "case": "GM04",
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0410\u0433\u0430\u0442\u0430 \u043d\u0430 \u043c\u0433\u043d\u043e\u0432\u0435\u043d\u0438\u0435 \u043e\u0442\u0440\u044b\u0432\u0430\u0435\u0442 \u0432\u0437\u0433\u043b\u044f\u0434 \u043e\u0442 \u043e\u043f\u0438\u0441\u0438: \u00ab\u0414\u0432\u0435\u0440\u044c \u043f\u043e\u0434\u0432\u0430\u043b\u0430 \u0437\u0430\u043f\u0435\u0440\u0442\u0430. \u0415\u0441\u043b\u0438 \u0443 \u0432\u0430\u0441 \u0435\u0441\u0442\u044c \u043e\u0442\u043c\u044b\u0447\u043a\u0438, \u043c\u043e\u0436\u043d\u043e \u043f\u043e\u043f\u0440\u043e\u0431\u043e\u0432\u0430\u0442\u044c \u2014 \u043d\u043e \u0441\u043d\u0430\u0447\u0430\u043b\u0430 \u0441\u0442\u043e\u0438\u0442 \u043f\u043e\u0434\u0443\u043c\u0430\u0442\u044c \u043e \u0434\u0432\u043e\u0440\u0435: \u0448\u0430\u0433\u0438 \u0443\u0436\u0435 \u0441\u043b\u0438\u0448\u043a\u043e\u043c \u0431\u043b\u0438\u0437\u043a\u043e\u00bb.",
+          "nextPlayerId": "player-1",
+          "speakerNpcId": "ARCHIVIST",
+          "inputPresentation": [
+            {
+              "kind": "SPEECH",
+              "text": "\u041c\u043e\u0436\u0435\u0442, \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0435\u043c \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c?"
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": null,
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 4,
+      "case": "GM04",
+      "repeat": 1,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"\u041c\u043e\u0436\u0435\u0442, \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0435\u043c \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c?\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u0420\u0438\u043d \u043e\u0433\u043b\u044f\u0434\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u043d\u0430 \u0441\u043f\u0443\u0442\u043d\u0438\u043a\u043e\u0432, \u043d\u043e \u043f\u043e\u043a\u0430 \u043d\u0435 \u0442\u0440\u043e\u0433\u0430\u0435\u0442\u0441\u044f \u0441 \u043c\u0435\u0441\u0442\u0430 \u2014 \u0441\u043b\u043e\u0432\u0430 \u043f\u043e\u0432\u0438\u0441\u0430\u044e\u0442 \u0432 \u0441\u044b\u0440\u043e\u043c \u0432\u043e\u0437\u0434\u0443\u0445\u0435 \u0437\u0430\u043b\u0430.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10752,
+        "cached_tokens": 10752,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 112,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.2,
+        "prompt_cache_hit_tokens": 10752,
+        "prompt_cache_miss_tokens": 36,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 10788,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 10752,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 10900
+      },
+      "finish": "stop",
+      "elapsed_ms": 3581,
+      "first_text_ms": 2515,
+      "review": {
+        "attempt": 4,
+        "case": "GM04",
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0420\u0438\u043d \u043e\u0433\u043b\u044f\u0434\u044b\u0432\u0430\u0435\u0442\u0441\u044f \u043d\u0430 \u0441\u043f\u0443\u0442\u043d\u0438\u043a\u043e\u0432, \u043d\u043e \u043f\u043e\u043a\u0430 \u043d\u0435 \u0442\u0440\u043e\u0433\u0430\u0435\u0442\u0441\u044f \u0441 \u043c\u0435\u0441\u0442\u0430 \u2014 \u0441\u043b\u043e\u0432\u0430 \u043f\u043e\u0432\u0438\u0441\u0430\u044e\u0442 \u0432 \u0441\u044b\u0440\u043e\u043c \u0432\u043e\u0437\u0434\u0443\u0445\u0435 \u0437\u0430\u043b\u0430.",
+          "nextPlayerId": "player-1",
+          "inputPresentation": [
+            {
+              "kind": "SPEECH",
+              "text": "\u041c\u043e\u0436\u0435\u0442, \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0435\u043c \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c?"
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": null,
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 5,
+      "case": "GM08",
+      "repeat": 0,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"\u0421\u043a\u043e\u043b\u044c\u043a\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u043e\u043a \u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c \u0434\u043e \u044d\u0442\u043e\u0433\u043e \u0431\u0440\u043e\u0441\u043a\u0430?\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u0420\u0438\u043d \u043d\u0430 \u043c\u0433\u043d\u043e\u0432\u0435\u043d\u0438\u0435 \u043e\u0442\u0432\u043b\u0435\u043a\u0430\u0435\u0442\u0441\u044f \u043e\u0442 \u0437\u0430\u043c\u043a\u0430 \u0438 \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442 \u0432\u0437\u0433\u043b\u044f\u0434 \u043d\u0430 \u0442\u043e\u0432\u0430\u0440\u0438\u0449\u0435\u0439, \u0441\u043b\u043e\u0432\u043d\u043e \u043f\u0440\u0438\u043a\u0438\u0434\u044b\u0432\u0430\u044f, \u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0435\u0449\u0451 \u043f\u043e\u043f\u044b\u0442\u043e\u043a \u0443 \u043d\u0438\u0445 \u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f \u0434\u043e \u0442\u043e\u0433\u043e, \u043a\u0430\u043a \u0432\u043e\u0434\u0430 \u0432\u043e\u0437\u044c\u043c\u0451\u0442 \u0441\u0432\u043e\u0451.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 768,
+        "cached_tokens": 768,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 131,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 3.24,
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 11151,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11919,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 768,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 12050
+      },
+      "finish": "stop",
+      "elapsed_ms": 5358,
+      "first_text_ms": 4185,
+      "review": {
+        "attempt": 5,
+        "case": "GM08",
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0420\u0438\u043d \u043d\u0430 \u043c\u0433\u043d\u043e\u0432\u0435\u043d\u0438\u0435 \u043e\u0442\u0432\u043b\u0435\u043a\u0430\u0435\u0442\u0441\u044f \u043e\u0442 \u0437\u0430\u043c\u043a\u0430 \u0438 \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0438\u0442 \u0432\u0437\u0433\u043b\u044f\u0434 \u043d\u0430 \u0442\u043e\u0432\u0430\u0440\u0438\u0449\u0435\u0439, \u0441\u043b\u043e\u0432\u043d\u043e \u043f\u0440\u0438\u043a\u0438\u0434\u044b\u0432\u0430\u044f, \u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0435\u0449\u0451 \u043f\u043e\u043f\u044b\u0442\u043e\u043a \u0443 \u043d\u0438\u0445 \u043e\u0441\u0442\u0430\u043d\u0435\u0442\u0441\u044f \u0434\u043e \u0442\u043e\u0433\u043e, \u043a\u0430\u043a \u0432\u043e\u0434\u0430 \u0432\u043e\u0437\u044c\u043c\u0451\u0442 \u0441\u0432\u043e\u0451.",
+          "nextPlayerId": "player-1",
+          "inputPresentation": [
+            {
+              "kind": "SPEECH",
+              "text": "\u0421\u043a\u043e\u043b\u044c\u043a\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u043e\u043a \u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c \u0434\u043e \u044d\u0442\u043e\u0433\u043e \u0431\u0440\u043e\u0441\u043a\u0430?"
+            }
+          ]
+        },
+        "state_changed": false,
+        "pending_check": {
+          "id": {
+            "sessionId": 1,
+            "actionId": 37
+          },
+          "playerId": "player-1",
+          "turnId": {
+            "sessionId": 1,
+            "number": 13
+          },
+          "action": "OPEN_DOOR",
+          "ability": "DEXTERITY",
+          "difficulty": 10,
+          "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438",
+          "plan": {
+            "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438",
+            "check": {
+              "ability": "DEXTERITY",
+              "difficulty": 10,
+              "domains": [
+                "LOCKS"
+              ]
+            },
+            "usingItem": "LOCKPICKS",
+            "onSuccess": [
+              {
+                "type": "fact",
+                "fact": "CELLAR_DOOR_OPEN"
+              }
+            ],
+            "onFailure": []
+          }
+        },
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 6,
+      "case": "GM08",
+      "repeat": 1,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"SPEECH\",\n      \"text\": \"\u0421\u043a\u043e\u043b\u044c\u043a\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u043e\u043a \u0443 \u043d\u0430\u0441 \u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c \u0434\u043e \u044d\u0442\u043e\u0433\u043e \u0431\u0440\u043e\u0441\u043a\u0430?\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u0420\u0438\u043d, \u043d\u0435 \u043e\u0442\u0440\u044b\u0432\u0430\u044f\u0441\u044c \u043e\u0442 \u0437\u0430\u043c\u043a\u0430, \u043a\u043e\u0440\u043e\u0442\u043a\u043e \u0443\u0442\u043e\u0447\u043d\u044f\u0435\u0442 \u0443 \u0441\u043f\u0443\u0442\u043d\u0438\u043a\u043e\u0432, \u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0443 \u043d\u0438\u0445 \u0435\u0449\u0451 \u0432\u0440\u0435\u043c\u0435\u043d\u0438 \u0438 \u0441\u0438\u043b \u0432 \u0437\u0430\u043f\u0430\u0441\u0435.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11904,
+        "cached_tokens": 11904,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 114,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.21,
+        "prompt_cache_hit_tokens": 11904,
+        "prompt_cache_miss_tokens": 15,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11919,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 11904,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 12033
+      },
+      "finish": "stop",
+      "elapsed_ms": 4152,
+      "first_text_ms": 2996,
+      "review": {
+        "attempt": 6,
+        "case": "GM08",
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0420\u0438\u043d, \u043d\u0435 \u043e\u0442\u0440\u044b\u0432\u0430\u044f\u0441\u044c \u043e\u0442 \u0437\u0430\u043c\u043a\u0430, \u043a\u043e\u0440\u043e\u0442\u043a\u043e \u0443\u0442\u043e\u0447\u043d\u044f\u0435\u0442 \u0443 \u0441\u043f\u0443\u0442\u043d\u0438\u043a\u043e\u0432, \u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0443 \u043d\u0438\u0445 \u0435\u0449\u0451 \u0432\u0440\u0435\u043c\u0435\u043d\u0438 \u0438 \u0441\u0438\u043b \u0432 \u0437\u0430\u043f\u0430\u0441\u0435.",
+          "nextPlayerId": "player-1",
+          "inputPresentation": [
+            {
+              "kind": "SPEECH",
+              "text": "\u0421\u043a\u043e\u043b\u044c\u043a\u043e \u043f\u0440\u043e\u0432\u0435\u0440\u043e\u043a \u0443 \u043d\u0430\u0441 \u043e\u0441\u0442\u0430\u043b\u043e\u0441\u044c \u0434\u043e \u044d\u0442\u043e\u0433\u043e \u0431\u0440\u043e\u0441\u043a\u0430?"
+            }
+          ]
+        },
+        "state_changed": false,
+        "pending_check": {
+          "id": {
+            "sessionId": 1,
+            "actionId": 37
+          },
+          "playerId": "player-1",
+          "turnId": {
+            "sessionId": 1,
+            "number": 13
+          },
+          "action": "OPEN_DOOR",
+          "ability": "DEXTERITY",
+          "difficulty": 10,
+          "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438",
+          "plan": {
+            "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438",
+            "check": {
+              "ability": "DEXTERITY",
+              "difficulty": 10,
+              "domains": [
+                "LOCKS"
+              ]
+            },
+            "usingItem": "LOCKPICKS",
+            "onSuccess": [
+              {
+                "type": "fact",
+                "fact": "CELLAR_DOOR_OPEN"
+              }
+            ],
+            "onFailure": []
+          }
+        },
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 7,
+      "case": "GM10",
+      "repeat": 0,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u0441\u043e\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043f\u043e\u0434\u0432\u0430\u043b\u0430 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438.\"\n    }\n  ],\n  \"action\": \"OPEN_DOOR\",\n  \"narration\": null,\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 768,
+        "cached_tokens": 768,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 87,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 3.16,
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 10977,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11745,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 768,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11832
+      },
+      "finish": "stop",
+      "elapsed_ms": 10686,
+      "first_text_ms": 5949,
+      "review": {
+        "attempt": 7,
+        "case": "GM10",
+        "classification": "OPEN_DOOR",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": "OPEN_DOOR",
+          "narration": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u043f\u0435\u0440\u0435\u0434\u0430\u043d\u043e \u043d\u0430 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443 \u0441\u0435\u0440\u0432\u0435\u0440\u0443.",
+          "nextPlayerId": "player-1",
+          "inputPresentation": [
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u0441\u043e\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043f\u043e\u0434\u0432\u0430\u043b\u0430 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": {
+          "id": {
+            "sessionId": 1,
+            "actionId": 41
+          },
+          "playerId": "player-1",
+          "turnId": {
+            "sessionId": 1,
+            "number": 13
+          },
+          "action": "OPEN_DOOR",
+          "ability": "DEXTERITY",
+          "difficulty": 10,
+          "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438",
+          "plan": {
+            "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438",
+            "check": {
+              "ability": "DEXTERITY",
+              "difficulty": 10,
+              "domains": [
+                "LOCKS"
+              ]
+            },
+            "usingItem": "LOCKPICKS",
+            "onSuccess": [
+              {
+                "type": "fact",
+                "fact": "CELLAR_DOOR_OPEN"
+              }
+            ],
+            "onFailure": []
+          },
+          "nextPlayerId": "player-1"
+        },
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 8,
+      "case": "GM10",
+      "repeat": 1,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438 \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u0435\u0442 \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043f\u043e\u0434\u0432\u0430\u043b\u0430.\"\n    }\n  ],\n  \"action\": \"OPEN_DOOR\",\n  \"narration\": null,\n  \"plan\": null,\n  \"nextPlayerId\": \"player-2\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11648,
+        "cached_tokens": 11648,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 85,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.21,
+        "prompt_cache_hit_tokens": 11648,
+        "prompt_cache_miss_tokens": 97,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11745,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 11648,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11830
+      },
+      "finish": "stop",
+      "elapsed_ms": 9551,
+      "first_text_ms": 5044,
+      "review": {
+        "attempt": 8,
+        "case": "GM10",
+        "classification": "OPEN_DOOR",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": "OPEN_DOOR",
+          "narration": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u043f\u0435\u0440\u0435\u0434\u0430\u043d\u043e \u043d\u0430 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443 \u0441\u0435\u0440\u0432\u0435\u0440\u0443.",
+          "nextPlayerId": "player-2",
+          "inputPresentation": [
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438 \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u0435\u0442 \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043f\u043e\u0434\u0432\u0430\u043b\u0430."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": {
+          "id": {
+            "sessionId": 1,
+            "actionId": 41
+          },
+          "playerId": "player-1",
+          "turnId": {
+            "sessionId": 1,
+            "number": 13
+          },
+          "action": "OPEN_DOOR",
+          "ability": "DEXTERITY",
+          "difficulty": 10,
+          "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438",
+          "plan": {
+            "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438",
+            "check": {
+              "ability": "DEXTERITY",
+              "difficulty": 10,
+              "domains": [
+                "LOCKS"
+              ]
+            },
+            "usingItem": "LOCKPICKS",
+            "onSuccess": [
+              {
+                "type": "fact",
+                "fact": "CELLAR_DOOR_OPEN"
+              }
+            ],
+            "onFailure": []
+          },
+          "nextPlayerId": "player-2"
+        },
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 9,
+      "case": "GM11",
+      "repeat": 0,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u0438\u0437\u0443\u0447\u0430\u0435\u0442 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0437\u0430\u043c\u043a\u0430 \u043d\u0430 \u0434\u0432\u0435\u0440\u0438 \u043f\u043e\u0434\u0432\u0430\u043b\u0430.\"\n    },\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u043f\u0440\u043e\u0431\u0443\u0435\u0442 \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u043f\u043e\u043b\u0430\u0433\u0430\u044f\u0441\u044c \u043d\u0430 \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430, \u0430 \u043d\u0435 \u043d\u0430 \u043b\u043e\u0432\u043a\u043e\u0441\u0442\u044c \u0440\u0443\u043a.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": null,\n  \"plan\": {\n    \"description\": \"\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044f \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430\",\n    \"check\": {\n      \"ability\": \"INTELLIGENCE\",\n      \"difficulty\": 10,\n      \"domains\": [\"LOCKS\", \"DEVICES\", \"CRAFT\"]\n    },\n    \"usingItem\": \"LOCKPICKS\",\n    \"onSuccess\": [\n      {\n        \"type\": \"fact\",\n        \"fact\": \"CELLAR_DOOR_OPEN\"\n      }\n    ],\n    \"onFailure\": []\n  },\n  \"nextPlayerId\": \"player-2\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 8832,
+        "cached_tokens": 8832,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 244,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 1.11,
+        "prompt_cache_hit_tokens": 8832,
+        "prompt_cache_miss_tokens": 2930,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11762,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 8832,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 12006
+      },
+      "finish": "stop",
+      "elapsed_ms": 4800,
+      "first_text_ms": 3067,
+      "review": {
+        "attempt": 9,
+        "case": "GM11",
+        "classification": "FREE_PLAN",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u043f\u0435\u0440\u0435\u0434\u0430\u043d\u043e \u043d\u0430 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443 \u0441\u0435\u0440\u0432\u0435\u0440\u0443.",
+          "plan": {
+            "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044f \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430",
+            "check": {
+              "ability": "INTELLIGENCE",
+              "difficulty": 10,
+              "domains": [
+                "LOCKS",
+                "DEVICES",
+                "CRAFT"
+              ]
+            },
+            "usingItem": "LOCKPICKS",
+            "onSuccess": [
+              {
+                "type": "fact",
+                "fact": "CELLAR_DOOR_OPEN"
+              }
+            ],
+            "onFailure": []
+          },
+          "nextPlayerId": "player-2",
+          "inputPresentation": [
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u0438\u0437\u0443\u0447\u0430\u0435\u0442 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0437\u0430\u043c\u043a\u0430 \u043d\u0430 \u0434\u0432\u0435\u0440\u0438 \u043f\u043e\u0434\u0432\u0430\u043b\u0430."
+            },
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u043f\u0440\u043e\u0431\u0443\u0435\u0442 \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u043f\u043e\u043b\u0430\u0433\u0430\u044f\u0441\u044c \u043d\u0430 \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430, \u0430 \u043d\u0435 \u043d\u0430 \u043b\u043e\u0432\u043a\u043e\u0441\u0442\u044c \u0440\u0443\u043a."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": {
+          "id": {
+            "sessionId": 1,
+            "actionId": 42
+          },
+          "playerId": "player-1",
+          "turnId": {
+            "sessionId": 1,
+            "number": 13
+          },
+          "action": null,
+          "ability": "INTELLIGENCE",
+          "difficulty": 10,
+          "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044f \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430",
+          "plan": {
+            "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0437\u0430\u043c\u043e\u043a \u0434\u0432\u0435\u0440\u0438 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044f \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430",
+            "check": {
+              "ability": "INTELLIGENCE",
+              "difficulty": 10,
+              "domains": [
+                "LOCKS",
+                "DEVICES",
+                "CRAFT"
+              ]
+            },
+            "usingItem": "LOCKPICKS",
+            "onSuccess": [
+              {
+                "type": "fact",
+                "fact": "CELLAR_DOOR_OPEN"
+              }
+            ],
+            "onFailure": []
+          },
+          "nextPlayerId": "player-2"
+        },
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 10,
+      "case": "GM11",
+      "repeat": 1,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u0432\u043d\u0438\u043c\u0430\u0442\u0435\u043b\u044c\u043d\u043e \u0438\u0437\u0443\u0447\u0430\u0435\u0442 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0437\u0430\u043c\u043a\u0430 \u043d\u0430 \u0434\u0432\u0435\u0440\u0438 \u043f\u043e\u0434\u0432\u0430\u043b\u0430.\"\n    },\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u043f\u044b\u0442\u0430\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u043f\u043e\u043b\u0430\u0433\u0430\u044f\u0441\u044c \u043d\u0430 \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": null,\n  \"plan\": {\n    \"description\": \"\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c \u043f\u043e\u0434\u0432\u0430\u043b\u0430 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044f \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430 \u0437\u0430\u043c\u043a\u0430\",\n    \"check\": {\n      \"ability\": \"INTELLIGENCE\",\n      \"difficulty\": 10,\n      \"domains\": [\"LOCKS\", \"DEVICES\", \"CRAFT\"]\n    },\n    \"usingItem\": \"LOCKPICKS\",\n    \"onSuccess\": [\n      {\n        \"type\": \"fact\",\n        \"fact\": \"CELLAR_DOOR_OPEN\"\n      }\n    ],\n    \"onFailure\": []\n  },\n  \"nextPlayerId\": \"player-2\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11648,
+        "cached_tokens": 11648,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 239,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.34,
+        "prompt_cache_hit_tokens": 11648,
+        "prompt_cache_miss_tokens": 114,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11762,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 11648,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 12001
+      },
+      "finish": "stop",
+      "elapsed_ms": 4168,
+      "first_text_ms": 2809,
+      "review": {
+        "attempt": 10,
+        "case": "GM11",
+        "classification": "FREE_PLAN",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u043f\u0435\u0440\u0435\u0434\u0430\u043d\u043e \u043d\u0430 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0443 \u0441\u0435\u0440\u0432\u0435\u0440\u0443.",
+          "plan": {
+            "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c \u043f\u043e\u0434\u0432\u0430\u043b\u0430 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044f \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430 \u0437\u0430\u043c\u043a\u0430",
+            "check": {
+              "ability": "INTELLIGENCE",
+              "difficulty": 10,
+              "domains": [
+                "LOCKS",
+                "DEVICES",
+                "CRAFT"
+              ]
+            },
+            "usingItem": "LOCKPICKS",
+            "onSuccess": [
+              {
+                "type": "fact",
+                "fact": "CELLAR_DOOR_OPEN"
+              }
+            ],
+            "onFailure": []
+          },
+          "nextPlayerId": "player-2",
+          "inputPresentation": [
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u0432\u043d\u0438\u043c\u0430\u0442\u0435\u043b\u044c\u043d\u043e \u0438\u0437\u0443\u0447\u0430\u0435\u0442 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0437\u0430\u043c\u043a\u0430 \u043d\u0430 \u0434\u0432\u0435\u0440\u0438 \u043f\u043e\u0434\u0432\u0430\u043b\u0430."
+            },
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u043f\u044b\u0442\u0430\u0435\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u043f\u043e\u043b\u0430\u0433\u0430\u044f\u0441\u044c \u043d\u0430 \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0430."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": {
+          "id": {
+            "sessionId": 1,
+            "actionId": 42
+          },
+          "playerId": "player-1",
+          "turnId": {
+            "sessionId": 1,
+            "number": 13
+          },
+          "action": null,
+          "ability": "INTELLIGENCE",
+          "difficulty": 10,
+          "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c \u043f\u043e\u0434\u0432\u0430\u043b\u0430 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044f \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430 \u0437\u0430\u043c\u043a\u0430",
+          "plan": {
+            "description": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0434\u0432\u0435\u0440\u044c \u043f\u043e\u0434\u0432\u0430\u043b\u0430 \u043e\u0442\u043c\u044b\u0447\u043a\u0430\u043c\u0438, \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044f \u043f\u043e\u043d\u0438\u043c\u0430\u043d\u0438\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430 \u0437\u0430\u043c\u043a\u0430",
+            "check": {
+              "ability": "INTELLIGENCE",
+              "difficulty": 10,
+              "domains": [
+                "LOCKS",
+                "DEVICES",
+                "CRAFT"
+              ]
+            },
+            "usingItem": "LOCKPICKS",
+            "onSuccess": [
+              {
+                "type": "fact",
+                "fact": "CELLAR_DOOR_OPEN"
+              }
+            ],
+            "onFailure": []
+          },
+          "nextPlayerId": "player-2"
+        },
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 11,
+      "case": "GM13",
+      "repeat": 0,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u043f\u0435\u0440\u0435\u0434\u0430\u0451\u0442 \u041c\u0438\u0440\u0435 \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u0443\u044e \u0442\u043a\u0430\u043d\u044c.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u0420\u0438\u043d \u043f\u0440\u043e\u0442\u044f\u0433\u0438\u0432\u0430\u0435\u0442 \u0441\u0432\u0451\u0440\u0442\u043e\u043a \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u043e\u0439 \u0442\u043a\u0430\u043d\u0438 \u041c\u0438\u0440\u0435.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-2\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11648,
+        "cached_tokens": 11648,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 95,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.22,
+        "prompt_cache_hit_tokens": 11648,
+        "prompt_cache_miss_tokens": 96,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11744,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 11648,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11839
+      },
+      "finish": "stop",
+      "elapsed_ms": 3581,
+      "first_text_ms": 2798,
+      "review": {
+        "attempt": 11,
+        "case": "GM13",
+        "classification": "SOCIAL",
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0420\u0438\u043d \u043f\u0440\u043e\u0442\u044f\u0433\u0438\u0432\u0430\u0435\u0442 \u0441\u0432\u0451\u0440\u0442\u043e\u043a \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u043e\u0439 \u0442\u043a\u0430\u043d\u0438 \u041c\u0438\u0440\u0435.",
+          "nextPlayerId": "player-2",
+          "inputPresentation": [
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u043f\u0435\u0440\u0435\u0434\u0430\u0451\u0442 \u041c\u0438\u0440\u0435 \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u0443\u044e \u0442\u043a\u0430\u043d\u044c."
+            }
+          ]
+        },
+        "state_changed": false,
+        "pending_check": null,
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 12,
+      "case": "GM13",
+      "repeat": 1,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u043f\u0435\u0440\u0435\u0434\u0430\u0451\u0442 \u041c\u0438\u0440\u0435 \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u0443\u044e \u0442\u043a\u0430\u043d\u044c.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u0420\u0438\u043d \u0432\u043a\u043b\u0430\u0434\u044b\u0432\u0430\u0435\u0442 \u0441\u0432\u0451\u0440\u0442\u043e\u043a \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u043e\u0439 \u0442\u043a\u0430\u043d\u0438 \u0432 \u0440\u0443\u043a\u0438 \u041c\u0438\u0440\u044b. \u0422\u0430 \u043a\u0438\u0432\u0430\u0435\u0442, \u043f\u0440\u0438\u043a\u0438\u0434\u044b\u0432\u0430\u044f, \u043a\u0430\u043a \u043b\u0443\u0447\u0448\u0435 \u0443\u0431\u0435\u0440\u0435\u0447\u044c \u0431\u0443\u043c\u0430\u0433\u0438 \u043e\u0442 \u043f\u0440\u0438\u0431\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u0432\u043e\u0434\u044b.\",\n  \"plan\": {\n    \"description\": \"\u041f\u0435\u0440\u0435\u0434\u0430\u0442\u044c \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u0443\u044e \u0442\u043a\u0430\u043d\u044c \u041c\u0438\u0440\u0435\",\n    \"check\": null,\n    \"usingItem\": \"WATERPROOF_WRAP\",\n    \"onSuccess\": [\n      {\n        \"type\": \"transfer\",\n        \"item\": \"WATERPROOF_WRAP\",\n        \"targetPlayerId\": \"player-2\"\n      }\n    ],\n    \"onFailure\": []\n  },\n  \"nextPlayerId\": \"player-2\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11648,
+        "cached_tokens": 11648,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 206,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.31,
+        "prompt_cache_hit_tokens": 11648,
+        "prompt_cache_miss_tokens": 96,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11744,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 11648,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11950
+      },
+      "finish": "stop",
+      "elapsed_ms": 4510,
+      "first_text_ms": 2630,
+      "review": {
+        "attempt": 12,
+        "case": "GM13",
+        "classification": "FREE_PLAN",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0420\u0438\u043d \u0432\u043a\u043b\u0430\u0434\u044b\u0432\u0430\u0435\u0442 \u0441\u0432\u0451\u0440\u0442\u043e\u043a \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u043e\u0439 \u0442\u043a\u0430\u043d\u0438 \u0432 \u0440\u0443\u043a\u0438 \u041c\u0438\u0440\u044b. \u0422\u0430 \u043a\u0438\u0432\u0430\u0435\u0442, \u043f\u0440\u0438\u043a\u0438\u0434\u044b\u0432\u0430\u044f, \u043a\u0430\u043a \u043b\u0443\u0447\u0448\u0435 \u0443\u0431\u0435\u0440\u0435\u0447\u044c \u0431\u0443\u043c\u0430\u0433\u0438 \u043e\u0442 \u043f\u0440\u0438\u0431\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u0432\u043e\u0434\u044b.",
+          "plan": {
+            "description": "\u041f\u0435\u0440\u0435\u0434\u0430\u0442\u044c \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u0443\u044e \u0442\u043a\u0430\u043d\u044c \u041c\u0438\u0440\u0435",
+            "check": null,
+            "usingItem": "WATERPROOF_WRAP",
+            "onSuccess": [
+              {
+                "type": "transfer",
+                "item": "WATERPROOF_WRAP",
+                "targetPlayerId": "player-2"
+              }
+            ],
+            "onFailure": []
+          },
+          "nextPlayerId": "player-2",
+          "inputPresentation": [
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u043f\u0435\u0440\u0435\u0434\u0430\u0451\u0442 \u041c\u0438\u0440\u0435 \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u0443\u044e \u0442\u043a\u0430\u043d\u044c."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": null,
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 13,
+      "case": "GM14",
+      "repeat": 0,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u043f\u0435\u0440\u0435\u0434\u0430\u0451\u0442 \u041c\u0438\u0440\u0435 \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u0443\u044e \u0442\u043a\u0430\u043d\u044c.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u041c\u0438\u0440\u0430 \u0441\u0435\u0439\u0447\u0430\u0441 \u0432\u043e \u0434\u0432\u043e\u0440\u0435, \u0430 \u0420\u0438\u043d \u2014 \u0432 \u0437\u0430\u043b\u0435: \u043f\u0435\u0440\u0435\u0434\u0430\u0442\u044c \u0432\u0435\u0449\u044c \u043d\u0430 \u0440\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0438 \u043d\u0435 \u0432\u044b\u0439\u0434\u0435\u0442. \u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043d\u0443\u0436\u043d\u043e \u043e\u043a\u0430\u0437\u0430\u0442\u044c\u0441\u044f \u0440\u044f\u0434\u043e\u043c.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "cached_tokens": 640,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 114,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 3.21,
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 11077,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11717,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 640,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11831
+      },
+      "finish": "stop",
+      "elapsed_ms": 4409,
+      "first_text_ms": 3202,
+      "review": {
+        "attempt": 13,
+        "case": "GM14",
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u041c\u0438\u0440\u0430 \u0441\u0435\u0439\u0447\u0430\u0441 \u0432\u043e \u0434\u0432\u043e\u0440\u0435, \u0430 \u0420\u0438\u043d \u2014 \u0432 \u0437\u0430\u043b\u0435: \u043f\u0435\u0440\u0435\u0434\u0430\u0442\u044c \u0432\u0435\u0449\u044c \u043d\u0430 \u0440\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0438 \u043d\u0435 \u0432\u044b\u0439\u0434\u0435\u0442. \u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043d\u0443\u0436\u043d\u043e \u043e\u043a\u0430\u0437\u0430\u0442\u044c\u0441\u044f \u0440\u044f\u0434\u043e\u043c.",
+          "nextPlayerId": "player-1",
+          "inputPresentation": [
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u043f\u0435\u0440\u0435\u0434\u0430\u0451\u0442 \u041c\u0438\u0440\u0435 \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u0443\u044e \u0442\u043a\u0430\u043d\u044c."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": null,
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 14,
+      "case": "GM14",
+      "repeat": 1,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u0441\u043e\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044f \u043f\u0435\u0440\u0435\u0434\u0430\u0442\u044c \u041c\u0438\u0440\u0435 \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u0443\u044e \u0442\u043a\u0430\u043d\u044c.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u041c\u0438\u0440\u0430 \u0441\u0435\u0439\u0447\u0430\u0441 \u0432\u043e \u0434\u0432\u043e\u0440\u0435, \u0430 \u0420\u0438\u043d \u2014 \u0432 \u0437\u0430\u043b\u0435 \u0430\u0440\u0445\u0438\u0432\u0430. \u041f\u0435\u0440\u0435\u0434\u0430\u0442\u044c \u0432\u0435\u0449\u044c \u043c\u043e\u0436\u043d\u043e \u0442\u043e\u043b\u044c\u043a\u043e \u0442\u043e\u043c\u0443, \u043a\u0442\u043e \u0440\u044f\u0434\u043e\u043c.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11648,
+        "cached_tokens": 11648,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 110,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.22,
+        "prompt_cache_hit_tokens": 11648,
+        "prompt_cache_miss_tokens": 69,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11717,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 11648,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11827
+      },
+      "finish": "stop",
+      "elapsed_ms": 4130,
+      "first_text_ms": 3042,
+      "review": {
+        "attempt": 14,
+        "case": "GM14",
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u041c\u0438\u0440\u0430 \u0441\u0435\u0439\u0447\u0430\u0441 \u0432\u043e \u0434\u0432\u043e\u0440\u0435, \u0430 \u0420\u0438\u043d \u2014 \u0432 \u0437\u0430\u043b\u0435 \u0430\u0440\u0445\u0438\u0432\u0430. \u041f\u0435\u0440\u0435\u0434\u0430\u0442\u044c \u0432\u0435\u0449\u044c \u043c\u043e\u0436\u043d\u043e \u0442\u043e\u043b\u044c\u043a\u043e \u0442\u043e\u043c\u0443, \u043a\u0442\u043e \u0440\u044f\u0434\u043e\u043c.",
+          "nextPlayerId": "player-1",
+          "inputPresentation": [
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u0441\u043e\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044f \u043f\u0435\u0440\u0435\u0434\u0430\u0442\u044c \u041c\u0438\u0440\u0435 \u043d\u0435\u043f\u0440\u043e\u043c\u043e\u043a\u0430\u0435\u043c\u0443\u044e \u0442\u043a\u0430\u043d\u044c."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": null,
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 15,
+      "case": "GM18",
+      "repeat": 0,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u0441\u043e\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044f \u0432\u0437\u044f\u0442\u044c \u0433\u0440\u0430\u043c\u043e\u0442\u044b \u0438\u0437 \u0441\u0443\u043d\u0434\u0443\u043a\u0430 \u0438 \u0437\u0430\u0449\u0438\u0442\u0438\u0442\u044c \u0438\u0445 \u0442\u043a\u0430\u043d\u044c\u044e.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u0421\u0443\u043d\u0434\u0443\u043a \u0435\u0449\u0451 \u0437\u0430\u043f\u0435\u0440\u0442, \u0430 \u0434\u0432\u0435\u0440\u044c \u0432 \u043f\u043e\u0434\u0432\u0430\u043b \u043d\u0435 \u043e\u0442\u043a\u0440\u044b\u0442\u0430. \u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043d\u0443\u0436\u043d\u043e \u0434\u043e\u0431\u0440\u0430\u0442\u044c\u0441\u044f \u0434\u043e \u0433\u0440\u0430\u043c\u043e\u0442.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11648,
+        "cached_tokens": 11648,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 116,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.23,
+        "prompt_cache_hit_tokens": 11648,
+        "prompt_cache_miss_tokens": 88,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11736,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 11648,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11852
+      },
+      "finish": "stop",
+      "elapsed_ms": 3585,
+      "first_text_ms": 2485,
+      "review": {
+        "attempt": 15,
+        "case": "GM18",
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0421\u0443\u043d\u0434\u0443\u043a \u0435\u0449\u0451 \u0437\u0430\u043f\u0435\u0440\u0442, \u0430 \u0434\u0432\u0435\u0440\u044c \u0432 \u043f\u043e\u0434\u0432\u0430\u043b \u043d\u0435 \u043e\u0442\u043a\u0440\u044b\u0442\u0430. \u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u043d\u0443\u0436\u043d\u043e \u0434\u043e\u0431\u0440\u0430\u0442\u044c\u0441\u044f \u0434\u043e \u0433\u0440\u0430\u043c\u043e\u0442.",
+          "nextPlayerId": "player-1",
+          "inputPresentation": [
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u0441\u043e\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044f \u0432\u0437\u044f\u0442\u044c \u0433\u0440\u0430\u043c\u043e\u0442\u044b \u0438\u0437 \u0441\u0443\u043d\u0434\u0443\u043a\u0430 \u0438 \u0437\u0430\u0449\u0438\u0442\u0438\u0442\u044c \u0438\u0445 \u0442\u043a\u0430\u043d\u044c\u044e."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": null,
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 16,
+      "case": "GM18",
+      "repeat": 1,
+      "output": "{\n  \"inputPresentation\": [\n    {\n      \"kind\": \"ACTION\",\n      \"text\": \"\u0420\u0438\u043d \u0441\u043e\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044f \u0432\u0437\u044f\u0442\u044c \u0433\u0440\u0430\u043c\u043e\u0442\u044b \u0438\u0437 \u0441\u0443\u043d\u0434\u0443\u043a\u0430, \u043d\u0435 \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u044f \u043d\u0438 \u0434\u0432\u0435\u0440\u044c, \u043d\u0438 \u0441\u0443\u043d\u0434\u0443\u043a.\"\n    }\n  ],\n  \"action\": null,\n  \"narration\": \"\u0421\u0443\u043d\u0434\u0443\u043a \u0432 \u043f\u043e\u0434\u0432\u0430\u043b\u0435, \u0430 \u043f\u043e\u0434\u0432\u0430\u043b \u0437\u0430\u043f\u0435\u0440\u0442. \u0420\u0438\u043d \u0441\u0442\u043e\u0438\u0442 \u0432 \u0437\u0430\u043b\u0435 \u2014 \u0434\u043e \u0433\u0440\u0430\u043c\u043e\u0442 \u0435\u0449\u0451 \u043d\u0443\u0436\u043d\u043e \u0434\u043e\u0431\u0440\u0430\u0442\u044c\u0441\u044f.\",\n  \"plan\": null,\n  \"nextPlayerId\": \"player-1\",\n  \"speakerNpcId\": null\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11648,
+        "cached_tokens": 11648,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 124,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 0.24,
+        "prompt_cache_hit_tokens": 11648,
+        "prompt_cache_miss_tokens": 88,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 11736,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 11648,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 11860
+      },
+      "finish": "stop",
+      "elapsed_ms": 4327,
+      "first_text_ms": 3107,
+      "review": {
+        "attempt": 16,
+        "case": "GM18",
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "presentation_valid": true,
+        "decision": {
+          "action": null,
+          "narration": "\u0421\u0443\u043d\u0434\u0443\u043a \u0432 \u043f\u043e\u0434\u0432\u0430\u043b\u0435, \u0430 \u043f\u043e\u0434\u0432\u0430\u043b \u0437\u0430\u043f\u0435\u0440\u0442. \u0420\u0438\u043d \u0441\u0442\u043e\u0438\u0442 \u0432 \u0437\u0430\u043b\u0435 \u2014 \u0434\u043e \u0433\u0440\u0430\u043c\u043e\u0442 \u0435\u0449\u0451 \u043d\u0443\u0436\u043d\u043e \u0434\u043e\u0431\u0440\u0430\u0442\u044c\u0441\u044f.",
+          "nextPlayerId": "player-1",
+          "inputPresentation": [
+            {
+              "kind": "ACTION",
+              "text": "\u0420\u0438\u043d \u0441\u043e\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044f \u0432\u0437\u044f\u0442\u044c \u0433\u0440\u0430\u043c\u043e\u0442\u044b \u0438\u0437 \u0441\u0443\u043d\u0434\u0443\u043a\u0430, \u043d\u0435 \u043e\u0442\u043a\u0440\u044b\u0432\u0430\u044f \u043d\u0438 \u0434\u0432\u0435\u0440\u044c, \u043d\u0438 \u0441\u0443\u043d\u0434\u0443\u043a."
+            }
+          ]
+        },
+        "state_changed": true,
+        "pending_check": null,
+        "contract_valid": true
+      }
+    },
+    {
+      "attempt": 17,
+      "case": "GM28",
+      "repeat": 0,
+      "output": "{\n  \"narration\": \"\u0420\u0438\u043d \u043f\u043e\u043f\u044b\u0442\u0430\u043b\u0441\u044f \u0443\u0431\u0435\u0434\u0438\u0442\u044c \u0415\u0433\u043e\u0440\u0430 \u0438\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043c\u0430\u0440\u0448\u0440\u0443\u0442, \u043d\u043e \u0441\u043b\u043e\u0432\u0430 \u0432\u044b\u0448\u043b\u0438 \u043d\u0435\u0443\u043a\u043b\u044e\u0436\u0438\u043c\u0438 \u0438 \u043f\u0443\u0441\u0442\u044b\u043c\u0438 \u2014 \u043a\u0443\u0440\u044c\u0435\u0440 \u043b\u0438\u0448\u044c \u043f\u043e\u043a\u0430\u0447\u0430\u043b \u0433\u043e\u043b\u043e\u0432\u043e\u0439, \u043f\u043e\u0433\u043b\u044f\u0434\u044b\u0432\u0430\u044f \u043d\u0430 \u0440\u0430\u0437\u043c\u043e\u043a\u0448\u0443\u044e \u0434\u043e\u0440\u043e\u0433\u0443. \u0414\u043e\u0433\u043e\u0432\u043e\u0440\u0438\u0442\u044c\u0441\u044f \u043e \u043a\u043e\u043f\u0438\u044f\u0445 \u043d\u0435 \u0432\u044b\u0448\u043b\u043e. \u0414\u043e\u0436\u0434\u044c \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0430\u0435\u0442 \u043c\u043e\u043b\u043e\u0442\u0438\u0442\u044c \u043f\u043e \u0434\u0432\u043e\u0440\u0443, \u0433\u0434\u0435 \u0443 \u0432\u043e\u0440\u043e\u0442 \u0435\u0449\u0451 \u043f\u0430\u0445\u043d\u0435\u0442 \u043c\u043e\u043a\u0440\u044b\u043c \u043a\u0430\u043c\u043d\u0435\u043c \u0438 \u0442\u0440\u0435\u0432\u043e\u0433\u043e\u0439, \u0430 \u0432\u043f\u0435\u0440\u0435\u0434\u0438 \u0443 \u0433\u0440\u0443\u043f\u043f\u044b \u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0439 \u043f\u0443\u0442\u044c \u043a \u0441\u043f\u0430\u0441\u0435\u043d\u0438\u044e \u043e\u0440\u0438\u0433\u0438\u043d\u0430\u043b\u043e\u0432 \u2014 \u0438 \u0432\u043e\u0434\u0430 \u0432 \u043f\u043e\u0434\u0432\u0430\u043b\u0435 \u043d\u0435 \u0436\u0434\u0451\u0442.\"\n}",
+      "usage": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cached_tokens": 0,
+        "completion_thinking_tokens": 0,
+        "completion_tokens": 134,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "credit": 3.48,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12025,
+        "prompt_cache_write_tokens": 0,
+        "prompt_tokens": 12025,
+        "prompt_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "cached_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "total_tokens": 12159
+      },
+      "finish": "stop",
+      "elapsed_ms": 5793,
+      "first_text_ms": 3538,
+      "review": {
+        "attempt": 17,
+        "case": "GM28",
+        "narration": "\u0420\u0438\u043d \u043f\u043e\u043f\u044b\u0442\u0430\u043b\u0441\u044f \u0443\u0431\u0435\u0434\u0438\u0442\u044c \u0415\u0433\u043e\u0440\u0430 \u0438\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043c\u0430\u0440\u0448\u0440\u0443\u0442, \u043d\u043e \u0441\u043b\u043e\u0432\u0430 \u0432\u044b\u0448\u043b\u0438 \u043d\u0435\u0443\u043a\u043b\u044e\u0436\u0438\u043c\u0438 \u0438 \u043f\u0443\u0441\u0442\u044b\u043c\u0438 \u2014 \u043a\u0443\u0440\u044c\u0435\u0440 \u043b\u0438\u0448\u044c \u043f\u043e\u043a\u0430\u0447\u0430\u043b \u0433\u043e\u043b\u043e\u0432\u043e\u0439, \u043f\u043e\u0433\u043b\u044f\u0434\u044b\u0432\u0430\u044f \u043d\u0430 \u0440\u0430\u0437\u043c\u043e\u043a\u0448\u0443\u044e \u0434\u043e\u0440\u043e\u0433\u0443. \u0414\u043e\u0433\u043e\u0432\u043e\u0440\u0438\u0442\u044c\u0441\u044f \u043e \u043a\u043e\u043f\u0438\u044f\u0445 \u043d\u0435 \u0432\u044b\u0448\u043b\u043e. \u0414\u043e\u0436\u0434\u044c \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0430\u0435\u0442 \u043c\u043e\u043b\u043e\u0442\u0438\u0442\u044c \u043f\u043e \u0434\u0432\u043e\u0440\u0443, \u0433\u0434\u0435 \u0443 \u0432\u043e\u0440\u043e\u0442 \u0435\u0449\u0451 \u043f\u0430\u0445\u043d\u0435\u0442 \u043c\u043e\u043a\u0440\u044b\u043c \u043a\u0430\u043c\u043d\u0435\u043c \u0438 \u0442\u0440\u0435\u0432\u043e\u0433\u043e\u0439, \u0430 \u0432\u043f\u0435\u0440\u0435\u0434\u0438 \u0443 \u0433\u0440\u0443\u043f\u043f\u044b \u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0439 \u043f\u0443\u0442\u044c \u043a \u0441\u043f\u0430\u0441\u0435\u043d\u0438\u044e \u043e\u0440\u0438\u0433\u0438\u043d\u0430\u043b\u043e\u0432 \u2014 \u0438 \u0432\u043e\u0434\u0430 \u0432 \u043f\u043e\u0434\u0432\u0430\u043b\u0435 \u043d\u0435 \u0436\u0434\u0451\u0442.",
+        "outcome_requires_semantic_review": true,
+        "contract_valid": true
+      }
+    }
+  ],
+  "budget_used": 150,
+  "remaining": 0
+}

@@ -10,6 +10,10 @@ spec.loader.exec_module(launcher)
 
 
 class ServerEnvironmentTest(unittest.TestCase):
+    def test_default_model_is_deepseek(self):
+        result = launcher.server_environment({"ANTHROPIC_API_KEY": "test-key"}, Path("/nonexistent/config"))
+        self.assertEqual("deepseek-v4-pro-0813", result["DND_CLAUDE_MODEL"])
+
     def test_existing_environment_does_not_read_local_secrets_or_change_parent(self):
         parent = {'ANTHROPIC_API_KEY': 'fictional-existing-key', 'DND_CLAUDE_MODEL': 'gpt-6-luna'}
         result = launcher.server_environment(parent, Path('/nonexistent/config'))

@@ -466,15 +466,26 @@ internal fun ActionComposer(
     draft: String, onDraftChange: (String) -> Unit, onShowActions: () -> Unit,
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
-    val valid = draft.isNotBlank() && draft.trim().length <= AdventureEngine.MAX_ACTION_LENGTH
-    fun send() { if (valid) { onSubmit(draft); onDraftChange(""); keyboard?.hide() } }
+    var speechOnly by rememberSaveable { mutableStateOf(false) }
+    val submitted = if (speechOnly && directSpeechPresentation(draft) == null) "«${draft.trim()}»" else draft
+    val valid = draft.isNotBlank() && submitted.trim().length <= AdventureEngine.MAX_ACTION_LENGTH &&
+        (!speechOnly || directSpeechPresentation(submitted) != null)
+    fun send() { if (valid) { onSubmit(submitted); onDraftChange(""); keyboard?.hide() } }
     Column(Modifier.fillMaxWidth().background(AdventureInk).padding(horizontal = 10.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp)) {
         AdventureDivider()
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            AdventureButton(secondary = !speechOnly, onClick = { speechOnly = true }, modifier = Modifier.weight(1f)) {
+                Text("Прямая речь")
+            }
+            AdventureButton(secondary = speechOnly, onClick = { speechOnly = false }, modifier = Modifier.weight(1f)) {
+                Text("Действие и речь")
+            }
+        }
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             val field: @Composable (Modifier) -> Unit = { modifier ->
                 AdventureTextField(value = draft, onValueChange = { if (it.length <= AdventureEngine.MAX_ACTION_LENGTH) onDraftChange(it) },
-                    modifier = modifier, placeholder = "Реплика или действие героя", maxLines = 2,
+                    modifier = modifier, placeholder = if (speechOnly) "Только слова героя" else "Действие или смешанная реплика", maxLines = 2,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                     keyboardActions = KeyboardActions(onSend = { send() }))
             }

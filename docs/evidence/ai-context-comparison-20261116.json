@@ -1,0 +1,420 @@
+{
+  "cases": [
+    {
+      "run": "context-ab-r1-GM02-compact",
+      "mode": "compact",
+      "result": {
+        "case": "GM02",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 20810,
+        "first_input_presentation_ms": 11968,
+        "classification": "SOCIAL",
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed",
+        "first_text_ms": "10472",
+        "stream_end_ms": "20778",
+        "input_tokens": "8329",
+        "output_tokens": "156"
+      },
+      "review": [
+        {
+          "case": "GM02",
+          "rubric": "Серьёзный вопрос внутри шутки не потерян",
+          "synthetic_response": "{\"action\":null,\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\",\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}]}",
+          "prose_assessment": "unreviewed"
+        }
+      ]
+    },
+    {
+      "run": "context-ab-r1-GM02-full",
+      "mode": "full",
+      "result": {
+        "case": "GM02",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 25010,
+        "first_input_presentation_ms": 19183,
+        "failure": "request_timeout",
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed"
+      },
+      "review": []
+    },
+    {
+      "run": "context-ab-r1-GM04-compact",
+      "mode": "compact",
+      "result": {
+        "case": "GM04",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 21146,
+        "first_input_presentation_ms": 12549,
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed",
+        "first_text_ms": "10769",
+        "stream_end_ms": "21116",
+        "input_tokens": "8332",
+        "output_tokens": "122"
+      },
+      "review": [
+        {
+          "case": "GM04",
+          "rubric": "Обсуждение без применения эффекта",
+          "synthetic_response": "{\"action\":null,\"narration\":\"Агата косится на дверь подвала: Обсудить можно, но вода обсуждений не ждёт. Отмычки у вас есть — когда решитесь, замок поддастся умелым рукам.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\",\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Может, попробуем открыть дверь? Пока обсуждаю это с друзьями, ничего не делаю.\"}]}",
+          "prose_assessment": "unreviewed"
+        }
+      ]
+    },
+    {
+      "run": "context-ab-r1-GM04-full",
+      "mode": "full",
+      "result": {
+        "case": "GM04",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 20231,
+        "failure": "api_client_error",
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed"
+      },
+      "review": []
+    },
+    {
+      "run": "context-ab-r1-GM11-compact",
+      "mode": "compact",
+      "result": {
+        "case": "GM11",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 25010,
+        "first_input_presentation_ms": 15750,
+        "failure": "request_timeout",
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed"
+      },
+      "review": []
+    },
+    {
+      "run": "context-ab-r1-GM11-full",
+      "mode": "full",
+      "result": {
+        "case": "GM11",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 20253,
+        "failure": "api_client_error",
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed"
+      },
+      "review": []
+    },
+    {
+      "run": "context-ab-r1-GM14-compact",
+      "mode": "compact",
+      "result": {
+        "case": "GM14",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 5103,
+        "first_input_presentation_ms": 3648,
+        "classification": "FREE_PLAN",
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": false,
+        "plan_issue": "target_unreachable",
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed",
+        "first_text_ms": "3385",
+        "stream_end_ms": "5078",
+        "input_tokens": "8798",
+        "output_tokens": "115"
+      },
+      "review": [
+        {
+          "case": "GM14",
+          "rubric": "Нет передачи через разные локации",
+          "synthetic_response": "{\"action\":null,\"narration\":\"Действие передано на проверку серверу.\",\"plan\":{\"description\":\"Передать Мире непромокаемую ткань\",\"check\":null,\"usingItem\":null,\"onSuccess\":[{\"type\":\"transfer\",\"item\":\"WATERPROOF_WRAP\",\"targetPlayerId\":\"player-2\"}],\"onFailure\":[]},\"nextPlayerId\":\"player-3\",\"speakerNpcId\":null,\"inputPresentation\":[{\"kind\":\"ACTION\",\"text\":\"Рин передаёт Мире непромокаемую ткань.\"}]}",
+          "prose_assessment": "unreviewed"
+        }
+      ]
+    },
+    {
+      "run": "context-ab-r1-GM14-full",
+      "mode": "full",
+      "result": {
+        "case": "GM14",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 4529,
+        "first_input_presentation_ms": 2694,
+        "classification": "FREE_PLAN",
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": false,
+        "plan_issue": "target_unreachable",
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed",
+        "first_text_ms": "2216",
+        "stream_end_ms": "4497",
+        "input_tokens": "11145",
+        "output_tokens": "115"
+      },
+      "review": [
+        {
+          "case": "GM14",
+          "rubric": "Нет передачи через разные локации",
+          "synthetic_response": "{\"action\":null,\"narration\":\"Действие передано на проверку серверу.\",\"plan\":{\"description\":\"Передать Мире непромокаемую ткань\",\"check\":null,\"usingItem\":null,\"onSuccess\":[{\"type\":\"transfer\",\"item\":\"WATERPROOF_WRAP\",\"targetPlayerId\":\"player-2\"}],\"onFailure\":[]},\"nextPlayerId\":\"player-2\",\"speakerNpcId\":null,\"inputPresentation\":[{\"kind\":\"ACTION\",\"text\":\"Рин передаёт Мире непромокаемую ткань.\"}]}",
+          "prose_assessment": "unreviewed"
+        }
+      ]
+    },
+    {
+      "run": "context-ab-r2-GM02-compact",
+      "mode": "compact",
+      "result": {
+        "case": "GM02",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 7412,
+        "first_input_presentation_ms": 5343,
+        "classification": "SOCIAL",
+        "classification_matches": false,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed",
+        "first_text_ms": "3934",
+        "stream_end_ms": "7382",
+        "input_tokens": "8329",
+        "output_tokens": "156"
+      },
+      "review": [
+        {
+          "case": "GM02",
+          "rubric": "Серьёзный вопрос внутри шутки не потерян",
+          "synthetic_response": "{\"action\":null,\"narration\":\"Номера в описи — наш запасной путь. Оригиналы в сундуке подвала. Слив замедлит воду, чертёж поможет с замками. Сначала защитите двор; после победы мы сможем спокойно заняться бумагами. Повязки в сумках — если кого заденут, не мешкайте. И не тратьте их на мебель!\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\",\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Мы специалисты по мокрым делам! Агата, объясни, что требуется спасти.\"}]}",
+          "prose_assessment": "unreviewed"
+        }
+      ]
+    },
+    {
+      "run": "context-ab-r2-GM02-full",
+      "mode": "full",
+      "result": {
+        "case": "GM02",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 20214,
+        "failure": "api_client_error",
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed"
+      },
+      "review": []
+    },
+    {
+      "run": "context-ab-r2-GM04-compact",
+      "mode": "compact",
+      "result": {
+        "case": "GM04",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 5832,
+        "first_input_presentation_ms": 3096,
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed",
+        "first_text_ms": "2658",
+        "stream_end_ms": "5802",
+        "input_tokens": "8332",
+        "output_tokens": "127"
+      },
+      "review": [
+        {
+          "case": "GM04",
+          "rubric": "Обсуждение без применения эффекта",
+          "synthetic_response": "{\"action\":null,\"narration\":\"Агата прислушивается к спору и кивает на дверь подвала: Замок старый, но торопиться вслепую не стоит. Чертёж на стене может подсказать, какие штифты не трогать.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\",\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Может, попробуем открыть дверь? Пока обсуждаю это с друзьями, ничего не делаю.\"}]}",
+          "prose_assessment": "unreviewed"
+        }
+      ]
+    },
+    {
+      "run": "context-ab-r2-GM04-full",
+      "mode": "full",
+      "result": {
+        "case": "GM04",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 7397,
+        "first_input_presentation_ms": 5022,
+        "classification": "SOCIAL",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed",
+        "first_text_ms": "4971",
+        "stream_end_ms": "7370",
+        "input_tokens": "10371",
+        "output_tokens": "108"
+      },
+      "review": [
+        {
+          "case": "GM04",
+          "rubric": "Обсуждение без применения эффекта",
+          "synthetic_response": "{\"action\":null,\"narration\":\"Агата кивает на дверь подвала: Решайте скорее — вода уже находит себе новые пути, и все они ведут к моим бумагам.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":\"ARCHIVIST\",\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Может, попробуем открыть дверь? Пока обсуждаю это с друзьями, ничего не делаю.\"}]}",
+          "prose_assessment": "unreviewed"
+        }
+      ]
+    },
+    {
+      "run": "context-ab-r2-GM11-compact",
+      "mode": "compact",
+      "result": {
+        "case": "GM11",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 9987,
+        "first_input_presentation_ms": 6811,
+        "classification": "FREE_PLAN",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed",
+        "first_text_ms": "5363",
+        "stream_end_ms": "9957",
+        "input_tokens": "8866",
+        "output_tokens": "139"
+      },
+      "review": [
+        {
+          "case": "GM11",
+          "rubric": "Свободный способ использует INTELLIGENCE",
+          "synthetic_response": "{\"action\":null,\"narration\":\"Действие передано на проверку серверу.\",\"plan\":{\"description\":\"Изучить устройство замка и открыть дверь отмычками\",\"check\":{\"ability\":\"INTELLIGENCE\",\"difficulty\":10,\"domains\":[\"DEVICES\",\"CRAFT\"]},\"usingItem\":\"LOCKPICKS\",\"onSuccess\":[{\"type\":\"fact\",\"fact\":\"CELLAR_DOOR_OPEN\"}],\"onFailure\":[]},\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null,\"inputPresentation\":[{\"kind\":\"ACTION\",\"text\":\"Рин изучает устройство замка и пытается открыть дверь подвала отмычками, полагаясь на интеллект.\"}]}",
+          "prose_assessment": "unreviewed"
+        }
+      ]
+    },
+    {
+      "run": "context-ab-r2-GM11-full",
+      "mode": "full",
+      "result": {
+        "case": "GM11",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 13919,
+        "first_input_presentation_ms": 10275,
+        "classification": "FREE_PLAN",
+        "classification_matches": true,
+        "engine_accepted": true,
+        "invariants_kept": true,
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed",
+        "first_text_ms": "9791",
+        "stream_end_ms": "13886",
+        "input_tokens": "11181",
+        "output_tokens": "137"
+      },
+      "review": [
+        {
+          "case": "GM11",
+          "rubric": "Свободный способ использует INTELLIGENCE",
+          "synthetic_response": "{\"action\":null,\"narration\":\"Действие передано на проверку серверу.\",\"plan\":{\"description\":\"Изучить устройство замка и открыть дверь подвала отмычками\",\"check\":{\"ability\":\"INTELLIGENCE\",\"difficulty\":10,\"domains\":[\"DEVICES\"]},\"usingItem\":\"LOCKPICKS\",\"onSuccess\":[{\"type\":\"fact\",\"fact\":\"CELLAR_DOOR_OPEN\"}],\"onFailure\":[]},\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null,\"inputPresentation\":[{\"kind\":\"ACTION\",\"text\":\"Рин изучает устройство замка и пытается открыть дверь отмычками через интеллект, а не ловкость.\"}]}",
+          "prose_assessment": "unreviewed"
+        }
+      ]
+    },
+    {
+      "run": "context-ab-r2-GM14-compact",
+      "mode": "compact",
+      "result": {
+        "case": "GM14",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 6068,
+        "first_input_presentation_ms": 4167,
+        "classification": "FREE_PLAN",
+        "classification_matches": false,
+        "engine_accepted": false,
+        "invariants_kept": false,
+        "plan_issue": "target_unreachable",
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed",
+        "first_text_ms": "3828",
+        "stream_end_ms": "6034",
+        "input_tokens": "8798",
+        "output_tokens": "117"
+      },
+      "review": [
+        {
+          "case": "GM14",
+          "rubric": "Нет передачи через разные локации",
+          "synthetic_response": "{\"action\":null,\"narration\":\"Действие передано на проверку серверу.\",\"plan\":{\"description\":\"Передать Мире непромокаемую ткань\",\"check\":null,\"usingItem\":null,\"onSuccess\":[{\"type\":\"transfer\",\"item\":\"WATERPROOF_WRAP\",\"targetPlayerId\":\"player-2\"}],\"onFailure\":[]},\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null,\"inputPresentation\":[{\"kind\":\"ACTION\",\"text\":\"Рин передаёт Мире непромокаемую ткань прямо сейчас.\"}]}",
+          "prose_assessment": "unreviewed"
+        }
+      ]
+    },
+    {
+      "run": "context-ab-r2-GM14-full",
+      "mode": "full",
+      "result": {
+        "case": "GM14",
+        "status": "attempted",
+        "attempt": 1,
+        "elapsed_ms": 20229,
+        "failure": "api_client_error",
+        "request_kind": "decision_sse",
+        "prose_assessment": "unreviewed"
+      },
+      "review": []
+    }
+  ],
+  "cache_probe": [
+    {
+      "event": "attempt_started",
+      "attempt": 1
+    },
+    {
+      "attempt": 1,
+      "elapsed_ms": 12806,
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 2438,
+        "total_tokens": 2443
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "event": "attempt_started",
+      "attempt": 2
+    },
+    {
+      "attempt": 2,
+      "elapsed_ms": 6324,
+      "usage": {
+        "completion_tokens": 5,
+        "prompt_tokens": 2438,
+        "total_tokens": 2443
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "review_status": "agent_reviewed_not_user_accepted",
+  "caveats": [
+    "Only two rounds; no statistically established speedup.",
+    "Final GM14 pair overlaps independent cache probe; exclude it from latency conclusions.",
+    "Source fingerprint changes between rounds reflect added offline test, not production-code changes.",
+    "Timeouts excluded from successful-pair timings, explicitly counted as failures."
+  ]
+}

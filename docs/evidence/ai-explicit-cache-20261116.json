@@ -1,0 +1,23 @@
+[
+  {
+    "event": "attempt_started",
+    "label": "explicit-warmup",
+    "endpoint": "/v1/responses"
+  },
+  {
+    "label": "explicit-warmup",
+    "elapsed_ms": 1095,
+    "http_status": 400,
+    "error": "{\"error\":{\"message\":\"prompt_cache_options is not supported on this model\",\"type\":\"invalid_request_error\",\"code\":\"invalid_parameter\",\"param\":\"prompt_cache_options\"}}"
+  },
+  {
+    "event": "attempt_started",
+    "label": "chat-retention-1",
+    "endpoint": "/v1/chat/completions"
+  },
+  {
+    "label": "chat-retention-1",
+    "elapsed_ms": 30031,
+    "error": "timeout"
+  }
+]

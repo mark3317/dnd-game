@@ -44,6 +44,7 @@ class Rooms(
         var inputPresentation: List<InputUtterance>? = null
         var previewPublished = false
         var completion: AiCompletion? = null
+        val directSpeech = if (outcome == null) directSpeechPresentation(text) else null
     }
     internal class Room(val code: String, val engine: AdventureEngine, val gameMasterEnabled: Boolean,
         val presentationEnabled: Boolean, val playbackClock: () -> Long, val speech: RoomSpeechCoordinator? = null) {
@@ -273,6 +274,7 @@ class Rooms(
                                     room.members.filter { it.connectionId != null }.map { it.player.id }.toSet()))
                             room.gameMasterError = null
                             room.pendingAi = work
+                            work.directSpeech?.let { work.inputPresentation = it; applyPreview(room, work) }
                             val job = requireNotNull(aiScope).launch(start = CoroutineStart.LAZY) { runAi(room, work) }
                             work.job = job
                             job.invokeOnCompletion { aiSlots.release() }
@@ -328,7 +330,10 @@ class Rooms(
         var failureFields = emptyMap<String, String>()
         val decision = try {
             withTimeout(aiTimeoutMillis) {
-                requireNotNull(gameMaster).respond(work.state, work.text, requireNotNull(work.participation)) { parts ->
+                if (work.directSpeech != null) {
+                    requireNotNull(gameMaster).respondToSpeech(work.state, work.text, requireNotNull(work.participation), work.directSpeech)
+                        .copy(inputPresentation = work.directSpeech)
+                } else requireNotNull(gameMaster).respond(work.state, work.text, requireNotNull(work.participation)) { parts ->
                     validateInputPresentation(parts)
                     mutex.withLock {
                         if (room.pendingAi === work && room.adventure === work.state && work.inputPresentation == null) {
@@ -404,6 +409,7 @@ class Rooms(
                 room.gameMasterError = if (failureFields["http_status"] == "401")
                     "Сервис ИИ отклонил авторизацию. Проверьте API-ключ на сервере. Ход сохранён."
                 else when (failureFields["reason"]) {
+                    "decision_incomplete_dialogue" -> "Ведущий прислал вступление без самого ответа. Ход сохранён — повторите реплику."
                     "transport_timeout", "request_timeout" -> "Сервис ИИ не ответил вовремя. Ход сохранён. Можно повторить отправку или выбрать готовое действие."
                     "connection_error", "dns_error", "tls_error" -> "Не удалось связаться с сервисом ИИ. Ход сохранён. Готовые действия доступны."
                     else -> "Сервис ИИ вернул некорректный ответ или ошибку. Ход сохранён — отправьте действие снова."

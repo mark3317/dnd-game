@@ -13,11 +13,12 @@ class InputPresentationStreamTest {
         val parts = listOf(InputUtterance(InputUtteranceKind.ACTION, "Рин смотрит на знак [выход]."),
             InputUtterance(InputUtteranceKind.SPEECH, "Я говорю: \"Привет\".\\"))
         val array = Json.encodeToString(parts)
-        val prefix = "{\"inputPresentation\":$array"
+        val prefix = "{\"action\":\"TALK\",\"inputPresentation\":$array"
         for (cut in 0 until prefix.length) assertNull(inputPresentationPrefix(prefix.take(cut)))
         assertEquals(parts, inputPresentationPrefix(prefix))
         assertEquals(parts, inputPresentationPrefix("  $prefix,\"action\":null"))
         assertNull(inputPresentationPrefix("{\"narration\":\"inputPresentation: []\"}"))
+        assertNull(inputPresentationPrefix("{\"nested\":{\"inputPresentation\":[]}}"))
         assertFailsWith<AiFailure> { inputPresentationPrefix("{\"inputPresentation\":[]") }
         assertFailsWith<AiFailure> { inputPresentationPrefix("{\"inputPresentation\":[{\"kind\":\"NPC\",\"text\":\"Привет\"}]") }
     }
@@ -42,10 +43,10 @@ class InputPresentationStreamTest {
             assertEquals("none", body["reasoning_effort"]!!.jsonPrimitive.content)
             assertEquals("json_schema", body["response_format"]!!.jsonObject["type"]!!.jsonPrimitive.content)
             call.respondTextWriter(ContentType.Text.EventStream) {
-                write(chunk("{\"inputPresentation\":" + Json.encodeToString(parts)))
+                write(chunk("{\"action\":null,\"inputPresentation\":" + Json.encodeToString(parts)))
                 flush()
                 release.await()
-                write(chunk(",\"action\":null,\"narration\":\"Он во дворе.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null}"))
+                write(chunk(",\"narration\":\"Он во дворе.\",\"plan\":null,\"nextPlayerId\":\"player-1\",\"speakerNpcId\":null}"))
                 write(chunk(finish = "stop"))
                 write("data: [DONE]\n\n")
             }

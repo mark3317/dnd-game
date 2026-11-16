@@ -43,6 +43,35 @@ class ClaudeGameMasterTest {
         assertEquals("array", ClaudeGameMaster.responseJsonType("[]"))
         assertEquals("not_json", ClaudeGameMaster.responseJsonType("private raw response"))
     }
+    @Test fun directSpeechDoesNotAskProviderToReclassifyOrRepeatPlayerText() = runBlocking<Unit> {
+        val state = AdventureEngine().newGame()
+        val parts = directSpeechPresentation("«Я помогу.»")!!
+        val participation = ParticipationMemory().also { it.reset(state) }.snapshot(state, state.players.map { it.id }.toSet())
+        val expected = GameMasterDecision(null, "Спасибо.", nextPlayerId = state.activePlayer.id, speakerNpcId = "KEEPER")
+        var calls = 0
+        val gm = ClaudeGameMaster(ClaudeSettings("test-key", "https://ai.starimg.ru", "gpt-6-luna"), GameLogger.None,
+            HttpClient(MockEngine { request ->
+                calls++
+                val body = Json.parseToJsonElement((request.body as TextContent).text).jsonObject
+                val schema = body.getValue("response_format").jsonObject.getValue("json_schema").jsonObject.getValue("schema").jsonObject
+                assertFalse("inputPresentation" in schema.getValue("properties").jsonObject)
+                assertFalse(schema.getValue("required").jsonArray.any { it.jsonPrimitive.content == "inputPresentation" })
+                assertFalse(body.getValue("messages").toString().contains("ПОДАЧА ВВОДА."))
+                assertTrue(body.getValue("messages").toString().contains("ПОЛНОТА ОТВЕТА."))
+                respond(buildJsonObject {
+                    put("id", "direct-test"); put("object", "chat.completion"); put("created", 1); put("model", "gpt-6-luna")
+                    putJsonArray("choices") { addJsonObject {
+                        put("index", 0); put("finish_reason", "stop")
+                        putJsonObject("message") { put("role", "assistant"); put("content", GameWireJson.encodeToString(expected)) }
+                    } }
+                }.toString(), HttpStatusCode.OK, headersOf(HttpHeaders.ContentType, "application/json"))
+            }))
+        try {
+            assertEquals(expected.copy(inputPresentation = parts), gm.respondToSpeech(state, "«Я помогу.»", participation, parts))
+            assertEquals(1, calls)
+        } finally { gm.close() }
+    }
+
     @Test fun lunaUsesOpenAIEndpointAndExistingKeyWithoutClaudeParameters() = runBlocking<Unit> {
         val expected = GameMasterDecision("TALK", "Шестерня заела.", nextPlayerId = "player-1", speakerNpcId = "KEEPER")
         for (finish in listOf("stop", "length")) {
@@ -64,6 +93,48 @@ class ClaudeGameMasterTest {
                     respond(buildJsonObject {
                         put("id", "chat-test"); put("object", "chat.completion"); put("created", 1)
                         put("model", "gpt-6-luna")
+                        putJsonArray("choices") { addJsonObject {
+                            put("index", 0); put("finish_reason", finish)
+                            putJsonObject("message") {
+                                put("role", "assistant"); put("content", GameWireJson.encodeToString(expected))
+                            }
+                        } }
+                        putJsonObject("usage") {
+                            put("prompt_tokens", 100); put("completion_tokens", 20); put("total_tokens", 120)
+                        }
+                    }.toString(), HttpStatusCode.OK, headersOf(HttpHeaders.ContentType, "application/json"))
+                }))
+            try {
+                if (finish == "stop") assertEquals(expected, gm.respond(AdventureEngine().newGame(), "Что случилось?"))
+                else assertFailsWith<AiFailure> { gm.respond(AdventureEngine().newGame(), "Что случилось?") }
+                assertEquals(1, calls)
+            } finally { gm.close() }
+        }
+    }
+
+    @Test fun deepSeekUsesOpenAIEndpointWithoutForeignReasoningOrCacheOptions() = runBlocking<Unit> {
+        val expected = GameMasterDecision("TALK", "Шестерня заела.", nextPlayerId = "player-1", speakerNpcId = "KEEPER")
+        for (finish in listOf("stop", "length")) {
+            var calls = 0
+            val gm = ClaudeGameMaster(ClaudeSettings("test-key", "https://ai.starimg.ru", "deepseek-v4-pro-0813"), GameLogger.None,
+                HttpClient(MockEngine { request ->
+                    calls++
+                    assertEquals("https://ai.starimg.ru/v1/chat/completions", request.url.toString())
+                    assertEquals("Bearer test-key", request.headers[HttpHeaders.Authorization])
+                    assertEquals(listOf("Bearer test-key"), request.headers.getAll(HttpHeaders.Authorization))
+                    val body = Json.parseToJsonElement((request.body as TextContent).text).jsonObject
+                    assertEquals("deepseek-v4-pro-0813", body["model"]!!.jsonPrimitive.content)
+                    assertNull(body["reasoning_effort"])
+                    assertNull(body["prompt_cache_key"])
+                    assertNull(body["prompt_cache_retention"])
+                    assertEquals(1_200, body["max_completion_tokens"]!!.jsonPrimitive.int)
+                    assertNull(body["thinking"])
+                    assertNull(body["output_config"])
+                    assertEquals("json_schema", body["response_format"]!!.jsonObject["type"]!!.jsonPrimitive.content)
+                    assertTrue(body["response_format"].toString().contains("speakerNpcId"))
+                    respond(buildJsonObject {
+                        put("id", "chat-test"); put("object", "chat.completion"); put("created", 1)
+                        put("model", "deepseek-v4-pro-0813")
                         putJsonArray("choices") { addJsonObject {
                             put("index", 0); put("finish_reason", finish)
                             putJsonObject("message") {
@@ -345,7 +416,7 @@ class ClaudeGameMasterTest {
         assertNull(ClaudeSettings.fromEnvironment { null })
         val configured = ClaudeSettings.fromEnvironment { if (it == "ANTHROPIC_API_KEY") "test-key" else null }!!
         assertEquals(settings.baseUrl, configured.baseUrl)
-        assertEquals("gpt-6-luna", configured.model)
+        assertEquals("deepseek-v4-pro-0813", configured.model)
         for (url in listOf("http://example.com", "https://example.com/v1", "https://user:secret@example.com",
             "https://example.com?key=private", "https://example.com#key")) {
             assertFailsWith<IllegalArgumentException> { ClaudeSettings("test-key", url, settings.model) }
@@ -372,6 +443,23 @@ class ClaudeGameMasterTest {
         val wrapped = IllegalStateException("private", KoogHttpClientException(clientName = "test", statusCode = 429,
             errorBody = "private and malformed"))
         assertEquals(mapOf("reason" to "http_error", "http_status" to "429"), safeApiFailure(wrapped).fields())
+    }
+
+    @Test fun completedJsonWithOnlySpeechLeadInIsRejectedButRealAnswersRemainIntact() {
+        for (line in listOf("Агата поднимает голову от описи и тихо отвечает",
+            "Агата поднимает голову от описи и тихо отвечает:", "Она отвечает тихо…")) {
+            val reply = GameMasterDecision(null, line)
+            val failure = assertFailsWith<AiFailure> {
+                ClaudeGameMaster.decodeDecision(GameWireJson.encodeToString(reply))
+            }
+            assertEquals("decision_incomplete_dialogue", failure.reason)
+            assertFalse(failure.toString().contains(line))
+        }
+        for (line in listOf("Не знаю.", "Агата молчит.", "Вода прибывает. Нужно спешить.",
+            "Агата тихо отвечает: «Точного срока я не знаю».")) {
+            val reply = GameMasterDecision(null, line)
+            assertEquals(reply, ClaudeGameMaster.decodeDecision(GameWireJson.encodeToString(reply)))
+        }
     }
 
     @Test fun markdownWrapperDoesNotBypassDecisionValidationOrLeakText() {

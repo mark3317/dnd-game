@@ -73,7 +73,7 @@ try {
     $env:DND_CLAUDE_MODEL = [string]$settings.model
     if (-not [string]::IsNullOrWhiteSpace($Model)) { $env:DND_CLAUDE_MODEL = $Model }
     if ([string]::IsNullOrWhiteSpace($env:DND_CLAUDE_BASE_URL)) { $env:DND_CLAUDE_BASE_URL = 'https://ai.starimg.ru' }
-    if ([string]::IsNullOrWhiteSpace($env:DND_CLAUDE_MODEL)) { $env:DND_CLAUDE_MODEL = 'gpt-6-luna' }
+    if ([string]::IsNullOrWhiteSpace($env:DND_CLAUDE_MODEL)) { $env:DND_CLAUDE_MODEL = 'deepseek-v4-pro-0813' }
 
     $listenPort = if ([string]::IsNullOrWhiteSpace($env:DND_SERVER_PORT)) { '8080' } else { $env:DND_SERVER_PORT }
     Write-Host "Starting the local AI server: ws://localhost:$listenPort, model=$($env:DND_CLAUDE_MODEL)."

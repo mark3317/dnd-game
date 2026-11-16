@@ -7,6 +7,61 @@ import ru.markn.dnd.adventure.*
 import ru.markn.dnd.network.*
 
 class StoryPlaybackRoomsTest {
+    @Test fun explicitSpeechIsSharedBeforeModelRespondsAndNotRepeatedOnCommit() = runBlocking<Unit> {
+        var now = 1000L
+        val release = CompletableDeferred<Unit>()
+        val gm = GameMaster { state, _ ->
+            release.await()
+            GameMasterDecision(null, "Помогите с механизмом.", nextPlayerId = state.activePlayer.id,
+                speakerNpcId = "KEEPER", inputPresentation = listOf(InputUtterance(InputUtteranceKind.ACTION, "Лишнее описание")))
+        }
+        val rooms = Rooms(gameMaster = gm, aiScope = this, playbackClock = { now })
+        val a = rooms.joinReady(ClientMessage.Join("A"))
+        val b = rooms.joinReady(ClientMessage.Join("B", a.welcome.room.code))
+        val start = rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.START)).room.adventure!!
+        now = start.playback.busyUntil
+        val early = rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.SUBMIT,
+            turnId = start.turnId, text = "«Я могу помочь.»")).room
+        val preview = early.adventure!!
+        assertNotNull(early.pendingNarration)
+        assertEquals("Я могу помочь.", preview.playback.speeches.single().entry.text)
+        assertEquals("rin", preview.speechVoice(preview.playback.speeches.single().entry))
+        assertEquals(start.players, preview.players)
+        assertEquals(start.scene, preview.scene)
+        assertEquals(start.checksRemaining, preview.checksRemaining)
+        assertEquals(start.journal, preview.journal)
+        assertEquals(early, b.connection.updates.value)
+        now = preview.playback.busyUntil + 1000
+        release.complete(Unit)
+        val done = withTimeout(3000) { a.connection.updates.first { it.pendingNarration == null } }.adventure!!
+        assertEquals(1, done.journal.count { it.isSpoken && it.text == "Я могу помочь." })
+        assertFalse(done.journal.any { it.text == "Лишнее описание" })
+        assertEquals(listOf(EntryKind.NPC), done.playback.speeches.map { it.entry.kind })
+    }
+
+    @Test fun immediateSpeechCannotCommitAnInvalidModelPlan() = runBlocking<Unit> {
+        var now = 1000L
+        val release = CompletableDeferred<Unit>()
+        val gm = GameMaster { _, _ ->
+            release.await()
+            GameMasterDecision(null, "Уже ушли.", plan = SceneActionPlan("Несуществующее место", null, null,
+                listOf(SceneEffect.Move("MISSING")), emptyList()))
+        }
+        val rooms = Rooms(gameMaster = gm, aiScope = this, playbackClock = { now })
+        val a = rooms.joinReady(ClientMessage.Join("A"))
+        rooms.joinReady(ClientMessage.Join("B", a.welcome.room.code))
+        val start = rooms.command(a.connection, ClientMessage.Command(2, NetworkAction.START)).room.adventure!!
+        now = start.playback.busyUntil
+        rooms.command(a.connection, ClientMessage.Command(3, NetworkAction.SUBMIT, turnId = start.turnId, text = "«Пойдём!»"))
+        release.complete(Unit)
+        val failed = withTimeout(3000) { a.connection.updates.first { it.gameMasterError != null } }.adventure!!
+        assertEquals(start.players, failed.players)
+        assertEquals(start.scene, failed.scene)
+        assertEquals(start.checksRemaining, failed.checksRemaining)
+        assertEquals(start.journal, failed.journal)
+        assertNull(failed.playback.previewEntryId)
+    }
+
     private fun assertTimelineShift(before: StoryPlayback, after: StoryPlayback, delta: Long) {
         fun shifted(value: Long) = if (value == 0L) 0L else value + delta
         assertEquals(shifted(before.openingAt), after.openingAt)

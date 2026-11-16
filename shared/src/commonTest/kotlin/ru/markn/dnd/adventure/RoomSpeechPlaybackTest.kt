@@ -75,6 +75,38 @@ class RoomSpeechPlaybackTest {
         }
     }
 
+    @Test fun allPartsOfOneJournalEntryPlayInOrderWithAndWithoutAudio() {
+        val full = "Агата поднимает голову от описи и тихо отвечает. Точного времени я не знаю, но вода уже подступает к нижним полкам. Нам нужно спешить, чтобы успеть вынести документы."
+        val parts = speechSegments(full)
+        assertTrue(parts.size > 1)
+        assertEquals(full, parts.joinToString(" "))
+        for (audio in listOf(true, false)) {
+            val playback = RoomSpeechPlayback()
+            val cues = parts.mapIndexed { index, text -> cue("entry:1:$index", text = text,
+                source = if (audio) RoomSpeechSource.GENERATED else RoomSpeechSource.TEXT) }
+            val preparing = batch(cues).copy(hardDeadlineAt = 120_000)
+            playback.tick(preparing, enabled = audio).filterIsInstance<RoomSpeechEffect.Prepare>()
+                .forEach { playback.prepared(it.key) }
+            val playing = preparing.copy(phase = RoomPresentationPhase.PLAYING,
+                cues = cues.mapIndexed { index, cue -> cue.copy(startsAt = 1000L + index * 1000,
+                    readUntil = 2000L + index * 1000, deadlineAt = 110_000) })
+            var now = 1000L
+            var effects = playback.tick(playing, now = now, enabled = audio)
+            for (cue in cues) {
+                assertEquals(cue.entry.text, playback.activeCue?.entry?.text)
+                if (audio) {
+                    val play = effects.filterIsInstance<RoomSpeechEffect.Play>().single()
+                    assertEquals(cue.id, play.cue.id)
+                    assertEquals(0L, play.offsetMillis)
+                    playback.completed(play.key)
+                    now += 1000
+                } else now = checkNotNull(playback.activeReadUntil)
+                effects = playback.tick(playing, now = now, enabled = audio)
+            }
+            assertNull(playback.activeCue)
+        }
+    }
+
     @Test fun delayedUninterruptedQueueNeverSeeksOrSkipsTheNextSentence() {
         val playback = RoomSpeechPlayback()
         val preparing = batch(listOf(cue(), cue("two")))

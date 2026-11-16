@@ -1,5 +1,14 @@
 # dnd-game
 
+В поле ввода приключения можно выбрать «Прямая речь»: слова героя сразу
+попадают в общую очередь субтитров и озвучки, пока ведущий готовит ответ.
+«Действие и речь» оставляет разбор смешанного ввода ведущему. Целая фраза
+в кавычках «…» также считается прямой речью. Игровые последствия применяются
+только после проверки полного ответа; речь не объявляет действие успешным.
+Desktop-сборка с этим изменением: `desktopApp/build/compose/binaries/main/app/ru.markn.dnd.app`;
+нужен пересобранный сервер из `server/build/install/server`. Датированный solo17
+checkpoint ниже автоматически не заменяется.
+
 Текущая дополнительная Desktop-сборка — протокол **17**, тест одиночного прохождения:
 «Создать игру» → выбрать историю → «Одиночный режим · тест» → подтвердить героя →
 «Начать приключение». Нужен сервер с ИИ; адрес на том же компьютере —
@@ -30,9 +39,10 @@ Kotlin Multiplatform / Compose Multiplatform: Android, iOS, Desktop (JVM), Web (
 
 ## Игровое демо: «Затопленный архив»
 
-ИИ-ведущий использует **GPT Luna** (технический ID `gpt-6-luna`) через OpenAI-совместимый API AI STAR.
-Режим `reasoning_effort=none` ускоряет короткие реплики и планы; JSON и последствия
-по-прежнему проверяются сервером. HTTP-ожидание ограничено 20 секундами, подключение —
+ИИ-ведущий использует **DeepSeek V4 Pro** (технический ID `deepseek-v4-pro-0813`) через OpenAI-совместимый API AI STAR.
+Автоматический кэш провайдера работает без дополнительных параметров запроса; JSON и последствия
+по-прежнему проверяются сервером. Это текущий выбор от 16.11.2026; упоминания GPT Luna
+и её замеры ниже относятся к предыдущей модели. HTTP-ожидание ограничено 20 секундами, подключение —
 5 секундами. Автоповторов запросов нет; при ошибке ход и ресурсы сохраняются.
 Для измерения скорости текущей модели: `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-claude-server.ps1 -ProbeCurrent`.
 Команда делает ровно два запроса (диалог/свободный план) и печатает только безопасные
@@ -378,7 +388,7 @@ References:
 
 The main menu opens game creation, joining, character editing and settings. Local play and the combat tutorial are in settings. Both local and network menus offer **The flooded archive · full demo**; the earlier lighthouse and archive remain in the internal catalog for regression tests. The scene shows the active hero and local NPC over a prepared background; character sheets, history, actions and rules open in side panels. Each hero has independent health, modifiers, inventory and location.
 
-The local narrator is scripted. Network rooms optionally use the configured AI STAR model (`gpt-6-luna` by default); otherwise they use the scripted narrator. Local progress lives in app memory; network progress lives on the running server. Starting over resets the episode after confirmation.
+The local narrator is scripted. Network rooms optionally use the configured AI STAR model (`deepseek-v4-pro-0813` by default); otherwise they use the scripted narrator. Local progress lives in app memory; network progress lives on the running server. Starting over resets the episode after confirmation.
 
 Story checks use d20 + an ability modifier + applicable expertise and an optional racial talent against a difficulty (a tie succeeds), without automatic critical outcomes. The full demo has eight shared checks; the earlier lighthouse/archive use three/four. In scripted play completed actions advance to the next player; in AI play the narrator can retain or change the speaker. Actions requiring dice finish after the roll. Inspection, conversation and safe actions do not spend checks; comments and clarifications retain the turn. Cancelling before a roll, unsupported text and unavailable actions keep the current turn. Completing a goal on the last check takes priority over the timeout ending. Combat has separate initiative, action/movement resources, attack rolls and critical hits. These are demo rules, not the final balance specification.
 
@@ -446,7 +456,7 @@ WebSocket-клиентами на каждый сюжет. Первый прог
 ## Настройка сетевого ИИ-ведущего
 
 Провайдер — [AI STAR](https://ai.starimg.ru/help). Сервер использует клиент [Koog 1.3.0 от JetBrains](https://docs.koog.ai/prompts/llm-clients/).
-Адрес и модель настраиваются; по умолчанию выбрана `gpt-6-luna` через OpenAI-совместимый API AI STAR (`/v1/chat/completions`). Используется прежний ключ; имена `ANTHROPIC_API_KEY`, `DND_CLAUDE_MODEL` и локального файла сохранены для совместимости. Модели Claude по-прежнему используют Anthropic API.
+Адрес и модель настраиваются; по умолчанию выбрана `deepseek-v4-pro-0813` через OpenAI-совместимый API AI STAR (`/v1/chat/completions`). Используется прежний ключ; имена `ANTHROPIC_API_KEY`, `DND_CLAUDE_MODEL` и локального файла сохранены для совместимости. Модели Claude по-прежнему используют Anthropic API.
 Доступность модели для конкретного ключа и поддержка структурированных ответов требуют проверки реальным запросом.
 
 Для локальной пробы на Windows запустите из корня репозитория:
@@ -459,7 +469,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-claude-serve
 Впишите свой ключ в `apiKey` локального файла, либо вставьте его в скрытый запрос терминала.
 Если `ANTHROPIC_API_KEY` уже задан в окружении терминала, он имеет приоритет, а локальный файл не читается.
 Локальный файл исключён из Git; пример с пустым ключом хранится в репозитории. Не присылайте содержимое
-заполненного файла в чат. Шаблон настроен на AI STAR и `gpt-6-luna`; существующий локальный файл сохраняет свои значения.
+заполненного файла в чат. Шаблон настроен на AI STAR и `deepseek-v4-pro-0813`; существующий локальный файл сохраняет свои значения.
 Скрипт находит JDK 21 через JAVA_HOME/PATH или стандартные каталоги JDK, собирает сервер при отсутствии
 дистрибутива и запускает его напрямую, передавая ключ только через окружение Java-процесса.
 Для пересборки используйте параметр `-Rebuild`. Остановка — Ctrl+C; постоянные переменные окружения не меняются.
@@ -471,7 +481,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\start-claude-serve
 ```powershell
 $env:ANTHROPIC_API_KEY = [System.Net.NetworkCredential]::new('', (Read-Host 'AI STAR API key' -AsSecureString)).Password
 $env:DND_CLAUDE_BASE_URL = 'https://ai.starimg.ru'
-$env:DND_CLAUDE_MODEL = 'gpt-6-luna'
+$env:DND_CLAUDE_MODEL = 'deepseek-v4-pro-0813'
 .\server\build\install\server\bin\server.bat
 ```
 

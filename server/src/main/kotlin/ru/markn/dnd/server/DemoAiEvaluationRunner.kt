@@ -11,11 +11,11 @@ import ru.markn.dnd.adventure.*
 import ru.markn.dnd.adventure.diagnostics.GameLogger
 import kotlin.time.TimeSource
 
-internal data class DemoEvaluationOptions(val ids: List<String>, val maxRequests: Int, val report: Path, val review: Path?, val revision: String)
+internal data class DemoEvaluationOptions(val ids: List<String>, val maxRequests: Int, val report: Path, val review: Path?, val revision: String, val contextMode: String = "full")
 
 /** No implicit live default: every run names its cases, request ceiling, and report file. */
 internal fun demoEvaluationOptions(args: Array<String>, corpus: List<DemoAiCase>): DemoEvaluationOptions {
-    val known = setOf("--evaluate-ai", "--case-set", "--cases", "--max-requests", "--report", "--review", "--revision")
+    val known = setOf("--evaluate-ai", "--case-set", "--cases", "--max-requests", "--report", "--review", "--revision", "--context-mode")
     require(args.firstOrNull() == "--evaluate-ai") { "Use --evaluate-ai explicitly" }
     val values = mutableMapOf<String, String>()
     var index = 1
@@ -42,7 +42,9 @@ internal fun demoEvaluationOptions(args: Array<String>, corpus: List<DemoAiCase>
     require(review != report) { "Report and review must use separate files" }
     val revision = requireNotNull(values["--revision"]) { "Specify --revision (commit or reviewed worktree label)" }
     require(revision.matches(Regex("[a-zA-Z0-9._/-]{1,160}"))) { "Invalid revision label" }
-    return DemoEvaluationOptions(ids, limit, report, review, revision)
+    val mode = values["--context-mode"] ?: "full"
+    require(mode in setOf("full", "compact"))
+    return DemoEvaluationOptions(ids, limit, report, review, revision, mode)
 }
 
 internal data class DemoEvaluationResult(
@@ -117,7 +119,7 @@ internal suspend fun runDemoAiEvaluation(
             else -> null
         }
         onResult(DemoEvaluationResult(case.id, attempts, started.elapsedNow().inWholeMilliseconds, first,
-            assessment, failure, usage().filterKeys { it in setOf("input_tokens", "output_tokens", "total_tokens") }, review, failureFields, stopReason = stopReason))
+            assessment, failure, usage().filterKeys { it in setOf("input_tokens", "output_tokens", "total_tokens", "first_text_ms", "stream_end_ms") }, review, failureFields, stopReason = stopReason))
     }
     return attempts
 }
@@ -165,7 +167,7 @@ internal fun evaluateDemoAi(args: Array<String>) = runBlocking {
         "Evaluation requires the project's configured current model and primary origin; no requests sent"
     }
     var capturedUsage = emptyMap<String, String>()
-    val gm = ClaudeGameMaster(settings, GameLogger { event -> if (event.name == "ai_usage") capturedUsage = event.fields.toMap() })
+    val gm = ClaudeGameMaster(settings, GameLogger { event -> if (event.name == "ai_usage") capturedUsage = event.fields.toMap() }, compactContext = options.contextMode == "compact")
     fun create(path: Path) {
         Files.createDirectories(path.parent)
         // Do not follow an existing output, even if it appeared after option validation.
@@ -180,6 +182,7 @@ internal fun evaluateDemoAi(args: Array<String>) = runBlocking {
             put("model", settings.model); put("max_requests", options.maxRequests)
             put("source_sha256", sourceFingerprint); put("source_revision", options.revision)
             put("selected_cases", options.ids.size)
+            put("context_mode", options.contextMode)
             put("prose_assessment", "requires_human_review")
         })
         var stopped: String? = null

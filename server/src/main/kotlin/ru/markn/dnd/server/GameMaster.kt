@@ -27,6 +27,9 @@ import ru.markn.dnd.network.GameWireJson
 
 fun interface GameMaster {
     suspend fun respond(state: AdventureState, input: String): GameMasterDecision
+    suspend fun respondToSpeech(state: AdventureState, input: String, participation: ParticipationSnapshot,
+        presentation: List<InputUtterance>): GameMasterDecision =
+        respond(state, input, participation).copy(inputPresentation = presentation)
     suspend fun respond(state: AdventureState, input: String, participation: ParticipationSnapshot): GameMasterDecision =
         respond(state, input)
     suspend fun respond(state: AdventureState, input: String, participation: ParticipationSnapshot,
@@ -50,7 +53,7 @@ class ClaudeSettings(val apiKey: String, val baseUrl: String, val model: String)
         fun fromEnvironment(env: (String) -> String? = System::getenv): ClaudeSettings? {
             val key = env("ANTHROPIC_API_KEY") ?: return null
             return ClaudeSettings(key, env("DND_CLAUDE_BASE_URL") ?: "https://ai.starimg.ru",
-                env("DND_CLAUDE_MODEL") ?: "gpt-6-luna")
+                env("DND_CLAUDE_MODEL") ?: "deepseek-v4-pro-0813")
         }
     }
 }
@@ -60,10 +63,11 @@ class ClaudeGameMaster(
     settings: ClaudeSettings,
     private val logger: GameLogger = GameLogger.Platform,
     private val baseClient: HttpClient = HttpClient(CIO),
+    private val compactContext: Boolean = false,
     private val httpTimeouts: ConnectionTimeoutConfig = ConnectionTimeoutConfig(
         requestTimeoutMillis = 20_000, connectTimeoutMillis = 5_000, socketTimeoutMillis = 20_000),
 ) : GameMaster, OutcomeNarrator, AutoCloseable {
-    private val usesOpenAI = settings.model.startsWith("gpt-")
+    private val usesOpenAI = settings.model.startsWith("gpt-") || settings.model.startsWith("deepseek-")
     private val authenticatedClient = baseClient.config {
         followRedirects = false
         // OpenAI's factory owns its Authorization header; adding it here duplicates the value.
@@ -96,13 +100,34 @@ class ClaudeGameMaster(
     override suspend fun respond(state: AdventureState, input: String, participation: ParticipationSnapshot): GameMasterDecision =
         propose(state, input, participation)
 
+    override suspend fun respondToSpeech(state: AdventureState, input: String, participation: ParticipationSnapshot,
+        presentation: List<InputUtterance>): GameMasterDecision {
+        validateInputPresentation(presentation)
+        require(presentation.all { it.kind == InputUtteranceKind.SPEECH })
+        val original = sceneDecisionSchema(state.scenario)
+        val schema = JsonObject(original + mapOf(
+            "properties" to JsonObject(original.getValue("properties").jsonObject - "inputPresentation"),
+            "required" to JsonArray(original.getValue("required").jsonArray.filter { it.jsonPrimitive.content != "inputPresentation" }),
+        ))
+        val speechInstructions = instructions.substringBefore("ПОДАЧА ВВОДА.") + "НАМЕРЕНИЕ." +
+            instructions.substringAfter("НАМЕРЕНИЕ.").replace(
+                "\"inputPresentation\":[{\"kind\":\"SPEECH\",\"text\":\"Привет!\"}],", "") +
+            "\nВ ЭТОМ ЗАПРОСЕ ввод целиком является прямой речью героя, уже показанной и озвучиваемой. " +
+            "Не классифицируй и не повторяй его. Поле inputPresentation не выдавай: оно отсутствует в схеме. " +
+            "Слова героя не устанавливают факты успеха. Подготовь ответ ведущего в остальных полях JSON."
+        return decodeDecision(execute(speechInstructions, context(state, input, participation, compactContext), schema, state.sessionId), state.scenario)
+            .also { if (it.nextPlayerId == null || state.players.none { player -> player.id == it.nextPlayerId })
+                throw AiFailure("decision_next_player_invalid") }
+            .copy(inputPresentation = presentation)
+    }
+
     override suspend fun respond(state: AdventureState, input: String, participation: ParticipationSnapshot,
         onInputPresentation: suspend (List<InputUtterance>) -> Unit): GameMasterDecision =
         propose(state, input, participation, onInputPresentation)
 
     private suspend fun propose(state: AdventureState, input: String, participation: ParticipationSnapshot?,
         onInputPresentation: (suspend (List<InputUtterance>) -> Unit)? = null): GameMasterDecision {
-        val text = execute(instructions, context(state, input, participation), sceneDecisionSchema(state.scenario), state.sessionId,
+        val text = execute(instructions, context(state, input, participation, compactContext), sceneDecisionSchema(state.scenario), state.sessionId,
             onInputPresentation)
         return decodeDecision(text, state.scenario).also { decision ->
             if (onInputPresentation != null && decision.inputPresentation == null) throw AiFailure("input_presentation_missing")
@@ -136,6 +161,8 @@ class ClaudeGameMaster(
             system(systemText)
             user(contextText)
         }
+        var firstTextMillis: Long? = null
+        var streamEndMillis: Long? = null
         var metaInfo = ResponseMetaInfo.Empty
         var finishReason: String? = null
         val text = try {
@@ -150,6 +177,7 @@ class ClaudeGameMaster(
                 client.executeStreaming(request, model, emptyList()).collect { frame ->
                     when (frame) {
                         is StreamFrame.TextDelta -> {
+                            if (frame.text.isNotEmpty() && firstTextMillis == null) firstTextMillis = started.elapsedNow().inWholeMilliseconds
                             buffer.append(frame.text)
                             if (buffer.length > 12_000) throw AiFailure("response_too_large")
                             if (!published) inputPresentationPrefix(buffer.toString())?.let { parts ->
@@ -157,7 +185,7 @@ class ClaudeGameMaster(
                                 published = true
                             }
                         }
-                        is StreamFrame.End -> { metaInfo = frame.metaInfo; finishReason = frame.finishReason }
+                        is StreamFrame.End -> { streamEndMillis = started.elapsedNow().inWholeMilliseconds; metaInfo = frame.metaInfo; finishReason = frame.finishReason }
                         else -> Unit
                     }
                 }
@@ -168,6 +196,8 @@ class ClaudeGameMaster(
         catch (failure: Exception) { throw safeApiFailure(failure) }
         try {
             logger.log(GameLogEvent("ai_usage", mapOf(
+                "first_text_ms" to (firstTextMillis?.toString() ?: "unavailable"),
+                "stream_end_ms" to (streamEndMillis?.toString() ?: "unavailable"),
                 "input_tokens" to metaInfo.inputTokensCount.toString(),
                 "output_tokens" to metaInfo.outputTokensCount.toString(),
                 "session" to sessionId.toString(),
@@ -176,6 +206,7 @@ class ClaudeGameMaster(
                 "effort" to if (model.id == "gpt-6-luna") "none" else if (thinkingMode != null) "low" else "provider_default",
                 "thinking_mode" to (thinkingMode ?: "provider_default"),
                 "response_chars" to text.length.toString(),
+                "finish_reason" to (finishReason ?: "unavailable"),
                 "response_json_type" to responseJsonType(text),
                 "system_chars" to systemText.length.toString(),
                 "context_chars" to contextText.length.toString(),
@@ -338,6 +369,8 @@ class ClaudeGameMaster(
             if (!narration.isString || narration.content.isBlank() || narration.content.length > 2_000) {
                 throw AiFailure("decision_narration_invalid")
             }
+            if (!mechanical && unfinishedSpeechLeadIn.containsMatchIn(narration.content.trim()))
+                throw AiFailure("decision_incomplete_dialogue")
             return try { decisionJson.decodeFromJsonElement<GameMasterDecision>(normalizedRoot).also {
                 it.inputPresentation?.let(::validateInputPresentation)
                 if (it.action != null && it.plan != null) throw AiFailure("decision_ambiguous_plan")
@@ -357,12 +390,16 @@ class ClaudeGameMaster(
             catch (_: Exception) { throw AiFailure("decision_contract_invalid") }
         }
 
-        internal fun context(state: AdventureState, input: String, participation: ParticipationSnapshot? = null): String = buildJsonObject {
+        internal fun context(state: AdventureState, input: String, participation: ParticipationSnapshot? = null, compact: Boolean = false): String = buildJsonObject {
+            val encoder = if (compact) Json(GameWireJson) { encodeDefaults = false } else contextJson
             put("active_player_id", state.activePlayer.id)
-            put("scenario", contextJson.encodeToJsonElement(state.scenario))
-            put("state", contextJson.encodeToJsonElement(state.copy(journal = state.journal.filter { it.isSpoken || it.kind == EntryKind.PLAYER }.takeLast(16).map {
+            put("scenario", encoder.encodeToJsonElement(if (compact) state.scenario.copy(
+                actions = state.scenario.actions.filter { it.locations.isEmpty() || state.activePlayer.location in it.locations }
+            ) else state.scenario))
+            val stateJson = encoder.encodeToJsonElement(state.copy(journal = state.journal.filter { it.isSpoken || it.kind == EntryKind.PLAYER }.takeLast(16).map {
                 it.copy(text = it.text.take(600))
-            })))
+            })).jsonObject
+            put("state", if (compact) JsonObject(stateJson.filterKeys { it != "playback" && it != "sessionId" }) else stateJson)
             put("current_facts", currentFacts(state))
             put("participation", participation?.toJson() ?: buildJsonObject { put("available", false) })
             put("player_intent", input)
@@ -408,6 +445,12 @@ class ClaudeGameMaster(
             }
         }
 
+        // A syntactically complete JSON can still contain only a lead-in with no spoken answer.
+        // Keep this deliberately narrow: silence, uncertainty and short direct answers are valid.
+        private val unfinishedSpeechLeadIn = Regex(
+            """(?:^|\s)(?:отвечает|говорит|произносит|шепчет|добавляет|спрашивает)(?:\s+(?:тихо|негромко|громко|спокойно|вслух|в ответ))*[\s.:…—-]*$""",
+            RegexOption.IGNORE_CASE,
+        )
         private val decisionJson = Json { ignoreUnknownKeys = false }
 
         private val instructions = """
@@ -425,6 +468,13 @@ class ClaudeGameMaster(
             Никогда не объясняй в narration правила, d20, сложности, модификаторы, запас попыток,
             интерфейс, модель или сервер; даже на вопрос о механиках оставайся внутри мира.
             Числа во входе нужны только для корректного плана. Справку игрок найдёт в меню.
+            ПОЛНОТА ОТВЕТА. narration содержит весь ответ в этом же JSON, а не вступление
+            к будущему продолжению. Другого сообщения или отдельного поля для речи NPC не будет.
+            Нельзя заканчивать «Агата поднимает голову от описи и тихо отвечает» без самого ответа.
+            На вопрос игрока дай содержательный ответ NPC от первого лица с speakerNpcId;
+            если сведений нет, NPC прямо говорит, что не знает. Не выдумывай точный срок.
+            Пример формы: narration:"Точного времени я не знаю. Вода уже у нижних полок.",
+            speakerNpcId — ID собеседника из текущего места; содержание бери только из контекста.
             Пиши 1–2 коротких живых предложения, с уместным юмором, без обязательного гэга.
             Шуточную реплику подхвати, но не создавай современные предметы из метафоры.
             Не приписывай успех до решения движка, не совершай новые события словами.

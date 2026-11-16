@@ -21,7 +21,10 @@ fun main(args: Array<String>) {
     val port = System.getenv("DND_SERVER_PORT")?.toIntOrNull() ?: 8080
     println("dnd-game: WebSocket /play, port=$port; rooms live in memory")
     embeddedServer(CIO, host = "0.0.0.0", port = port) {
-        val narrator = ClaudeSettings.fromEnvironment()?.let { ClaudeGameMaster(it) }
+        val narrator = ClaudeSettings.fromEnvironment()?.let {
+            println("dnd-game: AI model=${it.model}")
+            ClaudeGameMaster(it)
+        }
         monitor.subscribe(ApplicationStopped) { narrator?.close() }
         gameServer(gameMaster = narrator)
     }.start(wait = true)

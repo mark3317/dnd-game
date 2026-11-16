@@ -32,7 +32,7 @@ def server_environment(current, config_path):
             if value and not result.get(name):
                 result[name] = value
     result.setdefault('DND_CLAUDE_BASE_URL', 'https://ai.starimg.ru')
-    result.setdefault('DND_CLAUDE_MODEL', 'gpt-6-luna')
+    result.setdefault('DND_CLAUDE_MODEL', 'deepseek-v4-pro-0813')
     return result
 
 
